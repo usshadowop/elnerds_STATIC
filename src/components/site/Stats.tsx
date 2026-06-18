@@ -1,0 +1,38 @@
+const STATS = [
+  { value: "$500K+", label: "Raised All-Time", color: "text-teal", bg: "bg-teal-soft" },
+  { value: "$43K", label: "Raised in 2024", color: "text-magenta", bg: "bg-magenta-soft" },
+  { value: "100+", label: "Active Gamers", color: "text-purple", bg: "bg-teal-soft" },
+  { value: "#21", label: "Of 2,800+ Teams", color: "text-orange", bg: "bg-orange-soft" },
+];
+
+export function Stats() {
+  return (
+    <section id="mission" className="bg-paper py-20 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">
+            Our Impact
+          </p>
+          <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-5xl">
+            Every controller. Every dollar. Every kid.
+          </h2>
+        </div>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {STATS.map((s) => (
+            <div
+              key={s.label}
+              className={`rounded-2xl ${s.bg} p-6 text-center transition-transform hover:-translate-y-1`}
+            >
+              <div className={`mb-2 font-display text-4xl font-extrabold md:text-5xl ${s.color}`}>
+                {s.value}
+              </div>
+              <div className="text-xs font-bold uppercase tracking-wider text-ink-soft">
+                {s.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
