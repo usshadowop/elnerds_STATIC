@@ -1,13 +1,9 @@
-import logoUrl from "@/assets/eln-logo.svg";
+import { Mail } from "lucide-react";
 
 export function Footer() {
   return (
     <footer className="border-t border-line bg-paper py-12">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 sm:px-6 md:flex-row md:gap-8">
-        <a href="#top" className="flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-teal">
-          <img src={logoUrl} alt="Extra Life Nerds logo" className="size-9 rounded-full object-cover" />
-          Extra Life Nerds
-        </a>
         <p className="text-center text-xs text-ink-soft">
           &copy; {new Date().getFullYear()} Extra Life Nerds. All proceeds support Gillette
           Children&rsquo;s Hospital.
@@ -37,17 +33,25 @@ export function Footer() {
           >
             Donate
           </a>
+        </div>
+        <div className="flex flex-col gap-2">
           <a
             href="mailto:info@elnerds.com"
-            className="text-xs font-extrabold uppercase tracking-widest text-ink-soft transition-colors hover:text-magenta"
+            className="flex items-center gap-2 text-ink-soft transition-colors hover:text-magenta"
           >
-            Contact Extra Life Nerds
+            <Mail className="size-4 shrink-0" />
+            <span className="text-[11px] font-extrabold uppercase tracking-widest">
+              Contact Extra Life Nerds
+            </span>
           </a>
           <a
             href="mailto:granttgray@gillettechildrens.com"
-            className="text-xs font-extrabold uppercase tracking-widest text-ink-soft transition-colors hover:text-teal"
+            className="flex items-center gap-2 text-ink-soft transition-colors hover:text-teal"
           >
-            Contact Gillette
+            <Mail className="size-4 shrink-0" />
+            <span className="text-[11px] font-extrabold uppercase tracking-widest">
+              Contact Gillette
+            </span>
           </a>
         </div>
       </div>

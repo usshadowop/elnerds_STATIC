@@ -42,16 +42,16 @@ export function SiteNav() {
 
         <div className="hidden gap-3 md:flex">
           <a
-            href={`${HOME}registration`}
-            className="rounded-full border-2 border-teal px-5 py-2 text-sm font-extrabold text-teal transition-all hover:bg-teal hover:text-white"
-          >
-            Join Team
-          </a>
-          <a
             href="https://www.extra-life.org/team/73600"
             className="rounded-full bg-orange px-5 py-2 text-sm font-extrabold text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
           >
             Donate
+          </a>
+          <a
+            href={`${HOME}registration`}
+            className="rounded-full border-2 border-teal px-5 py-2 text-sm font-extrabold text-teal transition-all hover:bg-teal hover:text-white"
+          >
+            Join Team
           </a>
         </div>
 
@@ -79,16 +79,16 @@ export function SiteNav() {
             ))}
             <div className="mt-2 grid grid-cols-2 gap-3">
               <a
-                href={`${HOME}registration`}
-                className="rounded-full border-2 border-teal px-4 py-3 text-center text-sm font-extrabold text-teal"
-              >
-                Join Team
-              </a>
-              <a
                 href="https://www.extra-life.org/team/73600"
                 className="rounded-full bg-orange px-4 py-3 text-center text-sm font-extrabold text-white"
               >
                 Donate
+              </a>
+              <a
+                href={`${HOME}registration`}
+                className="rounded-full border-2 border-teal px-4 py-3 text-center text-sm font-extrabold text-teal"
+              >
+                Join Team
               </a>
             </div>
           </div>
