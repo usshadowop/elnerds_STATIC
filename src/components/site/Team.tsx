@@ -1,12 +1,20 @@
+import troyPhoto from "@/assets/team/Troy.PNG";
+import jonDeckenbachPhoto from "@/assets/team/Jon_Dec.PNG";
+import joshPhoto from "@/assets/team/Josh.PNG";
+import mikePhoto from "@/assets/team/Mike.PNG";
+import benPhoto from "@/assets/team/Ben.PNG";
+import pamPhoto from "@/assets/team/Pam.PNG";
+import grantPhoto from "@/assets/team/Grant.PNG";
+
 const teamMembers = [
-  { name: "Troy Cleland", role: "Founder and Co-captain of Team Extra Life Nerds" },
-  { name: "Jon Deckenbach", role: "Co-captain and recruiter extraordinaire" },
-  { name: "Josh Oswald", role: "Co-captain and PVO (Positive Vibes Officer)" },
-  { name: "Mike Richards", role: "Co-captain and spreadsheet maker" },
-  { name: "Jon Holt", role: "Meeting organizer and team momentum maker" },
-  { name: "Ben Stoddart", role: "D&D extraordinaire and local business contact" },
-  { name: "Pam van Muijen", role: "Business liaison and board game expert" },
-  { name: "Grant", role: "Hospital contact and event champion" },
+  { name: "Troy Cleland", role: "Founder and Co-captain of Team Extra Life Nerds", photo: troyPhoto },
+  { name: "Jon Deckenbach", role: "Co-captain and recruiter extraordinaire", photo: jonDeckenbachPhoto },
+  { name: "Josh Oswald", role: "Co-captain and PVO (Positive Vibes Officer)", photo: joshPhoto },
+  { name: "Mike Richards", role: "Co-captain and spreadsheet maker", photo: mikePhoto },
+  { name: "Jon Holt", role: "Meeting organizer and team momentum maker", photo: null },
+  { name: "Ben Stoddart", role: "D&D extraordinaire and local business contact", photo: benPhoto },
+  { name: "Pam van Muijen", role: "Business liaison and board game expert", photo: pamPhoto },
+  { name: "Grant", role: "Hospital contact and event champion", photo: grantPhoto },
 ];
 
 export function Team() {
@@ -28,9 +36,17 @@ export function Team() {
               key={member.name}
               className="flex items-center gap-5 rounded-3xl border border-line bg-paper p-8 shadow-[var(--shadow-soft)]"
             >
-              <div className="flex size-20 shrink-0 items-center justify-center rounded-2xl border border-line bg-cream text-xs font-bold uppercase tracking-widest text-ink-soft">
-                Photo
-              </div>
+              {member.photo ? (
+                <img
+                  src={member.photo}
+                  alt={member.name}
+                  className="size-20 shrink-0 rounded-2xl border border-line object-cover"
+                />
+              ) : (
+                <div className="flex size-20 shrink-0 items-center justify-center rounded-2xl border border-line bg-cream text-xs font-bold uppercase tracking-widest text-ink-soft">
+                  Photo
+                </div>
+              )}
               <div>
                 <h3 className="font-display text-xl font-extrabold text-ink">
                   {member.name}
