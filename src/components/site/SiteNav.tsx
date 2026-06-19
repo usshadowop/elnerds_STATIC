@@ -40,7 +40,7 @@ export function SiteNav() {
           ))}
         </div>
 
-        <div className="hidden gap-3 md:flex">
+        <div className="hidden items-center gap-3 md:flex">
           <a
             href="https://www.extra-life.org/team/73600"
             className="rounded-full bg-orange px-5 py-2 text-sm font-extrabold text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
@@ -58,7 +58,7 @@ export function SiteNav() {
             target="_blank"
             rel="noreferrer"
             aria-label="Instagram"
-            className="text-ink/70 transition-colors hover:text-magenta"
+            className="flex items-center text-ink/70 transition-colors hover:text-magenta"
           >
             <Instagram className="size-5" />
           </a>
@@ -67,7 +67,7 @@ export function SiteNav() {
             target="_blank"
             rel="noreferrer"
             aria-label="Facebook"
-            className="text-ink/70 transition-colors hover:text-teal"
+            className="flex items-center text-ink/70 transition-colors hover:text-teal"
           >
             <Facebook className="size-5" />
           </a>
