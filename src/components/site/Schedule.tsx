@@ -32,9 +32,6 @@ export function Schedule() {
           <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-teal">
             Game Day 2026
           </p>
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-5xl">
-            364 days of preparation. 24 hours of action. 1 mission.
-          </h2>
         </div>
 
         <div className="grid gap-4">
