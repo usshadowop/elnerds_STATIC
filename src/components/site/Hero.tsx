@@ -107,7 +107,7 @@ export function Hero() {
         {/* Countdown card */}
         <div className="mx-auto mb-10 max-w-2xl rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-soft)]">
           <p className="mb-4 text-[10px] font-extrabold uppercase tracking-[0.25em] text-ink-soft">
-            Countdown to kickoff
+            Countdown to Gameday
           </p>
           <div
             role="timer"
