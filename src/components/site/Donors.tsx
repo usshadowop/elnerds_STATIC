@@ -1,6 +1,10 @@
 const extraLifeDonors = ["Coming Soon"];
 
-const inKindDonors = ["Mike Hochscheidt - Miniatures", "Mike Smith - Board Games"];
+const inKindDonors: { name: string; href?: string }[] = [
+  { name: "Improving - Venue", href: "https://www.improving.com/" },
+  { name: "Mike Hochscheidt - Miniatures" },
+  { name: "Mike Smith - Board Games" },
+];
 
 export function Donors() {
   return (
@@ -61,12 +65,23 @@ export function Donors() {
               </div>
             </div>
             <ul className="space-y-3">
-              {inKindDonors.map((name) => (
+              {inKindDonors.map((donor) => (
                 <li
-                  key={name}
+                  key={donor.name}
                   className="border-l-2 border-orange/50 pl-3 text-sm font-bold text-ink"
                 >
-                  {name}
+                  {donor.href ? (
+                    <a
+                      href={donor.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline transition-colors hover:text-orange"
+                    >
+                      {donor.name}
+                    </a>
+                  ) : (
+                    donor.name
+                  )}
                 </li>
               ))}
             </ul>
