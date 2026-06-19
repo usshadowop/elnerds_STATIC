@@ -37,6 +37,18 @@ export function Footer() {
           >
             Donate
           </a>
+          <a
+            href="mailto:info@elnerds.com"
+            className="text-xs font-extrabold uppercase tracking-widest text-ink-soft transition-colors hover:text-magenta"
+          >
+            Contact Extra Life Nerds
+          </a>
+          <a
+            href="mailto:granttgray@gillettechildrens.com"
+            className="text-xs font-extrabold uppercase tracking-widest text-ink-soft transition-colors hover:text-teal"
+          >
+            Contact Gillette
+          </a>
         </div>
       </div>
     </footer>

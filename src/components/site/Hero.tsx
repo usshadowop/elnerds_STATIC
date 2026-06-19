@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, Heart, Baby, Building2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, Baby, Building2, X } from "lucide-react";
 import heroImg from "@/assets/hero-marathon.jpg";
 import { useCountdown } from "@/hooks/use-countdown";
 import { StyledButton } from "@/components/site/StyledButton";
@@ -63,10 +63,13 @@ function FloatingHearts({ active }: { active: boolean }) {
   );
 }
 
+const GILLETTE_VIDEO_ID = "f2grSvl9KgM";
+
 export function Hero() {
   const c = useCountdown(GAME_DAY_ISO);
   const [slide, setSlide] = useState(0);
   const [heartsOn, setHeartsOn] = useState(false);
+  const [gilletteVideoOpen, setGilletteVideoOpen] = useState(false);
   const slides = carouselSlides.length;
   const prev = () => setSlide((s) => (s - 1 + slides) % slides);
   const next = () => setSlide((s) => (s + 1) % slides);
@@ -207,10 +210,40 @@ export function Hero() {
             icon={Building2}
             text="Get to know"
             highlight="Gillette"
-            href={`${import.meta.env.BASE_URL}gillette-childrens-hospital`}
+            onClick={() => setGilletteVideoOpen(true)}
           />
         </div>
       </div>
+
+      {gilletteVideoOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-ink/80 p-4 backdrop-blur"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Gillette Children's Hospital video"
+          onClick={() => setGilletteVideoOpen(false)}
+        >
+          <div className="relative w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              onClick={() => setGilletteVideoOpen(false)}
+              aria-label="Close video"
+              className="absolute -top-3 -right-3 z-10 grid size-10 place-items-center rounded-full bg-white text-ink shadow-[var(--shadow-lift)] transition hover:bg-magenta hover:text-white"
+            >
+              <X className="size-5" />
+            </button>
+            <div className="overflow-hidden rounded-2xl border border-line shadow-[var(--shadow-lift)]">
+              <iframe
+                src={`https://www.youtube.com/embed/${GILLETTE_VIDEO_ID}?autoplay=1`}
+                title="Gillette Children's Hospital"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="aspect-video w-full"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
