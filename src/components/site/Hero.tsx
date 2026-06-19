@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, Baby, Building2 } from "lucide-react";
 import heroImg from "@/assets/hero-marathon.jpg";
 import { useCountdown } from "@/hooks/use-countdown";
+import { StyledButton } from "@/components/site/StyledButton";
 
 // Game Day 2026 kickoff: Nov 14, 2026 8:00 AM Central Time (US) = 14:00 UTC
 const GAME_DAY_ISO = "2026-11-14T14:00:00Z";
@@ -193,6 +194,21 @@ export function Hero() {
               </div>
             </>
           )}
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <StyledButton
+            icon={Baby}
+            text="Get to know"
+            highlight="the kids"
+            href={`${import.meta.env.BASE_URL}patient-profiles`}
+          />
+          <StyledButton
+            icon={Building2}
+            text="Get to know"
+            highlight="Gillette"
+            href={`${import.meta.env.BASE_URL}gillette-childrens-hospital`}
+          />
         </div>
       </div>
     </section>
