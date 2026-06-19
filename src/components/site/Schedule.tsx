@@ -10,7 +10,7 @@ const ITEMS = [
     time: "Nov 14, 8 AM → Nov 15, 8 AM",
     title: "24-Hour Marathon Kickoff",
     blurb:
-      "We go live and don't stop for 24 straight hours. Every minute of play helps fund care for kids at our Children's Miracle Network hospital.",
+      "We go live and don't stop for 24 straight hours. Every minute of play helps fund care for kids at Gillette Children's Hospital.",
     color: "border-magenta",
     accent: "text-magenta",
     main: true,

@@ -97,7 +97,7 @@ export function Hero() {
 
         <p className="mx-auto mb-10 max-w-2xl text-base text-ink-soft sm:text-lg md:text-xl">
           We&rsquo;re the Extra Life Nerds — a community of gamers raising funds for
-          Children&rsquo;s Miracle Network Hospitals through 24 hours of nonstop play.
+          Gillette Children&rsquo;s Hospital through 24 hours of nonstop play.
         </p>
 
         {/* Countdown card */}

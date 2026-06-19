@@ -9,8 +9,8 @@ export function Footer() {
           Extra Life Nerds
         </a>
         <p className="text-center text-xs text-ink-soft">
-          &copy; {new Date().getFullYear()} Extra Life Nerds. All proceeds support Children&rsquo;s
-          Miracle Network Hospitals.
+          &copy; {new Date().getFullYear()} Extra Life Nerds. All proceeds support Gillette
+          Children&rsquo;s Hospital.
         </p>
         <div className="flex gap-5">
           <a

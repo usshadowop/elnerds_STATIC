@@ -115,9 +115,8 @@ export function WhyWePlay() {
               her legacy ignited a global movement of gamers playing for kids who can&rsquo;t.
             </p>
             <p>
-              Every dollar Extra Life Nerds raises supports Children&rsquo;s Miracle Network
-              Hospitals — funding life-saving equipment, research, and care for kids in our
-              community.
+              Every dollar Extra Life Nerds raises supports Gillette Children&rsquo;s Hospital —
+              funding life-saving equipment, research, and care for kids in our community.
             </p>
           </div>
           <div className="mt-10">

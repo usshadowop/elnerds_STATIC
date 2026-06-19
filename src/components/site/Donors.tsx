@@ -36,7 +36,7 @@ export function Donors() {
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-ink-soft sm:text-lg">
             Every contribution — large, small, cash, or in-kind — helps heal kids at
-            Children&rsquo;s Miracle Network Hospitals.
+            Gillette Children&rsquo;s Hospital.
           </p>
         </div>
 
