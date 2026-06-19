@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { href: "#schedule", label: "Game Day" },
   { href: "#story", label: "Our Story" },
   { href: "#sponsors", label: "Sponsors" },
+  { href: "#team", label: "Team Organization" },
 ];
 
 export function SiteNav() {

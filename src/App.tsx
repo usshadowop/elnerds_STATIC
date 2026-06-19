@@ -5,6 +5,7 @@ import { Schedule } from "@/components/site/Schedule";
 import { WhyWePlay } from "@/components/site/WhyWePlay";
 import { Sponsors } from "@/components/site/Sponsors";
 import { Donors } from "@/components/site/Donors";
+import { Team } from "@/components/site/Team";
 import { Footer } from "@/components/site/Footer";
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
         <WhyWePlay />
         <Sponsors />
         <Donors />
+        <Team />
       </main>
       <Footer />
     </div>
