@@ -14,16 +14,9 @@ export function Sponsors() {
             Team Extra Life Nerds is in your debt. Thank you for making the games count.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-white/90">
-            {["TECH GEAR PRO", "VALKYRIE STREAMING", "PIXEL CAFE", "QUEST ENERGY", "TITAN PERIPHERALS"].map(
-              (name) => (
-                <span
-                  key={name}
-                  className="font-display text-base font-extrabold tracking-wider sm:text-lg"
-                >
-                  {name}
-                </span>
-              ),
-            )}
+            <span className="font-display text-base font-extrabold tracking-wider sm:text-lg">
+              Place holder
+            </span>
           </div>
           <div className="mt-10">
             <a
