@@ -1,26 +1,21 @@
 import { SiteNav } from "@/components/site/SiteNav";
-import { Hero } from "@/components/site/Hero";
-import { Stats } from "@/components/site/Stats";
-import { Schedule } from "@/components/site/Schedule";
-import { WhyWePlay } from "@/components/site/WhyWePlay";
-import { Sponsors } from "@/components/site/Sponsors";
-import { Donors } from "@/components/site/Donors";
-import { Team } from "@/components/site/Team";
 import { Footer } from "@/components/site/Footer";
+import { Home } from "@/pages/Home";
+import { GilletteChildrensHospital } from "@/pages/GilletteChildrensHospital";
+import { PatientProfiles } from "@/pages/PatientProfiles";
+import { usePath } from "@/lib/router";
 
 export default function App() {
+  const path = usePath();
+
+  let page = <Home />;
+  if (path === "gillette-childrens-hospital") page = <GilletteChildrensHospital />;
+  if (path === "patient-profiles") page = <PatientProfiles />;
+
   return (
     <div className="min-h-screen bg-cream font-body text-ink">
       <SiteNav />
-      <main>
-        <Hero />
-        <Stats />
-        <Schedule />
-        <WhyWePlay />
-        <Sponsors />
-        <Donors />
-        <Team />
-      </main>
+      {page}
       <Footer />
     </div>
   );
