@@ -41,7 +41,7 @@ export function Schedule() {
               className={`group relative grid gap-4 rounded-2xl border-l-4 bg-paper p-6 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 md:grid-cols-12 md:items-center md:gap-6 ${item.color}`}
             >
               {item.main && (
-                <span className="absolute right-4 top-4 rounded-full bg-magenta px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                <span className="mb-1 inline-flex w-fit rounded-full bg-magenta px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white md:absolute md:right-4 md:top-4 md:mb-0">
                   Main Event
                 </span>
               )}
