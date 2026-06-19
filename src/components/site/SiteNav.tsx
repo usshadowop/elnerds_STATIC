@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import logoUrl from "@/assets/eln-logo.svg";
 
+const HOME = import.meta.env.BASE_URL;
+
 const NAV_LINKS = [
-  { href: "#mission", label: "Our Impact" },
-  { href: "#schedule", label: "Game Day" },
-  { href: "#story", label: "Our Story" },
-  { href: "#sponsors", label: "Sponsors" },
-  { href: "#team", label: "Team Organization" },
+  { href: `${HOME}#mission`, label: "Our Impact" },
+  { href: `${HOME}#schedule`, label: "Game Day" },
+  { href: `${HOME}#story`, label: "Our Story" },
+  { href: `${HOME}#sponsors`, label: "Sponsors" },
+  { href: `${HOME}#team`, label: "Team Organization" },
 ];
 
 export function SiteNav() {
@@ -25,7 +27,7 @@ export function SiteNav() {
   return (
     <nav className="sticky top-0 z-50 border-b border-line bg-cream/90 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <a href="#top" className="flex items-center gap-2 font-display text-xl font-extrabold tracking-tight text-teal">
+        <a href={`${HOME}#top`} className="flex items-center gap-2 font-display text-xl font-extrabold tracking-tight text-teal">
           <img src={logoUrl} alt="Extra Life Nerds logo" className="size-9 rounded-full object-cover" />
           <span>Extra Life Nerds</span>
         </a>
