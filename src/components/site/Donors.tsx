@@ -11,7 +11,7 @@ export function Donors() {
             Our Supporters
           </p>
           <h2 className="font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl md:text-5xl">
-            Donors
+            2026 Donors
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-ink-soft sm:text-lg">
             Every contribution — large, small, cash, or in-kind — helps heal kids at
