@@ -14,7 +14,7 @@ const teamMembers = [
   { name: "Jon Holt", role: "Meeting organizer and team momentum maker", photo: null },
   { name: "Ben Stoddart", role: "D&D extraordinaire and local business contact", photo: benPhoto },
   { name: "Pam van Muijen", role: "Business liaison and board game expert", photo: pamPhoto },
-  { name: "Grant", role: "Hospital contact and event champion", photo: grantPhoto },
+  { name: "Grant Gray", role: "Hospital contact and event champion", photo: grantPhoto },
 ];
 
 export function Team() {

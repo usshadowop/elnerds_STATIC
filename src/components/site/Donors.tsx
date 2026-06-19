@@ -1,27 +1,6 @@
-const extraLifeDonors = [
-  "Alex Rivera",
-  "Jordan Chen",
-  "Sam Patel",
-  "Taylor Brooks",
-  "Morgan Hayes",
-  "Casey Nguyen",
-  "Jamie Lopez",
-  "Riley Thompson",
-  "Drew Kim",
-  "Avery Johnson",
-  "Skyler Martinez",
-  "Quinn O'Brien",
-  "Reese Anderson",
-  "Parker Singh",
-  "Hayden Clark",
-  "Logan Walker",
-  "Cameron Reed",
-  "Emerson Diaz",
-  "Sloane Murphy",
-  "Blair Sullivan",
-];
+const extraLifeDonors = ["Coming Soon"];
 
-const inKindDonors = ["Pixel Cafe", "Quest Energy"];
+const inKindDonors = ["Mike Hochscheidt - Miniatures", "Mike Smith - Board Games"];
 
 export function Donors() {
   return (
