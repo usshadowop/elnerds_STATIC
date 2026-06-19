@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Instagram, Facebook } from "lucide-react";
 import logoUrl from "@/assets/eln-logo.svg";
 
 const HOME = import.meta.env.BASE_URL;
@@ -53,6 +53,24 @@ export function SiteNav() {
           >
             Join Team
           </a>
+          <a
+            href="https://www.instagram.com/elnerdsmn/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Instagram"
+            className="text-ink/70 transition-colors hover:text-magenta"
+          >
+            <Instagram className="size-5" />
+          </a>
+          <a
+            href="https://www.facebook.com/extralifenerds/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Facebook"
+            className="text-ink/70 transition-colors hover:text-teal"
+          >
+            <Facebook className="size-5" />
+          </a>
         </div>
 
         <button
@@ -89,6 +107,26 @@ export function SiteNav() {
                 className="rounded-full border-2 border-teal px-4 py-3 text-center text-sm font-extrabold text-teal"
               >
                 Join Team
+              </a>
+            </div>
+            <div className="mt-4 flex justify-center gap-6">
+              <a
+                href="https://www.instagram.com/elnerdsmn/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                className="text-ink/70 transition-colors hover:text-magenta"
+              >
+                <Instagram className="size-5" />
+              </a>
+              <a
+                href="https://www.facebook.com/extralifenerds/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Facebook"
+                className="text-ink/70 transition-colors hover:text-teal"
+              >
+                <Facebook className="size-5" />
               </a>
             </div>
           </div>
