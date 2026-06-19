@@ -42,7 +42,7 @@ export function SiteNav() {
 
         <div className="hidden gap-3 md:flex">
           <a
-            href="http://elnerds.com/registration-steps/"
+            href={`${HOME}registration`}
             className="rounded-full border-2 border-teal px-5 py-2 text-sm font-extrabold text-teal transition-all hover:bg-teal hover:text-white"
           >
             Join Team
@@ -79,7 +79,7 @@ export function SiteNav() {
             ))}
             <div className="mt-2 grid grid-cols-2 gap-3">
               <a
-                href="http://elnerds.com/registration-steps/"
+                href={`${HOME}registration`}
                 className="rounded-full border-2 border-teal px-4 py-3 text-center text-sm font-extrabold text-teal"
               >
                 Join Team

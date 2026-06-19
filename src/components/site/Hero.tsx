@@ -135,7 +135,7 @@ export function Hero() {
             <FloatingHearts active={heartsOn} />
           </div>
           <a
-            href="http://elnerds.com/registration-steps/"
+            href={`${import.meta.env.BASE_URL}registration`}
             className="rounded-full border-2 border-teal bg-white px-7 py-3.5 text-sm font-extrabold uppercase tracking-wider text-teal transition-all hover:bg-teal hover:text-white"
           >
             Join The Team
