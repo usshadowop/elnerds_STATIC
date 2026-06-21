@@ -3,10 +3,9 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
 
-// GitHub Pages serves the site under /<repo-name>/. Set base accordingly.
-// Override locally with `vite build --base=/` if deploying to a custom domain root.
+// Served from the elnerds.com custom domain root.
 export default defineConfig({
-  base: "/elnerds_STATIC/",
+  base: "/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
