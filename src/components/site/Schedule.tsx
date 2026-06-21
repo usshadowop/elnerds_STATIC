@@ -40,15 +40,17 @@ export function Schedule() {
               key={item.title}
               className={`group relative grid gap-4 rounded-2xl border-l-4 bg-paper p-6 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 md:grid-cols-12 md:items-center md:gap-6 ${item.color}`}
             >
-              {item.main && (
-                <span className="absolute right-4 top-4 rounded-full bg-magenta px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
-                  Main Event
-                </span>
-              )}
               <div className="md:col-span-4">
-                <p className={`font-display text-base font-extrabold ${item.accent}`}>
-                  {item.time}
-                </p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className={`font-display text-base font-extrabold ${item.accent}`}>
+                    {item.time}
+                  </p>
+                  {item.main && (
+                    <span className="shrink-0 rounded-full bg-magenta px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                      Main Event
+                    </span>
+                  )}
+                </div>
               </div>
               <div className="md:col-span-8">
                 <h3 className="mb-1 font-display text-xl font-extrabold text-ink">{item.title}</h3>
