@@ -5,7 +5,7 @@ import mikePhoto from "@/assets/team/Mike.PNG";
 import benPhoto from "@/assets/team/Ben.PNG";
 import pamPhoto from "@/assets/team/Pam.PNG";
 import grantPhoto from "@/assets/team/Grant.PNG";
-import { ExtraLifeIcon } from "@/components/site/ExtraLifeIcon";
+import extraLifeLogo from "@/assets/logos/Controller_Wings.svg";
 
 const teamMembers = [
   {
@@ -83,9 +83,9 @@ export function Team() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`${member.name}'s Extra Life page`}
-                  className="absolute right-4 top-4 text-[#29abe2] transition-transform hover:scale-110"
+                  className="absolute right-4 top-4 transition-transform hover:scale-110"
                 >
-                  <ExtraLifeIcon className="size-7" />
+                  <img src={extraLifeLogo} alt="" className="size-8" />
                 </a>
               )}
               {member.photo ? (
