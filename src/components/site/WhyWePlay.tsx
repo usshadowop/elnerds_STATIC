@@ -135,99 +135,56 @@ export function WhyWePlay() {
   );
 }
 
-type RevealState = "idle" | "preview" | "open";
-
 function VictoriaStoryReveal() {
-  const [state, setState] = useState<RevealState>("idle");
+  const [open, setOpen] = useState(false);
   const videoId = "rHSZ_82wiJg";
 
-  if (state === "open") {
-    return (
-      <div
-        className="fixed inset-0 z-[100] flex items-center justify-center bg-ink/80 p-4 backdrop-blur"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Victoria's Story video"
-        onClick={() => setState("idle")}
-      >
-        <div
-          className="relative w-full max-w-5xl"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button
-            type="button"
-            onClick={() => setState("idle")}
-            aria-label="Close video"
-            className="absolute -top-3 -right-3 z-10 grid size-10 place-items-center rounded-full bg-white text-ink shadow-[var(--shadow-lift)] transition hover:bg-magenta hover:text-white"
-          >
-            <X className="size-5" />
-          </button>
-          <div className="overflow-hidden rounded-2xl border border-line shadow-[var(--shadow-lift)]">
-            <iframe
-              src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
-              title="Victoria's Story"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              className="aspect-video w-full"
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div
-      className="mb-8"
-      onMouseEnter={() => setState("preview")}
-      onMouseLeave={() => setState((s) => (s === "preview" ? "idle" : s))}
-    >
-      {state === "idle" ? (
-        <button
-          type="button"
-          onClick={() => setState("preview")}
-          onFocus={() => setState("preview")}
-          className="group inline-flex items-center gap-3 rounded-full border-2 border-magenta/30 bg-white px-5 py-3 text-left shadow-[var(--shadow-soft)] transition-all hover:border-magenta hover:shadow-[var(--shadow-lift)]"
-          aria-label="Learn about Victoria's Story"
+    <div className="mb-8">
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="group inline-flex items-center gap-3 rounded-full border-2 border-magenta/30 bg-white px-5 py-3 text-left shadow-[var(--shadow-soft)] transition-all hover:border-magenta hover:shadow-[var(--shadow-lift)]"
+        aria-label="Learn about Victoria's Story"
+      >
+        <span className="grid size-10 place-items-center rounded-full bg-magenta text-white transition-transform group-hover:scale-110">
+          <Youtube className="size-5" />
+        </span>
+        <span className="font-display text-base font-extrabold tracking-tight text-ink sm:text-lg">
+          Learn about{" "}
+          <span className="bg-gradient-to-r from-magenta to-orange bg-clip-text text-transparent">
+            Victoria&rsquo;s Story
+          </span>
+        </span>
+      </button>
+
+      {open && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-ink/80 p-4 backdrop-blur"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Victoria's Story video"
+          onClick={() => setOpen(false)}
         >
-          <span className="grid size-10 place-items-center rounded-full bg-magenta text-white transition-transform group-hover:scale-110">
-            <Youtube className="size-5" />
-          </span>
-          <span className="font-display text-base font-extrabold tracking-tight text-ink sm:text-lg">
-            Learn about{" "}
-            <span className="bg-gradient-to-r from-magenta to-orange bg-clip-text text-transparent">
-              Victoria&rsquo;s Story
-            </span>
-          </span>
-        </button>
-      ) : (
-        <div className="relative animate-fade-in">
-          <button
-            type="button"
-            onClick={() => setState("idle")}
-            aria-label="Close preview"
-            className="absolute -top-2 -right-2 z-10 grid size-8 place-items-center rounded-full bg-white text-ink shadow-[var(--shadow-soft)] transition hover:bg-magenta hover:text-white"
-          >
-            <X className="size-4" />
-          </button>
-          <div
-            className="overflow-hidden rounded-2xl border border-line shadow-[var(--shadow-soft)]"
-            onClick={() => setState("open")}
-          >
-            <iframe
-              src={`https://www.youtube.com/embed/${videoId}`}
-              title="Victoria's Story preview"
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              className="pointer-events-none aspect-video w-full"
-            />
+          <div className="relative w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              aria-label="Close video"
+              className="absolute -top-3 -right-3 z-10 grid size-10 place-items-center rounded-full bg-white text-ink shadow-[var(--shadow-lift)] transition hover:bg-magenta hover:text-white"
+            >
+              <X className="size-5" />
+            </button>
+            <div className="overflow-hidden rounded-2xl border border-line shadow-[var(--shadow-lift)]">
+              <iframe
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+                title="Victoria's Story"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="aspect-video w-full"
+              />
+            </div>
           </div>
-          <button
-            type="button"
-            onClick={() => setState("open")}
-            className="mt-2 text-xs font-extrabold uppercase tracking-widest text-magenta hover:text-orange"
-          >
-            ▶ Play full size
-          </button>
         </div>
       )}
     </div>
