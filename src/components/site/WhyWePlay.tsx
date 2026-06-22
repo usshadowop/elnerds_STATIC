@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Youtube, X } from "lucide-react";
+import { ChevronUp, ChevronDown, Youtube, X } from "lucide-react";
 import storyImg from "@/assets/why-we-play.jpg";
 import event1 from "@/assets/carousel/event-1.jpg";
 import event2 from "@/assets/carousel/event-2.jpg";
@@ -46,7 +46,16 @@ export function WhyWePlay() {
                 ))}
               </div>
 
-              <div className="flex flex-1 flex-col items-center gap-3">
+              <div className="relative flex flex-1 flex-col items-center gap-3">
+                <button
+                  type="button"
+                  onClick={prev}
+                  aria-label="Previous photo"
+                  className="absolute left-1/2 top-8 z-10 -translate-x-1/2 -translate-y-1/2 text-white transition hover:scale-110 sm:top-10"
+                >
+                  <ChevronUp className="size-8" />
+                </button>
+
                 {/* Previous (peek) */}
                 <img
                   src={at(idx - 1).src}
@@ -73,6 +82,15 @@ export function WhyWePlay() {
                   className="h-16 w-[78%] cursor-pointer rounded-2xl object-cover opacity-50 blur-[1px] transition hover:opacity-80 sm:h-20"
                   onClick={next}
                 />
+
+                <button
+                  type="button"
+                  onClick={next}
+                  aria-label="Next photo"
+                  className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 translate-y-1/2 text-white transition hover:scale-110 sm:bottom-10"
+                >
+                  <ChevronDown className="size-8" />
+                </button>
               </div>
             </div>
           </div>
