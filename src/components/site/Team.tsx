@@ -5,16 +5,57 @@ import mikePhoto from "@/assets/team/Mike.PNG";
 import benPhoto from "@/assets/team/Ben.PNG";
 import pamPhoto from "@/assets/team/Pam.PNG";
 import grantPhoto from "@/assets/team/Grant.PNG";
+import { ExtraLifeIcon } from "@/components/site/ExtraLifeIcon";
 
 const teamMembers = [
-  { name: "Troy Cleland", role: "Founder and Co-captain of Team Extra Life Nerds", photo: troyPhoto },
-  { name: "Jon Deckenbach", role: "Co-captain and recruiter extraordinaire", photo: jonDeckenbachPhoto },
-  { name: "Josh Oswald", role: "Co-captain and PVO (Positive Vibes Officer)", photo: joshPhoto },
-  { name: "Mike Richards", role: "Co-captain and spreadsheet maker", photo: mikePhoto },
-  { name: "Jon Holt", role: "Meeting organizer and team momentum maker", photo: null },
-  { name: "Ben Stoddart", role: "D&D extraordinaire and local business contact", photo: benPhoto },
-  { name: "Pam van Muijen", role: "Business liaison and board game expert", photo: pamPhoto },
-  { name: "Grant Gray", role: "Hospital contact and event champion", photo: grantPhoto },
+  {
+    name: "Troy Cleland",
+    role: "Founder and Co-captain of Team Extra Life Nerds",
+    photo: troyPhoto,
+    extraLifeUrl: "https://www.extra-life.org/participants/567940",
+  },
+  {
+    name: "Jon Deckenbach",
+    role: "Co-captain and recruiter extraordinaire",
+    photo: jonDeckenbachPhoto,
+    extraLifeUrl: "https://www.extra-life.org/participants/566958",
+  },
+  {
+    name: "Josh Oswald",
+    role: "Co-captain and PVO (Positive Vibes Officer)",
+    photo: joshPhoto,
+    extraLifeUrl: "https://www.extra-life.org/participants/566959",
+  },
+  {
+    name: "Mike Richards",
+    role: "Co-captain and spreadsheet maker",
+    photo: mikePhoto,
+    extraLifeUrl: "https://www.extra-life.org/participants/568387",
+  },
+  {
+    name: "Jon Holt",
+    role: "Meeting organizer and team momentum maker",
+    photo: null,
+    extraLifeUrl: "https://www.extra-life.org/participants/572920",
+  },
+  {
+    name: "Ben Stoddart",
+    role: "D&D extraordinaire and local business contact",
+    photo: benPhoto,
+    extraLifeUrl: "https://www.extra-life.org/participants/566961",
+  },
+  {
+    name: "Pam van Muijen",
+    role: "Business liaison and board game expert",
+    photo: pamPhoto,
+    extraLifeUrl: "https://www.extra-life.org/participants/Pam-vanMuijen",
+  },
+  {
+    name: "Grant Gray",
+    role: "Hospital contact and event champion",
+    photo: grantPhoto,
+    extraLifeUrl: null,
+  },
 ];
 
 export function Team() {
@@ -34,8 +75,19 @@ export function Team() {
           {teamMembers.map((member) => (
             <div
               key={member.name}
-              className="flex items-center gap-5 rounded-3xl border border-line bg-paper p-8 shadow-[var(--shadow-soft)]"
+              className="relative flex items-center gap-5 rounded-3xl border border-line bg-paper p-8 shadow-[var(--shadow-soft)]"
             >
+              {member.extraLifeUrl && (
+                <a
+                  href={member.extraLifeUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${member.name}'s Extra Life page`}
+                  className="absolute right-4 top-4 text-[#29abe2] transition-transform hover:scale-110"
+                >
+                  <ExtraLifeIcon className="size-7" />
+                </a>
+              )}
               {member.photo ? (
                 <img
                   src={member.photo}
