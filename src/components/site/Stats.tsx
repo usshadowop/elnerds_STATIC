@@ -1,11 +1,31 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+const YEARLY_RAISED = [
+  { value: "$30K", label: "Raised in 2023" },
+  { value: "$43K", label: "Raised in 2024" },
+  { value: "$50K", label: "Raised in 2025" },
+];
+
 const STATS = [
   { value: "$500K+", label: "Raised All-Time", color: "text-teal", bg: "bg-teal-soft" },
-  { value: "$43K", label: "Raised in 2024", color: "text-magenta", bg: "bg-magenta-soft" },
   { value: "100+", label: "Active Gamers", color: "text-purple", bg: "bg-teal-soft" },
   { value: "#21", label: "Of 2,800+ Teams", color: "text-orange", bg: "bg-orange-soft" },
 ];
 
 export function Stats() {
+  const [yearIndex, setYearIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setYearIndex((i) => (i + 1) % YEARLY_RAISED.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const yearly = YEARLY_RAISED[yearIndex];
+
   return (
     <section id="mission" className="bg-paper py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -18,6 +38,19 @@ export function Stats() {
           </h2>
         </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <div
+            className="rounded-2xl bg-magenta-soft p-6 text-center transition-transform hover:-translate-y-1"
+          >
+            <div
+              key={yearly.label}
+              className="mb-2 animate-fade-in font-display text-4xl font-extrabold text-magenta md:text-5xl"
+            >
+              {yearly.value}
+            </div>
+            <div className="text-xs font-bold uppercase tracking-wider text-ink-soft">
+              {yearly.label}
+            </div>
+          </div>
           {STATS.map((s) => (
             <div
               key={s.label}

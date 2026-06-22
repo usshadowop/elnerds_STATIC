@@ -7,8 +7,8 @@ export function Sponsors() {
             Thank You
           </p>
           <h3 className="mx-auto mb-4 max-w-3xl font-display text-2xl font-extrabold leading-tight sm:text-3xl md:text-4xl">
-            Our 2024 sponsors and donors helped us raise over{" "}
-            <span className="text-orange">$43,000</span> for Gillette Children&rsquo;s Hospital.
+            Our 2025 sponsors and donors helped us raise over{" "}
+            <span className="text-orange">$50,000</span> for Gillette Children&rsquo;s Hospital.
           </h3>
           <p className="mx-auto mb-10 max-w-2xl text-white/80 sm:text-lg">
             Team Extra Life Nerds is in your debt. Thank you for making the games count.
