@@ -1,20 +1,11 @@
-import { Check, Heart } from "lucide-react";
+import { Check } from "lucide-react";
 
 const newToExtraLife = [
   { text: "Click below on the 'Register on Extra-Life.org' button", strong: true },
   { text: "Fill out your name, email, and password" },
   { text: "Select Participant Type", note: "(Platinum sets you up to win swag at different donation levels)" },
   { text: "Click 'Continue to Next Step'" },
-  {
-    text: "You can choose any hospital to raise donations to.",
-    note: "The below shows the hospitals each region has chosen to sponsor:",
-  },
-];
-
-const hospitalsByRegion = [
-  { region: "Minneapolis", hospital: "MN-Gillette" },
-  { region: "Chicago", hospital: "IL-Ann & Robert" },
-  { region: "Phoenix", hospital: "AZ-Phoenix Children's" },
+  { text: "Choose Minneapolis: MN-Gillette" },
 ];
 
 const returningSteps = [
@@ -54,14 +45,6 @@ export function Registration() {
                     </span>
                   </li>
                 ))}
-                {hospitalsByRegion.map((h) => (
-                  <li key={h.region} className="flex gap-3 pl-2 text-sm text-ink-soft sm:text-base">
-                    <Heart className="mt-0.5 size-4 shrink-0 text-magenta" />
-                    <span>
-                      <strong className="text-ink">{h.region}:</strong> {h.hospital}
-                    </span>
-                  </li>
-                ))}
                 <li className="flex gap-3 text-sm text-ink-soft sm:text-base">
                   <Check className="mt-0.5 size-5 shrink-0 text-teal" />
                   <span>
@@ -71,7 +54,7 @@ export function Registration() {
               </ul>
 
               <a
-                href="https://www.extra-life.org/index.cfm"
+                href="https://www.extra-life.org/index.cfm?fuseaction=register.start&eventID=562&teamID=73600&success=donordrive.team&successParameters=73600"
                 target="_blank"
                 rel="noreferrer"
                 className="mt-8 inline-block rounded-full bg-teal px-6 py-3 text-center text-sm font-extrabold uppercase tracking-wider text-white transition-all hover:bg-teal-bright"
