@@ -14,9 +14,12 @@ export function Sponsors() {
             Team Extra Life Nerds is in your debt. Thank you for making the games count.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-white/90">
-            <span className="font-display text-base font-extrabold tracking-wider sm:text-lg">
-              Place holder
-            </span>
+            <a
+              href="https://www.edwardjones.com/us-en/financial-advisor/eric-morris"
+              className="font-display text-base font-extrabold tracking-wider underline-offset-4 hover:underline sm:text-lg"
+            >
+              Eric Morris with Edward Jones
+            </a>
           </div>
           <div className="mt-10">
             <a
