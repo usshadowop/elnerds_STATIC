@@ -9,9 +9,13 @@ const newToExtraLife = [
 ];
 
 const returningSteps = [
-  { text: "Click below on the 'Log In To Extra-Life.org' button", strong: true },
-  { text: "Once logged in, click here", href: "https://www.extra-life.org/index.cfm" },
-  { text: "Select the \"Join a Team\" radio button and hit \"Save\"" },
+  { text: "Click the button below and then \"Join Team\"", strong: true },
+  { text: "If not logged in, do so when prompted" },
+  {
+    text: "Select \"Join a Team\" when given the option to do so",
+    note: "(Extra Life Nerds should be auto filled in, if not search for it)",
+  },
+  { text: "Hit \"Save Changes\"" },
 ];
 
 export function Registration() {
@@ -73,24 +77,16 @@ export function Registration() {
                 {returningSteps.map((item) => (
                   <li key={item.text} className="flex gap-3 text-sm text-ink-soft sm:text-base">
                     <Check className="mt-0.5 size-5 shrink-0 text-teal" />
-                    <span className={item.strong ? "font-extrabold text-ink" : ""}>
-                      {item.href ? (
-                        <>
-                          Once logged in, click{" "}
-                          <a href={item.href} target="_blank" rel="noreferrer" className="font-extrabold text-teal underline">
-                            here
-                          </a>
-                        </>
-                      ) : (
-                        item.text
-                      )}
+                    <span>
+                      <span className={item.strong ? "font-extrabold text-ink" : ""}>{item.text}</span>
+                      {item.note && <span className="mt-1 block text-xs italic text-ink-soft">{item.note}</span>}
                     </span>
                   </li>
                 ))}
               </ul>
 
               <a
-                href="https://www.extra-life.org/"
+                href="https://www.extra-life.org/teams/73600"
                 target="_blank"
                 rel="noreferrer"
                 className="mt-8 inline-block rounded-full bg-orange px-6 py-3 text-center text-sm font-extrabold uppercase tracking-wider text-white transition-all hover:brightness-110"
