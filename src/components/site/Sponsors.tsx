@@ -25,6 +25,17 @@ export function Sponsors() {
                 Gameday Lunch
               </span>
             </div>
+            <div className="flex flex-col items-center">
+              <a
+                href="https://www.truplayerz.com/"
+                className="font-display text-base font-extrabold tracking-wider underline underline-offset-4 sm:text-lg"
+              >
+                Trueplayerz
+              </a>
+              <span className="text-xs font-bold uppercase tracking-wider text-white/70">
+                Venue
+              </span>
+            </div>
           </div>
           <div className="mt-10">
             <a
