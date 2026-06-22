@@ -17,7 +17,7 @@ export function Sponsors() {
             <div className="flex flex-col items-center">
               <a
                 href="https://www.edwardjones.com/us-en/financial-advisor/eric-morris"
-                className="font-display text-base font-extrabold tracking-wider underline-offset-4 hover:underline sm:text-lg"
+                className="font-display text-base font-extrabold tracking-wider underline underline-offset-4 sm:text-lg"
               >
                 Eric Morris with Edward Jones
               </a>
