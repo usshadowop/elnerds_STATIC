@@ -99,7 +99,7 @@ export function Team() {
                   Photo
                 </div>
               )}
-              <div>
+              <div className={member.extraLifeUrl ? "pr-14 sm:pr-20 md:pr-24" : ""}>
                 <h3 className="font-display text-xl font-extrabold text-ink">
                   {member.name}
                 </h3>
