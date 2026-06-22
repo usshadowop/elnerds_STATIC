@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 
 const YEARLY_RAISED = [
-  { value: "$30K", label: "Raised in 2023" },
-  { value: "$43K", label: "Raised in 2024" },
-  { value: "$50K", label: "Raised in 2025" },
+  { value: "$43.5K", label: "Raised in 2023" },
+  { value: "$53.5K", label: "Raised in 2024" },
+  { value: "$51K", label: "Raised in 2025" },
 ];
 
 const STATS = [
