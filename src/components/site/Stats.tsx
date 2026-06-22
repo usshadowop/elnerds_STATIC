@@ -15,7 +15,7 @@ const STATS = [
 ];
 
 const FADE_MS = 1000;
-const CYCLE_MS = 3000;
+const CYCLE_MS = 5000;
 
 export function Stats() {
   const [yearIndex, setYearIndex] = useState(0);
