@@ -46,7 +46,16 @@ export function WhyWePlay() {
                 ))}
               </div>
 
-              <div className="flex flex-1 flex-col items-center gap-3">
+              <div className="relative flex flex-1 flex-col items-center gap-3">
+                <button
+                  type="button"
+                  onClick={prev}
+                  aria-label="Previous photo"
+                  className="absolute left-1/2 top-8 z-10 grid size-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-teal text-white shadow-[var(--shadow-soft)] backdrop-blur transition hover:bg-teal-bright sm:top-10"
+                >
+                  <ChevronUp className="size-5" />
+                </button>
+
                 {/* Previous (peek) */}
                 <img
                   src={at(idx - 1).src}
@@ -57,33 +66,13 @@ export function WhyWePlay() {
                 />
 
                 {/* Current */}
-                <div className="relative w-full">
-                  <button
-                    type="button"
-                    onClick={prev}
-                    aria-label="Previous photo"
-                    className="absolute left-1/2 top-2 z-10 grid size-10 -translate-x-1/2 place-items-center rounded-full bg-white/90 text-teal shadow-[var(--shadow-soft)] backdrop-blur transition hover:bg-white"
-                  >
-                    <ChevronUp className="size-5" />
-                  </button>
-
-                  <img
-                    key={idx}
-                    src={at(idx).src}
-                    alt={at(idx).alt}
-                    loading="lazy"
-                    className="aspect-[4/5] w-full animate-fade-in rounded-3xl border border-line object-cover shadow-[var(--shadow-lift)]"
-                  />
-
-                  <button
-                    type="button"
-                    onClick={next}
-                    aria-label="Next photo"
-                    className="absolute bottom-2 left-1/2 z-10 grid size-10 -translate-x-1/2 place-items-center rounded-full bg-white/90 text-teal shadow-[var(--shadow-soft)] backdrop-blur transition hover:bg-white"
-                  >
-                    <ChevronDown className="size-5" />
-                  </button>
-                </div>
+                <img
+                  key={idx}
+                  src={at(idx).src}
+                  alt={at(idx).alt}
+                  loading="lazy"
+                  className="aspect-[4/5] w-full animate-fade-in rounded-3xl border border-line object-cover shadow-[var(--shadow-lift)]"
+                />
 
                 {/* Next (peek) */}
                 <img
@@ -93,6 +82,15 @@ export function WhyWePlay() {
                   className="h-16 w-[78%] cursor-pointer rounded-2xl object-cover opacity-50 blur-[1px] transition hover:opacity-80 sm:h-20"
                   onClick={next}
                 />
+
+                <button
+                  type="button"
+                  onClick={next}
+                  aria-label="Next photo"
+                  className="absolute bottom-8 left-1/2 z-10 grid size-10 -translate-x-1/2 translate-y-1/2 place-items-center rounded-full bg-teal text-white shadow-[var(--shadow-soft)] backdrop-blur transition hover:bg-teal-bright sm:bottom-10"
+                >
+                  <ChevronDown className="size-5" />
+                </button>
               </div>
             </div>
           </div>
