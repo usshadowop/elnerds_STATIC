@@ -33,63 +33,67 @@ export function WhyWePlay() {
               className="absolute -inset-3 -z-10 rounded-3xl bg-gradient-to-br from-teal-soft to-magenta-soft"
             />
 
-            <button
-              type="button"
-              onClick={prev}
-              aria-label="Previous photo"
-              className="absolute left-1/2 top-2 z-10 grid size-10 -translate-x-1/2 place-items-center rounded-full bg-white/90 text-teal shadow-[var(--shadow-soft)] backdrop-blur transition hover:bg-white"
-            >
-              <ChevronUp className="size-5" />
-            </button>
+            <div className="flex items-center gap-3">
+              <div className="flex flex-col items-center gap-1.5">
+                {slides.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setIdx(i)}
+                    aria-label={`Go to photo ${i + 1}`}
+                    className={`w-1.5 rounded-full transition-all ${i === idx ? "h-5 bg-teal" : "h-1.5 bg-ink-soft/30"}`}
+                  />
+                ))}
+              </div>
 
-            <div className="flex flex-col items-center gap-3">
-              {/* Previous (peek) */}
-              <img
-                src={at(idx - 1).src}
-                alt=""
-                aria-hidden
-                className="h-16 w-[78%] cursor-pointer rounded-2xl object-cover opacity-50 blur-[1px] transition hover:opacity-80 sm:h-20"
-                onClick={prev}
-              />
-
-              {/* Current */}
-              <img
-                key={idx}
-                src={at(idx).src}
-                alt={at(idx).alt}
-                loading="lazy"
-                className="aspect-[4/5] w-full animate-fade-in rounded-3xl border border-line object-cover shadow-[var(--shadow-lift)]"
-              />
-
-              {/* Next (peek) */}
-              <img
-                src={at(idx + 1).src}
-                alt=""
-                aria-hidden
-                className="h-16 w-[78%] cursor-pointer rounded-2xl object-cover opacity-50 blur-[1px] transition hover:opacity-80 sm:h-20"
-                onClick={next}
-              />
-            </div>
-
-            <button
-              type="button"
-              onClick={next}
-              aria-label="Next photo"
-              className="absolute bottom-2 left-1/2 z-10 grid size-10 -translate-x-1/2 place-items-center rounded-full bg-white/90 text-teal shadow-[var(--shadow-soft)] backdrop-blur transition hover:bg-white"
-            >
-              <ChevronDown className="size-5" />
-            </button>
-
-            <div className="mt-4 flex justify-center gap-1.5">
-              {slides.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setIdx(i)}
-                  aria-label={`Go to photo ${i + 1}`}
-                  className={`h-1.5 rounded-full transition-all ${i === idx ? "w-5 bg-teal" : "w-1.5 bg-ink-soft/30"}`}
+              <div className="flex flex-1 flex-col items-center gap-3">
+                {/* Previous (peek) */}
+                <img
+                  src={at(idx - 1).src}
+                  alt=""
+                  aria-hidden
+                  className="h-16 w-[78%] cursor-pointer rounded-2xl object-cover opacity-50 blur-[1px] transition hover:opacity-80 sm:h-20"
+                  onClick={prev}
                 />
-              ))}
+
+                {/* Current */}
+                <div className="relative w-full">
+                  <button
+                    type="button"
+                    onClick={prev}
+                    aria-label="Previous photo"
+                    className="absolute left-1/2 top-2 z-10 grid size-10 -translate-x-1/2 place-items-center rounded-full bg-white/90 text-teal shadow-[var(--shadow-soft)] backdrop-blur transition hover:bg-white"
+                  >
+                    <ChevronUp className="size-5" />
+                  </button>
+
+                  <img
+                    key={idx}
+                    src={at(idx).src}
+                    alt={at(idx).alt}
+                    loading="lazy"
+                    className="aspect-[4/5] w-full animate-fade-in rounded-3xl border border-line object-cover shadow-[var(--shadow-lift)]"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={next}
+                    aria-label="Next photo"
+                    className="absolute bottom-2 left-1/2 z-10 grid size-10 -translate-x-1/2 place-items-center rounded-full bg-white/90 text-teal shadow-[var(--shadow-soft)] backdrop-blur transition hover:bg-white"
+                  >
+                    <ChevronDown className="size-5" />
+                  </button>
+                </div>
+
+                {/* Next (peek) */}
+                <img
+                  src={at(idx + 1).src}
+                  alt=""
+                  aria-hidden
+                  className="h-16 w-[78%] cursor-pointer rounded-2xl object-cover opacity-50 blur-[1px] transition hover:opacity-80 sm:h-20"
+                  onClick={next}
+                />
+              </div>
             </div>
           </div>
         </div>
