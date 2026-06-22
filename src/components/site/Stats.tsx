@@ -14,13 +14,21 @@ const STATS = [
   { value: "#21", label: "Of 2,800+ Teams", color: "text-orange", bg: "bg-orange-soft" },
 ];
 
+const FADE_MS = 1000;
+const CYCLE_MS = 3000;
+
 export function Stats() {
   const [yearIndex, setYearIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setYearIndex((i) => (i + 1) % YEARLY_RAISED.length);
-    }, 3000);
+      setVisible(false);
+      setTimeout(() => {
+        setYearIndex((i) => (i + 1) % YEARLY_RAISED.length);
+        setVisible(true);
+      }, FADE_MS);
+    }, CYCLE_MS);
     return () => clearInterval(interval);
   }, []);
 
@@ -39,19 +47,30 @@ export function Stats() {
         </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           <div
-            className="rounded-2xl bg-magenta-soft p-6 text-center transition-transform hover:-translate-y-1"
+            className={`rounded-2xl ${STATS[0].bg} p-6 text-center transition-transform hover:-translate-y-1`}
           >
             <div
-              key={yearly.label}
-              className="mb-2 animate-fade-in font-display text-4xl font-extrabold text-magenta md:text-5xl"
+              className={`mb-2 font-display text-4xl font-extrabold md:text-5xl ${STATS[0].color}`}
+            >
+              {STATS[0].value}
+            </div>
+            <div className="text-xs font-bold uppercase tracking-wider text-ink-soft">
+              {STATS[0].label}
+            </div>
+          </div>
+          <div className="rounded-2xl bg-magenta-soft p-6 text-center transition-transform hover:-translate-y-1">
+            <div
+              className={`mb-2 font-display text-4xl font-extrabold text-magenta transition-opacity duration-1000 md:text-5xl ${visible ? "opacity-100" : "opacity-0"}`}
             >
               {yearly.value}
             </div>
-            <div className="text-xs font-bold uppercase tracking-wider text-ink-soft">
+            <div
+              className={`text-xs font-bold uppercase tracking-wider text-ink-soft transition-opacity duration-1000 ${visible ? "opacity-100" : "opacity-0"}`}
+            >
               {yearly.label}
             </div>
           </div>
-          {STATS.map((s) => (
+          {STATS.slice(1).map((s) => (
             <div
               key={s.label}
               className={`rounded-2xl ${s.bg} p-6 text-center transition-transform hover:-translate-y-1`}
