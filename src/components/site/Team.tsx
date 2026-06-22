@@ -85,7 +85,7 @@ export function Team() {
                   aria-label={`${member.name}'s Extra Life page`}
                   className="absolute right-4 top-4 transition-transform hover:scale-110"
                 >
-                  <img src={extraLifeLogo} alt="" className="size-24" />
+                  <img src={extraLifeLogo} alt="" className="size-10 sm:size-16 md:size-20" />
                 </a>
               )}
               {member.photo ? (
