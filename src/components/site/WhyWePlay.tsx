@@ -47,14 +47,10 @@ export function WhyWePlay() {
               </div>
 
               <div className="relative flex flex-1 flex-col items-center gap-3">
-                <button
-                  type="button"
-                  onClick={prev}
-                  aria-label="Previous photo"
-                  className="absolute left-1/2 top-8 z-10 -translate-x-1/2 -translate-y-1/2 text-white transition hover:scale-110 sm:top-10"
-                >
-                  <ChevronUp className="size-8" />
-                </button>
+                <ChevronUp
+                  aria-hidden
+                  className="pointer-events-none absolute left-1/2 top-8 z-10 size-24 -translate-x-1/2 -translate-y-1/2 text-white sm:top-10"
+                />
 
                 {/* Previous (peek) */}
                 <img
@@ -83,14 +79,10 @@ export function WhyWePlay() {
                   onClick={next}
                 />
 
-                <button
-                  type="button"
-                  onClick={next}
-                  aria-label="Next photo"
-                  className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 translate-y-1/2 text-white transition hover:scale-110 sm:bottom-10"
-                >
-                  <ChevronDown className="size-8" />
-                </button>
+                <ChevronDown
+                  aria-hidden
+                  className="pointer-events-none absolute bottom-8 left-1/2 z-10 size-24 -translate-x-1/2 translate-y-1/2 text-white sm:bottom-10"
+                />
               </div>
             </div>
           </div>
