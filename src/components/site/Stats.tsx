@@ -50,7 +50,7 @@ export function Stats() {
             className={`rounded-2xl ${STATS[0].bg} p-6 text-center transition-transform hover:-translate-y-1`}
           >
             <div
-              className={`mb-2 font-display text-4xl font-extrabold md:text-5xl ${STATS[0].color}`}
+              className={`mb-2 font-display text-3xl font-extrabold sm:text-4xl md:text-5xl ${STATS[0].color}`}
             >
               {STATS[0].value}
             </div>
@@ -60,7 +60,7 @@ export function Stats() {
           </div>
           <div className="rounded-2xl bg-magenta-soft p-6 text-center transition-transform hover:-translate-y-1">
             <div
-              className={`mb-2 font-display text-4xl font-extrabold text-magenta transition-opacity duration-1000 md:text-5xl ${visible ? "opacity-100" : "opacity-0"}`}
+              className={`mb-2 font-display text-3xl font-extrabold text-magenta transition-opacity duration-1000 sm:text-4xl md:text-5xl ${visible ? "opacity-100" : "opacity-0"}`}
             >
               {yearly.value}
             </div>
@@ -75,7 +75,7 @@ export function Stats() {
               key={s.label}
               className={`rounded-2xl ${s.bg} p-6 text-center transition-transform hover:-translate-y-1`}
             >
-              <div className={`mb-2 font-display text-4xl font-extrabold md:text-5xl ${s.color}`}>
+              <div className={`mb-2 font-display text-3xl font-extrabold sm:text-4xl md:text-5xl ${s.color}`}>
                 {s.value}
               </div>
               <div className="text-xs font-bold uppercase tracking-wider text-ink-soft">
