@@ -5,6 +5,7 @@ import mikePhoto from "@/assets/team/Mike.PNG";
 import benPhoto from "@/assets/team/Ben.PNG";
 import pamPhoto from "@/assets/team/Pam.PNG";
 import grantPhoto from "@/assets/team/Grant.PNG";
+import jonHoltPhoto from "@/assets/team/Jon.PNG";
 import extraLifeLogo from "@/assets/logos/Controller_Wings.svg";
 
 const teamMembers = [
@@ -35,7 +36,7 @@ const teamMembers = [
   {
     name: "Jon Holt",
     role: "Meeting organizer and team momentum maker",
-    photo: null,
+    photo: jonHoltPhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/572920",
   },
   {
