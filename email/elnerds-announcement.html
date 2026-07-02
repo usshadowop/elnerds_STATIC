@@ -54,11 +54,17 @@
       .dm-ink-soft { color: #b7c2d4 !important; }
       .dm-line { border-color: #2a3648 !important; }
       .dm-cream-band { background-color: #111a27 !important; }
+      .dm-card-inner { background-color: #1c2738 !important; border-color: #2a3648 !important; }
+      .dm-hero { background-color: #111a27 !important; background-image: none !important; }
+      .dm-accent { color: #ff8ac4 !important; }
       .dm-logo { color: #f4f7fb !important; }
     }
     [data-ogsc] .card { background-color: #16202f !important; }
     [data-ogsc] .dm-ink { color: #f4f7fb !important; }
     [data-ogsc] .dm-ink-soft { color: #b7c2d4 !important; }
+    [data-ogsc] .dm-card-inner { background-color: #1c2738 !important; }
+    [data-ogsc] .dm-hero { background-color: #111a27 !important; background-image: none !important; }
+    [data-ogsc] .dm-accent { color: #ff8ac4 !important; }
     [data-ogsc] .dm-logo { color: #f4f7fb !important; }
   </style>
 </head>
@@ -103,25 +109,25 @@
             <td style="padding:0;">
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="card" style="background-color:#ffffff; border:1px solid #e6eaed; border-radius:24px;">
 
-                <!-- Hero band (teal) -->
+                <!-- Hero band (light, site-style) -->
                 <tr>
-                  <td class="px" style="padding:40px 40px 36px 40px; background-color:#1d6e7a; border-radius:24px 24px 0 0; background-image:linear-gradient(135deg,#1d6e7a 0%,#2a8a96 45%,#6b3d8a 100%);" align="center">
+                  <td class="px dm-hero" style="padding:40px 40px 36px 40px; background-color:#eef7f7; border-radius:24px 24px 0 0; background-image:linear-gradient(135deg,#e6f2f3 0%,#ffffff 52%,#fbe7f0 100%);" align="center">
 
                     <!-- Badge pill -->
                     <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 22px auto;">
                       <tr>
-                        <td style="background-color:rgba(255,255,255,0.14); border-radius:100px; padding:8px 16px;" align="center">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#ffffff;">&#9679;&nbsp; New Website &bull; New Venue &bull; Save the Date</span>
+                        <td style="background-color:#ffffff; border:1px solid #cfe3e5; border-radius:100px; padding:8px 16px;" align="center">
+                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#1d6e7a;"><span style="color:#c8327c;">&#9679;</span>&nbsp; New Website &bull; New Venue &bull; Save the Date</span>
                         </td>
                       </tr>
                     </table>
 
-                    <h1 class="h1" style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:42px; line-height:1.08; font-weight:900; letter-spacing:-1px; color:#ffffff;">
+                    <h1 class="h1 dm-ink" style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:42px; line-height:1.08; font-weight:900; letter-spacing:-1px; color:#1a2b4a;">
                       Play&nbsp;Games.<br />
-                      <span style="color:#ffd9ec;">Heal&nbsp;Kids.</span>
+                      <span class="dm-accent" style="color:#c8327c;">Heal&nbsp;Kids.</span>
                     </h1>
 
-                    <p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:600; color:#eaf6f7; max-width:420px;">
+                    <p class="dm-ink-soft" style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:600; color:#4a5a73; max-width:420px;">
                       We&rsquo;re the Extra Life Nerds — a community of gamers raising funds for Gillette Children&rsquo;s Hospital through 24 hours of nonstop play.
                     </p>
                   </td>
@@ -190,7 +196,7 @@
                     <!-- Address card -->
                     <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
                       <tr>
-                        <td class="dm-line" style="border:1px solid #e6eaed; border-radius:16px; padding:22px 30px; background-color:#fdfaf6;" align="center">
+                        <td class="dm-line dm-card-inner" style="border:1px solid #e6eaed; border-radius:16px; padding:22px 30px; background-color:#ffffff;" align="center">
                           <div class="dm-ink" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:20px; font-weight:900; color:#1a2b4a;">Improving</div>
                           <div class="dm-ink-soft" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.5; font-weight:600; color:#4a5a73; margin-top:6px;">
                             3033 Excelsior Blvd #180<br />
