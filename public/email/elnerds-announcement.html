@@ -49,21 +49,27 @@
     /* ---------- Dark mode ---------- */
     @media (prefers-color-scheme: dark) {
       body, .bg-outer { background-color: #0f1622 !important; }
-      .card { background-color: #16202f !important; }
+      .card { background-color: #16202f !important; border-color: #2a3648 !important; }
       .dm-ink { color: #f4f7fb !important; }
       .dm-ink-soft { color: #b7c2d4 !important; }
       .dm-line { border-color: #2a3648 !important; }
       .dm-cream-band { background-color: #111a27 !important; }
       .dm-card-inner { background-color: #1c2738 !important; border-color: #2a3648 !important; }
-      .dm-hero { background-color: #111a27 !important; background-image: none !important; }
+      .dm-hero { background-color: #163842 !important; background-image: linear-gradient(135deg,#1d6e7a 0%,#2a8a96 45%,#6b3d8a 100%) !important; }
+      .dm-badge-hero { background-color: rgba(255,255,255,0.16) !important; border-color: rgba(255,255,255,0.32) !important; }
+      .dm-badge-text { color: #ffffff !important; }
+      .dm-badge-dot { color: #ffd9ec !important; }
       .dm-accent { color: #ff8ac4 !important; }
       .dm-logo { color: #f4f7fb !important; }
     }
-    [data-ogsc] .card { background-color: #16202f !important; }
+    [data-ogsc] .card { background-color: #16202f !important; border-color: #2a3648 !important; }
     [data-ogsc] .dm-ink { color: #f4f7fb !important; }
     [data-ogsc] .dm-ink-soft { color: #b7c2d4 !important; }
-    [data-ogsc] .dm-card-inner { background-color: #1c2738 !important; }
-    [data-ogsc] .dm-hero { background-color: #111a27 !important; background-image: none !important; }
+    [data-ogsc] .dm-card-inner { background-color: #1c2738 !important; border-color: #2a3648 !important; }
+    [data-ogsc] .dm-hero { background-color: #163842 !important; background-image: linear-gradient(135deg,#1d6e7a 0%,#2a8a96 45%,#6b3d8a 100%) !important; }
+    [data-ogsc] .dm-badge-hero { background-color: rgba(255,255,255,0.16) !important; border-color: rgba(255,255,255,0.32) !important; }
+    [data-ogsc] .dm-badge-text { color: #ffffff !important; }
+    [data-ogsc] .dm-badge-dot { color: #ffd9ec !important; }
     [data-ogsc] .dm-accent { color: #ff8ac4 !important; }
     [data-ogsc] .dm-logo { color: #f4f7fb !important; }
   </style>
@@ -116,8 +122,8 @@
                     <!-- Badge pill -->
                     <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 22px auto;">
                       <tr>
-                        <td style="background-color:#ffffff; border:1px solid #cfe3e5; border-radius:100px; padding:8px 16px;" align="center">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#1d6e7a;"><span style="color:#c8327c;">&#9679;</span>&nbsp; New Website &bull; New Venue &bull; Save the Date</span>
+                        <td class="dm-badge-hero" style="background-color:#ffffff; border:1px solid #cfe3e5; border-radius:100px; padding:8px 16px;" align="center">
+                          <span class="dm-badge-text" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#1d6e7a;"><span class="dm-badge-dot" style="color:#c8327c;">&#9679;</span>&nbsp; New Website &bull; New Venue &bull; Save the Date</span>
                         </td>
                       </tr>
                     </table>
@@ -132,42 +138,6 @@
                     </p>
                   </td>
                 </tr>
-
-                <!-- ===== SECTION 1: WEBSITE REFRESH ===== -->
-                <tr>
-                  <td class="px" style="padding:40px 40px 8px 40px;" align="center">
-                    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#c8327c;">A Fresh New Home</p>
-                    <h2 class="dm-ink" style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
-                      Our website just got a refresh
-                    </h2>
-                    <p class="dm-ink-soft" style="margin:0 auto; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
-                      We&rsquo;ve rebuilt ELNerds.com from the ground up to make it easier to find event information, schedules, registration details, and future announcements — all in one place.
-                    </p>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="px" style="padding:24px 40px 8px 40px;" align="center">
-                    <!-- Bulletproof button (orange) -->
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" class="btn">
-                      <tr>
-                        <td align="center" style="border-radius:100px; background-color:#e87722;">
-                          <!--[if mso]>
-                          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://elnerds.com" style="height:52px;v-text-anchor:middle;width:260px;" arcsize="100%" strokecolor="#e87722" fillcolor="#e87722">
-                          <w:anchorlock/>
-                          <center style="color:#ffffff;font-family:sans-serif;font-size:15px;font-weight:bold;">VISIT ELNERDS.COM</center>
-                          </v:roundrect>
-                          <![endif]-->
-                          <!--[if !mso]><!-->
-                          <a href="https://elnerds.com" style="display:inline-block; padding:16px 34px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#ffffff; background-color:#e87722; border-radius:100px;">Visit ELNerds.com</a>
-                          <!--<![endif]-->
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-
-                <!-- Divider -->
-                <tr><td class="px" style="padding:32px 40px 0 40px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td class="dm-line" style="border-top:1px solid #e6eaed; font-size:0; line-height:0;">&nbsp;</td></tr></table></td></tr>
 
                 <!-- ===== SECTION 2: SAVE THE DATE ===== -->
                 <tr>
@@ -231,41 +201,76 @@
                 <!-- Divider -->
                 <tr><td class="px" style="padding:32px 40px 0 40px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td class="dm-line" style="border-top:1px solid #e6eaed; font-size:0; line-height:0;">&nbsp;</td></tr></table></td></tr>
 
+                <!-- ===== SECTION 1: WEBSITE REFRESH ===== -->
+                <tr>
+                  <td class="px" style="padding:40px 40px 8px 40px;" align="center">
+                    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#c8327c;">A Fresh New Home</p>
+                    <h2 class="dm-ink" style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
+                      Our website just got a refresh
+                    </h2>
+                    <p class="dm-ink-soft" style="margin:0 auto; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
+                      We&rsquo;ve rebuilt ELNerds.com from the ground up to make it easier to find event information, schedules, registration details, and future announcements — all in one place.
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px" style="padding:24px 40px 8px 40px;" align="center">
+                    <!-- Bulletproof button (orange) -->
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" class="btn">
+                      <tr>
+                        <td align="center" style="border-radius:100px; background-color:#e87722;">
+                          <!--[if mso]>
+                          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://elnerds.com" style="height:52px;v-text-anchor:middle;width:260px;" arcsize="100%" strokecolor="#e87722" fillcolor="#e87722">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff;font-family:sans-serif;font-size:15px;font-weight:bold;">VISIT ELNERDS.COM</center>
+                          </v:roundrect>
+                          <![endif]-->
+                          <!--[if !mso]><!-->
+                          <a href="https://elnerds.com" style="display:inline-block; padding:16px 34px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#ffffff; background-color:#e87722; border-radius:100px;">Visit ELNerds.com</a>
+                          <!--<![endif]-->
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+
+                <!-- Divider -->
+                <tr><td class="px" style="padding:32px 40px 0 40px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td class="dm-line" style="border-top:1px solid #e6eaed; font-size:0; line-height:0;">&nbsp;</td></tr></table></td></tr>
+
                 <!-- ===== SECTION 4: LOOKING AHEAD ===== -->
                 <tr>
                   <td class="px" style="padding:36px 40px 8px 40px;" align="center">
                     <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#6b3d8a;">Looking Ahead</p>
-                    <h2 class="dm-ink" style="margin:0 0 18px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
-                      More to come
+                    <h2 class="dm-ink" style="margin:0 0 12px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
+                      Stay in the loop
                     </h2>
+                    <p class="dm-ink-soft" style="margin:0 auto 20px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:600; color:#4a5a73; max-width:420px;">
+                      Keep an eye on our socials and the website for more info, including:
+                    </p>
 
-                    <!-- Checklist -->
+                    <!-- Bulleted list -->
                     <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
                       <tr>
-                        <td style="padding:6px 0;" class="dm-ink-soft">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#1d6e7a;">&#10003;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">Registration &amp; how to join the team</span>
+                        <td style="padding:6px 0;">
+                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#1d6e7a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;" class="dm-ink-soft">The full Game Day schedule, posted in the upcoming weeks</span>
                         </td>
                       </tr>
                       <tr>
                         <td style="padding:6px 0;">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#c8327c;">&#10003;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">Speaker &amp; special guest announcements</span>
+                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#c8327c;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;" class="dm-ink-soft">Additional venue information</span>
                         </td>
                       </tr>
                       <tr>
                         <td style="padding:6px 0;">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#e87722;">&#10003;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">The full Game Day schedule</span>
+                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#e87722;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;" class="dm-ink-soft">Registration details &amp; how to join the team</span>
                         </td>
                       </tr>
                       <tr>
                         <td style="padding:6px 0;">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#6b3d8a;">&#10003;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">Event info &amp; ongoing updates</span>
+                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#6b3d8a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;" class="dm-ink-soft">Speaker &amp; special guest announcements</span>
                         </td>
                       </tr>
                     </table>
-
-                    <p class="dm-ink-soft" style="margin:20px auto 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.6; font-weight:600; color:#4a5a73; max-width:420px;">
-                      Keep checking the website — we&rsquo;ll be rolling out details in the weeks ahead.
-                    </p>
                   </td>
                 </tr>
                 <tr>
