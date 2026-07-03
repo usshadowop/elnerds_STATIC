@@ -6,7 +6,7 @@ const HOME = import.meta.env.BASE_URL;
 
 const NAV_LINKS = [
   { href: `${HOME}#mission`, label: "Our Impact" },
-  { href: `${HOME}#schedule`, label: "Game Day" },
+  { href: `${HOME}#schedule`, label: "Events" },
   { href: `${HOME}#story`, label: "Our Story" },
   { href: `${HOME}#sponsors`, label: "Sponsors" },
   { href: `${HOME}#team`, label: "Team Organization" },

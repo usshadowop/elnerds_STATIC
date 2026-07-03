@@ -1,5 +1,12 @@
 const ITEMS = [
   {
+    time: "Aug 8 · 3:00 PM – 6:00 PM",
+    title: "Extra Life Bingo",
+    blurb: "Join the Extra Life Leadership for a thrilling night of Bingo located at Truplayerz Sports Training & Upper Deck Lounge!",
+    color: "border-purple",
+    accent: "text-purple",
+  },
+  {
     time: "Nov 14 · 8:00 AM – 5:00 PM",
     title: "Open House Family Gaming",
     blurb: "Drop in, meet the team, and play with us. Open to all ages — bring the whole family.",
@@ -30,7 +37,7 @@ export function Schedule() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 max-w-2xl">
           <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-teal">
-            Game Day 2026
+            2026 Events
           </p>
         </div>
 
