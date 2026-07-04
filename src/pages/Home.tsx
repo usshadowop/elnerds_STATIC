@@ -5,6 +5,7 @@ import { WhyWePlay } from "@/components/site/WhyWePlay";
 import { Sponsors } from "@/components/site/Sponsors";
 import { Donors } from "@/components/site/Donors";
 import { Team } from "@/components/site/Team";
+import { ActiveRoster } from "@/components/site/ActiveRoster";
 
 export function Home() {
   return (
@@ -16,6 +17,7 @@ export function Home() {
       <Sponsors />
       <Donors />
       <Team />
+      <ActiveRoster />
     </main>
   );
 }
