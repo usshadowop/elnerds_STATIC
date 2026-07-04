@@ -16,8 +16,8 @@ export function Home() {
       <WhyWePlay />
       <Sponsors />
       <Donors />
-      <Team />
       <ActiveRoster />
+      <Team />
     </main>
   );
 }

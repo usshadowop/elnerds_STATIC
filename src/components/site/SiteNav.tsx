@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { href: `${HOME}#schedule`, label: "Events" },
   { href: `${HOME}#story`, label: "Our Story" },
   { href: `${HOME}#sponsors`, label: "Sponsors" },
-  { href: `${HOME}#team`, label: "Team Organization" },
+  { href: `${HOME}#team`, label: "Leadership Team" },
 ];
 
 export function SiteNav() {
