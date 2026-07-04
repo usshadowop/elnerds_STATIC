@@ -1,27 +1,43 @@
 import { useState } from "react";
 
-const ITEMS = [
+interface SubEvent {
+  time: string;
+  title: string;
+  blurb: string;
+  color: string;
+  accent: string;
+}
+
+interface EventItem {
+  time: string;
+  title: string;
+  blurb: string;
+  details?: string;
+  detailsList?: string[];
+  color: string;
+  accent: string;
+  main?: boolean;
+  subEvents?: SubEvent[];
+}
+
+const ITEMS: EventItem[] = [
   {
     time: "Aug 8 · 3:00 PM – 6:00 PM",
     title: "Extra Life Bingo",
     blurb: "Join the Extra Life Leadership for a thrilling night of Bingo located at Truplayerz Sports Training & Upper Deck Lounge!",
-    details:
-      "10 game Bingo bundle — $20 · 16 oz pounders — $6/each, 2 for $8 · 12 oz cans — $4 · Nutrl vodka seltzers — $5. All proceeds go directly to Gillette Children's Hospital through Extra Life.",
+    detailsList: [
+      "10 game Bingo bundle — $20",
+      "16 oz pounders — $6/each, 2 for $8",
+      "12 oz cans — $4",
+      "Nutrl vodka seltzers — $5",
+    ],
+    details: "All proceeds go directly to Gillette Children's Hospital through Extra Life.",
     color: "border-purple",
     accent: "text-purple",
   },
   {
-    time: "Nov 14 · 8:00 AM – 5:00 PM",
-    title: "Open House Family Gaming",
-    blurb: "Drop in, meet the team, and play with us. Open to all ages — bring the whole family.",
-    details:
-      "Our doors are open for a relaxed, family-friendly gaming session. Try out board games, card games, and video games with the Extra Life Nerds crew. No commitment required — stay for an hour or stay all day!",
-    color: "border-teal",
-    accent: "text-teal",
-  },
-  {
     time: "Nov 14, 8 AM → Nov 15, 8 AM",
-    title: "24-Hour Marathon Kickoff",
+    title: "24-Hour Marathon",
     blurb:
       "We go live and don't stop for 24 straight hours. Every minute of play helps fund care for kids at Gillette Children's Hospital.",
     details:
@@ -29,15 +45,22 @@ const ITEMS = [
     color: "border-magenta",
     accent: "text-magenta",
     main: true,
-  },
-  {
-    time: "Nov 15 · 8:00 AM",
-    title: "Finale & Grand Total",
-    blurb: "Cross the finish line together and reveal what we raised — for the kids.",
-    details:
-      "After 24 hours of nonstop gaming, we gather together to celebrate and reveal the grand fundraising total. Join us for the emotional finale — it's the moment that makes it all worth it.",
-    color: "border-orange",
-    accent: "text-orange",
+    subEvents: [
+      {
+        time: "Nov 14 · 8:00 AM – 5:00 PM",
+        title: "Open House Family Gaming",
+        blurb: "Drop in, meet the team, and play with us. Open to all ages — bring the whole family.",
+        color: "border-teal",
+        accent: "text-teal",
+      },
+      {
+        time: "Nov 15 · 8:00 AM",
+        title: "Finale & Grand Total",
+        blurb: "Cross the finish line together and reveal what we raised — for the kids.",
+        color: "border-orange",
+        accent: "text-orange",
+      },
+    ],
   },
 ];
 
@@ -101,13 +124,52 @@ export function Schedule() {
                 {/* Expandable details */}
                 <div
                   className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    isOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
+                    isOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
                   }`}
                 >
                   <div className="border-t border-line px-6 pt-4 pb-6">
-                    <p className="text-sm leading-relaxed text-ink-soft sm:text-base">
-                      {item.details}
-                    </p>
+                    {/* Line-item list (e.g. Bingo pricing) */}
+                    {item.detailsList && (
+                      <ul className="mb-3 space-y-1">
+                        {item.detailsList.map((line) => (
+                          <li key={line} className="text-sm font-semibold text-ink sm:text-base">
+                            {line}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {item.details && (
+                      <p className="text-sm leading-relaxed text-ink-soft sm:text-base">
+                        {item.details}
+                      </p>
+                    )}
+
+                    {/* Sub-events (nested cards) */}
+                    {item.subEvents && (
+                      <div className="mt-4 grid gap-3">
+                        {item.subEvents.map((sub) => (
+                          <div
+                            key={sub.title}
+                            className={`rounded-xl border-l-4 bg-cream p-4 ${sub.color}`}
+                          >
+                            <div className="grid gap-2 sm:grid-cols-12 sm:items-center sm:gap-4">
+                              <div className="sm:col-span-4">
+                                <p className={`font-display text-sm font-extrabold ${sub.accent}`}>
+                                  {sub.time}
+                                </p>
+                              </div>
+                              <div className="sm:col-span-8">
+                                <h4 className="mb-0.5 font-display text-base font-extrabold text-ink">
+                                  {sub.title}
+                                </h4>
+                                <p className="text-sm text-ink-soft">{sub.blurb}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
