@@ -13,6 +13,7 @@ interface EventItem {
   title: string;
   blurb: string;
   details?: string;
+  detailsLabel?: string;
   detailsList?: string[];
   color: string;
   accent: string;
@@ -27,7 +28,8 @@ const PAST_EVENTS: EventItem[] = [
     title: "Tabletop Day",
     blurb: "Game to make a difference! Join us to learn games and raise money for Gillette Children's Hospital.",
     details:
-      "Held at Minneapolis Cider Company, 701 SE 9th St, Minneapolis, MN 55414. Teaching sessions available for:",
+      "Held at Minneapolis Cider Company, 701 SE 9th St, Minneapolis, MN 55414.",
+    detailsLabel: "Teaching sessions available for:",
     detailsList: [
       "Magic: The Gathering",
       "Dungeons & Dragons",
@@ -149,6 +151,12 @@ function EventCard({
           {item.details && (
             <p className="text-sm leading-relaxed text-ink-soft sm:text-base">
               {item.details}
+            </p>
+          )}
+
+          {item.detailsLabel && (
+            <p className="mt-3 text-sm font-bold text-ink sm:text-base">
+              {item.detailsLabel}
             </p>
           )}
 
