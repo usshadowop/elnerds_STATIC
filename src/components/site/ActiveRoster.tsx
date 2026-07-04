@@ -29,7 +29,7 @@ function ParticipantCard({ p }: { p: ExtraLifeParticipant }) {
   const pct = p.fundraisingGoal > 0 ? Math.min((p.sumDonations / p.fundraisingGoal) * 100, 100) : 0;
 
   return (
-    <div className="group relative flex flex-col rounded-3xl border border-line bg-paper p-6 shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]">
+    <div className="group relative flex min-w-0 flex-col rounded-3xl border border-line bg-paper p-6 shadow-[var(--shadow-soft)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]">
       {/* badges */}
       <div className="absolute right-4 top-4 flex gap-1.5">
         {p.isTeamCaptain && (
@@ -216,7 +216,7 @@ export function ActiveRoster() {
         )}
 
         {/* participant grid */}
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {isLoading
             ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
             : participants.map((p) => <ParticipantCard key={p.participantID} p={p} />)}

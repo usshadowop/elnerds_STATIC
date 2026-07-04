@@ -72,7 +72,7 @@ export function Team() {
           </h2>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {teamMembers.map((member) => (
             <div
               key={member.name}
@@ -100,7 +100,7 @@ export function Team() {
                   Photo
                 </div>
               )}
-              <div className={member.extraLifeUrl ? "pr-14 sm:pr-20 md:pr-24" : ""}>
+              <div className={member.extraLifeUrl ? "min-w-0 pr-14 sm:pr-20 md:pr-24" : "min-w-0"}>
                 <h3 className="font-display text-xl font-extrabold text-ink">
                   {member.name}
                 </h3>
