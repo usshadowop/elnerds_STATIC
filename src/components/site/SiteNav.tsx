@@ -4,11 +4,20 @@ import logoUrl from "@/assets/eln-logo.svg";
 
 const HOME = import.meta.env.BASE_URL;
 
-const NAV_LINKS = [
+type NavLink = { href: string; label: string };
+type NavItem = NavLink | { label: string; children: NavLink[] };
+
+const NAV_LINKS: NavItem[] = [
   { href: `${HOME}#mission`, label: "Our Impact" },
   { href: `${HOME}#schedule`, label: "Events" },
   { href: `${HOME}#story`, label: "Our Story" },
-  { href: `${HOME}#sponsors`, label: "Sponsors" },
+  {
+    label: "Sponsors",
+    children: [
+      { href: `${HOME}#sponsors`, label: "Past" },
+      { href: `${HOME}#donors`, label: "Current" },
+    ],
+  },
   { href: `${HOME}#active-roster`, label: "Team" },
 ];
 
@@ -33,11 +42,31 @@ export function SiteNav() {
         </a>
 
         <div className="hidden items-center gap-8 text-sm font-bold md:flex">
-          {NAV_LINKS.map((l) => (
-            <a key={l.href} href={l.href} className="text-ink/70 transition-colors hover:text-teal">
-              {l.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((l) =>
+            "children" in l ? (
+              <div key={l.label} className="flex items-center gap-1.5 text-ink/70">
+                <span>{l.label}:</span>
+                {l.children.map((c, i) => (
+                  <span key={c.href} className="flex items-center gap-1.5">
+                    <a href={c.href} className="transition-colors hover:text-teal">
+                      {c.label}
+                    </a>
+                    {i < l.children.length - 1 && (
+                      <span className="text-ink/30">|</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-ink/70 transition-colors hover:text-teal"
+              >
+                {l.label}
+              </a>
+            ),
+          )}
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -85,16 +114,34 @@ export function SiteNav() {
       {open && (
         <div className="border-t border-line bg-cream md:hidden">
           <div className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-4">
-            {NAV_LINKS.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-3 text-sm font-bold text-ink/80 hover:bg-teal-soft hover:text-teal"
-              >
-                {l.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((l) =>
+              "children" in l ? (
+                <div key={l.label} className="px-3 py-3">
+                  <span className="text-sm font-bold text-ink/80">{l.label}</span>
+                  <div className="mt-2 flex flex-col gap-1 pl-3">
+                    {l.children.map((c) => (
+                      <a
+                        key={c.href}
+                        href={c.href}
+                        onClick={() => setOpen(false)}
+                        className="rounded-lg px-3 py-2 text-sm font-bold text-ink/70 hover:bg-teal-soft hover:text-teal"
+                      >
+                        {c.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg px-3 py-3 text-sm font-bold text-ink/80 hover:bg-teal-soft hover:text-teal"
+                >
+                  {l.label}
+                </a>
+              ),
+            )}
             <div className="mt-2 grid grid-cols-2 gap-3">
               <a
                 href="https://www.extra-life.org/team/73600"
