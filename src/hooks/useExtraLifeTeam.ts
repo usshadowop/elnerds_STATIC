@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 
 const TEAM_ID = 73600;
-const BASE_URL = "https://extra-life.org/api";
+// Use the DonorDrive-hosted API host directly: extra-life.org/api issues a
+// cross-origin 302 to dd.extra-life.org without CORS headers on the redirect,
+// which browsers reject. dd.extra-life.org serves 200 with
+// `access-control-allow-origin: *`, so fetch works from the browser.
+const BASE_URL = "https://dd.extra-life.org/api";
 
 export interface ExtraLifeParticipant {
   participantID: number;
