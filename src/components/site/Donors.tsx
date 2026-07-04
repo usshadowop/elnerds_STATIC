@@ -1,10 +1,75 @@
-const extraLifeDonors = ["Coming Soon"];
+import { useExtraLifeDonors } from "@/hooks/useExtraLifeDonors";
 
 const inKindDonors: { name: string; href?: string }[] = [
   { name: "Improving - Venue", href: "https://www.improving.com/" },
   { name: "Mike Hochscheidt - Miniatures" },
   { name: "Mike Smith - Board Games" },
 ];
+
+const money = (n: number) =>
+  n.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+
+function ExtraLifeDonorWall() {
+  const { donors, isLoading, error } = useExtraLifeDonors();
+
+  if (isLoading) {
+    return (
+      <ul className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3">
+        {Array.from({ length: 9 }).map((_, i) => (
+          <li key={i} className="border-l-2 border-teal/40 pl-3">
+            <div className="h-3.5 w-24 animate-pulse rounded bg-teal/15" />
+            <div className="mt-1.5 h-2.5 w-12 animate-pulse rounded bg-teal/10" />
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  if (error || donors.length === 0) {
+    return (
+      <p className="text-sm font-bold text-ink-soft">
+        Be the first to donate this year —{" "}
+        <a
+          href="https://www.extra-life.org/team/73600"
+          target="_blank"
+          rel="noreferrer"
+          className="text-teal underline underline-offset-2 hover:text-teal-bright"
+        >
+          support the team →
+        </a>
+      </p>
+    );
+  }
+
+  return (
+    <ul className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3">
+      {donors.map((donor) => (
+        <li
+          key={donor.donorID ?? donor.displayName}
+          className="border-l-2 border-teal/40 pl-3"
+        >
+          <span className="block truncate text-sm font-bold text-ink">
+            {donor.displayName}
+          </span>
+          <span className="text-xs font-bold text-teal">
+            {money(donor.sumDonations)}
+            {donor.numDonations > 1 && (
+              <span className="font-semibold text-ink-soft">
+                {" "}
+                &middot; {donor.numDonations} gifts
+              </span>
+            )}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export function Donors() {
   return (
@@ -38,16 +103,7 @@ export function Donors() {
                 </p>
               </div>
             </div>
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3">
-              {extraLifeDonors.map((name) => (
-                <li
-                  key={name}
-                  className="border-l-2 border-teal/40 pl-3 text-sm font-bold text-ink"
-                >
-                  {name}
-                </li>
-              ))}
-            </ul>
+            <ExtraLifeDonorWall />
           </div>
 
           <div className="rounded-3xl border border-line bg-cream p-8 shadow-[var(--shadow-soft)]">
