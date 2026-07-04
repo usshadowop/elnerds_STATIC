@@ -19,6 +19,7 @@ const NAV_LINKS: NavItem[] = [
     ],
   },
   { href: `${HOME}#active-roster`, label: "Team" },
+  { href: `${HOME}#team`, label: "Leadership" },
 ];
 
 export function SiteNav() {
