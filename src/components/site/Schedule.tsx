@@ -31,7 +31,6 @@ const ITEMS: EventItem[] = [
       "12 oz cans — $4",
       "Nutrl vodka seltzers — $5",
     ],
-    details: "All proceeds go directly to Gillette Children's Hospital through Extra Life.",
     color: "border-purple",
     accent: "text-purple",
   },
