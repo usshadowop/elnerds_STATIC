@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
 
 const ITEMS = [
   {
@@ -7,7 +6,7 @@ const ITEMS = [
     title: "Extra Life Bingo",
     blurb: "Join the Extra Life Leadership for a thrilling night of Bingo located at Truplayerz Sports Training & Upper Deck Lounge!",
     details:
-      "Come out for an exciting evening of Bingo with prizes, raffles, and great company! All proceeds go directly to Gillette Children's Hospital through Extra Life. Food and drinks available for purchase at the Upper Deck Lounge. All ages welcome.",
+      "10 game Bingo bundle — $20 · 16 oz pounders — $6/each, 2 for $8 · 12 oz cans — $4 · Nutrl vodka seltzers — $5. All proceeds go directly to Gillette Children's Hospital through Extra Life.",
     color: "border-purple",
     accent: "text-purple",
   },
@@ -87,10 +86,14 @@ export function Schedule() {
                       <h3 className="mb-1 font-display text-xl font-extrabold text-ink">{item.title}</h3>
                       <p className="text-sm text-ink-soft sm:text-base">{item.blurb}</p>
                     </div>
-                    <div className="hidden md:col-span-1 md:flex md:justify-end">
-                      <ChevronDown
-                        className={`size-5 text-ink-soft transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-                      />
+                    <div className="md:col-span-1 md:flex md:justify-end">
+                      <span className={`rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 ${
+                        isOpen
+                          ? "bg-ink/10 text-ink-soft"
+                          : "bg-teal-soft text-teal"
+                      }`}>
+                        {isOpen ? "Close" : "Details"}
+                      </span>
                     </div>
                   </div>
                 </button>

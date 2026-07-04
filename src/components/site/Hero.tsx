@@ -100,7 +100,7 @@ export function Hero() {
             className="inline-flex items-center gap-2 rounded-full border border-teal/20 bg-white px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-teal transition-all hover:bg-teal-soft hover:shadow-[var(--shadow-soft)]"
           >
             <span className="size-2 rounded-full bg-magenta" aria-hidden />
-            Game Day · Nov 14–15, 2026
+            Game Day · Nov 14–15
           </a>
         </div>
 
