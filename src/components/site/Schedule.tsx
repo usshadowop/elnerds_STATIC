@@ -27,7 +27,7 @@ const PAST_EVENTS: EventItem[] = [
     title: "Tabletop Day",
     blurb: "Game to make a difference! Join us to learn games and raise money for Gillette Children's Hospital.",
     details:
-      "Held at Minneapolis Cider Company, 701 SE 9th St, Minneapolis, MN 55414. Dedicated teachers were on hand for the following games:",
+      "Held at Minneapolis Cider Company, 701 SE 9th St, Minneapolis, MN 55414. Teaching sessions available for:",
     detailsList: [
       "Magic: The Gathering",
       "Dungeons & Dragons",
