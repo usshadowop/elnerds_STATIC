@@ -60,7 +60,7 @@ const FUTURE_EVENTS: EventItem[] = [
     time: "Nov 14, 8 AM → Nov 15, 8 AM",
     title: "24-Hour Marathon",
     blurb:
-      "We go live and don't stop for 24 straight hours. Every minute of play helps fund care for kids at Gillette Children's Hospital.",
+      "Join us for the big event! Whether you participate for 1 hour, or marathon the full 24, your presence and effort will go to helping local children in need.",
     details:
       "The main event! We kick off 24 consecutive hours of gaming at 8:00 AM on November 14th and don't stop until 8:00 AM on November 15th. Join us in person or watch the livestream. Every donation and every hour of play makes a difference.",
     color: "border-magenta",
