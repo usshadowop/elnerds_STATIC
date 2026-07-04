@@ -68,7 +68,7 @@ export function Team() {
             Meet the Crew
           </p>
           <h2 className="font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl md:text-5xl">
-            Team Organization
+            Leadership Team
           </h2>
         </div>
 
