@@ -97,7 +97,7 @@ function EventCard({
   const isOpen = openIndex === index;
   return (
     <div
-      className={`group relative rounded-2xl border-l-4 bg-paper shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${item.color} ${item.past ? "opacity-75" : ""}`}
+      className={`group relative rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${item.color} ${item.past ? "bg-ink/[0.03] opacity-60" : "bg-paper"}`}
     >
       <button
         type="button"
