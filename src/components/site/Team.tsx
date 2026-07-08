@@ -7,6 +7,7 @@ import pamPhoto from "@/assets/team/Pam.PNG";
 import grantPhoto from "@/assets/team/Grant.PNG";
 import jonHoltPhoto from "@/assets/team/Jon.PNG";
 import extraLifeLogo from "@/assets/logos/Controller_Wings.svg";
+import { Mail } from "lucide-react";
 
 const teamMembers = [
   {
@@ -14,48 +15,56 @@ const teamMembers = [
     role: "Founder and Co-captain of Team Extra Life Nerds",
     photo: troyPhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/567940",
+    email: null,
   },
   {
     name: "Jon Deckenbach",
     role: "Co-captain and recruiter extraordinaire",
     photo: jonDeckenbachPhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/566958",
+    email: null,
   },
   {
     name: "Josh Oswald",
     role: "Co-captain and PVO (Positive Vibes Officer)",
     photo: joshPhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/566959",
+    email: null,
   },
   {
     name: "Mike Richards",
     role: "Co-captain and spreadsheet maker",
     photo: mikePhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/568387",
+    email: null,
   },
   {
     name: "Jon Holt",
     role: "Meeting organizer and team momentum maker",
     photo: jonHoltPhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/572920",
+    email: "jonholt@elnerds.com",
   },
   {
     name: "Ben Stoddart",
     role: "D&D extraordinaire and local business contact",
     photo: benPhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/566961",
+    email: null,
   },
   {
     name: "Pam van Muijen",
     role: "Business liaison and board game expert",
     photo: pamPhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/Pam-vanMuijen",
+    email: null,
   },
   {
     name: "Grant Gray",
     role: "Hospital contact and event champion",
     photo: grantPhoto,
     extraLifeUrl: null,
+    email: null,
   },
 ];
 
@@ -106,6 +115,15 @@ export function Team() {
                 </h3>
                 <p className="mt-2 text-sm font-bold text-ink-soft">{member.role}</p>
               </div>
+              {member.email && (
+                <a
+                  href={`mailto:${member.email}`}
+                  aria-label={`Email ${member.name}`}
+                  className="absolute bottom-4 right-4 text-ink-soft transition-transform hover:scale-110 hover:text-magenta"
+                >
+                  <Mail className="size-5 sm:size-6" />
+                </a>
+              )}
             </div>
           ))}
         </div>
