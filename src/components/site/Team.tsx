@@ -29,7 +29,7 @@ const teamMembers = [
     role: "Co-captain and PVO (Positive Vibes Officer)",
     photo: joshPhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/566959",
-    email: null,
+    email: "josh@elnerds.com",
   },
   {
     name: "Mike Richards",
@@ -64,7 +64,7 @@ const teamMembers = [
     role: "Hospital contact and event champion",
     photo: grantPhoto,
     extraLifeUrl: null,
-    email: null,
+    email: "granttgray@gillettechildrens.com",
   },
 ];
 
