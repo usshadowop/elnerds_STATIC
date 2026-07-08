@@ -15,7 +15,7 @@ const teamMembers = [
     role: "Founder and Co-captain of Team Extra Life Nerds",
     photo: troyPhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/567940",
-    email: null,
+    email: "troy@elnerds.com",
   },
   {
     name: "Jon Deckenbach",
@@ -113,17 +113,17 @@ export function Team() {
                 <h3 className="font-display text-xl font-extrabold text-ink">
                   {member.name}
                 </h3>
+                {member.email && (
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="mt-1.5 inline-flex items-center gap-1.5 text-[13px] font-extrabold text-magenta hover:underline"
+                  >
+                    <Mail className="size-4 shrink-0" />
+                    <span className="truncate">{member.email}</span>
+                  </a>
+                )}
                 <p className="mt-2 text-sm font-bold text-ink-soft">{member.role}</p>
               </div>
-              {member.email && (
-                <a
-                  href={`mailto:${member.email}`}
-                  aria-label={`Email ${member.name}`}
-                  className="absolute bottom-4 right-4 text-ink-soft transition-transform hover:scale-110 hover:text-magenta"
-                >
-                  <Mail className="size-5 sm:size-6" />
-                </a>
-              )}
             </div>
           ))}
         </div>
