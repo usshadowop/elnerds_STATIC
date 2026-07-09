@@ -58,8 +58,8 @@ const FUTURE_EVENTS: EventItem[] = [
     accent: "text-purple",
   },
   {
-    time: "Nov 7 · 9:00 AM – Midnight",
-    title: "15 Hours of Gaming",
+    time: "Nov 7 · 9:00 AM – 11:59 PM",
+    title: "15-Hours of Board Gaming",
     blurb:
       "Compete for glory and support Gillette Children's Hospital at our Extra Life Tabletop Game Day.",
     details:
@@ -77,7 +77,7 @@ const FUTURE_EVENTS: EventItem[] = [
     partner: true,
   },
   {
-    time: "Nov 14, 8 AM → Nov 15, 8 AM",
+    time: "Nov 14 · 8 AM → Nov 15 · 8 AM",
     title: "24-Hour Marathon",
     blurb:
       "Join us for the big event! Whether you participate for 1 hour, or marathon the full 24, your presence and effort will go to helping local children in need.",
@@ -129,26 +129,28 @@ function EventCard({
       >
         <div className="grid gap-4 md:grid-cols-12 md:items-center md:gap-6">
           <div className="md:col-span-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <p className={`font-display text-base font-extrabold ${item.accent}`}>
-                {item.time}
-              </p>
-              {item.main && (
-                <span className="shrink-0 rounded-full bg-magenta px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
-                  Main Event
-                </span>
-              )}
-              {item.partner && (
-                <span className="shrink-0 rounded-full bg-teal px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
-                  Partner Team Event
-                </span>
-              )}
-              {item.past && (
-                <span className="shrink-0 rounded-full bg-ink-soft/20 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-ink-soft">
-                  Completed
-                </span>
-              )}
-            </div>
+            <p className={`font-display text-base font-extrabold ${item.accent}`}>
+              {item.time}
+            </p>
+            {(item.main || item.partner || item.past) && (
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                {item.main && (
+                  <span className="shrink-0 rounded-full bg-magenta px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                    Main Event
+                  </span>
+                )}
+                {item.partner && (
+                  <span className="shrink-0 rounded-full bg-teal px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                    Partner Event
+                  </span>
+                )}
+                {item.past && (
+                  <span className="shrink-0 rounded-full bg-ink-soft/20 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-ink-soft">
+                    Completed
+                  </span>
+                )}
+              </div>
+            )}
           </div>
           <div className="md:col-span-7">
             <h3 className="mb-1 font-display text-xl font-extrabold text-ink">{item.title}</h3>
