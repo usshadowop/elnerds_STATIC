@@ -8,6 +8,45 @@ import grantPhoto from "@/assets/team/Grant.PNG";
 import jonHoltPhoto from "@/assets/team/Jon.PNG";
 import extraLifeLogo from "@/assets/logos/Controller_Wings.svg";
 import { Mail } from "lucide-react";
+import { useLayoutEffect, useRef } from "react";
+
+// Renders a member's email as a mailto link, shrinking the font just
+// enough to keep the full address inside the card on narrow screens.
+// Truncation remains as a fallback if it hits the minimum size.
+function EmailLink({ email }: { email: string }) {
+  const spanRef = useRef<HTMLSpanElement>(null);
+
+  useLayoutEffect(() => {
+    const el = spanRef.current;
+    if (!el) return;
+    const MAX_PX = 13;
+    const MIN_PX = 9;
+    const fit = () => {
+      let size = MAX_PX;
+      el.style.fontSize = `${size}px`;
+      while (el.scrollWidth > el.clientWidth && size > MIN_PX) {
+        size -= 0.5;
+        el.style.fontSize = `${size}px`;
+      }
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    if (el.parentElement) ro.observe(el.parentElement);
+    return () => ro.disconnect();
+  }, [email]);
+
+  return (
+    <a
+      href={`mailto:${email}`}
+      className="mt-1.5 flex min-w-0 items-center gap-1.5 font-extrabold text-magenta hover:underline"
+    >
+      <Mail className="size-4 shrink-0" />
+      <span ref={spanRef} className="min-w-0 truncate text-[13px]">
+        {email}
+      </span>
+    </a>
+  );
+}
 
 const teamMembers = [
   {
@@ -113,15 +152,7 @@ export function Team() {
                 <h3 className="font-display text-xl font-extrabold text-ink">
                   {member.name}
                 </h3>
-                {member.email && (
-                  <a
-                    href={`mailto:${member.email}`}
-                    className="mt-1.5 flex min-w-0 items-center gap-1.5 text-[13px] font-extrabold text-magenta hover:underline"
-                  >
-                    <Mail className="size-4 shrink-0" />
-                    <span className="min-w-0 truncate">{member.email}</span>
-                  </a>
-                )}
+                {member.email && <EmailLink email={member.email} />}
                 <p className="mt-2 text-sm font-bold text-ink-soft">{member.role}</p>
               </div>
             </div>
