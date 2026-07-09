@@ -22,7 +22,7 @@ const teamMembers = [
     role: "Co-captain and recruiter extraordinaire",
     photo: jonDeckenbachPhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/566958",
-    email: null,
+    email: "jondec@elnerds.com",
   },
   {
     name: "Josh Oswald",
