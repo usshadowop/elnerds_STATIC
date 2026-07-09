@@ -18,6 +18,7 @@ interface EventItem {
   color: string;
   accent: string;
   main?: boolean;
+  partner?: boolean;
   past?: boolean;
   subEvents?: SubEvent[];
 }
@@ -55,6 +56,25 @@ const FUTURE_EVENTS: EventItem[] = [
     ],
     color: "border-purple",
     accent: "text-purple",
+  },
+  {
+    time: "Nov 7 · 9:00 AM – Midnight",
+    title: "15 Hours of Gaming",
+    blurb:
+      "Compete for glory and support Gillette Children's Hospital at our Extra Life Tabletop Game Day.",
+    details:
+      "Held at St Paul Masonic Center, 200 E Plato Blvd, St Paul, MN 55107. How to sign up: just show up! Entry fee is a $5 donation, which includes entry, food, and drink.",
+    detailsLabel: "What's happening:",
+    detailsList: [
+      "Raffles every hour for games",
+      "Silent auction",
+      "Hours of boardgaming — play what's there, or bring your own",
+      "Nerf battles",
+      "Nintendo Switch games (Mario Kart, Mario vs. Rabbids, Super Smash Bros, and more)",
+    ],
+    color: "border-teal",
+    accent: "text-teal",
+    partner: true,
   },
   {
     time: "Nov 14, 8 AM → Nov 15, 8 AM",
@@ -116,6 +136,11 @@ function EventCard({
               {item.main && (
                 <span className="shrink-0 rounded-full bg-magenta px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
                   Main Event
+                </span>
+              )}
+              {item.partner && (
+                <span className="shrink-0 rounded-full bg-teal px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                  Partner Team Event
                 </span>
               )}
               {item.past && (
