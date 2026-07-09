@@ -116,10 +116,10 @@ export function Team() {
                 {member.email && (
                   <a
                     href={`mailto:${member.email}`}
-                    className="mt-1.5 inline-flex items-center gap-1.5 text-[13px] font-extrabold text-magenta hover:underline"
+                    className="mt-1.5 flex min-w-0 items-center gap-1.5 text-[13px] font-extrabold text-magenta hover:underline"
                   >
                     <Mail className="size-4 shrink-0" />
-                    <span className="truncate">{member.email}</span>
+                    <span className="min-w-0 truncate">{member.email}</span>
                   </a>
                 )}
                 <p className="mt-2 text-sm font-bold text-ink-soft">{member.role}</p>
