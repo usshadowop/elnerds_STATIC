@@ -148,8 +148,12 @@ export function Team() {
                   Photo
                 </div>
               )}
-              <div className={member.extraLifeUrl ? "min-w-0 pr-14 sm:pr-20 md:pr-24" : "min-w-0"}>
-                <h3 className="font-display text-xl font-extrabold text-ink">
+              <div className="min-w-0">
+                <h3
+                  className={`font-display text-xl font-extrabold text-ink ${
+                    member.extraLifeUrl ? "pr-14 sm:pr-20 md:pr-24" : ""
+                  }`}
+                >
                   {member.name}
                 </h3>
                 {member.email && <EmailLink email={member.email} />}
