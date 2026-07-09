@@ -13,6 +13,7 @@ interface EventItem {
   title: string;
   blurb: string;
   details?: string;
+  fee?: string;
   detailsLabel?: string;
   detailsList?: string[];
   color: string;
@@ -61,9 +62,10 @@ const FUTURE_EVENTS: EventItem[] = [
     time: "Nov 7 · 9:00 AM – 11:59 PM",
     title: "15-Hours of Board Gaming",
     blurb:
-      "Compete for glory and support Gillette Children's Hospital at our Extra Life Tabletop Game Day.",
+      "Join our partner team and show your support for their marathon board gaming main event!",
     details:
-      "Held at St Paul Masonic Center, 200 E Plato Blvd, St Paul, MN 55107. How to sign up: just show up! Entry fee is a $5 donation, which includes entry, food, and drink.",
+      "Held at St Paul Masonic Center, 200 E Plato Blvd, St Paul, MN 55107. How to sign up: just show up!",
+    fee: "Entry Fee: $5 — Includes (entry, food, and drink)",
     detailsLabel: "What's happening:",
     detailsList: [
       "Raffles every hour for games",
@@ -178,6 +180,12 @@ function EventCard({
           {item.details && (
             <p className="text-sm leading-relaxed text-ink-soft sm:text-base">
               {item.details}
+            </p>
+          )}
+
+          {item.fee && (
+            <p className="mt-3 text-sm font-bold text-ink sm:text-base">
+              {item.fee}
             </p>
           )}
 
