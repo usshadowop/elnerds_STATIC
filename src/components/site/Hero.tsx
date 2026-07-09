@@ -97,9 +97,9 @@ export function Hero() {
           </a>
           <a
             href="#schedule"
-            className="inline-flex items-center gap-2 rounded-full border border-orange/20 bg-white px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-orange transition-all hover:bg-orange-soft hover:shadow-[var(--shadow-soft)]"
+            className="inline-flex items-center gap-2 rounded-full border border-teal/20 bg-white px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-teal transition-all hover:bg-teal-soft hover:shadow-[var(--shadow-soft)]"
           >
-            <span className="size-2 rounded-full bg-orange" aria-hidden />
+            <span className="size-2 rounded-full bg-teal" aria-hidden />
             Board Game Day · Nov 7
           </a>
           <a
