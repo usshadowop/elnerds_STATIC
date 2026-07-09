@@ -246,27 +246,6 @@ export function Schedule() {
     <section id="schedule" className="bg-cream px-4 py-24 sm:px-6 sm:py-28">
       <div className="mx-auto max-w-6xl">
 
-        {/* Past Events */}
-        <div className="mb-12 max-w-2xl">
-          <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-ink-soft">
-            2026 Past Events
-          </p>
-        </div>
-        <div className="grid gap-4">
-          {PAST_EVENTS.map((item, i) => (
-            <EventCard
-              key={item.title}
-              item={item}
-              index={`past-${i}`}
-              openIndex={openIndex}
-              toggle={toggle}
-            />
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div className="my-12 border-t border-line" />
-
         {/* Future Events */}
         <div className="mb-12 max-w-2xl">
           <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-teal">
@@ -279,6 +258,27 @@ export function Schedule() {
               key={item.title}
               item={item}
               index={`future-${i}`}
+              openIndex={openIndex}
+              toggle={toggle}
+            />
+          ))}
+        </div>
+
+        {/* Divider */}
+        <div className="my-12 border-t border-line" />
+
+        {/* Past Events */}
+        <div className="mb-12 max-w-2xl">
+          <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-ink-soft">
+            2026 Past Events
+          </p>
+        </div>
+        <div className="grid gap-4">
+          {PAST_EVENTS.map((item, i) => (
+            <EventCard
+              key={item.title}
+              item={item}
+              index={`past-${i}`}
               openIndex={openIndex}
               toggle={toggle}
             />
