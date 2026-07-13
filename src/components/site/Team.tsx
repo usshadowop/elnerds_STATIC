@@ -96,7 +96,7 @@ const teamMembers = [
     role: "Business liaison and board game expert",
     photo: pamPhoto,
     extraLifeUrl: "https://www.extra-life.org/participants/Pam-vanMuijen",
-    email: null,
+    email: "pam@elnerds.com",
   },
   {
     name: "Grant Gray",
