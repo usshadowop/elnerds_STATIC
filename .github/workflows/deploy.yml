@@ -25,7 +25,11 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run build
         env:
-          VITE_RSVP_ENDPOINT: ${{ secrets.VITE_RSVP_ENDPOINT }}
+          # Public by design — the RSVP endpoint URL ships in the browser bundle.
+          # A GitHub secret would add no protection, so it lives here directly.
+          # To rotate: update this value (and re-deploy the Apps Script keeps the
+          # same /exec URL as long as you use "Manage deployments > New version").
+          VITE_RSVP_ENDPOINT: ${{ secrets.VITE_RSVP_ENDPOINT || 'https://script.google.com/macros/s/AKfycbwq_zRZLlCEs2jlSMlIVOCuhnlGoZA5nJ3oIKTuGWI-Y6_pSASwuTvs20Zg5WQ9xRcK/exec' }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
