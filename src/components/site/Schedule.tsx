@@ -170,6 +170,18 @@ function EventCard({
         </div>
       </button>
 
+      {/* RSVP call-to-action (future events only) */}
+      {!item.past && (
+        <div className="px-6 pb-5 -mt-1">
+          <a
+            href={`${import.meta.env.BASE_URL}rsvp?event=${encodeURIComponent(item.title)}`}
+            className="inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white transition-all hover:bg-teal-bright"
+          >
+            RSVP for this event
+          </a>
+        </div>
+      )}
+
       {/* Expandable details */}
       <div
         className={`overflow-hidden transition-all duration-300 ease-in-out ${

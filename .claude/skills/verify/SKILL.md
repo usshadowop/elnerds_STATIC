@@ -29,12 +29,14 @@ Static Vite + React SPA. No tests; verification = drive the page in a browser.
 
 ## RSVP form (`/rsvp`)
 
-- Needs `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` at dev-server start;
-  without them the page shows a "Setup needed" banner.
-- To verify without a real Supabase project, run a mock PostgREST server
-  (POST `/rest/v1/rsvps` → 201, plus CORS preflight 204) and point
-  `VITE_SUPABASE_URL` at it. Assert the POSTed JSON body and the
-  `apikey`/`Authorization`/`Prefer: return=minimal` headers.
+- Needs `VITE_RSVP_ENDPOINT` (a Google Apps Script Web App URL) at dev-server
+  start; without it the page shows a "Setup needed" banner.
+- The form POSTs JSON as `text/plain` to that endpoint (avoids a CORS
+  preflight Apps Script can't answer). The event name can be pre-filled via
+  `/rsvp?event=<name>`.
+- To verify without the real script, run a mock server (POST → `{"ok":true}`)
+  and point `VITE_RSVP_ENDPOINT` at it. Assert the POSTed JSON body
+  (`name`, `email`, `event`, `attending`, `guests`, `message`).
 - Flows worth driving: empty submit (zod errors), bad email, happy path →
   "You're on the list!" screen, "Submit another" reset, server 5xx → inline
   error box, guests > 20 rejected client-side.

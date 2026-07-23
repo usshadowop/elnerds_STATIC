@@ -4,7 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Check, Loader2, PartyPopper } from "lucide-react";
 
-import { insertRsvp, isSupabaseConfigured } from "@/lib/supabase";
+import { submitRsvp, isRsvpConfigured } from "@/lib/rsvp";
+
+// Pre-fill the "Which event?" field when arriving from an event card link
+// like /rsvp?event=Extra%20Life%20Bingo.
+function eventFromUrl(): string {
+  if (typeof window === "undefined") return "";
+  return new URLSearchParams(window.location.search).get("event")?.trim() ?? "";
+}
 
 const schema = z.object({
   name: z.string().trim().min(1, "Please enter your name"),
@@ -33,14 +40,14 @@ export function Rsvp() {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { attending: "yes", guests: 0 },
+    defaultValues: { attending: "yes", guests: 0, event: eventFromUrl() },
   });
 
   async function onSubmit(values: FormValues) {
     setServerError(null);
     try {
       const parsed = schema.parse(values);
-      await insertRsvp(parsed);
+      await submitRsvp(parsed);
       setSubmitted(true);
       reset();
     } catch (err) {
@@ -64,13 +71,12 @@ export function Rsvp() {
             </p>
           </div>
 
-          {!isSupabaseConfigured && (
+          {!isRsvpConfigured && (
             <div className="mb-8 rounded-2xl border border-orange bg-orange-soft px-5 py-4 text-sm text-ink">
-              <strong className="font-extrabold">Setup needed:</strong> Supabase isn&rsquo;t configured
-              yet. Add <code className="rounded bg-paper px-1">VITE_SUPABASE_URL</code> and{" "}
-              <code className="rounded bg-paper px-1">VITE_SUPABASE_ANON_KEY</code> (see{" "}
-              <code className="rounded bg-paper px-1">.env.example</code>). Submissions will fail until
-              then.
+              <strong className="font-extrabold">Setup needed:</strong> the RSVP endpoint isn&rsquo;t
+              configured yet. Add <code className="rounded bg-paper px-1">VITE_RSVP_ENDPOINT</code> (see{" "}
+              <code className="rounded bg-paper px-1">apps-script/README.md</code>). Submissions will
+              fail until then.
             </div>
           )}
 
