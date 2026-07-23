@@ -78,8 +78,8 @@ const FUTURE_EVENTS: EventItem[] = [
       "Nerf battles",
       "Nintendo Switch games (Mario Kart, Mario vs. Rabbids, Super Smash Bros, and more)",
     ],
-    color: "border-teal",
-    accent: "text-teal",
+    color: "border-gold",
+    accent: "text-gold",
     partner: true,
   },
   {
@@ -169,7 +169,7 @@ function EventCard({
                   </span>
                 )}
                 {item.partner && (
-                  <span className="shrink-0 rounded-full bg-teal px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                  <span className="shrink-0 rounded-full bg-gold px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
                     Partner Event
                   </span>
                 )}
