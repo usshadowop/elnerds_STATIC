@@ -109,6 +109,12 @@ export function Hero() {
             <span className="size-2 rounded-full bg-magenta" aria-hidden />
             Game Day · Nov 14–15
           </a>
+          <a
+            href={`${import.meta.env.BASE_URL}rsvp`}
+            className="inline-flex items-center rounded-full bg-teal px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
+          >
+            RSVP
+          </a>
         </div>
 
         <h1 className="mb-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-6xl md:text-7xl lg:text-8xl">

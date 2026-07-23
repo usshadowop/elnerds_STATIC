@@ -127,29 +127,31 @@ function EventCard({
     <div
       className={`group relative rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${item.color} ${item.past ? "bg-ink/[0.03] opacity-60" : "bg-paper"}`}
     >
-      {/* Upper-right corner: RSVP button (events with a page) + expand indicator */}
-      <div className="absolute right-4 top-4 z-10 flex flex-col items-end gap-2 sm:right-5 sm:top-5">
-        {item.rsvpSlug && (
-          <a
-            href={`${import.meta.env.BASE_URL}rsvp/${item.rsvpSlug}`}
-            className="inline-flex items-center rounded-full bg-teal px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
-          >
-            RSVP
-          </a>
-        )}
-        <span
-          className={`pointer-events-none rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 ${
-            isOpen ? "bg-ink/10 text-ink-soft" : "bg-teal-soft text-teal"
-          }`}
+      {/* Top-left corner: RSVP button (events with a page) */}
+      {item.rsvpSlug && (
+        <a
+          href={`${import.meta.env.BASE_URL}rsvp/${item.rsvpSlug}`}
+          className="absolute left-4 top-4 z-10 inline-flex items-center rounded-full bg-teal px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright sm:left-5 sm:top-5"
         >
-          {isOpen ? "Close" : "Details"}
-        </span>
-      </div>
+          RSVP
+        </a>
+      )}
+
+      {/* Top-right corner: expand indicator */}
+      <span
+        className={`pointer-events-none absolute right-4 top-4 z-10 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 sm:right-5 sm:top-5 ${
+          isOpen ? "bg-ink/10 text-ink-soft" : "bg-teal-soft text-teal"
+        }`}
+      >
+        {isOpen ? "Close" : "Details"}
+      </span>
 
       <button
         type="button"
         onClick={() => toggle(index)}
-        className="w-full cursor-pointer p-6 pr-28 text-left sm:pr-44"
+        className={`w-full cursor-pointer p-6 text-left ${
+          item.rsvpSlug ? "pt-16 sm:pt-16" : "pr-24 sm:pr-32"
+        }`}
         aria-expanded={isOpen}
       >
         <div className="grid gap-4 md:grid-cols-12 md:items-center md:gap-6">

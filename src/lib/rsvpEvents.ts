@@ -54,18 +54,27 @@ const ATTENDING: RsvpField = {
   ],
 };
 
-const GUESTS: RsvpField = {
-  id: "guests",
-  label: "Additional guests",
+const ADULT_GUESTS: RsvpField = {
+  id: "adult_guests",
+  label: "Additional adult guests",
   type: "number",
   half: true,
   min: 0,
   max: 20,
 };
 
-const MESSAGE: RsvpField = {
-  id: "message",
-  label: "Anything else?",
+const MINOR_GUESTS: RsvpField = {
+  id: "minor_guests",
+  label: "Additional guests under 18",
+  type: "number",
+  half: true,
+  min: 0,
+  max: 20,
+};
+
+const NOTES: RsvpField = {
+  id: "notes",
+  label: "Any questions or notes for the team?",
   type: "textarea",
   optionalHint: true,
 };
@@ -86,20 +95,7 @@ export const RSVP_EVENTS: Record<string, RsvpEvent> = {
       location: "Truplayerz Sports Training & Upper Deck Lounge",
       description: "Extra Life Bingo with the Extra Life Nerds. Details: https://elnerds.com/#schedule",
     },
-    fields: [
-      ATTENDING,
-      GUESTS,
-      {
-        id: "bundles",
-        label: "Bingo bundles to reserve",
-        type: "number",
-        half: true,
-        min: 0,
-        max: 20,
-        placeholder: "10-game bundle, $20 each",
-      },
-      MESSAGE,
-    ],
+    fields: [ATTENDING, ADULT_GUESTS, MINOR_GUESTS, NOTES],
   },
 
   // NOTE: The "15-Hours of Board Gaming" partner event intentionally has no
@@ -122,26 +118,33 @@ export const RSVP_EVENTS: Record<string, RsvpEvent> = {
     },
     fields: [
       ATTENDING,
-      GUESTS,
+      ADULT_GUESTS,
+      MINOR_GUESTS,
       {
-        id: "join_mode",
-        label: "How will you join?",
+        id: "rig",
+        label: "Bringing a gaming PC or console?",
         type: "select",
         half: true,
         options: [
-          { value: "in_person", label: "In person" },
-          { value: "livestream", label: "Watch the livestream" },
+          { value: "none", label: "Neither" },
+          { value: "pc", label: "PC" },
+          { value: "console", label: "Console" },
           { value: "both", label: "Both" },
         ],
       },
       {
-        id: "hours",
-        label: "Which hours do you plan to play?",
-        type: "text",
-        optionalHint: true,
-        placeholder: "e.g. 8am – noon on Saturday",
+        id: "duration",
+        label: "How long do you think you'll attend?",
+        type: "select",
+        half: true,
+        options: [
+          { value: "an_hour", label: "An hour" },
+          { value: "a_few_hours", label: "A few hours" },
+          { value: "entire_day", label: "The entire day" },
+          { value: "full_24", label: "The Full 24!" },
+        ],
       },
-      MESSAGE,
+      NOTES,
     ],
   },
 };

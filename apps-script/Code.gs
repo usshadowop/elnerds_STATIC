@@ -119,7 +119,8 @@ function doPost(e) {
       return "";
     };
     const attending = findVal("attending"); // "yes" | "maybe" | "no" | ""
-    const guests = parseInt(findVal("guests"), 10) || 0;
+    const guests =
+      (parseInt(findVal("adult_guests"), 10) || 0) + (parseInt(findVal("minor_guests"), 10) || 0);
 
     const token = Utilities.getUuid();
 
