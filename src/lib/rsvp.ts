@@ -1,8 +1,9 @@
 // RSVP submission client.
 //
-// The RSVP form POSTs to a Google Apps Script Web App, which appends the
-// submission to a Google Sheet in Drive and sends confirmation + notification
-// emails (with Add-to-Calendar and Cancel links). See apps-script/README.md.
+// Each per-event RSVP page POSTs to a Google Apps Script Web App, which
+// appends the submission to a per-event tab in a Google Sheet and sends
+// confirmation + notification emails (with Add-to-Calendar and Cancel links).
+// See apps-script/README.md.
 //
 // The endpoint URL is public by design — it only accepts well-formed RSVP
 // inserts and can't be used to read anyone's data.
@@ -11,29 +12,30 @@ const RSVP_ENDPOINT = import.meta.env.VITE_RSVP_ENDPOINT as string | undefined;
 
 export const isRsvpConfigured = Boolean(RSVP_ENDPOINT);
 
-export type RsvpInput = {
+export type RsvpAnswer = { id: string; label: string; value: string };
+
+export type RsvpSubmission = {
+  slug: string;
+  title: string;
   name: string;
   email: string;
-  event: string;
-  attending: "yes" | "no" | "maybe";
-  guests: number;
-  message?: string;
+  fields: RsvpAnswer[];
 };
 
-export async function submitRsvp(rsvp: RsvpInput): Promise<void> {
+export async function submitRsvp(submission: RsvpSubmission): Promise<void> {
   if (!RSVP_ENDPOINT) {
     throw new Error(
       "RSVP endpoint is not configured. Set VITE_RSVP_ENDPOINT (see apps-script/README.md).",
     );
   }
 
-  // Apps Script Web Apps don't return CORS headers for JSON content-type
-  // preflights, so we send as text/plain (a "simple" request the browser
-  // won't preflight) and parse JSON on the server side.
+  // Apps Script Web Apps don't answer CORS preflights for JSON, so we send as
+  // text/plain (a "simple" request the browser won't preflight) and parse the
+  // JSON body server-side.
   const res = await fetch(RSVP_ENDPOINT, {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(rsvp),
+    body: JSON.stringify(submission),
     redirect: "follow",
   });
 

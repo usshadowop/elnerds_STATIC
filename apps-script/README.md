@@ -89,9 +89,13 @@ Clicking **Cancel** flips that row's `Status` to `Cancelled` and emails the capt
 
 ## Editing later
 
+- Each event has its own RSVP page and fields, defined in
+  [`../src/lib/rsvpEvents.ts`](../src/lib/rsvpEvents.ts). Submissions land in a
+  per-event tab of the "elnerds RSVPs" sheet, with columns matching that event's
+  fields.
 - **Event dates / locations** for the calendar buttons live in the `EVENTS`
-  object at the top of `Code.gs`. The keys must exactly match the event titles
-  in [`../src/components/site/Schedule.tsx`](../src/components/site/Schedule.tsx).
+  object at the top of `Code.gs`, keyed by **slug** (e.g. `bingo`, `marathon`) —
+  these must match the slugs in `rsvpEvents.ts`.
 - After changing `Code.gs`: **Deploy → Manage deployments → ✏️ edit → Version:
   New version → Deploy.** This keeps the **same URL**, so you don't need to touch
   the GitHub secret again. (Creating a brand-new deployment instead gives a new

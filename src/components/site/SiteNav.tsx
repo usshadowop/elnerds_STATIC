@@ -72,6 +72,12 @@ export function SiteNav() {
 
         <div className="hidden items-center gap-3 md:flex">
           <a
+            href={`${HOME}#schedule`}
+            className="rounded-full bg-magenta px-5 py-2 text-sm font-extrabold text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
+          >
+            RSVP
+          </a>
+          <a
             href="https://www.extra-life.org/team/73600"
             className="rounded-full bg-orange px-5 py-2 text-sm font-extrabold text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
           >
@@ -143,6 +149,13 @@ export function SiteNav() {
                 </a>
               ),
             )}
+            <a
+              href={`${HOME}#schedule`}
+              onClick={() => setOpen(false)}
+              className="mt-2 rounded-full bg-magenta px-4 py-3 text-center text-sm font-extrabold text-white"
+            >
+              RSVP for an Event
+            </a>
             <div className="mt-2 grid grid-cols-2 gap-3">
               <a
                 href="https://www.extra-life.org/team/73600"

@@ -21,6 +21,8 @@ interface EventItem {
   main?: boolean;
   partner?: boolean;
   past?: boolean;
+  /** Slug of this event's RSVP page (/rsvp/<slug>). Omit for events with no RSVP. */
+  rsvpSlug?: string;
   subEvents?: SubEvent[];
 }
 
@@ -57,6 +59,7 @@ const FUTURE_EVENTS: EventItem[] = [
     ],
     color: "border-purple",
     accent: "text-purple",
+    rsvpSlug: "bingo",
   },
   {
     time: "Nov 7 · 9:00 AM – 11:59 PM",
@@ -88,6 +91,7 @@ const FUTURE_EVENTS: EventItem[] = [
     color: "border-magenta",
     accent: "text-magenta",
     main: true,
+    rsvpSlug: "marathon",
     subEvents: [
       {
         time: "Nov 14 · 8:00 AM – 5:00 PM",
@@ -123,10 +127,29 @@ function EventCard({
     <div
       className={`group relative rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${item.color} ${item.past ? "bg-ink/[0.03] opacity-60" : "bg-paper"}`}
     >
+      {/* Upper-right corner: RSVP button (events with a page) + expand indicator */}
+      <div className="absolute right-4 top-4 z-10 flex flex-col items-end gap-2 sm:right-5 sm:top-5">
+        {item.rsvpSlug && (
+          <a
+            href={`${import.meta.env.BASE_URL}rsvp/${item.rsvpSlug}`}
+            className="inline-flex items-center rounded-full bg-teal px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
+          >
+            RSVP
+          </a>
+        )}
+        <span
+          className={`pointer-events-none rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 ${
+            isOpen ? "bg-ink/10 text-ink-soft" : "bg-teal-soft text-teal"
+          }`}
+        >
+          {isOpen ? "Close" : "Details"}
+        </span>
+      </div>
+
       <button
         type="button"
         onClick={() => toggle(index)}
-        className="w-full cursor-pointer p-6 text-left"
+        className="w-full cursor-pointer p-6 pr-28 text-left sm:pr-44"
         aria-expanded={isOpen}
       >
         <div className="grid gap-4 md:grid-cols-12 md:items-center md:gap-6">
@@ -154,33 +177,12 @@ function EventCard({
               </div>
             )}
           </div>
-          <div className="md:col-span-7">
+          <div className="md:col-span-8">
             <h3 className="mb-1 font-display text-xl font-extrabold text-ink">{item.title}</h3>
             <p className="text-sm text-ink-soft sm:text-base">{item.blurb}</p>
           </div>
-          <div className="md:col-span-1 md:flex md:justify-end">
-            <span className={`rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 ${
-              isOpen
-                ? "bg-ink/10 text-ink-soft"
-                : "bg-teal-soft text-teal"
-            }`}>
-              {isOpen ? "Close" : "Details"}
-            </span>
-          </div>
         </div>
       </button>
-
-      {/* RSVP call-to-action (future events only) */}
-      {!item.past && (
-        <div className="px-6 pb-5 -mt-1">
-          <a
-            href={`${import.meta.env.BASE_URL}rsvp?event=${encodeURIComponent(item.title)}`}
-            className="inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white transition-all hover:bg-teal-bright"
-          >
-            RSVP for this event
-          </a>
-        </div>
-      )}
 
       {/* Expandable details */}
       <div

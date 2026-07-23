@@ -1,26 +1,25 @@
 /**
  * elnerds.com RSVP backend — Google Apps Script
  *
- * What this does:
- *   - Receives RSVP submissions (POST) from the form at elnerds.com/rsvp
- *   - Appends each RSVP to a Google Sheet ("elnerds RSVPs") in this
- *     account's Drive (auto-created on first submission)
- *   - Emails the registrant a confirmation with Add-to-Calendar and
- *     Cancel buttons
+ * Each event on the site has its own RSVP page (/rsvp/<slug>) with its own set
+ * of fields. This Web App:
+ *   - Receives an RSVP (POST) as JSON: { slug, title, name, email, fields:[{id,label,value}] }
+ *   - Appends it to a per-event tab in a Google Sheet ("elnerds RSVPs") in this
+ *     account's Drive (tabs + columns are created automatically)
+ *   - Emails the registrant a confirmation with Add-to-Calendar + Cancel buttons
  *   - Emails the captain account a notification
- *   - Handles cancel links (GET ?action=cancel&token=...) by marking the
- *     row "Cancelled" and notifying the captain
+ *   - Handles cancel links (GET ?action=cancel&token=...): marks the row
+ *     "Cancelled" and notifies the captain
  *
  * Setup: see apps-script/README.md in the repo.
  */
 
 // ---------------------------------------------------------------------------
-// Config — edit these
+// Config
 // ---------------------------------------------------------------------------
 
-// Where "new RSVP" notifications go. Defaults to the account that owns this
-// script. Replace with a string like "captain@example.com" to override.
-const CAPTAIN_EMAIL = Session.getEffectiveUser().getEmail();
+// Where "new RSVP" / "cancelled" notifications go.
+const CAPTAIN_EMAIL = "captainextralifenerds@gmail.com";
 
 // Name shown as the email sender.
 const SENDER_NAME = "Extra Life Nerds";
@@ -28,23 +27,17 @@ const SENDER_NAME = "Extra Life Nerds";
 // Spreadsheet that stores RSVPs (created automatically on first submission).
 const SPREADSHEET_NAME = "elnerds RSVPs";
 
-// Event details used for the Add-to-Calendar button. Keys must exactly match
-// the event titles used on the site. Times are ISO 8601 with UTC offset
-// (Minnesota: -05:00 in summer/CDT, -06:00 in winter/CST).
+// Per-event details for the Add-to-Calendar button, keyed by slug. Keys must
+// match the slugs in src/lib/rsvpEvents.ts. Times are ISO 8601 with a UTC
+// offset (Minnesota: -05:00 CDT in summer, -06:00 CST in winter).
 const EVENTS = {
-  "Extra Life Bingo": {
+  bingo: {
     start: "2026-08-08T15:00:00-05:00",
     end: "2026-08-08T18:00:00-05:00",
     location: "Truplayerz Sports Training & Upper Deck Lounge",
-    description: "Extra Life Bingo with the Extra Life Nerds leadership. Details: https://elnerds.com/#schedule",
+    description: "Extra Life Bingo with the Extra Life Nerds. Details: https://elnerds.com/#schedule",
   },
-  "15-Hours of Board Gaming": {
-    start: "2026-11-07T09:00:00-06:00",
-    end: "2026-11-07T23:59:00-06:00",
-    location: "St Paul Masonic Center, 200 E Plato Blvd, St Paul, MN 55107",
-    description: "15 hours of marathon board gaming with our partner team. Details: https://elnerds.com/#schedule",
-  },
-  "24-Hour Marathon": {
+  marathon: {
     start: "2026-11-14T08:00:00-06:00",
     end: "2026-11-15T08:00:00-06:00",
     location: "",
@@ -53,70 +46,98 @@ const EVENTS = {
 };
 
 // ---------------------------------------------------------------------------
-// Sheet columns
+// Spreadsheet helpers
 // ---------------------------------------------------------------------------
 
-const HEADERS = ["Timestamp", "Name", "Email", "Event", "Attending", "Guests", "Message", "Status", "Token"];
-const COL = { TIMESTAMP: 1, NAME: 2, EMAIL: 3, EVENT: 4, ATTENDING: 5, GUESTS: 6, MESSAGE: 7, STATUS: 8, TOKEN: 9 };
-
-function getSheet_() {
+function getSpreadsheet_() {
   const props = PropertiesService.getScriptProperties();
   let id = props.getProperty("SPREADSHEET_ID");
-  let ss;
   if (id) {
     try {
-      ss = SpreadsheetApp.openById(id);
+      return SpreadsheetApp.openById(id);
     } catch (e) {
-      id = null; // was deleted — recreate below
+      // was deleted — fall through and recreate
     }
   }
-  if (!id) {
-    ss = SpreadsheetApp.create(SPREADSHEET_NAME);
-    props.setProperty("SPREADSHEET_ID", ss.getId());
+  const ss = SpreadsheetApp.create(SPREADSHEET_NAME);
+  props.setProperty("SPREADSHEET_ID", ss.getId());
+  // Drop the default empty "Sheet1" once real event tabs exist (handled lazily).
+  return ss;
+}
+
+// Returns the tab for an event, creating it (with headers) if needed.
+// Headers: Timestamp, Name, Email, <field labels...>, Status, Token
+function getEventSheet_(ss, title, fieldLabels) {
+  const tabName = title.slice(0, 90) || "RSVPs";
+  let sheet = ss.getSheetByName(tabName);
+  if (!sheet) {
+    // Reuse the blank default sheet if it's still empty & unnamed-ish.
+    const first = ss.getSheets()[0];
+    if (ss.getSheets().length === 1 && first.getLastRow() === 0) {
+      sheet = first.setName(tabName);
+    } else {
+      sheet = ss.insertSheet(tabName);
+    }
   }
-  const sheet = ss.getSheets()[0];
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow(HEADERS);
+    const headers = ["Timestamp", "Name", "Email"].concat(fieldLabels).concat(["Status", "Token"]);
+    sheet.appendRow(headers);
     sheet.setFrozenRows(1);
   }
   return sheet;
 }
 
 // ---------------------------------------------------------------------------
-// POST — new RSVP from the site
+// POST — new RSVP
 // ---------------------------------------------------------------------------
 
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
 
-    // Validate + sanitize (the site validates too; never trust the client)
+    const slug = String(data.slug || "").trim().slice(0, 60);
+    const title = String(data.title || "").trim().slice(0, 120);
     const name = String(data.name || "").trim().slice(0, 200);
     const email = String(data.email || "").trim().slice(0, 200);
-    const eventName = String(data.event || "").trim().slice(0, 200);
-    const attending = String(data.attending || "").trim();
-    const guests = Math.max(0, Math.min(20, parseInt(data.guests, 10) || 0));
-    const message = String(data.message || "").trim().slice(0, 1000);
+    const fields = Array.isArray(data.fields) ? data.fields : [];
 
-    if (!name || !eventName || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!name || !title || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return json_({ ok: false, error: "Invalid submission." });
     }
-    if (["yes", "no", "maybe"].indexOf(attending) === -1) {
-      return json_({ ok: false, error: "Invalid submission." });
-    }
+
+    // Normalize field entries to {label, value, id}
+    const clean = fields.slice(0, 40).map(function (f) {
+      return {
+        id: String(f.id || "").slice(0, 60),
+        label: String(f.label || "").slice(0, 120),
+        value: String(f.value == null ? "" : f.value).slice(0, 1000),
+      };
+    });
+
+    const findVal = function (id) {
+      for (let i = 0; i < clean.length; i++) if (clean[i].id === id) return clean[i].value;
+      return "";
+    };
+    const attending = findVal("attending"); // "yes" | "maybe" | "no" | ""
+    const guests = parseInt(findVal("guests"), 10) || 0;
 
     const token = Utilities.getUuid();
 
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
     try {
-      getSheet_().appendRow([new Date(), name, email, eventName, attending, guests, message, "Confirmed", token]);
+      const ss = getSpreadsheet_();
+      const sheet = getEventSheet_(ss, title, clean.map(function (f) { return f.label; }));
+      const row = [new Date(), name, email]
+        .concat(clean.map(function (f) { return f.value; }))
+        .concat(["Confirmed", token]);
+      sheet.appendRow(row);
     } finally {
       lock.releaseLock();
     }
 
-    sendConfirmationEmail_(name, email, eventName, attending, guests, token);
-    sendCaptainEmail_(name, email, eventName, attending, guests, message);
+    sendConfirmationEmail_(name, email, title, slug, attending, guests, token);
+    sendCaptainEmail_(name, email, title, clean);
 
     return json_({ ok: true });
   } catch (err) {
@@ -130,40 +151,57 @@ function doPost(e) {
 
 function doGet(e) {
   const action = e && e.parameter ? e.parameter.action : null;
-
   if (action === "cancel" && e.parameter.token) {
     return handleCancel_(String(e.parameter.token));
   }
-
-  return HtmlService.createHtmlOutput(page_("Extra Life Nerds RSVP", "This is the RSVP service for <a href=\"https://elnerds.com\">elnerds.com</a>. Nothing to see here!"));
+  return HtmlService.createHtmlOutput(
+    page_("Extra Life Nerds RSVP", 'This is the RSVP service for <a href="https://elnerds.com">elnerds.com</a>. Nothing to see here!'),
+  );
 }
 
 function handleCancel_(token) {
-  const sheet = getSheet_();
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
-    const rows = sheet.getDataRange().getValues();
-    for (let i = 1; i < rows.length; i++) {
-      if (String(rows[i][COL.TOKEN - 1]) === token) {
-        if (rows[i][COL.STATUS - 1] === "Cancelled") {
-          return HtmlService.createHtmlOutput(page_("Already cancelled", "This RSVP was already cancelled. Changed your mind? Just <a href=\"https://elnerds.com/rsvp\">RSVP again</a>."));
+    const ss = getSpreadsheet_();
+    const sheets = ss.getSheets();
+    for (let s = 0; s < sheets.length; s++) {
+      const sheet = sheets[s];
+      const values = sheet.getDataRange().getValues();
+      if (values.length < 2) continue;
+      const header = values[0];
+      const tokenCol = header.indexOf("Token");
+      const statusCol = header.indexOf("Status");
+      const nameCol = header.indexOf("Name");
+      const emailCol = header.indexOf("Email");
+      if (tokenCol === -1 || statusCol === -1) continue;
+
+      for (let i = 1; i < values.length; i++) {
+        if (String(values[i][tokenCol]) === token) {
+          if (values[i][statusCol] === "Cancelled") {
+            return HtmlService.createHtmlOutput(
+              page_("Already cancelled", 'This RSVP was already cancelled. Changed your mind? Just <a href="https://elnerds.com">RSVP again</a>.'),
+            );
+          }
+          sheet.getRange(i + 1, statusCol + 1).setValue("Cancelled");
+          const eventName = sheet.getName();
+          const name = nameCol > -1 ? values[i][nameCol] : "";
+          const email = emailCol > -1 ? values[i][emailCol] : "";
+          MailApp.sendEmail({
+            to: CAPTAIN_EMAIL,
+            subject: "RSVP cancelled: " + name + " — " + eventName,
+            htmlBody: "<p><strong>" + esc_(name) + "</strong> (" + esc_(email) + ") cancelled their RSVP for <strong>" + esc_(eventName) + "</strong>.</p>",
+            name: SENDER_NAME,
+          });
+          return HtmlService.createHtmlOutput(
+            page_("RSVP cancelled", "Your RSVP for <strong>" + esc_(eventName) + "</strong> has been cancelled. Sorry you can't make it! Changed your mind? <a href=\"https://elnerds.com\">RSVP again</a> any time."),
+          );
         }
-        sheet.getRange(i + 1, COL.STATUS).setValue("Cancelled");
-
-        const name = rows[i][COL.NAME - 1];
-        const eventName = rows[i][COL.EVENT - 1];
-        MailApp.sendEmail({
-          to: CAPTAIN_EMAIL,
-          subject: "RSVP cancelled: " + name + " — " + eventName,
-          htmlBody: "<p><strong>" + esc_(name) + "</strong> (" + esc_(rows[i][COL.EMAIL - 1]) + ") cancelled their RSVP for <strong>" + esc_(eventName) + "</strong>.</p>",
-          name: SENDER_NAME,
-        });
-
-        return HtmlService.createHtmlOutput(page_("RSVP cancelled", "Your RSVP for <strong>" + esc_(eventName) + "</strong> has been cancelled. Sorry you can't make it! Changed your mind? <a href=\"https://elnerds.com/rsvp\">RSVP again</a> any time."));
       }
     }
-    return HtmlService.createHtmlOutput(page_("Not found", "We couldn't find that RSVP — it may have already been removed. Questions? Email <a href=\"mailto:info@elnerds.com\">info@elnerds.com</a>."));
+    return HtmlService.createHtmlOutput(
+      page_("Not found", 'We couldn\'t find that RSVP — it may have already been removed. Questions? Email <a href="mailto:info@elnerds.com">info@elnerds.com</a>.'),
+    );
   } finally {
     lock.releaseLock();
   }
@@ -173,33 +211,34 @@ function handleCancel_(token) {
 // Emails
 // ---------------------------------------------------------------------------
 
-function sendConfirmationEmail_(name, email, eventName, attending, guests, token) {
+function sendConfirmationEmail_(name, email, title, slug, attending, guests, token) {
   const cancelUrl = ScriptApp.getService().getUrl() + "?action=cancel&token=" + encodeURIComponent(token);
-  const ev = EVENTS[eventName];
+  const ev = EVENTS[slug];
 
-  const attendLine = {
-    yes: "You're confirmed for",
-    maybe: "You're pencilled in (maybe) for",
-    no: "We've noted you can't make it to",
-  }[attending];
+  const attendLine =
+    attending === "no"
+      ? "We've noted you can't make it to"
+      : attending === "maybe"
+      ? "You're pencilled in (maybe) for"
+      : "You're confirmed for";
 
   let calendarHtml = "";
   const attachments = [];
   if (ev && attending !== "no") {
-    const gcalUrl = googleCalendarUrl_(eventName, ev);
+    const gcalUrl = googleCalendarUrl_(title, ev);
     calendarHtml =
       '<p style="margin:24px 0;text-align:center;">' +
       '<a href="' + gcalUrl + '" style="background:#0d9488;color:#ffffff;text-decoration:none;font-weight:bold;padding:12px 28px;border-radius:999px;display:inline-block;">📅 Add to Calendar</a>' +
       "</p>" +
       '<p style="font-size:12px;color:#666;text-align:center;">Not a Google Calendar user? Open the attached <em>event.ics</em> file instead.</p>';
-    attachments.push(Utilities.newBlob(buildIcs_(eventName, ev), "text/calendar", "event.ics"));
+    attachments.push(Utilities.newBlob(buildIcs_(title, ev), "text/calendar", "event.ics"));
   }
 
   const htmlBody =
     '<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#1a1a1a;">' +
     '<h2 style="color:#0d9488;">You\'re on the list! 🎉</h2>' +
     "<p>Hi " + esc_(name) + ",</p>" +
-    "<p>" + attendLine + " <strong>" + esc_(eventName) + "</strong>" +
+    "<p>" + attendLine + " <strong>" + esc_(title) + "</strong>" +
     (guests > 0 ? " with <strong>" + guests + "</strong> additional guest" + (guests > 1 ? "s" : "") : "") +
     ".</p>" +
     (ev && ev.location ? "<p><strong>Where:</strong> " + esc_(ev.location) + "</p>" : "") +
@@ -214,30 +253,30 @@ function sendConfirmationEmail_(name, email, eventName, attending, guests, token
 
   MailApp.sendEmail({
     to: email,
-    subject: "RSVP confirmed: " + eventName,
+    subject: "RSVP confirmed: " + title,
     htmlBody: htmlBody,
-    body: "Hi " + name + ", " + attendLine.toLowerCase() + " " + eventName + ". Cancel: " + cancelUrl,
+    body: "Hi " + name + ", " + attendLine.toLowerCase() + " " + title + ". Cancel: " + cancelUrl,
     name: SENDER_NAME,
     attachments: attachments,
   });
 }
 
-function sendCaptainEmail_(name, email, eventName, attending, guests, message) {
+function sendCaptainEmail_(name, email, title, fields) {
+  let rows =
+    "<tr><td><strong>Name</strong></td><td>" + esc_(name) + "</td></tr>" +
+    "<tr><td><strong>Email</strong></td><td>" + esc_(email) + "</td></tr>";
+  for (let i = 0; i < fields.length; i++) {
+    if (fields[i].value === "") continue;
+    rows += "<tr><td><strong>" + esc_(fields[i].label) + "</strong></td><td>" + esc_(fields[i].value) + "</td></tr>";
+  }
   MailApp.sendEmail({
     to: CAPTAIN_EMAIL,
-    subject: "New RSVP: " + name + " — " + eventName + " (" + attending + ")",
+    subject: "New RSVP: " + name + " — " + title,
     htmlBody:
       '<div style="font-family:Arial,Helvetica,sans-serif;">' +
-      "<p><strong>New RSVP received</strong></p>" +
-      "<table cellpadding=\"4\">" +
-      "<tr><td><strong>Name</strong></td><td>" + esc_(name) + "</td></tr>" +
-      "<tr><td><strong>Email</strong></td><td>" + esc_(email) + "</td></tr>" +
-      "<tr><td><strong>Event</strong></td><td>" + esc_(eventName) + "</td></tr>" +
-      "<tr><td><strong>Attending</strong></td><td>" + esc_(attending) + "</td></tr>" +
-      "<tr><td><strong>Guests</strong></td><td>" + guests + "</td></tr>" +
-      (message ? "<tr><td><strong>Message</strong></td><td>" + esc_(message) + "</td></tr>" : "") +
-      "</table>" +
-      "<p>Full list: open \"" + SPREADSHEET_NAME + "\" in Google Drive.</p>" +
+      "<p><strong>New RSVP received for " + esc_(title) + "</strong></p>" +
+      '<table cellpadding="4">' + rows + "</table>" +
+      '<p>Full list: open "' + SPREADSHEET_NAME + '" in Google Drive (tab: ' + esc_(title) + ").</p>" +
       "</div>",
     name: SENDER_NAME,
   });
@@ -293,7 +332,7 @@ function esc_(s) {
 
 function page_(title, bodyHtml) {
   return (
-    "<!DOCTYPE html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>" + esc_(title) + "</title></head>" +
+    '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + esc_(title) + "</title></head>" +
     '<body style="font-family:Arial,Helvetica,sans-serif;background:#faf7f2;margin:0;padding:40px 16px;">' +
     '<div style="max-width:480px;margin:0 auto;background:#ffffff;border-radius:16px;padding:32px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.08);">' +
     '<h1 style="color:#0d9488;font-size:24px;margin:0 0 12px;">' + title + "</h1>" +
@@ -307,7 +346,7 @@ function page_(title, bodyHtml) {
  * prompt and create the spreadsheet before going live.
  */
 function setup() {
-  const sheet = getSheet_();
-  Logger.log("Spreadsheet ready: " + sheet.getParent().getUrl());
+  const ss = getSpreadsheet_();
+  Logger.log("Spreadsheet ready: " + ss.getUrl());
   Logger.log("Notifications will go to: " + CAPTAIN_EMAIL);
 }

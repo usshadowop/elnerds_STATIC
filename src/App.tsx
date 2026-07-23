@@ -15,6 +15,7 @@ export default function App() {
   if (path === "patient-profiles") page = <PatientProfiles />;
   if (path === "registration") page = <Registration />;
   if (path === "rsvp") page = <Rsvp />;
+  if (path.startsWith("rsvp/")) page = <Rsvp slug={path.slice("rsvp/".length)} />;
 
   return (
     <div className="min-h-screen bg-cream font-body text-ink">
