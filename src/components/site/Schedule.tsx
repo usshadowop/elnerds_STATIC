@@ -230,11 +230,11 @@ function EventCard({
               {item.subEvents.map((sub) => (
                 <div
                   key={sub.title}
-                  className={`rounded-xl border-l-4 bg-cream p-4 ${sub.color}`}
+                  className="rounded-xl bg-gold-soft p-4"
                 >
                   <div className="grid gap-2 sm:grid-cols-12 sm:items-center sm:gap-4">
                     <div className="sm:col-span-4">
-                      <p className={`font-display text-sm font-extrabold ${sub.accent}`}>
+                      <p className="font-display text-sm font-extrabold text-ink">
                         {sub.time}
                       </p>
                     </div>
