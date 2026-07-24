@@ -186,11 +186,21 @@ function RsvpForm({ event }: { event: RsvpEvent }) {
               <span className="inline-flex items-center gap-1.5">
                 <CalendarDays className={`size-4 ${event.accentText}`} /> {event.dateLabel}
               </span>
-              {event.location && (
-                <span className="inline-flex items-center gap-1.5 text-center">
-                  <MapPin className={`size-4 ${event.accentText}`} /> {event.location}
-                </span>
-              )}
+              {event.location &&
+                (event.mapUrl ? (
+                  <a
+                    href={event.mapUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 text-center underline decoration-transparent underline-offset-2 transition-colors hover:decoration-current"
+                  >
+                    <MapPin className={`size-4 ${event.accentText}`} /> {event.location}
+                  </a>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 text-center">
+                    <MapPin className={`size-4 ${event.accentText}`} /> {event.location}
+                  </span>
+                ))}
             </div>
           </div>
 

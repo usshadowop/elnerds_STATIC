@@ -30,6 +30,8 @@ export interface RsvpEvent {
   title: string;
   dateLabel: string;
   location?: string;
+  /** Google Maps link for the location, if it has a physical venue. */
+  mapUrl?: string;
   /** Short line under the title. */
   tagline: string;
   /** Tailwind accent classes for this event's theming. */
@@ -85,6 +87,7 @@ export const RSVP_EVENTS: Record<string, RsvpEvent> = {
     title: "Extra Life Bingo",
     dateLabel: "Aug 8, 2026 · 3:00 – 6:00 PM",
     location: "Truplayerz Sports Training & Upper Deck Lounge",
+    mapUrl: "https://maps.app.goo.gl/6mRL4UogXJuDyCFA6",
     tagline: "A thrilling night of Bingo with the Extra Life leadership.",
     accentText: "text-purple",
     accentBg: "bg-purple",
@@ -106,6 +109,8 @@ export const RSVP_EVENTS: Record<string, RsvpEvent> = {
     slug: "marathon",
     title: "24-Hour Marathon",
     dateLabel: "Nov 14, 8 AM → Nov 15, 8 AM, 2026",
+    location: "Improving, 3033 Excelsior Blvd #180, Minneapolis, MN 55416",
+    mapUrl: "https://maps.app.goo.gl/7UL7ajaqfnXe5QqdA",
     tagline: "The main event — 24 straight hours of gaming for the kids.",
     accentText: "text-magenta",
     accentBg: "bg-magenta",
