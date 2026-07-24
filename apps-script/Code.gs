@@ -40,7 +40,7 @@ const EVENTS = {
   marathon: {
     start: "2026-11-14T08:00:00-06:00",
     end: "2026-11-15T08:00:00-06:00",
-    location: "",
+    location: "Improving, 3033 Excelsior Blvd #180, Minneapolis, MN 55416",
     description: "The Extra Life Nerds 24-hour gaming marathon main event. Details: https://elnerds.com/#schedule",
   },
 };
