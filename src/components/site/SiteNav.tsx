@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X, Instagram, Facebook } from "lucide-react";
+import { DiscordIcon } from "./DiscordIcon";
 import logoUrl from "@/assets/eln-logo.svg";
 
 const HOME = import.meta.env.BASE_URL;
@@ -101,6 +102,15 @@ export function SiteNav() {
           >
             <Facebook className="size-5" />
           </a>
+          <a
+            href="https://discord.gg/fg2FMBXwub"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Discord"
+            className="flex items-center text-ink/70 transition-colors hover:text-orange"
+          >
+            <DiscordIcon className="size-5" />
+          </a>
         </div>
 
         <button
@@ -175,6 +185,15 @@ export function SiteNav() {
                 className="text-ink/70 transition-colors hover:text-teal"
               >
                 <Facebook className="size-5" />
+              </a>
+              <a
+                href="https://discord.gg/fg2FMBXwub"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Discord"
+                className="text-ink/70 transition-colors hover:text-orange"
+              >
+                <DiscordIcon className="size-5" />
               </a>
             </div>
           </div>

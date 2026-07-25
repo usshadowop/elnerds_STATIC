@@ -26,12 +26,12 @@ export function Footer() {
             Facebook
           </a>
           <a
-            href="https://www.extra-life.org/team/73600"
+            href="https://discord.gg/fg2FMBXwub"
             target="_blank"
             rel="noreferrer"
             className="text-xs font-extrabold uppercase tracking-widest text-ink-soft transition-colors hover:text-orange"
           >
-            Donate
+            Discord
           </a>
         </div>
         <div className="flex flex-col gap-2">
