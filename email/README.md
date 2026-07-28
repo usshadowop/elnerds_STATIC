@@ -1,6 +1,8 @@
 # Extra Life Nerds — Announcement Email
 
-`elnerds-announcement.html` is a production-ready, brand-matched HTML email announcing:
+`elnerds-announcement.html` (general list) and `elnerds-announcement-vip.html`
+(VIP list — adds a personalized thank-you and a "VIP Supporter" badge) are
+production-ready, brand-matched HTML emails announcing:
 
 - The refreshed **ELNerds.com** website
 - **Game Day 2026: November 14–15**
@@ -44,7 +46,15 @@ Contact, Amazon SES, SendGrid). The footer contains merge-tag placeholders:
 - `{{update_profile}}` — preference-center link
 
 Replace these with your provider's merge tags (e.g. Mailchimp
-`*|UNSUB|*`, Brevo `{{ unsubscribe }}`) before sending.
+`*|UNSUB|*`, Brevo `{{ unsubscribe }}`) before sending. The greeting near
+the top of each template (`{{contact.FIRSTNAME,"there"}}`) uses Brevo's
+merge-tag-with-default syntax; swap it for your provider's equivalent if
+not using Brevo.
+
+**Using Brevo with two lists (VIP + General) sending as `info@elnerds.com`:**
+see [`BREVO_SETUP.md`](./BREVO_SETUP.md) for the full step-by-step —
+sender/domain verification, creating the two lists, and setting up both
+campaigns on Brevo's free plan.
 
 **Best practices:** send from an `@elnerds.com` address, configure SPF/DKIM/DMARC,
 and test rendering in Gmail, Outlook, Apple Mail, and mobile before a full send.
