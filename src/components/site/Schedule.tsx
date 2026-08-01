@@ -26,6 +26,9 @@ interface EventItem {
   past?: boolean;
   /** Slug of this event's RSVP page (/rsvp/<slug>). Omit for events with no RSVP. */
   rsvpSlug?: string;
+  /** Google Maps link for the Directions chip. Events with an rsvpSlug inherit
+   *  their RSVP page's mapUrl automatically; set this for events without one. */
+  mapUrl?: string;
   subEvents?: SubEvent[];
 }
 
@@ -83,6 +86,7 @@ const FUTURE_EVENTS: EventItem[] = [
     color: "border-gold",
     accent: "text-gold",
     partner: true,
+    mapUrl: "https://share.google/5VasGIcl5kZCWL476",
   },
   {
     time: "Nov 14 · 8 AM → Nov 15 · 8 AM",
@@ -126,21 +130,23 @@ function EventCard({
   toggle: (i: string) => void;
 }) {
   const isOpen = openIndex === index;
-  const mapUrl = item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.mapUrl : undefined;
+  const mapUrl = item.mapUrl ?? (item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.mapUrl : undefined);
   return (
     <div
       className={`group relative rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${item.color} ${item.past ? "bg-ink/[0.03] opacity-60" : "bg-paper"}`}
     >
-      {/* Top-left corner: RSVP + Directions buttons (events with a page) */}
-      {item.rsvpSlug && (
+      {/* Top-left corner: RSVP + Directions buttons */}
+      {(item.rsvpSlug || mapUrl) && (
         <div className="absolute left-4 top-4 z-10 flex flex-col items-start gap-2 sm:left-5 sm:top-5">
-          <a
-            href={`${import.meta.env.BASE_URL}rsvp/${item.rsvpSlug}`}
-            className="group/rsvp inline-flex items-center gap-1.5 rounded-full bg-teal px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
-          >
-            RSVP
-            <ArrowRight className="size-3.5 transition-transform group-hover/rsvp:translate-x-0.5" />
-          </a>
+          {item.rsvpSlug && (
+            <a
+              href={`${import.meta.env.BASE_URL}rsvp/${item.rsvpSlug}`}
+              className="group/rsvp inline-flex items-center gap-1.5 rounded-full bg-teal px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
+            >
+              RSVP
+              <ArrowRight className="size-3.5 transition-transform group-hover/rsvp:translate-x-0.5" />
+            </a>
+          )}
           {mapUrl && (
             <a
               href={mapUrl}
@@ -168,7 +174,7 @@ function EventCard({
         type="button"
         onClick={() => toggle(index)}
         className={`w-full cursor-pointer p-6 text-left ${
-          item.rsvpSlug ? "pt-28 sm:pt-28" : "pr-24 sm:pr-32"
+          item.rsvpSlug ? "pt-28 sm:pt-28" : mapUrl ? "pt-16 sm:pt-16" : "pr-24 sm:pr-32"
         }`}
         aria-expanded={isOpen}
       >
