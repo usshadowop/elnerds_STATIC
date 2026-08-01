@@ -187,8 +187,8 @@ function RsvpForm({ event }: { event: RsvpEvent }) {
                 <CalendarDays className={`size-4 ${event.accentText}`} /> {event.dateLabel}
               </span>
               {event.location && (
-                <span className="inline-flex items-center gap-1.5 text-center">
-                  <MapPin className={`size-4 ${event.accentText}`} /> {event.location}
+                <span className="inline-flex items-start gap-1.5 text-center">
+                  <MapPin className={`mt-0.5 size-4 shrink-0 ${event.accentText}`} /> {event.location}
                 </span>
               )}
               {event.mapUrl && (
