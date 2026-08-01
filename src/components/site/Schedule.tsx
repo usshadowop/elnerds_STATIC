@@ -86,7 +86,7 @@ const FUTURE_EVENTS: EventItem[] = [
     color: "border-gold",
     accent: "text-gold",
     partner: true,
-    mapUrl: "https://share.google/5VasGIcl5kZCWL476",
+    mapUrl: "https://maps.app.goo.gl/jC6B17yvGmaDjiBc7",
   },
   {
     time: "Nov 14 · 8 AM → Nov 15 · 8 AM",
