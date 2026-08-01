@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
+
+import { getRsvpEvent } from "@/lib/rsvpEvents";
 
 interface SubEvent {
   time: string;
@@ -124,19 +126,33 @@ function EventCard({
   toggle: (i: string) => void;
 }) {
   const isOpen = openIndex === index;
+  const mapUrl = item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.mapUrl : undefined;
   return (
     <div
       className={`group relative rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${item.color} ${item.past ? "bg-ink/[0.03] opacity-60" : "bg-paper"}`}
     >
-      {/* Top-left corner: RSVP button (events with a page) */}
+      {/* Top-left corner: RSVP + Directions buttons (events with a page) */}
       {item.rsvpSlug && (
-        <a
-          href={`${import.meta.env.BASE_URL}rsvp/${item.rsvpSlug}`}
-          className="group/rsvp absolute left-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full bg-teal px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright sm:left-5 sm:top-5"
-        >
-          RSVP &amp; Directions
-          <ArrowRight className="size-3.5 transition-transform group-hover/rsvp:translate-x-0.5" />
-        </a>
+        <div className="absolute left-4 top-4 z-10 flex flex-col items-start gap-2 sm:left-5 sm:top-5">
+          <a
+            href={`${import.meta.env.BASE_URL}rsvp/${item.rsvpSlug}`}
+            className="group/rsvp inline-flex items-center gap-1.5 rounded-full bg-teal px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
+          >
+            RSVP
+            <ArrowRight className="size-3.5 transition-transform group-hover/rsvp:translate-x-0.5" />
+          </a>
+          {mapUrl && (
+            <a
+              href={mapUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full border-2 border-teal bg-paper px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-teal shadow-[var(--shadow-soft)] transition-all hover:bg-teal-soft"
+            >
+              Directions
+              <ExternalLink className="size-3.5" />
+            </a>
+          )}
+        </div>
       )}
 
       {/* Top-right corner: expand indicator */}
@@ -152,7 +168,7 @@ function EventCard({
         type="button"
         onClick={() => toggle(index)}
         className={`w-full cursor-pointer p-6 text-left ${
-          item.rsvpSlug ? "pt-16 sm:pt-16" : "pr-24 sm:pr-32"
+          item.rsvpSlug ? "pt-28 sm:pt-28" : "pr-24 sm:pr-32"
         }`}
         aria-expanded={isOpen}
       >

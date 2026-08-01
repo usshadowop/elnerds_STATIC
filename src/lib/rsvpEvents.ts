@@ -86,7 +86,7 @@ export const RSVP_EVENTS: Record<string, RsvpEvent> = {
     slug: "bingo",
     title: "Extra Life Bingo",
     dateLabel: "Aug 8, 2026 · 3:00 – 6:00 PM",
-    location: "Truplayerz Sports Training & Upper Deck Lounge",
+    location: "Truplayerz, 15641 Canada Circle, Rosemount, MN 55068",
     mapUrl: "https://maps.app.goo.gl/6mRL4UogXJuDyCFA6",
     tagline: "A thrilling night of Bingo with the Extra Life leadership.",
     accentText: "text-purple",
@@ -95,7 +95,7 @@ export const RSVP_EVENTS: Record<string, RsvpEvent> = {
     calendar: {
       start: "2026-08-08T15:00:00-05:00",
       end: "2026-08-08T18:00:00-05:00",
-      location: "Truplayerz Sports Training & Upper Deck Lounge",
+      location: "Truplayerz, 15641 Canada Circle, Rosemount, MN 55068",
       description: "Extra Life Bingo with the Extra Life Nerds. Details: https://elnerds.com/#schedule",
     },
     fields: [ATTENDING, ADULT_GUESTS, MINOR_GUESTS, NOTES],
