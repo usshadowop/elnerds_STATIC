@@ -134,7 +134,7 @@ function EventCard({
           href={`${import.meta.env.BASE_URL}rsvp/${item.rsvpSlug}`}
           className="group/rsvp absolute left-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full bg-teal px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright sm:left-5 sm:top-5"
         >
-          RSVP
+          RSVP &amp; Directions
           <ArrowRight className="size-3.5 transition-transform group-hover/rsvp:translate-x-0.5" />
         </a>
       )}

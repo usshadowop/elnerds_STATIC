@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Check, Loader2, PartyPopper, CalendarDays, MapPin, ArrowLeft } from "lucide-react";
+import { Check, Loader2, PartyPopper, CalendarDays, MapPin, ArrowLeft, ExternalLink } from "lucide-react";
 
 import { submitRsvp, isRsvpConfigured } from "@/lib/rsvp";
 import { RSVP_EVENT_LIST, getRsvpEvent, type RsvpEvent, type RsvpField } from "@/lib/rsvpEvents";
@@ -186,21 +186,21 @@ function RsvpForm({ event }: { event: RsvpEvent }) {
               <span className="inline-flex items-center gap-1.5">
                 <CalendarDays className={`size-4 ${event.accentText}`} /> {event.dateLabel}
               </span>
-              {event.location &&
-                (event.mapUrl ? (
-                  <a
-                    href={event.mapUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-center underline decoration-transparent underline-offset-2 transition-colors hover:decoration-current"
-                  >
-                    <MapPin className={`size-4 ${event.accentText}`} /> {event.location}
-                  </a>
-                ) : (
-                  <span className="inline-flex items-center gap-1.5 text-center">
-                    <MapPin className={`size-4 ${event.accentText}`} /> {event.location}
-                  </span>
-                ))}
+              {event.location && (
+                <span className="inline-flex items-center gap-1.5 text-center">
+                  <MapPin className={`size-4 ${event.accentText}`} /> {event.location}
+                </span>
+              )}
+              {event.mapUrl && (
+                <a
+                  href={event.mapUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`inline-flex items-center gap-1.5 font-bold underline decoration-transparent underline-offset-2 transition-colors hover:decoration-current ${event.accentText}`}
+                >
+                  <ExternalLink className="size-4" /> View on Google Maps
+                </a>
+              )}
             </div>
           </div>
 
