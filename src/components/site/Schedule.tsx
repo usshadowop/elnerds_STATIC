@@ -86,7 +86,8 @@ const FUTURE_EVENTS: EventItem[] = [
     color: "border-gold",
     accent: "text-gold",
     partner: true,
-    mapUrl: "https://maps.app.goo.gl/jC6B17yvGmaDjiBc7",
+    mapUrl:
+      "https://www.google.com/maps/dir/?api=1&destination=St.+Paul+Masonic+Center,+200+E+Plato+Blvd,+St+Paul,+MN+55107",
   },
   {
     time: "Nov 14 · 8 AM → Nov 15 · 8 AM",
