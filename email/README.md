@@ -70,7 +70,7 @@ and carry its merge tags:
 
 - `{{ unsubscribe }}` — footer unsubscribe link
 - `{{ mirror }}` — "View it in your browser" link at the top
-- `{{ contact.FIRSTNAME|default:"there" }}` — greeting, falls back to "there" when blank
+- `{{ contact.FULL_NAME|default:"there" }}` — greeting, falls back to "there" when blank
 
 On another provider (Mailchimp, MailerLite, SES, SendGrid), swap these for
 that provider's equivalents — e.g. Mailchimp `*|UNSUB|*`, `*|ARCHIVE|*`,
