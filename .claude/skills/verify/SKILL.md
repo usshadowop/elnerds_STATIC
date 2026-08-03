@@ -24,8 +24,15 @@ Static Vite + React SPA. No tests; verification = drive the page in a browser.
 - Routes are client-side (`src/lib/router.tsx`); deep links like `/rsvp` work
   directly against the dev server.
 - Playwright: `npm i playwright-core` in the scratchpad (not the repo), launch
-  with `executablePath: "/opt/pw-browsers/chromium"`. Don't run
+  with `executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"`.
+  The directory is version-suffixed — `/opt/pw-browsers/chromium` does not
+  exist; `ls /opt/pw-browsers` if the build number has moved. Don't run
   `playwright install`.
+- The sandbox Chromium can't reach the public internet (navigating to
+  https://elnerds.com fails `ERR_CONNECTION_RESET`; it doesn't use the agent
+  proxy). To drive the deployed build, serve it locally instead —
+  `npx serve -s dist -l 4173` — after confirming with `curl` that the live
+  bytes match `dist/`.
 
 ## RSVP form (`/rsvp`)
 
