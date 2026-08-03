@@ -38,7 +38,12 @@ teal-outline secondary CTA, matching the site nav/hero.
 
 - Table-based layout, 600px max width, all critical CSS inlined.
 - **Outlook**: VML `roundrect` bulletproof buttons + MSO conditional wrapper.
-- **Dark mode**: `prefers-color-scheme` + `[data-ogsc]` (Outlook.com) overrides.
+- **Light theme only**: `color-scheme: light only` plus `light` color-scheme
+  meta tags; no `prefers-color-scheme` or `[data-ogsc]` dark variants. Every
+  colour is set inline, so clients that respect `color-scheme` (Apple Mail,
+  iOS Mail) keep the light design on dark-mode devices. Gmail's mobile apps
+  and Outlook.com apply their own forced inversion that no email HTML can
+  fully opt out of — the design degrades gracefully there.
 - Responsive `@media` breakpoint at 620px (full-width buttons, scaled headings).
 - No JavaScript, no external CSS. Only external dependency is the Nunito web
   font (with a safe system fallback); it degrades gracefully where blocked.
@@ -65,7 +70,7 @@ and carry its merge tags:
 
 - `{{ unsubscribe }}` — footer unsubscribe link
 - `{{ mirror }}` — "View it in your browser" link at the top
-- `{{contact.FIRSTNAME,"there"}}` — greeting, falls back to "there" when blank
+- `{{ contact.FIRSTNAME|default:"there" }}` — greeting, falls back to "there" when blank
 
 On another provider (Mailchimp, MailerLite, SES, SendGrid), swap these for
 that provider's equivalents — e.g. Mailchimp `*|UNSUB|*`, `*|ARCHIVE|*`,

@@ -34,7 +34,7 @@ single day. If it's bigger, see **Daily limit** at the bottom.
 
 Import contacts into each (**Import contacts** → CSV/Excel, or paste). At
 minimum you need an `EMAIL` column; add `FIRSTNAME` if you have it — the
-templates use it for the "Hi {{contact.FIRSTNAME}}" greeting (falls back
+templates use it for the "Hi {{ contact.FIRSTNAME }}" greeting (falls back
 to "there" if blank, see below). Map columns to Brevo's default attributes
 during import (`EMAIL`, `FIRSTNAME`) rather than creating new ones, so the
 merge tags in the templates work without edits.
@@ -67,17 +67,17 @@ Repeat for each list:
    - `{{ unsubscribe }}` in the footer (Brevo swaps in the real
      one-click unsubscribe URL)
    - `{{ mirror }}` in the "View it in your browser" line at the top
-   - `{{contact.FIRSTNAME,"there"}}` in the greeting
+   - `{{ contact.FIRSTNAME|default:"there" }}` in the greeting
 8. **Send a test** to yourself first (button near the top) and check it in
    Gmail + your phone before sending for real.
 9. **Send now** or schedule.
 
 ## 4. Personalization notes
 
-Both templates use Brevo's merge-tag-with-default syntax:
+Both templates use Brevo Template Language (Pongo2/Django-style filters):
 
 ```
-{{contact.FIRSTNAME,"there"}}
+{{ contact.FIRSTNAME|default:"there" }}
 ```
 
 This renders the contact's first name, or "there" if it's blank — so
