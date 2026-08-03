@@ -49,7 +49,7 @@ Repeat for each list:
 
 1. **Campaigns → Email → Create an email campaign.**
 2. Name it internally, e.g. `2026 Relaunch — VIP` / `2026 Relaunch — General`.
-3. **Subject**: e.g. `New site, new venue, Game Day 2026 — save the date`
+3. **Subject**: e.g. `Bingo Aug 8, a new venue, and Game Day 2026`
    (VIP version can lead with something like `A quick heads-up for our VIP
    crew`).
 4. **From**: `Extra Life Nerds` / `info@elnerds.com` (now selectable since
@@ -62,12 +62,12 @@ Repeat for each list:
    `General Mailing List`). If a contact is on both lists and you don't
    want VIPs to also get the general send, exclude the VIP list under
    "Recipients → Exclude" on the General campaign.
-7. Brevo automatically injects an unsubscribe link/header even without a
-   `{{ unsubscribe }}` tag in the HTML, but it's good practice — both
-   templates already have `{{unsubscribe}}` and `{{update_profile}}`
-   placeholders in the footer. Brevo doesn't have a built-in
-   `update_profile` tag, so either delete that link or point it at a
-   [Brevo subscription form](https://www.brevo.com/) URL if you set one up.
+7. Both templates already carry the Brevo tags they need — nothing to
+   hand-edit before pasting:
+   - `{{ unsubscribe }}` in the footer (Brevo swaps in the real
+     one-click unsubscribe URL)
+   - `{{ mirror }}` in the "View it in your browser" line at the top
+   - `{{contact.FIRSTNAME,"there"}}` in the greeting
 8. **Send a test** to yourself first (button near the top) and check it in
    Gmail + your phone before sending for real.
 9. **Send now** or schedule.

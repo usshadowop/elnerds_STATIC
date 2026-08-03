@@ -4,9 +4,15 @@
 (VIP list — adds a personalized thank-you and a "VIP Supporter" badge) are
 production-ready, brand-matched HTML emails announcing:
 
-- The refreshed **ELNerds.com** website
-- **Game Day 2026: November 14–15**
+- **Game Day 2026: November 14–15** (with an RSVP chip → `/rsvp/marathon`)
 - The new venue — **Improving, 3033 Excelsior Blvd #180, Minneapolis, MN 55416**
+- **Extra Life Bingo, Aug 8** at Truplayerz — pricing, an RSVP chip
+  (`/rsvp/bingo`), and a "Directions to Truplayerz" chip
+- The refreshed **ELNerds.com** website
+
+Event details mirror [`src/lib/rsvpEvents.ts`](../src/lib/rsvpEvents.ts) and
+[`src/components/site/Schedule.tsx`](../src/components/site/Schedule.tsx) —
+update those and this email together.
 
 ## Branding
 
@@ -37,19 +43,33 @@ teal-outline secondary CTA, matching the site nav/hero.
 - No JavaScript, no external CSS. Only external dependency is the Nunito web
   font (with a safe system fallback); it degrades gracefully where blocked.
 
+## Live preview
+
+`public/email/index.html` and `public/email/elnerds-announcement.html` are
+copies of the general template, published at
+[elnerds.com/email/](https://elnerds.com/email/). Re-copy them whenever the
+source template changes:
+
+```bash
+cp email/elnerds-announcement.html public/email/elnerds-announcement.html
+cp email/elnerds-announcement.html public/email/index.html
+```
+
+The preview shows the raw Brevo tags as literal text — that's expected;
+they only resolve when Brevo sends the campaign.
+
 ## Sending
 
-Paste the raw HTML into your ESP (Mailchimp, Brevo, MailerLite, Constant
-Contact, Amazon SES, SendGrid). The footer contains merge-tag placeholders:
+Paste the raw HTML into your ESP. Both templates are written for **Brevo**
+and carry its merge tags:
 
-- `{{unsubscribe}}` — unsubscribe link
-- `{{update_profile}}` — preference-center link
+- `{{ unsubscribe }}` — footer unsubscribe link
+- `{{ mirror }}` — "View it in your browser" link at the top
+- `{{contact.FIRSTNAME,"there"}}` — greeting, falls back to "there" when blank
 
-Replace these with your provider's merge tags (e.g. Mailchimp
-`*|UNSUB|*`, Brevo `{{ unsubscribe }}`) before sending. The greeting near
-the top of each template (`{{contact.FIRSTNAME,"there"}}`) uses Brevo's
-merge-tag-with-default syntax; swap it for your provider's equivalent if
-not using Brevo.
+On another provider (Mailchimp, MailerLite, SES, SendGrid), swap these for
+that provider's equivalents — e.g. Mailchimp `*|UNSUB|*`, `*|ARCHIVE|*`,
+`*|FNAME|*` — before sending.
 
 **Using Brevo with two lists (VIP + General) sending as `info@elnerds.com`:**
 see [`BREVO_SETUP.md`](./BREVO_SETUP.md) for the full step-by-step —
