@@ -44,7 +44,19 @@ for follow-up work (the remote branch is usually auto-deleted on merge).
 - `src/lib/rsvpEvents.ts` — per-event RSVP page config (slugs, fields,
   locations, `mapUrl` place links). The event cards in
   `src/components/site/Schedule.tsx` link here by slug and inherit
-  `mapUrl` for their Directions chips.
+  `mapUrl` for their Directions chips, plus `calendar.end` for the
+  Future/Past split below.
+- `src/components/site/Schedule.tsx` — one `EVENTS` array holds every
+  event, past and future. **The Future/Past split is automatic**: each
+  card carries an `endsAt` ISO timestamp *with a timezone offset* (CDT is
+  `-05:00`, CST is `-06:00`), and once that moment passes on the
+  visitor's clock the card moves to Past Events, greys out, gains a
+  "Completed" badge, and drops its RSVP chip — no code change or redeploy
+  needed. Events with an `rsvpSlug` inherit `endsAt` from their RSVP
+  page's `calendar.end`, so their date lives in `rsvpEvents.ts` only; set
+  `endsAt` explicitly on events with no RSVP page. An event with neither
+  never archives. Section year labels ("2026 Future Events") are derived
+  from the events in each section, not hardcoded.
 - `apps-script/Code.gs` — the Google Apps Script RSVP backend mirrors the
   slugs and field labels from `rsvpEvents.ts`; keep them in sync when
   events change (see `apps-script/README.md`).
