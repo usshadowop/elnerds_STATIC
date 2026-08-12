@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, Heart, Baby, Building2, X } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Heart, Baby, Building2, X } from "lucide-react";
 import heroImg from "@/assets/hero-marathon.jpg";
 import { useGameday } from "@/hooks/use-countdown";
 import { useNow } from "@/hooks/use-now";
@@ -217,6 +217,18 @@ export function Hero() {
               </div>
             )}
           </div>
+        )}
+
+        {/* Only while the marathon is actually running — the command center has
+            nothing to show on it the rest of the year. */}
+        {c.phase === "live" && (
+          <a
+            href={`${import.meta.env.BASE_URL}gameday`}
+            className="group mx-auto mb-10 flex w-full max-w-2xl items-center justify-center gap-3 rounded-2xl bg-magenta px-6 py-5 text-center text-sm font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-lift)] transition-all hover:brightness-110 sm:text-base"
+          >
+            Check out the Gameday Command Center!
+            <ArrowRight className="size-5 shrink-0 transition-transform group-hover:translate-x-1" />
+          </a>
         )}
 
         <div className="mb-12 flex flex-nowrap items-center justify-center gap-2.5 sm:gap-3">
