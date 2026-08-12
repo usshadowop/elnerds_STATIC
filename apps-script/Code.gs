@@ -46,6 +46,22 @@ const EVENTS = {
 };
 
 // ---------------------------------------------------------------------------
+// Event helpers
+// ---------------------------------------------------------------------------
+
+// True once an event's end time has passed. Mirrors the site, where the RSVP
+// page swaps its form for a "RSVPs are closed" notice at the same moment.
+// A slug that isn't in EVENTS above is treated as still open, so a brand-new
+// event on the site keeps working until this file catches up with it.
+function hasEnded_(slug) {
+  const ev = EVENTS[slug];
+  if (!ev || !ev.end) return false;
+  const end = new Date(ev.end).getTime();
+  if (isNaN(end)) return false;
+  return end < Date.now();
+}
+
+// ---------------------------------------------------------------------------
 // Spreadsheet helpers
 // ---------------------------------------------------------------------------
 
@@ -103,6 +119,15 @@ function doPost(e) {
 
     if (!name || !title || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return json_({ ok: false, error: "Invalid submission." });
+    }
+
+    // The site hides the form once an event's end time passes; this is the
+    // backstop for a stale tab or a POST straight at the endpoint.
+    if (hasEnded_(slug)) {
+      return json_({
+        ok: false,
+        error: "This event has already taken place — RSVPs are closed.",
+      });
     }
 
     // Normalize field entries to {label, value, id}

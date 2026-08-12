@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
-import { getRsvpEvent } from "@/lib/rsvpEvents";
+import { getRsvpEvent, rsvpEndsAtMs } from "@/lib/rsvpEvents";
 
 interface SubEvent {
   time: string;
@@ -131,10 +131,12 @@ const EVENTS: EventItem[] = [
  *  an under-configured event stays visible under Future rather than vanishing
  *  into Past. */
 function endsAtMs(item: EventItem): number {
-  const iso = item.endsAt ?? (item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.calendar.end : undefined);
-  if (!iso) return Number.POSITIVE_INFINITY;
-  const ms = Date.parse(iso);
-  return Number.isNaN(ms) ? Number.POSITIVE_INFINITY : ms;
+  if (item.endsAt) {
+    const ms = Date.parse(item.endsAt);
+    return Number.isNaN(ms) ? Number.POSITIVE_INFINITY : ms;
+  }
+  const rsvpEvent = item.rsvpSlug ? getRsvpEvent(item.rsvpSlug) : undefined;
+  return rsvpEvent ? rsvpEndsAtMs(rsvpEvent) : Number.POSITIVE_INFINITY;
 }
 
 /** Partition the events into upcoming and finished, based on the visitor's

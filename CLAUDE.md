@@ -60,6 +60,14 @@ for follow-up work (the remote branch is usually auto-deleted on merge).
 - `apps-script/Code.gs` — the Google Apps Script RSVP backend mirrors the
   slugs and field labels from `rsvpEvents.ts`; keep them in sync when
   events change (see `apps-script/README.md`).
+- **RSVPs close on their own when an event ends** (`calendar.end` in
+  `rsvpEvents.ts`, via `hasEventEnded()`): the schedule card drops its
+  RSVP chip, `/rsvp/<slug>` swaps the form for an "RSVPs are closed"
+  notice, `/rsvp` moves the event to an "Already happened" group, and
+  `doPost` in `Code.gs` rejects the submission. The backend half only
+  applies after `Code.gs` is redeployed by hand (**Deploy → Manage
+  deployments → ✏️ → New version**) — a repo edit alone changes nothing
+  live.
 - Location lines follow the format "VenueName, street, city, ST zip"
   (e.g. "Improving, 3033 Excelsior Blvd #180, Minneapolis, MN 55416").
 - `email/elnerds-announcement.html` — the announcement email. Edit only

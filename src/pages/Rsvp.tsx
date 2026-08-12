@@ -1,13 +1,31 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Check, Loader2, PartyPopper, CalendarDays, MapPin, ArrowLeft, ExternalLink } from "lucide-react";
+import { Check, Loader2, PartyPopper, CalendarDays, MapPin, ArrowLeft, ExternalLink, CalendarX } from "lucide-react";
 
 import { submitRsvp, isRsvpConfigured } from "@/lib/rsvp";
-import { RSVP_EVENT_LIST, getRsvpEvent, type RsvpEvent, type RsvpField } from "@/lib/rsvpEvents";
+import {
+  RSVP_EVENT_LIST,
+  getRsvpEvent,
+  hasEventEnded,
+  rsvpEndsAtMs,
+  type RsvpEvent,
+  type RsvpField,
+} from "@/lib/rsvpEvents";
 
 const HOME = import.meta.env.BASE_URL;
+
+/** Ticking "now", so a page left open across an event's end time closes its
+ *  form on its own instead of waiting for a reload. */
+function useNow(intervalMs = 60_000): number {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), intervalMs);
+    return () => clearInterval(id);
+  }, [intervalMs]);
+  return now;
+}
 
 const fieldClass =
   "w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm text-ink shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/30 sm:text-base";
@@ -90,6 +108,16 @@ function Field({ field, register, error }: { field: RsvpField; register: ReturnT
 
 // Landing shown at bare /rsvp or for an unknown slug: pick an event.
 function RsvpChooser() {
+  const now = useNow();
+
+  const { open, closed } = useMemo(() => {
+    const sorted = [...RSVP_EVENT_LIST].sort((a, b) => rsvpEndsAtMs(a) - rsvpEndsAtMs(b));
+    return {
+      open: sorted.filter((ev) => !hasEventEnded(ev, now)),
+      closed: sorted.filter((ev) => hasEventEnded(ev, now)).reverse(),
+    };
+  }, [now]);
+
   return (
     <main>
       <section className="bg-cream px-4 pt-28 pb-20 sm:px-6 sm:pt-32 sm:pb-24">
@@ -100,20 +128,47 @@ function RsvpChooser() {
           <h1 className="font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl md:text-5xl">
             RSVP to an event
           </h1>
-          <p className="mt-3 text-sm text-ink-soft sm:text-base">Pick the event you&rsquo;d like to RSVP for.</p>
-          <div className="mt-10 grid gap-4">
-            {RSVP_EVENT_LIST.map((ev) => (
-              <a
-                key={ev.slug}
-                href={`${HOME}rsvp/${ev.slug}`}
-                className="group rounded-2xl border border-line bg-paper p-6 text-left shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5"
-              >
-                <p className={`font-display text-sm font-extrabold ${ev.accentText}`}>{ev.dateLabel}</p>
-                <h2 className="mt-1 font-display text-xl font-extrabold text-ink">{ev.title}</h2>
-                <p className="mt-1 text-sm text-ink-soft">{ev.tagline}</p>
-              </a>
-            ))}
-          </div>
+          <p className="mt-3 text-sm text-ink-soft sm:text-base">
+            {open.length > 0
+              ? "Pick the event you’d like to RSVP for."
+              : "No events are open for RSVP right now — we’re planning the next one."}
+          </p>
+
+          {open.length > 0 && (
+            <div className="mt-10 grid gap-4">
+              {open.map((ev) => (
+                <a
+                  key={ev.slug}
+                  href={`${HOME}rsvp/${ev.slug}`}
+                  className="group rounded-2xl border border-line bg-paper p-6 text-left shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5"
+                >
+                  <p className={`font-display text-sm font-extrabold ${ev.accentText}`}>{ev.dateLabel}</p>
+                  <h2 className="mt-1 font-display text-xl font-extrabold text-ink">{ev.title}</h2>
+                  <p className="mt-1 text-sm text-ink-soft">{ev.tagline}</p>
+                </a>
+              ))}
+            </div>
+          )}
+
+          {closed.length > 0 && (
+            <div className="mt-10 grid gap-4">
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-ink-soft">
+                Already happened
+              </p>
+              {closed.map((ev) => (
+                <div
+                  key={ev.slug}
+                  className="rounded-2xl border border-line bg-ink/[0.03] p-6 text-left opacity-60"
+                >
+                  <p className="font-display text-sm font-extrabold text-ink-soft">{ev.dateLabel}</p>
+                  <h2 className="mt-1 font-display text-xl font-extrabold text-ink">{ev.title}</h2>
+                  <p className="mt-2 inline-block rounded-full bg-ink-soft/20 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-ink-soft">
+                    RSVPs closed
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </main>
@@ -130,6 +185,8 @@ export function Rsvp({ slug }: { slug?: string }) {
 function RsvpForm({ event }: { event: RsvpEvent }) {
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const now = useNow();
+  const ended = hasEventEnded(event, now);
 
   const schema = useMemo(() => buildSchema(event), [event]);
   const defaults = useMemo(() => defaultsFor(event), [event]);
@@ -146,6 +203,12 @@ function RsvpForm({ event }: { event: RsvpEvent }) {
 
   async function onSubmit(values: Record<string, unknown>) {
     setServerError(null);
+    // Backstop for the moment between render and submit: if the event ended
+    // while the form was on screen, don't send. The backend refuses these too.
+    if (hasEventEnded(event)) {
+      setServerError("This event has already taken place — RSVPs are closed.");
+      return;
+    }
     try {
       const parsed = schema.parse(values) as Record<string, string | number>;
       await submitRsvp({
@@ -204,7 +267,7 @@ function RsvpForm({ event }: { event: RsvpEvent }) {
             </div>
           </div>
 
-          {!isRsvpConfigured && (
+          {!isRsvpConfigured && !ended && (
             <div className="mb-8 rounded-2xl border border-orange bg-orange-soft px-5 py-4 text-sm text-ink">
               <strong className="font-extrabold">Setup needed:</strong> the RSVP endpoint isn&rsquo;t
               configured yet. Add <code className="rounded bg-paper px-1">VITE_RSVP_ENDPOINT</code> (see{" "}
@@ -223,13 +286,33 @@ function RsvpForm({ event }: { event: RsvpEvent }) {
                 Thanks for the RSVP to <strong>{event.title}</strong>. Check your email for a
                 confirmation with an add-to-calendar link.
               </p>
-              <button
-                type="button"
-                onClick={() => setSubmitted(false)}
+              {!ended && (
+                <button
+                  type="button"
+                  onClick={() => setSubmitted(false)}
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-extrabold uppercase tracking-wider text-white transition-all hover:bg-teal-bright"
+                >
+                  Submit another
+                </button>
+              )}
+            </div>
+          ) : ended ? (
+            // The event is over — no form at all, so nothing can be submitted.
+            <div className="flex flex-col items-center rounded-3xl border border-line bg-paper p-10 text-center shadow-[var(--shadow-soft)]">
+              <span className="flex size-14 items-center justify-center rounded-full bg-ink/10 text-ink-soft">
+                <CalendarX className="size-7" />
+              </span>
+              <h2 className="mt-5 font-display text-2xl font-extrabold text-ink">RSVPs are closed</h2>
+              <p className="mt-2 text-sm text-ink-soft sm:text-base">
+                <strong>{event.title}</strong> has already taken place, so we&rsquo;re no longer
+                taking RSVPs for it. Thanks to everyone who came out!
+              </p>
+              <a
+                href={`${HOME}#schedule`}
                 className="mt-6 inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-extrabold uppercase tracking-wider text-white transition-all hover:bg-teal-bright"
               >
-                Submit another
-              </button>
+                See upcoming events
+              </a>
             </div>
           ) : (
             <form
