@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Heart, Baby, Building2, X } from "lucide-react";
 import heroImg from "@/assets/hero-marathon.jpg";
 import { useCountdown } from "@/hooks/use-countdown";
+import { useNow } from "@/hooks/use-now";
+import { EVENTS, splitByDate } from "@/lib/scheduleEvents";
 import { StyledButton } from "@/components/site/StyledButton";
 
 // Game Day 2026 kickoff: Nov 14, 2026 8:00 AM Central Time (US) = 14:00 UTC
@@ -67,6 +69,13 @@ const GILLETTE_VIDEO_ID = "f2grSvl9KgM";
 
 export function Hero() {
   const c = useCountdown(GAME_DAY_ISO);
+  const now = useNow();
+  // Only events that are still ahead of us get a chip — a finished event drops
+  // out of the hero on its own, the same way its schedule card archives itself.
+  const chips = useMemo(
+    () => splitByDate(EVENTS, now).future.filter((item) => item.chip),
+    [now],
+  );
   const [slide, setSlide] = useState(0);
   const [heartsOn, setHeartsOn] = useState(false);
   const [gilletteVideoOpen, setGilletteVideoOpen] = useState(false);
@@ -87,29 +96,20 @@ export function Hero() {
       />
 
       <div className="mx-auto max-w-6xl text-center">
-        <div className="mb-6 flex flex-wrap items-center justify-center gap-2">
-          <a
-            href="#schedule"
-            className="inline-flex items-center gap-2 rounded-full border border-purple/20 bg-white px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-purple transition-all hover:bg-purple/5 hover:shadow-[var(--shadow-soft)]"
-          >
-            <span className="size-2 rounded-full bg-purple" aria-hidden />
-            Bingo Night · Aug 8
-          </a>
-          <a
-            href="#schedule"
-            className="inline-flex items-center gap-2 rounded-full border border-teal/20 bg-white px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-teal transition-all hover:bg-teal-soft hover:shadow-[var(--shadow-soft)]"
-          >
-            <span className="size-2 rounded-full bg-teal" aria-hidden />
-            Board Game Day · Nov 7
-          </a>
-          <a
-            href="#schedule"
-            className="inline-flex items-center gap-2 rounded-full border border-teal/20 bg-white px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-teal transition-all hover:bg-teal-soft hover:shadow-[var(--shadow-soft)]"
-          >
-            <span className="size-2 rounded-full bg-magenta" aria-hidden />
-            Game Day · Nov 14–15
-          </a>
-        </div>
+        {chips.length > 0 && (
+          <div className="mb-6 flex flex-wrap items-center justify-center gap-2">
+            {chips.map((item) => (
+              <a
+                key={item.title}
+                href="#schedule"
+                className={`inline-flex items-center gap-2 rounded-full border bg-white px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest transition-all hover:shadow-[var(--shadow-soft)] ${item.chip!.className}`}
+              >
+                <span className={`size-2 rounded-full ${item.chip!.dotClassName}`} aria-hidden />
+                {item.chip!.label}
+              </a>
+            ))}
+          </div>
+        )}
 
         <h1 className="mb-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-6xl md:text-7xl lg:text-8xl">
           Play Games.{" "}
