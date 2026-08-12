@@ -159,3 +159,19 @@ export const RSVP_EVENT_LIST: RsvpEvent[] = Object.values(RSVP_EVENTS);
 export function getRsvpEvent(slug: string): RsvpEvent | undefined {
   return RSVP_EVENTS[slug];
 }
+
+/** When an event finishes, in ms since epoch, from its `calendar.end`. Returns
+ *  Infinity if that value is missing or unparseable, so a config typo leaves
+ *  the event open rather than silently closing its RSVP page. */
+export function rsvpEndsAtMs(event: RsvpEvent): number {
+  const ms = Date.parse(event.calendar.end);
+  return Number.isNaN(ms) ? Number.POSITIVE_INFINITY : ms;
+}
+
+/** True once the event is over. RSVPs close at that moment: the page swaps the
+ *  form for a "closed" notice, the schedule card drops its RSVP chip, and the
+ *  Apps Script backend rejects late submissions (see apps-script/Code.gs —
+ *  that copy of the end dates has to be redeployed to take effect). */
+export function hasEventEnded(event: RsvpEvent, now: number = Date.now()): boolean {
+  return rsvpEndsAtMs(event) < now;
+}

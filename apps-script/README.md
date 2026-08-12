@@ -96,6 +96,13 @@ Clicking **Cancel** flips that row's `Status` to `Cancelled` and emails the capt
 - **Event dates / locations** for the calendar buttons live in the `EVENTS`
   object at the top of `Code.gs`, keyed by **slug** (e.g. `bingo`, `marathon`) —
   these must match the slugs in `rsvpEvents.ts`.
+- Those `end` times also **close RSVPs automatically**: once an event's end
+  passes, the site stops showing its form and `doPost` rejects submissions for
+  that slug with "This event has already taken place — RSVPs are closed." No
+  edit is needed when an event finishes — but the dates only take effect once
+  this file is redeployed (below), so a `Code.gs` still running an older version
+  will keep accepting late RSVPs even though the site has hidden the form. A
+  slug that isn't in `EVENTS` is treated as still open.
 - After changing `Code.gs`: **Deploy → Manage deployments → ✏️ edit → Version:
   New version → Deploy.** This keeps the **same URL**, so you don't need to touch
   the GitHub secret again. (Creating a brand-new deployment instead gives a new
