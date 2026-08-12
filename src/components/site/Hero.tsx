@@ -1,13 +1,18 @@
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Heart, Baby, Building2, X } from "lucide-react";
 import heroImg from "@/assets/hero-marathon.jpg";
-import { useCountdown } from "@/hooks/use-countdown";
+import { useGameday } from "@/hooks/use-countdown";
 import { useNow } from "@/hooks/use-now";
+import { useExtraLifeTeam } from "@/hooks/useExtraLifeTeam";
+import { getRsvpEvent } from "@/lib/rsvpEvents";
 import { EVENTS, splitByDate } from "@/lib/scheduleEvents";
 import { StyledButton } from "@/components/site/StyledButton";
 
-// Game Day 2026 kickoff: Nov 14, 2026 8:00 AM Central Time (US) = 14:00 UTC
-const GAME_DAY_ISO = "2026-11-14T14:00:00Z";
+// Game Day's bounds come from the marathon's RSVP entry, so the date is written
+// down once. The fallbacks only matter if that event is ever renamed away.
+const MARATHON = getRsvpEvent("marathon")?.calendar;
+const GAME_DAY_START = MARATHON?.start ?? "2026-11-14T08:00:00-06:00";
+const GAME_DAY_END = MARATHON?.end ?? "2026-11-15T08:00:00-06:00";
 
 // Carousel images — add more entries here to extend the carousel.
 const carouselSlides: { src: string; alt: string }[] = [
@@ -67,8 +72,54 @@ function FloatingHearts({ active }: { active: boolean }) {
 
 const GILLETTE_VIDEO_ID = "f2grSvl9KgM";
 
+/** Whole dollars unless the total has cents to show. */
+function money(amount: number): string {
+  const fractionDigits = Number.isInteger(amount) ? 0 : 2;
+  return amount.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  });
+}
+
+/**
+ * The card once Game Day is over: the team's total straight from the Extra Life
+ * team API — the same source as the roster further down the page.
+ *
+ * Rendered only in the "after" phase, so the fetch doesn't run the rest of the
+ * year. While it's in flight (or if it fails) the card says so rather than
+ * flashing "$0 Raised", which would read as a very bad year.
+ */
+function GrandTotalCard() {
+  const { team, isLoading } = useExtraLifeTeam();
+  const total = team?.sumDonations;
+
+  return (
+    <div className="mx-auto mb-10 max-w-2xl rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-soft)]">
+      <p className="mb-4 text-[10px] font-extrabold uppercase tracking-[0.25em] text-ink-soft">
+        {team?.eventName ?? "Extra Life"} — Final Total
+      </p>
+      {typeof total === "number" ? (
+        <>
+          <p className="font-display text-5xl font-extrabold tabular-nums text-teal sm:text-6xl md:text-7xl">
+            {money(total)}
+          </p>
+          <p className="mt-2 text-sm font-bold uppercase tracking-widest text-ink-soft">
+            Raised for Gillette Children&rsquo;s Hospital
+          </p>
+        </>
+      ) : (
+        <p className="py-3 font-display text-xl font-extrabold text-ink-soft sm:text-2xl">
+          {isLoading ? "Counting up the total…" : "Thank you for playing with us!"}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export function Hero() {
-  const c = useCountdown(GAME_DAY_ISO);
+  const c = useGameday(GAME_DAY_START, GAME_DAY_END);
   const now = useNow();
   // Only events that are still ahead of us get a chip — a finished event drops
   // out of the hero on its own, the same way its schedule card archives itself.
@@ -123,22 +174,50 @@ export function Hero() {
           Gillette Children&rsquo;s Hospital through 24 hours of nonstop play.
         </p>
 
-        {/* Countdown card */}
-        <div className="mx-auto mb-10 max-w-2xl rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-soft)]">
-          <p className="mb-4 text-[10px] font-extrabold uppercase tracking-[0.25em] text-ink-soft">
-            Countdown to Gameday
-          </p>
-          <div
-            role="timer"
-            aria-label="Countdown to Game Day 2026"
-            className="grid grid-cols-4 items-center gap-4 sm:gap-6"
-          >
-            <Unit value={c.days} label="Days" accent="text-teal" />
-            <Unit value={c.hours} label="Hours" accent="text-magenta" />
-            <Unit value={c.minutes} label="Mins" accent="text-purple" />
-            <Unit value={c.seconds} label="Secs" accent="text-orange" />
+        {/* Countdown card — counts down to Game Day, then counts down the 24
+            hours of Game Day itself, then reports what we raised. */}
+        {c.phase === "after" ? (
+          <GrandTotalCard />
+        ) : (
+          <div className="mx-auto mb-10 max-w-2xl rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-soft)]">
+            {c.phase === "live" ? (
+              <p className="mb-4 inline-flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.25em] text-magenta">
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-magenta opacity-75" />
+                  <span className="relative inline-flex size-2 rounded-full bg-magenta" />
+                </span>
+                Gameday is LIVE!
+              </p>
+            ) : (
+              <p className="mb-4 text-[10px] font-extrabold uppercase tracking-[0.25em] text-ink-soft">
+                Countdown to Gameday
+              </p>
+            )}
+
+            {c.phase === "live" ? (
+              <div
+                role="timer"
+                aria-label="Time remaining in the 24-hour marathon"
+                className="grid grid-cols-3 items-center gap-4 sm:gap-6"
+              >
+                <Unit value={c.totalHours} label="Hours Left" accent="text-magenta" />
+                <Unit value={c.minutes} label="Mins" accent="text-purple" />
+                <Unit value={c.seconds} label="Secs" accent="text-orange" />
+              </div>
+            ) : (
+              <div
+                role="timer"
+                aria-label="Countdown to Game Day"
+                className="grid grid-cols-4 items-center gap-4 sm:gap-6"
+              >
+                <Unit value={c.days} label="Days" accent="text-teal" />
+                <Unit value={c.hours} label="Hours" accent="text-magenta" />
+                <Unit value={c.minutes} label="Mins" accent="text-purple" />
+                <Unit value={c.seconds} label="Secs" accent="text-orange" />
+              </div>
+            )}
           </div>
-        </div>
+        )}
 
         <div className="mb-12 flex flex-nowrap items-center justify-center gap-2.5 sm:gap-3">
           <div
