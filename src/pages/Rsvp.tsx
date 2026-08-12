@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Check, Loader2, PartyPopper, CalendarDays, MapPin, ArrowLeft, ExternalLink, CalendarX } from "lucide-react";
 
+import { useNow } from "@/hooks/use-now";
 import { submitRsvp, isRsvpConfigured } from "@/lib/rsvp";
 import {
   RSVP_EVENT_LIST,
@@ -15,17 +16,6 @@ import {
 } from "@/lib/rsvpEvents";
 
 const HOME = import.meta.env.BASE_URL;
-
-/** Ticking "now", so a page left open across an event's end time closes its
- *  form on its own instead of waiting for a reload. */
-function useNow(intervalMs = 60_000): number {
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), intervalMs);
-    return () => clearInterval(id);
-  }, [intervalMs]);
-  return now;
-}
 
 const fieldClass =
   "w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm text-ink shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/30 sm:text-base";
