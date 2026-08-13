@@ -1,5 +1,6 @@
 import { SiteNav } from "@/components/site/SiteNav";
 import { Footer } from "@/components/site/Footer";
+import { CommandCenter } from "@/pages/CommandCenter";
 import { Home } from "@/pages/Home";
 import { GilletteChildrensHospital } from "@/pages/GilletteChildrensHospital";
 import { PatientProfiles } from "@/pages/PatientProfiles";
@@ -11,6 +12,7 @@ export default function App() {
   const path = usePath();
 
   let page = <Home />;
+  if (path === "gameday") page = <CommandCenter />;
   if (path === "gillette-childrens-hospital") page = <GilletteChildrensHospital />;
   if (path === "patient-profiles") page = <PatientProfiles />;
   if (path === "registration") page = <Registration />;
