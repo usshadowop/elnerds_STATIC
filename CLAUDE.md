@@ -67,6 +67,19 @@ for follow-up work (the remote branch is usually auto-deleted on merge).
 - `src/hooks/use-now.ts` — the shared ticking clock (default one minute)
   behind all of the above, so a page left open across an event's end
   updates without a reload.
+- `src/hooks/use-countdown.ts` (`useGameday`) — drives the hero card's
+  three states off the marathon's `calendar.start`/`calendar.end`:
+  counting down to kickoff, a "Gameday is LIVE!" 24-hour countdown plus
+  the Command Center button, then the team's Extra Life total as
+  "$X Raised". Nothing to switch by hand on the day.
+- `src/pages/CommandCenter.tsx` (`/gameday`) — the Command Center. Its
+  contents are **edited live in the RSVP spreadsheet's "Gameday *" tabs**,
+  served by `doGet(?action=gameday)` in `Code.gs` and re-read once a
+  minute, so the run of show can change mid-marathon without a deploy.
+  `src/lib/gamedayContent.ts` holds the shipped fallback copy, used
+  whenever that read fails — including before `Code.gs` is redeployed.
+  Editing the fallback in the repo does **not** change what the sheet
+  serves; during the event, edit the sheet.
 - `apps-script/Code.gs` — the Google Apps Script RSVP backend mirrors the
   slugs and field labels from `rsvpEvents.ts`; keep them in sync when
   events change (see `apps-script/README.md`).

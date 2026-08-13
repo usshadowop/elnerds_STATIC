@@ -1,14 +1,15 @@
 // Gameday Command Center — the one page to sit on during the 24-hour marathon:
 // where to watch, what's happening right now, and how to chip in.
 //
-// SKELETON. The structure and the live/before/after behavior are real; the
-// contents are placeholders. Filling this in is meant to be data-entry, not
-// layout work — every section below is driven by an array at the top of this
-// file, so adding a stream or a schedule row is one entry.
+// The contents — streams, run of show, milestones, banner — are edited in the
+// RSVP spreadsheet's "Gameday *" tabs and re-read every minute, so they can be
+// changed mid-marathon without a deploy. See src/lib/gamedayContent.ts; the
+// copy that ships with the site is the fallback when that read fails.
 
 import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink } from "lucide-react";
 
 import { useGameday } from "@/hooks/use-countdown";
+import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
 
 const MARATHON = getRsvpEvent("marathon")?.calendar;
@@ -18,32 +19,6 @@ const GAME_DAY_END = MARATHON?.end ?? "2026-11-15T08:00:00-06:00";
 const HOME = import.meta.env.BASE_URL;
 
 const DONATE_URL = "https://www.extra-life.org/team/73600";
-
-/** Stream tiles. Add an `embedUrl` (the platform's *embed* URL, not the page
- *  URL) to turn a slot into a real player; leave it off and the tile stays a
- *  labelled placeholder. Twitch embeds also need `&parent=elnerds.com`. */
-const STREAMS: { name: string; who: string; embedUrl?: string; pageUrl?: string }[] = [
-  { name: "Main Stage", who: "Team channel — the big one" },
-  { name: "Second Feed", who: "Roaming camera / co-streamer" },
-  { name: "Third Feed", who: "Spare slot" },
-];
-
-/** Run of show. Times are display strings — this table is a schedule people
- *  read, not something the site computes against. */
-const RUN_OF_SHOW: { time: string; title: string; detail: string }[] = [
-  { time: "8:00 AM", title: "Kickoff", detail: "Doors open, streams go live" },
-  { time: "10:00 AM", title: "TBD", detail: "Block to be filled in" },
-  { time: "12:00 PM", title: "TBD", detail: "Block to be filled in" },
-  { time: "5:00 PM", title: "Open house wraps", detail: "Family gaming session ends" },
-  { time: "8:00 AM (Sun)", title: "Finale & grand total", detail: "Cross the line together" },
-];
-
-/** Incentives, milestones, challenges — anything with a dollar hook. */
-const INCENTIVES: { amount: string; what: string }[] = [
-  { amount: "$—", what: "Milestone to be announced" },
-  { amount: "$—", what: "Milestone to be announced" },
-  { amount: "$—", what: "Milestone to be announced" },
-];
 
 const QUICK_LINKS: { label: string; href: string; external?: boolean }[] = [
   { label: "Donate to the team", href: DONATE_URL, external: true },
@@ -110,6 +85,10 @@ function StatusBanner({ phase }: { phase: "before" | "live" | "after" }) {
 
 export function CommandCenter() {
   const { phase } = useGameday(GAME_DAY_START, GAME_DAY_END);
+  // Streams, run of show, milestones and the banner all come from the sheet,
+  // re-read every minute so mid-marathon edits land without a reload.
+  const { content } = useGamedayContent();
+  const { streams, runOfShow, incentives, notice } = content;
 
   return (
     <main>
@@ -129,13 +108,21 @@ export function CommandCenter() {
             </p>
           </div>
 
+          {/* Whatever's typed into the Notice tab, if anything — the fastest
+              way to say "we've moved to Mario Kart" at 2am. */}
+          {notice && (
+            <div className="mb-6 rounded-2xl border-l-4 border-orange bg-orange-soft px-5 py-4">
+              <p className="text-sm font-bold text-ink sm:text-base">{notice}</p>
+            </div>
+          )}
+
           <StatusBanner phase={phase} />
 
           {/* Watch ---------------------------------------------------------- */}
           <div className="mb-16">
             <SectionHeading icon={Video} label="Watch" title="Live streams" />
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {STREAMS.map((stream) => (
+              {streams.map((stream) => (
                 <div
                   key={stream.name}
                   className="overflow-hidden rounded-2xl border border-line bg-paper shadow-[var(--shadow-soft)]"
@@ -175,7 +162,7 @@ export function CommandCenter() {
           <div className="mb-16">
             <SectionHeading icon={CalendarClock} label="What's on" title="Run of show" />
             <div className="overflow-hidden rounded-2xl border border-line bg-paper shadow-[var(--shadow-soft)]">
-              {RUN_OF_SHOW.map((row, i) => (
+              {runOfShow.map((row, i) => (
                 <div
                   key={`${row.time}-${row.title}`}
                   className={`grid gap-1 px-6 py-4 sm:grid-cols-12 sm:items-baseline sm:gap-4 ${
@@ -198,7 +185,7 @@ export function CommandCenter() {
           <div className="mb-16">
             <SectionHeading icon={Gift} label="Chip in" title="Goals & incentives" />
             <div className="grid gap-4 sm:grid-cols-3">
-              {INCENTIVES.map((row, i) => (
+              {incentives.map((row, i) => (
                 <div
                   key={i}
                   className="rounded-2xl border border-line bg-paper p-6 text-center shadow-[var(--shadow-soft)]"

@@ -62,6 +62,116 @@ function hasEnded_(slug) {
 }
 
 // ---------------------------------------------------------------------------
+// Gameday Command Center content
+// ---------------------------------------------------------------------------
+//
+// The /gameday page on the site reads these tabs, so the run of show, the
+// stream tiles, the milestones and the banner can all be changed mid-marathon
+// by typing in the sheet — no code change, no redeploy. The page re-reads every
+// minute while it's open.
+//
+// The tabs are created with headers and starter rows the first time the page
+// asks for them, so setup is "open the sheet and start typing". Rows whose
+// first cell is blank are skipped, so leaving gaps is safe.
+
+const GAMEDAY_SECTIONS = [
+  {
+    key: "streams",
+    tab: "Gameday Streams",
+    // Embed URL is the platform's *embed* address, not the channel page. Twitch
+    // also needs &parent=elnerds.com on it or the player refuses to load.
+    headers: ["Name", "Description", "Embed URL", "Channel URL"],
+    fields: ["name", "who", "embedUrl", "pageUrl"],
+    seed: [
+      ["Main Stage", "Team channel — the big one", "", ""],
+      ["Second Feed", "Roaming camera / co-streamer", "", ""],
+      ["Third Feed", "Spare slot", "", ""],
+    ],
+  },
+  {
+    key: "runOfShow",
+    tab: "Gameday Run of Show",
+    headers: ["Time", "Title", "Detail"],
+    fields: ["time", "title", "detail"],
+    seed: [
+      ["8:00 AM", "Kickoff", "Doors open, streams go live"],
+      ["10:00 AM", "TBD", "Block to be filled in"],
+      ["12:00 PM", "TBD", "Block to be filled in"],
+      ["5:00 PM", "Open house wraps", "Family gaming session ends"],
+      ["8:00 AM (Sun)", "Finale & grand total", "Cross the line together"],
+    ],
+  },
+  {
+    key: "incentives",
+    tab: "Gameday Incentives",
+    headers: ["Amount", "What"],
+    fields: ["amount", "what"],
+    seed: [
+      ["$—", "Milestone to be announced"],
+      ["$—", "Milestone to be announced"],
+      ["$—", "Milestone to be announced"],
+    ],
+  },
+];
+
+// One-line announcement across the top of the page. Cell A2 of this tab —
+// clear it to hide the banner.
+const GAMEDAY_NOTICE_TAB = "Gameday Notice";
+
+function getGamedaySheet_(ss, tab, headers, seed) {
+  let sheet = ss.getSheetByName(tab);
+  if (sheet) return sheet;
+
+  sheet = ss.insertSheet(tab);
+  sheet.appendRow(headers);
+  sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
+  sheet.setFrozenRows(1);
+  for (let i = 0; i < seed.length; i++) sheet.appendRow(seed[i]);
+  return sheet;
+}
+
+function getGamedayContent_() {
+  try {
+    const ss = getSpreadsheet_();
+    const out = { ok: true };
+
+    for (let s = 0; s < GAMEDAY_SECTIONS.length; s++) {
+      const section = GAMEDAY_SECTIONS[s];
+      const sheet = getGamedaySheet_(ss, section.tab, section.headers, section.seed);
+      const values = sheet.getDataRange().getValues();
+      const rows = [];
+
+      for (let r = 1; r < values.length; r++) {
+        const first = String(values[r][0] == null ? "" : values[r][0]).trim();
+        if (!first) continue; // blank row — skip, don't render an empty card
+
+        const row = {};
+        for (let f = 0; f < section.fields.length; f++) {
+          row[section.fields[f]] = String(values[r][f] == null ? "" : values[r][f]).trim();
+        }
+        rows.push(row);
+      }
+
+      out[section.key] = rows;
+    }
+
+    const noticeSheet = getGamedaySheet_(
+      ss,
+      GAMEDAY_NOTICE_TAB,
+      ["Banner message (clear this cell to hide the banner)"],
+      [[""]],
+    );
+    out.notice = String(noticeSheet.getRange(2, 1).getValue() || "").trim();
+
+    return out;
+  } catch (err) {
+    // The page falls back to the copy baked into the site, so a failure here
+    // costs freshness, not the page.
+    return { ok: false, error: "Server error: " + err.message };
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Spreadsheet helpers
 // ---------------------------------------------------------------------------
 
@@ -179,6 +289,9 @@ function doGet(e) {
   const action = e && e.parameter ? e.parameter.action : null;
   if (action === "cancel" && e.parameter.token) {
     return handleCancel_(String(e.parameter.token));
+  }
+  if (action === "gameday") {
+    return json_(getGamedayContent_());
   }
   return HtmlService.createHtmlOutput(
     page_("Extra Life Nerds RSVP", 'This is the RSVP service for <a href="https://elnerds.com">elnerds.com</a>. Nothing to see here!'),

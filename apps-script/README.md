@@ -108,6 +108,32 @@ Clicking **Cancel** flips that row's `Status` to `Cancelled` and emails the capt
   the GitHub secret again. (Creating a brand-new deployment instead gives a new
   URL — avoid that unless you mean to.)
 
+## Gameday Command Center content
+
+The `/gameday` page reads its contents from four tabs in the same
+"elnerds RSVPs" spreadsheet, so the run of show, streams, milestones and
+banner can all be changed **during** the marathon without a deploy. The page
+re-reads once a minute, so an edit shows up within about a minute on every
+open browser — no one has to refresh.
+
+The tabs are created with headers and starter rows the first time the page
+asks for them. Just open the sheet and type.
+
+| Tab | Columns | Notes |
+| --- | --- | --- |
+| `Gameday Streams` | Name, Description, Embed URL, Channel URL | Leave **Embed URL** blank and the tile stays an empty "stream slot". Fill it in and the tile becomes a live player — use the platform's *embed* URL, not the channel page, and append `&parent=elnerds.com` for Twitch or the player refuses to load. |
+| `Gameday Run of Show` | Time, Title, Detail | Times are display text ("2:00 AM"), not parsed. |
+| `Gameday Incentives` | Amount, What | |
+| `Gameday Notice` | one message in cell **A2** | Shows as a banner across the top. Clear the cell to hide it. |
+
+Rows whose first cell is empty are skipped, so gaps and half-typed rows are
+safe. If a whole tab is emptied, the page falls back to the copy that ships
+with the site rather than rendering an empty section.
+
+**This needs `Code.gs` redeployed** (see below) before it does anything — until
+then the endpoint doesn't answer `?action=gameday` and the page quietly shows
+its built-in copy.
+
 ## Limits & notes
 
 - Free Gmail sends to ~100 recipients/day. Each RSVP = 2 emails, so ~50
