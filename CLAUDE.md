@@ -22,6 +22,64 @@ kept in sync; CI still uses bun.
 The `.claude/skills/verify` skill documents how to run and drive the site
 end-to-end, including testing the RSVP form against a stub endpoint.
 
+## Session handoff
+
+**Read this section first; update it before you finish.** Everything else
+in this file is durable knowledge about the repo. These two blocks are
+*state* — what's in flight and what just happened — and they're the only
+things a fresh session can't work out by reading the code.
+
+### Open threads
+
+A running tally of work that is **not** finished, each with the date it
+started waiting. Only two kinds of entry belong here: something a human
+has to do outside the repo, and a decision that's genuinely open. Ideas,
+nice-to-haves and "someone should refactor this" do not — they belong in
+a feature card or an issue, or nowhere.
+
+| Since | Waiting on | What |
+| --- | --- | --- |
+| 2026-08-12 | **Owner (manual)** | **Redeploy `Code.gs`** from the Apps Script editor (Deploy → Manage deployments → ✏️ → New version; same URL). Two shipped features are dormant until this happens: RSVPs for finished events are still acceptable by direct POST, and `/gameday` can't read the sheet so it serves its built-in copy. Verify with `curl "$ENDPOINT?action=gameday"` — JSON means done, HTML means not. Checked 2026-09-18: still not done. |
+| 2026-08-12 | Owner (after redeploy) | Open `/gameday` once so the four `Gameday *` tabs are created in the RSVP sheet, then fill them in. |
+| 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
+| 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
+| 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. |
+
+Rules that keep this honest:
+
+- **Verify before you remove a line.** Check the live thing, don't assume
+  it got done — the `Code.gs` line above sat unnoticed for five weeks
+  because nothing ever re-checked it.
+- Keep the `Since` date from when the thread *opened*, not when you last
+  touched it. Staleness should be visible at a glance.
+- If a thread turns out to be permanent repo knowledge ("this always
+  needs a manual redeploy"), write it into the relevant section below
+  instead and drop it from here.
+
+### Last session
+
+Replace this each session — it describes the *previous* one only. `git
+log` is the changelog; this is orientation. Five bullets is plenty.
+
+*Session of 2026-08-12 → 09-18 (PRs #29, #30, #31):*
+
+- Made everything date-driven automatic: schedule cards move themselves
+  from Future to Past, RSVPs close, hero pills disappear. See the sources
+  of truth below.
+- Gave the hero countdown three states via `useGameday`, added
+  `/gameday` (Command Center) and the live-only button to it, and made
+  that page's contents editable mid-event from the RSVP sheet.
+- Collapsed the event data into `src/lib/scheduleEvents.ts` so cards and
+  hero pills read one list, and folded three ad-hoc clocks into
+  `src/hooks/use-now.ts`.
+- Verified the deployed CORS path for `?action=gameday` (ACAO on both the
+  302 and the final 200), so the browser read works the moment `Code.gs`
+  is redeployed.
+- Two process lessons, now written into the workflow above: a deploy can
+  fail on infrastructure alone (`setup-bun` got a 503 on #30 — re-run the
+  job), and a branch carrying pre-squash SHAs of an already-merged PR
+  conflicts until it's rebased onto the new `main`.
+
 ## Ship-live workflow
 
 Pushing to `main` triggers `.github/workflows/deploy.yml` (GitHub Pages).
@@ -35,9 +93,22 @@ established flow for "push live":
    name, and grepping it for a string unique to the change. For
    `public/` assets like `/email/`, poll the URL directly with a
    cache-busting query until the new content appears.
+4. Update **Session handoff** above: prune anything that landed, add
+   anything the work left waiting, and rewrite "Last session".
+
+**A green merge is not a green deploy.** The deploy job can fail on
+infrastructure with nothing wrong in the diff (on PR #30 `setup-bun` took
+a 503 from GitHub's release CDN and never reached the build). Since
+nothing checks PRs, the bundle-hash check in step 3 is the only thing that
+catches it — if the hash doesn't change, look at the workflow run and
+re-run failed jobs.
 
 A merged PR is finished — restart the working branch from `origin/main`
 for follow-up work (the remote branch is usually auto-deleted on merge).
+If the branch still holds commits that were squash-merged under different
+SHAs, rebase it onto the new `main` (`git rebase --onto origin/main
+<last-merged-commit>`) or GitHub will report conflicts on content that is
+already there.
 
 ## Single sources of truth
 
