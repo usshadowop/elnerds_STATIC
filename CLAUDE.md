@@ -35,7 +35,7 @@ A running tally of work that is **not** finished, each with the date it
 started waiting. Only two kinds of entry belong here: something a human
 has to do outside the repo, and a decision that's genuinely open. Ideas,
 nice-to-haves and "someone should refactor this" do not — they belong in
-a feature card or an issue, or nowhere.
+a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
@@ -95,6 +95,35 @@ established flow for "push live":
    cache-busting query until the new content appears.
 4. Update **Session handoff** above: prune anything that landed, add
    anything the work left waiting, and rewrite "Last session".
+5. Update the feature's card in `docs/features/` **in the same commit** —
+   see below.
+
+## Feature cards
+
+`docs/features/` holds one card per feature: what it does, where it lives,
+how it actually works, and what was decided along the way.
+`docs/features/README.md` is the index and defines the card format. Read the
+card for a feature before working on it; it's there so you don't have to
+re-derive a mechanism from the code.
+
+**Working on a feature includes updating its card, in the same commit.** A
+card that lies about the code is worse than no card, so this is enforced
+rather than trusted:
+
+- Each card declares the paths it owns on its `**Covers:**` line.
+- `.claude/hooks/feature-card-guard.sh` (a `PreToolUse` hook on `Bash`,
+  wired in `.claude/settings.json`) **blocks a `git commit`** that stages a
+  file a card covers without staging that card, and names the card. For a
+  change no card describes — a lockfile bump, a typo, the cards themselves
+  — put `no-card` in the commit message and it goes through.
+- `.claude/hooks/feature-card-report.sh` (a `SessionStart` hook) lists
+  cards not reviewed in 90+ days, so features nobody has touched still
+  resurface.
+
+When you review a card and it's still accurate, bump **Last reviewed**
+anyway — that's the signal someone looked, and it's what keeps the 90-day
+report meaningful. Not every feature needs a card: write one when a
+feature grows a mechanism worth explaining, not on principle.
 
 **A green merge is not a green deploy.** The deploy job can fail on
 infrastructure with nothing wrong in the diff (on PR #30 `setup-bun` took
