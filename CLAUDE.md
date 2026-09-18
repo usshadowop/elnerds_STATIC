@@ -193,6 +193,13 @@ already there.
   live.
 - Location lines follow the format "VenueName, street, city, ST zip"
   (e.g. "Improving, 3033 Excelsior Blvd #180, Minneapolis, MN 55416").
+- `branding/` — design source of truth for surfaces that can't read the
+  site's Tailwind tokens. `branding/email/` holds the email template,
+  a ten-block library, the palette/type/layout values, and
+  `DESIGN_BRIEF.md` — a self-contained brief to point a developer or an
+  AI model at ("build me an email, follow
+  `branding/email/DESIGN_BRIEF.md`"). New campaigns are written into
+  `email/`, not `branding/`.
 - `email/elnerds-announcement.html` — the announcement email. Edit only
   this file, then copy it over **both** `public/email/elnerds-announcement.html`
   and `public/email/index.html`; the two public copies are what serve

@@ -1,0 +1,231 @@
+<!--
+  Extra Life Nerds — email block library.
+
+  Copy-paste sections for template.html's [[CONTENT_SECTIONS]] slot. Every
+  block below is lifted from the shipped announcement email, so it is already
+  tested in Gmail, Apple Mail and Outlook — change the copy and the colours,
+  not the table structure.
+
+  This file is not a sendable email. It's a parts bin.
+
+  Colour swaps: each block notes which hex values are the "theme" of that
+  block. Swap all of them together, or the section looks half-repainted.
+  Values live in tokens.md.
+-->
+
+
+<!-- ==========================================================================
+     1. EVENT BAND — a tinted, full-bleed section built around a date.
+     The centrepiece block. Theme colours: #e6f2f3 band, #1d6e7a accent.
+     For a purple event: #f3ecf7 band, #6b3d8a accent.
+     ========================================================================== -->
+<tr>
+  <td class="px" style="padding:36px 40px; background-color:#e6f2f3; border-radius:0;" align="center">
+    <p class="event-label" style="margin:0 0 12px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:18px; line-height:1.25; font-weight:900; letter-spacing:1.2px; text-transform:uppercase; color:#1d6e7a;">[[EYEBROW]]</p>
+    <div class="date-xl" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:44px; line-height:1.05; font-weight:900; letter-spacing:-1.5px; color:#1a2b4a;">
+      [[DATE_LINE_1]]
+    </div>
+    <!-- Optional second date line, magenta for a range's end -->
+    <div class="date-xl" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:44px; line-height:1.05; font-weight:900; letter-spacing:-1.5px; color:#c8327c;">
+      [[DATE_LINE_2]]
+    </div>
+    <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:20px; line-height:1.2; font-weight:900; letter-spacing:3px; color:#1d6e7a; margin-top:8px;">
+      [[YEAR]]
+    </div>
+    <p style="margin:14px auto 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.55; font-weight:600; color:#4a5a73; max-width:400px;">
+      [[BLURB]]
+    </p>
+  </td>
+</tr>
+
+
+<!-- ==========================================================================
+     2. TEXT SECTION — white, eyebrow + heading + paragraph. The default.
+     Eyebrow colour carries the topic: #e87722 orange, #c8327c magenta,
+     #1d6e7a teal, #6b3d8a purple.
+     ========================================================================== -->
+<tr>
+  <td class="px" style="padding:40px 40px 8px 40px;" align="center">
+    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#c8327c;">[[EYEBROW]]</p>
+    <h2 style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
+      [[HEADING]]
+    </h2>
+    <p style="margin:0 auto; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
+      [[BODY]]
+    </p>
+  </td>
+</tr>
+
+
+<!-- ==========================================================================
+     3. PRIMARY BUTTON — solid fill, the one main call to action per email.
+     Orange (#e87722) by default. The VML block is what makes it render in
+     Outlook; keep both halves and keep the two hrefs identical.
+     ========================================================================== -->
+<tr>
+  <td class="px" style="padding:24px 40px 8px 40px;" align="center">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" class="btn">
+      <tr>
+        <td align="center" style="border-radius:100px; background-color:#e87722;">
+          <!--[if mso]>
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:52px;v-text-anchor:middle;width:260px;" arcsize="100%" strokecolor="#e87722" fillcolor="#e87722">
+          <w:anchorlock/>
+          <center style="color:#ffffff;font-family:sans-serif;font-size:15px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+          </v:roundrect>
+          <![endif]-->
+          <!--[if !mso]><!-->
+          <a href="[[HREF]]" style="display:inline-block; padding:16px 34px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#ffffff; background-color:#e87722; border-radius:100px;">[[LABEL]]</a>
+          <!--<![endif]-->
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+
+
+<!-- ==========================================================================
+     4. SECONDARY BUTTON — outlined, white fill. For directions, secondary
+     links. Theme: #1d6e7a border and text.
+     ========================================================================== -->
+<tr>
+  <td class="px" style="padding:22px 40px 8px 40px;" align="center">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" class="btn">
+      <tr>
+        <td align="center" style="border-radius:100px; background-color:#ffffff;">
+          <!--[if mso]>
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:52px;v-text-anchor:middle;width:260px;" arcsize="100%" strokecolor="#1d6e7a" fillcolor="#ffffff">
+          <w:anchorlock/>
+          <center style="color:#1d6e7a;font-family:sans-serif;font-size:15px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+          </v:roundrect>
+          <![endif]-->
+          <!--[if !mso]><!-->
+          <a href="[[HREF]]" style="display:inline-block; padding:15px 34px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#1d6e7a; background-color:#ffffff; border:2px solid #1d6e7a; border-radius:100px;">[[LABEL]]</a>
+          <!--<![endif]-->
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+
+
+<!-- ==========================================================================
+     5. CHIP — a small pill, for use *inside* a band under a date. Solid or
+     outlined. Goes in the band's <td>, not in its own <tr>.
+     ========================================================================== -->
+
+<!-- 5a. Solid chip -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:18px auto 0 auto;">
+  <tr>
+    <td align="center" style="border-radius:100px; background-color:#1d6e7a;">
+      <!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:40px;v-text-anchor:middle;width:150px;" arcsize="100%" strokecolor="#1d6e7a" fillcolor="#1d6e7a">
+      <w:anchorlock/>
+      <center style="color:#ffffff;font-family:sans-serif;font-size:12px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+      </v:roundrect>
+      <![endif]-->
+      <!--[if !mso]><!-->
+      <a href="[[HREF]]" style="display:inline-block; padding:11px 24px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#ffffff; background-color:#1d6e7a; border-radius:100px;">[[LABEL]] &rarr;</a>
+      <!--<![endif]-->
+    </td>
+  </tr>
+</table>
+
+<!-- 5b. Outlined chip. Widen the VML `width` for a longer label or Outlook clips it. -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:10px auto 0 auto;">
+  <tr>
+    <td align="center" style="border-radius:100px; background-color:#ffffff;">
+      <!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:40px;v-text-anchor:middle;width:230px;" arcsize="100%" strokecolor="#6b3d8a" fillcolor="#ffffff">
+      <w:anchorlock/>
+      <center style="color:#6b3d8a;font-family:sans-serif;font-size:12px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+      </v:roundrect>
+      <![endif]-->
+      <!--[if !mso]><!-->
+      <a href="[[HREF]]" style="display:inline-block; padding:10px 22px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#6b3d8a; background-color:#ffffff; border:2px solid #6b3d8a; border-radius:100px;">[[LABEL]]</a>
+      <!--<![endif]-->
+    </td>
+  </tr>
+</table>
+
+
+<!-- ==========================================================================
+     6. ADDRESS CARD — venue name + address in a bordered inner card.
+     ========================================================================== -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+  <tr>
+    <td style="border:1px solid #e6eaed; border-radius:16px; padding:22px 30px; background-color:#ffffff;" align="center">
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:20px; font-weight:900; color:#1a2b4a;">[[VENUE_NAME]]</div>
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.5; font-weight:600; color:#4a5a73; margin-top:6px;">
+        [[STREET]]<br />
+        [[CITY_STATE_ZIP]]
+      </div>
+    </td>
+  </tr>
+</table>
+
+
+<!-- ==========================================================================
+     7. DETAIL CARD — a titled list in a bordered inner card. Pricing,
+     what's included, what to bring. Border tints with the section
+     (#e6d9ee in a purple band, #e6eaed on white).
+     ========================================================================== -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:20px auto 0;">
+  <tr>
+    <td style="border:1px solid #e6d9ee; border-radius:16px; padding:20px 28px; background-color:#ffffff;" align="left">
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:17px; line-height:1.3; font-weight:900; color:#c8327c; margin:0 0 14px 0;">[[CARD_CALLOUT]]</div>
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:13px; font-weight:900; letter-spacing:1.5px; text-transform:uppercase; color:#6b3d8a; margin-bottom:10px;">[[CARD_LABEL]]</div>
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+        <!-- Repeat, cycling the bullet colour: purple, teal, orange, magenta -->
+        <tr>
+          <td style="padding:4px 0;">
+            <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:700; color:#6b3d8a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; color:#4a5a73;">[[ITEM]]</span>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+
+<!-- ==========================================================================
+     8. BULLETED LIST — free-standing, centred. Bullet colours cycle through
+     the palette (teal, magenta, gold, orange) so the list reads as brand
+     rather than as a default <ul>. 16px for a standalone list, 15px inside a
+     card or band.
+     ========================================================================== -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+  <tr>
+    <td style="padding:6px 0;">
+      <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#1d6e7a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">[[ITEM]]</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:6px 0;">
+      <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#c8327c;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">[[ITEM]]</span>
+    </td>
+  </tr>
+</table>
+
+
+<!-- ==========================================================================
+     9. DIVIDER — between unrelated topics. Not needed after a tinted band,
+     which already reads as a break.
+     ========================================================================== -->
+<tr><td class="px" style="padding:32px 40px 0 40px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td style="border-top:1px solid #e6eaed; font-size:0; line-height:0;">&nbsp;</td></tr></table></td></tr>
+
+
+<!-- ==========================================================================
+     10. CLOSING SECTION — heading in a colour other than ink, short lead-in,
+     then a bulleted list. Used as the last section before the sign-off.
+     ========================================================================== -->
+<tr>
+  <td class="px" style="padding:36px 40px 40px 40px;" align="center">
+    <h2 style="margin:0 0 12px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#6b3d8a;">
+      [[HEADING]]
+    </h2>
+    <p style="margin:0 auto 20px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:600; color:#4a5a73; max-width:420px;">
+      [[LEAD_IN]]
+    </p>
+    <!-- Then block 8. -->
+  </td>
+</tr>
