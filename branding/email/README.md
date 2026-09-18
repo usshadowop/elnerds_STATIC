@@ -14,6 +14,32 @@ client constraints, how to assemble an email, and a pre-send checklist.
 > Build me a new Extra Life Nerds email announcing X. Follow
 > `branding/email/DESIGN_BRIEF.md` in this repo.
 
+### Handing this to an outside AI
+
+That pointer only works for something that can read the repo. For an
+assistant that has never seen it, use one of these instead — the repo is
+public, so both work:
+
+**If it can browse the web**, give it the raw URLs:
+
+```
+https://raw.githubusercontent.com/usshadowop/elnerds_STATIC/main/branding/email/DESIGN_BRIEF.md
+https://raw.githubusercontent.com/usshadowop/elnerds_STATIC/main/branding/email/tokens.md
+https://raw.githubusercontent.com/usshadowop/elnerds_STATIC/main/branding/email/template.html
+https://raw.githubusercontent.com/usshadowop/elnerds_STATIC/main/branding/email/blocks.html
+```
+
+**If it can't browse**, paste [`BRIEF_BUNDLE.md`](BRIEF_BUNDLE.md) — all
+four documents concatenated into one self-contained file (~41KB), with a
+header that explains to the assistant what it's looking at.
+
+`BRIEF_BUNDLE.md` is **generated**. Don't edit it; edit the four sources and
+re-run:
+
+```bash
+./branding/email/build-bundle.sh
+```
+
 ## The rest
 
 | File | What |
@@ -22,6 +48,8 @@ client constraints, how to assemble an email, and a pre-send checklist.
 | [`tokens.md`](tokens.md) | Authoritative colour, type, layout and mobile values |
 | [`template.html`](template.html) | The skeleton — correct chrome, `[[PLACEHOLDERS]]` for content |
 | [`blocks.html`](blocks.html) | Ten tested section blocks to build the body from |
+| [`BRIEF_BUNDLE.md`](BRIEF_BUNDLE.md) | Generated — all of the above in one paste-able file |
+| [`build-bundle.sh`](build-bundle.sh) | Regenerates the bundle |
 
 ## What lives where
 

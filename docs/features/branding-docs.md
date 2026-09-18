@@ -1,7 +1,7 @@
 # Branding design docs
 
 - **Status:** Live — `email/` section complete; no other surfaces documented yet
-- **Last reviewed:** 2026-09-18
+- **Last reviewed:** 2026-09-18 (bundle + handoff paths added)
 - **Covers:** `branding/*`
 
 ## Purpose
@@ -22,6 +22,9 @@ project.
 - `branding/email/template.html` — the skeleton, with `[[PLACEHOLDERS]]`.
 - `branding/email/blocks.html` — ten section blocks.
 - `branding/email/tokens.md` — authoritative palette, type scale, layout.
+- `branding/email/BRIEF_BUNDLE.md` — all four of the above concatenated into
+  one self-contained file, for an assistant that can't read the repo.
+  **Generated** by `branding/email/build-bundle.sh`; never hand-edited.
 
 Campaigns themselves live in `email/` at the repo root, published from
 `public/email/`. This directory holds the template and the rules, not the
@@ -47,6 +50,19 @@ grep -o '\[\[[A-Z_]*\]\]' your-email.html    # must print nothing
 
 ## Decisions and gotchas
 
+- **Three ways to hand this off, because the pointer doesn't always work.**
+  An AI with repo access gets `DESIGN_BRIEF.md` by path. One that can browse
+  gets raw.githubusercontent URLs — the repo is public, verified HTTP 200
+  unauthenticated. One that can do neither gets `BRIEF_BUNDLE.md` pasted.
+  The bundle exists because the first two paths silently fail for an outside
+  assistant: it won't say "I can't see that file", it will invent brand
+  details instead.
+- **`BRIEF_BUNDLE.md` is generated and will go stale if the sources change
+  and nobody re-runs the script.** It's the one derived artifact here. The
+  commit guard helps — editing any `branding/` file forces this card into
+  the commit, which is the prompt to remember — but it can't check the
+  bundle is current. If you touch the brief, tokens, template or blocks,
+  run `./branding/email/build-bundle.sh` in the same commit.
 - **The brief states the *reason* for each constraint, not just the rule.**
   That's the whole value: an AI working from the palette alone will happily
   reinvent a `<div>` layout, drop the VML button twin, or use
