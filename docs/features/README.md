@@ -15,11 +15,12 @@ from the code.
 | [rsvp-backend](rsvp-backend.md) | RSVP form → sheet → confirmation + cancel emails | Live |
 | [extra-life-api](extra-life-api.md) | Live team, roster and donor data from DonorDrive | Live |
 | [deploy-pipeline](deploy-pipeline.md) | Push to `main` → GitHub Pages | Live |
+| [branding-docs](branding-docs.md) | The email template, block library and design brief | Live |
 
 Features without a card yet: Stats, Why We Play, Sponsors, Donors,
 Leadership Team, SiteNav, Footer, Registration, Patient Profiles, the
-client-side router, design tokens, and the Brevo announcement email. Most
-are a static list in one file — write a card when one grows a mechanism
+client-side router, design tokens, and the Brevo send procedure. Most
+are a static list in one file; write a card when one grows a mechanism
 worth explaining, not on principle.
 
 ## Card format
