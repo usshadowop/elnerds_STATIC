@@ -39,11 +39,14 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | **Owner (manual)** | **Redeploy `Code.gs`** from the Apps Script editor (Deploy → Manage deployments → ✏️ → New version; same URL). Two shipped features are dormant until this happens: RSVPs for finished events are still acceptable by direct POST, and `/gameday` can't read the sheet so it serves its built-in copy. Verify with `curl "$ENDPOINT?action=gameday"` — JSON means done, HTML means not. Checked 2026-09-18: still not done. |
+| 2026-08-12 | **Owner (manual)** | **Redeploy `Code.gs`** from the Apps Script editor (Deploy → Manage deployments → ✏️ → New version; same URL). Two shipped features are dormant until this happens: RSVPs for finished events are still acceptable by direct POST, and `/gameday` can't read the sheet so it serves its built-in copy. Verify with `curl "$ENDPOINT?action=gameday"` — JSON means done, HTML means not. Re-checked 2026-09-24: **still not done**, six weeks open. Game Day is Nov 14, so the sheet tabs need to exist well before then. |
 | 2026-08-12 | Owner (after redeploy) | Open `/gameday` once so the four `Gameday *` tabs are created in the RSVP sheet, then fill them in. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
-| 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. |
+| 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
+| 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
+| 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
+| 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
 
 Rules that keep this honest:
 
@@ -61,24 +64,29 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-08-12 → 09-18 (PRs #29, #30, #31):*
+*Session of 2026-09-18 → 09-24 (PRs #32–#38, all docs and tooling — no
+site code changed, bundle hash unmoved since #31):*
 
-- Made everything date-driven automatic: schedule cards move themselves
-  from Future to Past, RSVPs close, hero pills disappear. See the sources
-  of truth below.
-- Gave the hero countdown three states via `useGameday`, added
-  `/gameday` (Command Center) and the live-only button to it, and made
-  that page's contents editable mid-event from the RSVP sheet.
-- Collapsed the event data into `src/lib/scheduleEvents.ts` so cards and
-  hero pills read one list, and folded three ad-hoc clocks into
-  `src/hooks/use-now.ts`.
-- Verified the deployed CORS path for `?action=gameday` (ACAO on both the
-  302 and the final 200), so the browser read works the moment `Code.gs`
-  is redeployed.
-- Two process lessons, now written into the workflow above: a deploy can
-  fail on infrastructure alone (`setup-bun` got a 503 on #30 — re-run the
-  job), and a branch carrying pre-squash SHAs of an already-merged PR
-  conflicts until it's rebased onto the new `main`.
+- **Built the bookkeeping this file now depends on.** `docs/features/`
+  holds seven cards; this Session handoff section came out of noticing
+  that nothing in the repo recorded pending state, which is why the
+  `Code.gs` redeploy went unnoticed for five weeks.
+- **Made card staleness mechanical, not trusted.** A `PreToolUse` hook
+  blocks a commit that touches a file a card `Covers` without staging
+  that card; a `SessionStart` hook reports cards unreviewed for 90+ days.
+  Escape hatch is `no-card` in the commit message. See the Feature cards
+  section below.
+- **Added `branding/`** with the email design system extracted from the
+  shipped announcement: a brief, template, ten blocks, tokens, and a
+  generated `BRIEF_BUNDLE.md` for handing to an AI that can't read the
+  repo. The repo is public, so raw.githubusercontent URLs work too.
+- **Two audits found two real gaps**, both of a kind the guard cannot
+  catch: a file missing from a card's list, and `src/hooks/use-now.ts`
+  covered by no card at all despite three features depending on it. The
+  guard forces a card to be *touched*, never to be *right* — assume that
+  limit rather than trusting a green commit.
+- **Nothing shipped to the site.** Every user-facing feature was already
+  live at #31; this week was making it maintainable.
 
 ## Ship-live workflow
 
