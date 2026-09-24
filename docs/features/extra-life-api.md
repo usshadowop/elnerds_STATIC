@@ -38,7 +38,7 @@ first 6. It asks for 20 so that 6 real donations remain even when several
 sign-ups land together. The hero
 passes a refresh interval of one minute while Game Day is live and five minutes
 otherwise. The strip scrolls by rendering the list twice and sliding the track
-by half. It pauses on hover or focus, and under `prefers-reduced-motion` it
+by half. It pauses on hover, but only on devices with a real mouse (`hover: hover` and `pointer: fine`). On a phone a tap leaves `:hover` stuck on, which used to freeze the strip until you tapped elsewhere. Under `prefers-reduced-motion` it
 stops moving and becomes a plain horizontal scroll.
 
 ## Decisions and gotchas

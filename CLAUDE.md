@@ -70,6 +70,9 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 - **Shipped a latest-donations ticker** under the hero countdown. It scrolls
   the team's 6 newest DonorDrive donations and appears in every hero phase.
   Mechanism and gotchas are in `docs/features/extra-life-api.md`.
+- **A follow-up fix (#41):** tapping the ticker on a phone froze it,
+  because a tap leaves `:hover` stuck on. Pause-on-hover now applies only to
+  devices with a real mouse.
 - **`/donations` sends `cache-control: max-age=14400`.** The hook fetches
   with `cache: "no-store"`, or the ticker would show data up to 4 hours old.
 - The owner approved it from screenshots taken with real donation data

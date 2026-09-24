@@ -68,9 +68,12 @@
   animation: donation-ticker linear infinite;
 }
 
-.donation-ticker:hover .donation-ticker-track,
-.donation-ticker:focus-within .donation-ticker-track {
-  animation-play-state: paused;
+/* Pause to read — but only with a real mouse. On touch screens a tap leaves
+   :hover stuck on until you tap elsewhere, which froze the strip for good. */
+@media (hover: hover) and (pointer: fine) {
+  .donation-ticker:hover .donation-ticker-track {
+    animation-play-state: paused;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
