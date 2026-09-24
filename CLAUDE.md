@@ -73,6 +73,8 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 - **A follow-up fix (#41):** tapping the ticker on a phone froze it,
   because a tap leaves `:hover` stuck on. Pause-on-hover now applies only to
   devices with a real mouse.
+- **Added a "See all donations ↓" link (#42)** under the ticker. It
+  smooth-scrolls to the `#donors` section.
 - **`/donations` sends `cache-control: max-age=14400`.** The hook fetches
   with `cache: "no-store"`, or the ticker would show data up to 4 hours old.
 - The owner approved it from screenshots taken with real donation data

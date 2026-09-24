@@ -32,6 +32,10 @@ Plain `fetch` against `https://dd.extra-life.org/api`, each hook owning its own
 first, then co-captains, then by donations descending. Donors are sorted by
 total descending.
 
+A small "See all donations ↓" link under the strip smooth-scrolls to the
+`#donors` section (it jumps instead of gliding when reduced motion is on). It is a
+plain `#donors` link underneath, so it still works if the script doesn't run.
+
 The donation ticker reads `/teams/73600/donations?limit=20`, which DonorDrive
 returns newest first. It drops registration fees (`isRegFee`) and keeps the
 first 6. It asks for 20 so that 6 real donations remain even when several
