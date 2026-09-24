@@ -1,7 +1,7 @@
 # Branding design docs
 
 - **Status:** Live — `email/` section complete; no other surfaces documented yet
-- **Last reviewed:** 2026-09-18 (bundle + handoff paths added)
+- **Last reviewed:** 2026-09-24 (audited the file list against the repo)
 - **Covers:** `branding/*`
 
 ## Purpose
@@ -16,6 +16,9 @@ project.
 
 - `branding/README.md` — what the directory is for, and what it deliberately
   does *not* duplicate (the site's own styling stays in `src/styles.css`).
+- `branding/email/README.md` — the handoff switchboard: which of the three
+  ways to give this to someone applies (repo access / can browse / can
+  neither), and the file index.
 - `branding/email/DESIGN_BRIEF.md` — the entry point. Self-contained:
   audience, voice, brand values, the eight hard client constraints, how to
   assemble a body, pre-send checklist.
@@ -49,6 +52,17 @@ grep -o '\[\[[A-Z_]*\]\]' your-email.html    # must print nothing
 ```
 
 ## Decisions and gotchas
+
+- **The guard forces the card to be *touched*, not to be *right*.** PR #36
+  added `BRIEF_BUNDLE.md` and `build-bundle.sh`, the guard duly blocked the
+  commit, the card was updated — and it still shipped without
+  `branding/email/README.md` listed, even though that file had just become
+  the handoff switchboard. Caught by auditing the card's file list against
+  `git ls-tree` afterwards. Worth repeating that check when reviewing:
+
+  ```bash
+  git ls-tree -r --name-only HEAD | grep '^branding/'
+  ```
 
 - **Three ways to hand this off, because the pointer doesn't always work.**
   An AI with repo access gets `DESIGN_BRIEF.md` by path. One that can browse
