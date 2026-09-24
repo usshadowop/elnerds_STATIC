@@ -1,8 +1,8 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-09-18
-- **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`
+- **Last reviewed:** 2026-09-24 (Covers audited against imports)
+- **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
 
@@ -42,6 +42,12 @@ submissions).
   `Infinity` when `endsAt` is missing or unparseable, so a config typo leaves
   the event visible under Future rather than vanishing into Past. Failing
   toward "still showing" is the safe direction for a fundraiser.
+- **`use-now.ts` is shared, and three cards cover it on purpose.** The same
+  ticking clock drives this feature, the hero's Game Day states and the RSVP
+  close. It's 20 lines and rarely touched, but a change to its interval or
+  its cleanup breaks all three at once — so editing it blocks the commit
+  until all three cards are staged, which forces whoever changes it to look
+  at every dependent feature rather than just the one they had in mind.
 - **Section year labels are derived**, not hardcoded — `yearPrefix` reads the
   years of the events actually in each section, so "2026 Future Events"
   becomes 2027 on its own.

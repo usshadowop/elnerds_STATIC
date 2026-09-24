@@ -1,8 +1,8 @@
 # Game Day hero states
 
 - **Status:** Live
-- **Last reviewed:** 2026-09-18
-- **Covers:** `src/hooks/use-countdown.ts`, `src/components/site/Hero.tsx`
+- **Last reviewed:** 2026-09-24 (Covers audited against imports)
+- **Covers:** `src/hooks/use-countdown.ts`, `src/components/site/Hero.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
 
