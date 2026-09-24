@@ -1,4 +1,5 @@
-import { Heart } from "lucide-react";
+import type { MouseEvent } from "react";
+import { ArrowDown, Heart } from "lucide-react";
 import { useNow } from "@/hooks/use-now";
 import { useExtraLifeDonations, type ExtraLifeDonation } from "@/hooks/useExtraLifeDonations";
 
@@ -31,7 +32,8 @@ function timeAgo(iso: string, now: number): string {
 
 function Item({ d, now }: { d: ExtraLifeDonation; now: number }) {
   const message = d.message?.trim();
-  const short = message && message.length > MAX_MESSAGE ? `${message.slice(0, MAX_MESSAGE - 1)}…` : message;
+  const short =
+    message && message.length > MAX_MESSAGE ? `${message.slice(0, MAX_MESSAGE - 1)}…` : message;
 
   return (
     <li className="flex shrink-0 items-center gap-2 px-5 text-sm whitespace-nowrap">
@@ -45,6 +47,16 @@ function Item({ d, now }: { d: ExtraLifeDonation; now: number }) {
       <span className="text-xs text-ink-soft/70">{timeAgo(d.createdDateUTC, now)}</span>
     </li>
   );
+}
+
+/** Glide down to the donor wall instead of jumping, unless motion is reduced. */
+function scrollToDonors(e: MouseEvent<HTMLAnchorElement>) {
+  const target = document.getElementById("donors");
+  if (!target) return; // let the plain #donors link do its thing
+  e.preventDefault();
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  history.replaceState(null, "", "#donors");
 }
 
 /**
@@ -61,31 +73,42 @@ export function DonationTicker({ refreshMs }: { refreshMs?: number }) {
   const duration = `${Math.max(20, donations.length * SECONDS_PER_ITEM)}s`;
 
   return (
-    <section
-      aria-label="Latest donations"
-      className="mx-auto -mt-6 mb-10 flex max-w-2xl items-stretch overflow-hidden rounded-2xl border border-line bg-white shadow-[var(--shadow-soft)]"
-    >
-      <div className="flex shrink-0 items-center gap-2 bg-magenta px-3 text-[10px] font-extrabold uppercase tracking-[0.2em] text-white sm:px-4">
-        <Heart className="size-3.5 fill-white" aria-hidden />
-        <span className="hidden sm:inline">Latest</span>
-      </div>
-
-      <div className="donation-ticker relative min-w-0 flex-1 overflow-hidden py-3">
-        {/* The list is rendered twice so the loop joins up seamlessly; the
-            copy is hidden from screen readers. */}
-        <div className="donation-ticker-track flex w-max" style={{ animationDuration: duration }}>
-          <ul className="flex">
-            {donations.map((d) => (
-              <Item key={d.donationID} d={d} now={now} />
-            ))}
-          </ul>
-          <ul className="flex" aria-hidden>
-            {donations.map((d) => (
-              <Item key={d.donationID} d={d} now={now} />
-            ))}
-          </ul>
+    <div className="mx-auto -mt-6 mb-10 max-w-2xl">
+      <section
+        aria-label="Latest donations"
+        className="flex items-stretch overflow-hidden rounded-2xl border border-line bg-white shadow-[var(--shadow-soft)]"
+      >
+        <div className="flex shrink-0 items-center gap-2 bg-magenta px-3 text-[10px] font-extrabold uppercase tracking-[0.2em] text-white sm:px-4">
+          <Heart className="size-3.5 fill-white" aria-hidden />
+          <span className="hidden sm:inline">Latest</span>
         </div>
-      </div>
-    </section>
+
+        <div className="donation-ticker relative min-w-0 flex-1 overflow-hidden py-3">
+          {/* The list is rendered twice so the loop joins up seamlessly; the
+            copy is hidden from screen readers. */}
+          <div className="donation-ticker-track flex w-max" style={{ animationDuration: duration }}>
+            <ul className="flex">
+              {donations.map((d) => (
+                <Item key={d.donationID} d={d} now={now} />
+              ))}
+            </ul>
+            <ul className="flex" aria-hidden>
+              {donations.map((d) => (
+                <Item key={d.donationID} d={d} now={now} />
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <a
+        href="#donors"
+        onClick={scrollToDonors}
+        className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-ink-soft underline-offset-4 transition-colors hover:text-magenta hover:underline"
+      >
+        See all donations
+        <ArrowDown className="size-3" aria-hidden />
+      </a>
+    </div>
   );
 }
