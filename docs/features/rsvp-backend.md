@@ -1,8 +1,8 @@
 # RSVP backend
 
 - **Status:** Live. The close-on-end rejection is **dormant** until `Code.gs` is redeployed
-- **Last reviewed:** 2026-09-18
-- **Covers:** `apps-script/Code.gs`, `src/lib/rsvp.ts`, `src/lib/rsvpEvents.ts`, `src/pages/Rsvp.tsx`
+- **Last reviewed:** 2026-09-24 (Covers audited against imports)
+- **Covers:** `apps-script/Code.gs`, `src/lib/rsvp.ts`, `src/lib/rsvpEvents.ts`, `src/pages/Rsvp.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
 
