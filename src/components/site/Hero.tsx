@@ -7,6 +7,7 @@ import { useExtraLifeTeam } from "@/hooks/useExtraLifeTeam";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
 import { EVENTS, splitByDate } from "@/lib/scheduleEvents";
 import { StyledButton } from "@/components/site/StyledButton";
+import { DonationTicker } from "@/components/site/DonationTicker";
 
 // Game Day's bounds come from the marathon's RSVP entry, so the date is written
 // down once. The fallbacks only matter if that event is ever renamed away.
@@ -218,6 +219,10 @@ export function Hero() {
             )}
           </div>
         )}
+
+        {/* Latest donations, live from DonorDrive. Checked every minute while the
+            marathon runs, every five the rest of the year. */}
+        <DonationTicker refreshMs={c.phase === "live" ? 60_000 : 300_000} />
 
         {/* Only while the marathon is actually running — the command center has
             nothing to show on it the rest of the year. */}

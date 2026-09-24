@@ -53,6 +53,38 @@
   }
 }
 
+/* Latest-donations strip under the hero countdown (DonationTicker.tsx). The
+   track holds the list twice, so sliding it by half loops seamlessly. */
+@keyframes donation-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.donation-ticker {
+  mask-image: linear-gradient(to right, transparent, black 1.5rem, black calc(100% - 1.5rem), transparent);
+}
+
+.donation-ticker-track {
+  animation: donation-ticker linear infinite;
+}
+
+.donation-ticker:hover .donation-ticker-track,
+.donation-ticker:focus-within .donation-ticker-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .donation-ticker {
+    overflow-x: auto;
+  }
+  .donation-ticker-track {
+    animation: none;
+  }
+  .donation-ticker-track > [aria-hidden] {
+    display: none;
+  }
+}
+
 @layer base {
   html, body {
     background-color: var(--color-cream);
