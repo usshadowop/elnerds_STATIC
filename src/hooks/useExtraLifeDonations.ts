@@ -23,14 +23,18 @@ interface UseExtraLifeDonationsResult {
   error: string | null;
 }
 
+// Registration fees are filtered out after the fetch, so ask for extra to
+// still have `limit` real donations left when a few sign-ups land together.
+const FETCH_LIMIT = 20;
+
 /**
- * The team's most recent donations, newest first, re-fetched every
+ * The team's `limit` most recent donations, newest first, re-fetched every
  * `refreshMs` so a page left open keeps up.
  *
  * The API answers with `cache-control: max-age=14400`, so a plain fetch would
  * keep serving the browser's four-hour-old copy; `cache: "no-store"` skips it.
  */
-export function useExtraLifeDonations(limit = 10, refreshMs = 60_000): UseExtraLifeDonationsResult {
+export function useExtraLifeDonations(limit = 6, refreshMs = 60_000): UseExtraLifeDonationsResult {
   const [donations, setDonations] = useState<ExtraLifeDonation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,14 +44,14 @@ export function useExtraLifeDonations(limit = 10, refreshMs = 60_000): UseExtraL
 
     async function fetchDonations() {
       try {
-        const res = await fetch(`${BASE_URL}/teams/${TEAM_ID}/donations?limit=${limit}`, {
+        const res = await fetch(`${BASE_URL}/teams/${TEAM_ID}/donations?limit=${FETCH_LIMIT}`, {
           signal: controller.signal,
           cache: "no-store",
         });
         if (!res.ok) throw new Error("Failed to fetch donations");
 
         const data: ExtraLifeDonation[] = await res.json();
-        setDonations(data.filter((d) => !d.isRegFee));
+        setDonations(data.filter((d) => !d.isRegFee).slice(0, limit));
         setError(null);
       } catch (err) {
         if (err instanceof DOMException && err.name === "AbortError") return;

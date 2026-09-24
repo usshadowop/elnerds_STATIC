@@ -53,7 +53,7 @@ function Item({ d, now }: { d: ExtraLifeDonation; now: number }) {
  * unreachable — an empty or broken ticker is worse than none.
  */
 export function DonationTicker({ refreshMs }: { refreshMs?: number }) {
-  const { donations } = useExtraLifeDonations(10, refreshMs);
+  const { donations } = useExtraLifeDonations(6, refreshMs);
   const now = useNow(30_000);
 
   if (donations.length === 0) return null;

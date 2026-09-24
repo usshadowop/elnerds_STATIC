@@ -64,29 +64,19 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-09-18 → 09-24 (PRs #32–#38, all docs and tooling — no
-site code changed, bundle hash unmoved since #31):*
+*Session of 2026-09-24 (the latest-donations ticker, first site change since
+#31):*
 
-- **Built the bookkeeping this file now depends on.** `docs/features/`
-  holds seven cards; this Session handoff section came out of noticing
-  that nothing in the repo recorded pending state, which is why the
-  `Code.gs` redeploy went unnoticed for five weeks.
-- **Made card staleness mechanical, not trusted.** A `PreToolUse` hook
-  blocks a commit that touches a file a card `Covers` without staging
-  that card; a `SessionStart` hook reports cards unreviewed for 90+ days.
-  Escape hatch is `no-card` in the commit message. See the Feature cards
-  section below.
-- **Added `branding/`** with the email design system extracted from the
-  shipped announcement: a brief, template, ten blocks, tokens, and a
-  generated `BRIEF_BUNDLE.md` for handing to an AI that can't read the
-  repo. The repo is public, so raw.githubusercontent URLs work too.
-- **Two audits found two real gaps**, both of a kind the guard cannot
-  catch: a file missing from a card's list, and `src/hooks/use-now.ts`
-  covered by no card at all despite three features depending on it. The
-  guard forces a card to be *touched*, never to be *right* — assume that
-  limit rather than trusting a green commit.
-- **Nothing shipped to the site.** Every user-facing feature was already
-  live at #31; this week was making it maintainable.
+- **Shipped a latest-donations ticker** under the hero countdown. It scrolls
+  the team's 6 newest DonorDrive donations and appears in every hero phase.
+  Mechanism and gotchas are in `docs/features/extra-life-api.md`.
+- **`/donations` sends `cache-control: max-age=14400`.** The hook fetches
+  with `cache: "no-store"`, or the ticker would show data up to 4 hours old.
+- The owner approved it from screenshots taken with real donation data
+  stubbed into a local build. The sandbox browser can't reach DonorDrive, so
+  that is the only way to see it before deploying.
+- The previous session (09-18 → 09-24, PRs #32–#39) built the feature cards,
+  the card guard hooks and this handoff section. See `git log` for details.
 
 ## Ship-live workflow
 
@@ -175,6 +165,9 @@ already there.
 - `src/hooks/use-now.ts` — the shared ticking clock (default one minute)
   behind all of the above, so a page left open across an event's end
   updates without a reload.
+- `src/components/site/DonationTicker.tsx` — the "Latest" donations strip
+  under the countdown. The number shown (6) is set where the ticker calls
+  `useExtraLifeDonations`.
 - `src/hooks/use-countdown.ts` (`useGameday`) — drives the hero card's
   three states off the marathon's `calendar.start`/`calendar.end`:
   counting down to kickoff, a "Gameday is LIVE!" 24-hour countdown plus

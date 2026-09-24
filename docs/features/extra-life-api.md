@@ -16,7 +16,7 @@ someone donates.
 - `src/hooks/useExtraLifeTeam.ts` — team record + participants (team ID
   `73600`).
 - `src/hooks/useExtraLifeDonors.ts` — donor list.
-- `src/hooks/useExtraLifeDonations.ts` — the 10 most recent donations,
+- `src/hooks/useExtraLifeDonations.ts` — the 6 most recent donations,
   re-fetched on an interval.
 - `src/components/site/DonationTicker.tsx` — the scrolling "Latest" strip
   under the hero countdown (keyframes in `src/styles.css`).
@@ -32,8 +32,10 @@ Plain `fetch` against `https://dd.extra-life.org/api`, each hook owning its own
 first, then co-captains, then by donations descending. Donors are sorted by
 total descending.
 
-The donation ticker reads `/teams/73600/donations?limit=10`, which DonorDrive
-returns newest first. Registration fees (`isRegFee`) are dropped. The hero
+The donation ticker reads `/teams/73600/donations?limit=20`, which DonorDrive
+returns newest first. It drops registration fees (`isRegFee`) and keeps the
+first 6. It asks for 20 so that 6 real donations remain even when several
+sign-ups land together. The hero
 passes a refresh interval of one minute while Game Day is live and five minutes
 otherwise. The strip scrolls by rendering the list twice and sliding the track
 by half. It pauses on hover or focus, and under `prefers-reduced-motion` it
