@@ -1,7 +1,7 @@
 # Game Day hero states
 
 - **Status:** Live
-- **Last reviewed:** 2026-09-24 (Covers audited against imports)
+- **Last reviewed:** 2026-09-24 (Covers audited against imports; donation ticker added)
 - **Covers:** `src/hooks/use-countdown.ts`, `src/components/site/Hero.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -30,6 +30,11 @@ boundary is next.
 | `before` | "Countdown to Gameday", four units to kickoff |
 | `live` | "Gameday is LIVE!" + a 24-hour countdown to the finish, plus a full-width button to [/gameday](gameday-content.md) |
 | `after` | The team's Extra Life total as "$X Raised" |
+
+Under the card, in every phase, sits the latest-donations ticker. Its
+mechanism is described in [extra-life-api](extra-life-api.md). The hero only
+chooses how often it refreshes: every minute while `live`, every five minutes
+otherwise.
 
 ## Decisions and gotchas
 
