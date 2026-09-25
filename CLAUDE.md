@@ -75,6 +75,9 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   devices with a real mouse.
 - **Added a "See all donations ↓" link (#42)** under the ticker. It
   smooth-scrolls to the `#donors` section.
+- **The Donors badges (EL, IK) squashed into ovals on phones** (#43).
+  They're `size-10` circles in a flex row, which lets them shrink. Any fixed
+  size icon beside text that can wrap needs `shrink-0`.
 - **`/donations` sends `cache-control: max-age=14400`.** The hook fetches
   with `cache: "no-store"`, or the ticker would show data up to 4 hours old.
 - The owner approved it from screenshots taken with real donation data

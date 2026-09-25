@@ -91,7 +91,7 @@ export function Donors() {
         <div className="grid gap-8 md:grid-cols-3">
           <div className="rounded-3xl border border-line bg-cream p-8 shadow-[var(--shadow-soft)] md:col-span-2">
             <div className="mb-6 flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-full bg-teal text-white font-display font-extrabold">
+              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-teal text-white font-display font-extrabold">
                 EL
               </span>
               <div>
@@ -108,7 +108,7 @@ export function Donors() {
 
           <div className="rounded-3xl border border-line bg-cream p-8 shadow-[var(--shadow-soft)]">
             <div className="mb-6 flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-full bg-orange text-white font-display font-extrabold">
+              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-orange text-white font-display font-extrabold">
                 IK
               </span>
               <div>
