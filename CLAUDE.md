@@ -39,7 +39,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | Owner | Fill in the four `Gameday *` tabs in the RSVP sheet before Nov 14. They exist now, holding starter rows. Also delete the test row `newsletter-test@example.com` from the `Newsletter` tab. |
+| 2026-08-12 | Owner | Fill in the four `Gameday *` tabs in the RSVP sheet before Nov 14. They exist, but on 2026-09-25 they still held only the starter rows ("TBD", empty stream embeds); check with `curl "$ENDPOINT?action=gameday"`. Also delete the test row `newsletter-test@example.com` from the `Newsletter` tab. That can't be checked from here, so ask. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
@@ -63,30 +63,33 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-09-24 → 09-25 (donation ticker #40–#42, badge fix #43,
-newsletter signup #44, `Code.gs` redeployed):*
+*Session of 2026-09-24 → 09-25 (PRs #40–#45: donation ticker, newsletter
+signup, `Code.gs` finally redeployed):*
 
-- **Shipped a latest-donations ticker** under the hero countdown: the 6
-  newest DonorDrive donations, with a "See all donations ↓" link to
-  `#donors`. The details are in `docs/features/extra-life-api.md`. Two
-  things tripped it up:
+- **Donation ticker under the hero countdown** (#40–#42, #45). It shows the
+  6 newest DonorDrive donations, and each loop opens with a blank gap one
+  strip wide so the newest enters from the right. A "See all donations ↓"
+  link goes to `#donors`. Two bugs worth remembering:
   - `/donations` sends `max-age=14400`, so the hook fetches with
     `cache: "no-store"`;
-  - a tap on a phone left `:hover` stuck on, which froze the strip.
-- **The ticker now opens each loop with a blank gap one strip wide (#45)**,
-  so the newest donation enters from the right instead of leaving first.
-- **The Donors badges squashed into ovals on phones (#43).** Any fixed-size
-  icon next to text that can wrap needs `shrink-0`.
-- **Shipped the newsletter signup (#44).** It saves to a `Newsletter` sheet
-  tab through `Code.gs`; the owner picked that over Brevo. The card is
+  - a phone tap leaves `:hover` stuck on, so pause-on-hover sits behind
+    `(hover: hover) and (pointer: fine)`.
+
+  The card is `docs/features/extra-life-api.md`.
+- **Newsletter signup** (#44): `/newsletter`, plus a nav envelope icon and
+  a footer button. It saves to a `Newsletter` sheet tab through `Code.gs`;
+  the owner chose that over Brevo. The card is
   `docs/features/newsletter-signup.md`.
-- **The owner redeployed `Code.gs`**, closing the thread open since Aug 12.
-  The first live read found Run of Show times coming back as 1899 dates.
-  The `getDisplayValues()` fix is in, and the owner redeployed again
-  (Version 4). The live script now matches the repo, verified 2026-09-25.
-- The sandbox browser can't reach DonorDrive or Apps Script. Every check
-  here stubbed those services with `page.route` against a local build, and
-  the `Code.gs` handler was run in Node against fake Google services.
+- **The owner redeployed `Code.gs` twice**, closing the thread open since
+  Aug 12. The first live read showed Run of Show times as 1899 dates, which
+  the `getDisplayValues()` fix solved. The live script matches the repo as
+  of Version 4 (verified 2026-09-25).
+- **Donors badges squashed into ovals on phones** (#43). Any fixed-size icon
+  next to text that can wrap needs `shrink-0`.
+- **Flow the owner liked:** a mockup with screenshots first (real data
+  stubbed into a local build), then "push it live". When the owner asks for
+  Apps Script code, give the **whole file** in a chat code block, not a
+  diff; they paste it into the editor.
 
 ## Ship-live workflow
 
@@ -191,7 +194,7 @@ already there.
   served by `doGet(?action=gameday)` in `Code.gs` and re-read once a
   minute, so the run of show can change mid-marathon without a deploy.
   `src/lib/gamedayContent.ts` holds the shipped fallback copy, used
-  whenever that read fails — including before `Code.gs` is redeployed.
+  whenever that read fails.
   Editing the fallback in the repo does **not** change what the sheet
   serves; during the event, edit the sheet.
 - `apps-script/Code.gs` — the Google Apps Script RSVP backend mirrors the
@@ -201,10 +204,10 @@ already there.
   `rsvpEvents.ts`, via `hasEventEnded()`): the schedule card drops its
   RSVP chip, `/rsvp/<slug>` swaps the form for an "RSVPs are closed"
   notice, `/rsvp` moves the event to an "Already happened" group, and
-  `doPost` in `Code.gs` rejects the submission. The backend half only
-  applies after `Code.gs` is redeployed by hand (**Deploy → Manage
-  deployments → ✏️ → New version**) — a repo edit alone changes nothing
-  live.
+  `doPost` in `Code.gs` rejects the submission. The backend half lives
+  in `Code.gs`, and like every `Code.gs` change it applies only after a
+  manual redeploy (**Deploy → Manage deployments → ✏️ → New version**).
+  A repo edit alone changes nothing live.
 - Location lines follow the format "VenueName, street, city, ST zip"
   (e.g. "Improving, 3033 Excelsior Blvd #180, Minneapolis, MN 55416").
 - `branding/` — design source of truth for surfaces that can't read the
@@ -270,6 +273,16 @@ the full send. Notes that cost time to work out:
   so `/rsvp/bingo` serves the full app with a 404 *status*; the client
   router then renders the right page. Verify deep links by checking the
   response body (or driving a browser), never by status code.
+- **`curl` reaches Apps Script and DonorDrive from the sandbox, even though
+  its Chromium can't.** Verify the live backend with curl. `GET
+  $ENDPOINT?action=gameday` returns JSON on a current deployment and HTML on
+  a stale one. POSTs need `Content-Type: text/plain`. Safe read-only checks:
+  an RSVP for an event that has ended, or a newsletter post with a bad
+  email; both are refused without writing anything. `$ENDPOINT` is the
+  `VITE_RSVP_ENDPOINT` fallback in `.github/workflows/deploy.yml`.
+- **Google Sheets converts typed values.** "8:00 AM" becomes a time, and
+  `getValues()` returns it as "Sat Dec 30 1899 …". Read anything shown to
+  people with `getDisplayValues()`.
 - Restarting the working branch after a merge: the remote branch is
   auto-deleted, which makes `git push --force-with-lease` fail with
   "stale info" against the local tracking ref. Run `git remote prune
