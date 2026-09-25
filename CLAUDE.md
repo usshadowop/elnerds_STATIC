@@ -39,7 +39,6 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-09-25 | **Owner (manual)** | **Redeploy `Code.gs` once more** (paste, then Deploy → Manage deployments → ✏️ → New version). It fixes Run of Show times: Sheets stored the seeded "8:00 AM" as a time, so `/gameday` shows "Sat Dec 30 1899 08:00:00 GMT-0600". Done when `curl "$ENDPOINT?action=gameday"` shows `"8:00 AM"`. The 2026-08-12 redeploy is **done** (verified 2026-09-25: JSON from `?action=gameday`, and a Bingo RSVP was refused). |
 | 2026-08-12 | Owner | Fill in the four `Gameday *` tabs in the RSVP sheet before Nov 14. They exist now, holding starter rows. Also delete the test row `newsletter-test@example.com` from the `Newsletter` tab. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
@@ -74,6 +73,8 @@ newsletter signup #44, `Code.gs` redeployed):*
   - `/donations` sends `max-age=14400`, so the hook fetches with
     `cache: "no-store"`;
   - a tap on a phone left `:hover` stuck on, which froze the strip.
+- **The ticker now opens each loop with a blank gap one strip wide (#45)**,
+  so the newest donation enters from the right instead of leaving first.
 - **The Donors badges squashed into ovals on phones (#43).** Any fixed-size
   icon next to text that can wrap needs `shrink-0`.
 - **Shipped the newsletter signup (#44).** It saves to a `Newsletter` sheet
@@ -81,7 +82,8 @@ newsletter signup #44, `Code.gs` redeployed):*
   `docs/features/newsletter-signup.md`.
 - **The owner redeployed `Code.gs`**, closing the thread open since Aug 12.
   The first live read found Run of Show times coming back as 1899 dates.
-  The `getDisplayValues()` fix is merged but needs one more redeploy.
+  The `getDisplayValues()` fix is in, and the owner redeployed again
+  (Version 4). The live script now matches the repo, verified 2026-09-25.
 - The sandbox browser can't reach DonorDrive or Apps Script. Every check
   here stubbed those services with `page.route` against a local build, and
   the `Code.gs` handler was run in Node against fake Google services.
