@@ -2,6 +2,7 @@ import { SiteNav } from "@/components/site/SiteNav";
 import { Footer } from "@/components/site/Footer";
 import { CommandCenter } from "@/pages/CommandCenter";
 import { Home } from "@/pages/Home";
+import { Newsletter } from "@/pages/Newsletter";
 import { GilletteChildrensHospital } from "@/pages/GilletteChildrensHospital";
 import { PatientProfiles } from "@/pages/PatientProfiles";
 import { Registration } from "@/pages/Registration";
@@ -14,6 +15,7 @@ export default function App() {
   let page = <Home />;
   if (path === "gameday") page = <CommandCenter />;
   if (path === "gillette-childrens-hospital") page = <GilletteChildrensHospital />;
+  if (path === "newsletter") page = <Newsletter />;
   if (path === "patient-profiles") page = <PatientProfiles />;
   if (path === "registration") page = <Registration />;
   if (path === "rsvp") page = <Rsvp />;

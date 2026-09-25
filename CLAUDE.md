@@ -39,8 +39,8 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | **Owner (manual)** | **Redeploy `Code.gs`** from the Apps Script editor (Deploy → Manage deployments → ✏️ → New version; same URL). Two shipped features are dormant until this happens: RSVPs for finished events are still acceptable by direct POST, and `/gameday` can't read the sheet so it serves its built-in copy. Verify with `curl "$ENDPOINT?action=gameday"` — JSON means done, HTML means not. Re-checked 2026-09-24: **still not done**, six weeks open. Game Day is Nov 14, so the sheet tabs need to exist well before then. |
-| 2026-08-12 | Owner (after redeploy) | Open `/gameday` once so the four `Gameday *` tabs are created in the RSVP sheet, then fill them in. |
+| 2026-09-25 | **Owner (manual)** | **Redeploy `Code.gs` once more** (paste, then Deploy → Manage deployments → ✏️ → New version). It fixes Run of Show times: Sheets stored the seeded "8:00 AM" as a time, so `/gameday` shows "Sat Dec 30 1899 08:00:00 GMT-0600". Done when `curl "$ENDPOINT?action=gameday"` shows `"8:00 AM"`. The 2026-08-12 redeploy is **done** (verified 2026-09-25: JSON from `?action=gameday`, and a Bingo RSVP was refused). |
+| 2026-08-12 | Owner | Fill in the four `Gameday *` tabs in the RSVP sheet before Nov 14. They exist now, holding starter rows. Also delete the test row `newsletter-test@example.com` from the `Newsletter` tab. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
@@ -64,27 +64,27 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-09-24 (the latest-donations ticker, first site change since
-#31):*
+*Session of 2026-09-24 → 09-25 (donation ticker #40–#42, badge fix #43,
+newsletter signup #44, `Code.gs` redeployed):*
 
-- **Shipped a latest-donations ticker** under the hero countdown. It scrolls
-  the team's 6 newest DonorDrive donations and appears in every hero phase.
-  Mechanism and gotchas are in `docs/features/extra-life-api.md`.
-- **A follow-up fix (#41):** tapping the ticker on a phone froze it,
-  because a tap leaves `:hover` stuck on. Pause-on-hover now applies only to
-  devices with a real mouse.
-- **Added a "See all donations ↓" link (#42)** under the ticker. It
-  smooth-scrolls to the `#donors` section.
-- **The Donors badges (EL, IK) squashed into ovals on phones** (#43).
-  They're `size-10` circles in a flex row, which lets them shrink. Any fixed
-  size icon beside text that can wrap needs `shrink-0`.
-- **`/donations` sends `cache-control: max-age=14400`.** The hook fetches
-  with `cache: "no-store"`, or the ticker would show data up to 4 hours old.
-- The owner approved it from screenshots taken with real donation data
-  stubbed into a local build. The sandbox browser can't reach DonorDrive, so
-  that is the only way to see it before deploying.
-- The previous session (09-18 → 09-24, PRs #32–#39) built the feature cards,
-  the card guard hooks and this handoff section. See `git log` for details.
+- **Shipped a latest-donations ticker** under the hero countdown: the 6
+  newest DonorDrive donations, with a "See all donations ↓" link to
+  `#donors`. The details are in `docs/features/extra-life-api.md`. Two
+  things tripped it up:
+  - `/donations` sends `max-age=14400`, so the hook fetches with
+    `cache: "no-store"`;
+  - a tap on a phone left `:hover` stuck on, which froze the strip.
+- **The Donors badges squashed into ovals on phones (#43).** Any fixed-size
+  icon next to text that can wrap needs `shrink-0`.
+- **Shipped the newsletter signup (#44).** It saves to a `Newsletter` sheet
+  tab through `Code.gs`; the owner picked that over Brevo. The card is
+  `docs/features/newsletter-signup.md`.
+- **The owner redeployed `Code.gs`**, closing the thread open since Aug 12.
+  The first live read found Run of Show times coming back as 1899 dates.
+  The `getDisplayValues()` fix is merged but needs one more redeploy.
+- The sandbox browser can't reach DonorDrive or Apps Script. Every check
+  here stubbed those services with `page.route` against a local build, and
+  the `Code.gs` handler was run in Node against fake Google services.
 
 ## Ship-live workflow
 
@@ -176,6 +176,9 @@ already there.
 - `src/components/site/DonationTicker.tsx` — the "Latest" donations strip
   under the countdown. The number shown (6) is set where the ticker calls
   `useExtraLifeDonations`.
+- `src/pages/Newsletter.tsx` (`/newsletter`): newsletter signup, with
+  `?ref=Name` pre-filling "Referred by". It posts to the RSVP endpoint with
+  `type: "newsletter"`, and `Code.gs` writes it to a `Newsletter` sheet tab.
 - `src/hooks/use-countdown.ts` (`useGameday`) — drives the hero card's
   three states off the marathon's `calendar.start`/`calendar.end`:
   counting down to kickoff, a "Gameday is LIVE!" 24-hour countdown plus

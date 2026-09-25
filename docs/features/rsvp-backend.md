@@ -1,7 +1,7 @@
 # RSVP backend
 
-- **Status:** Live. The close-on-end rejection is **dormant** until `Code.gs` is redeployed
-- **Last reviewed:** 2026-09-24 (Covers audited against imports)
+- **Status:** Live, including the close-on-end rejection (redeployed 2026-09-25, verified)
+- **Last reviewed:** 2026-09-25 (newsletter handler added, redeploy verified)
 - **Covers:** `apps-script/Code.gs`, `src/lib/rsvp.ts`, `src/lib/rsvpEvents.ts`, `src/pages/Rsvp.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -37,6 +37,11 @@ card drops its RSVP chip, `/rsvp/<slug>` replaces the form with an "RSVPs are
 closed" panel (and `/rsvp` moves the event to an "Already happened" group), and
 `hasEnded_(slug)` in `doPost` rejects late submissions.
 
+The same `doPost` also receives newsletter signups. A body with
+`type: "newsletter"` goes to `handleNewsletter_` before any RSVP
+validation, and is saved to a "Newsletter" tab. See
+[newsletter-signup](newsletter-signup.md).
+
 ## Decisions and gotchas
 
 - **The request is deliberately `text/plain`.** Apps Script web apps don't
@@ -60,10 +65,13 @@ closed" panel (and `/rsvp` moves the event to an "Already happened" group), and
 
 ## Manual steps and open questions
 
-- **Blocking, open since 2026-08-12:** redeploy `Code.gs` (Apps Script editor
-  → **Deploy → Manage deployments → ✏️ → New version**; same URL, no secret
-  change). Until then, RSVPs for finished events are still acceptable by
-  direct POST, and [gameday-content](gameday-content.md) can't read the sheet.
-  Verified still outstanding on 2026-09-18.
+- **Every `Code.gs` change needs a manual redeploy.** In the Apps Script
+  editor: paste the file in, then **Deploy → Manage deployments → ✏️ → New
+  version**. The URL stays the same and no secret changes. A repo edit alone
+  changes nothing live.
+- **Open since 2026-09-25:** one more redeploy, for the Command Center's
+  display-value fix (see [gameday-content](gameday-content.md)). The
+  2026-08-12 redeploy is done: on 2026-09-25 `?action=gameday` returned JSON
+  and an RSVP for Bingo (already over) was refused.
 - Adding an RSVP event means an entry in `rsvpEvents.ts` **and** a matching
   entry in `Code.gs`'s `EVENTS`, then a redeploy.

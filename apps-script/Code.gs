@@ -10,6 +10,8 @@
  *   - Emails the captain account a notification
  *   - Handles cancel links (GET ?action=cancel&token=...): marks the row
  *     "Cancelled" and notifies the captain
+ *   - Receives newsletter signups (POST { type: "newsletter", email, referral })
+ *     from /newsletter into a "Newsletter" tab, and notifies the captain
  *
  * Setup: see apps-script/README.md in the repo.
  */
@@ -138,7 +140,10 @@ function getGamedayContent_() {
     for (let s = 0; s < GAMEDAY_SECTIONS.length; s++) {
       const section = GAMEDAY_SECTIONS[s];
       const sheet = getGamedaySheet_(ss, section.tab, section.headers, section.seed);
-      const values = sheet.getDataRange().getValues();
+      // Display values, not raw ones: Sheets turns a typed "8:00 AM" into a
+      // time, which getValues() returns as "Sat Dec 30 1899 08:00:00 GMT-0600".
+      // getDisplayValues() returns what's shown in the cell ("8:00 AM").
+      const values = sheet.getDataRange().getDisplayValues();
       const rows = [];
 
       for (let r = 1; r < values.length; r++) {
@@ -161,7 +166,7 @@ function getGamedayContent_() {
       ["Banner message (clear this cell to hide the banner)"],
       [[""]],
     );
-    out.notice = String(noticeSheet.getRange(2, 1).getValue() || "").trim();
+    out.notice = String(noticeSheet.getRange(2, 1).getDisplayValue() || "").trim();
 
     return out;
   } catch (err) {
@@ -221,6 +226,8 @@ function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
 
+    if (data.type === "newsletter") return handleNewsletter_(data);
+
     const slug = String(data.slug || "").trim().slice(0, 60);
     const title = String(data.title || "").trim().slice(0, 120);
     const name = String(data.name || "").trim().slice(0, 200);
@@ -279,6 +286,62 @@ function doPost(e) {
   } catch (err) {
     return json_({ ok: false, error: "Server error: " + err.message });
   }
+}
+
+// ---------------------------------------------------------------------------
+// POST — newsletter signup (/newsletter)
+// ---------------------------------------------------------------------------
+
+const NEWSLETTER_TAB = "Newsletter";
+
+// Appends { email, referral } to the "Newsletter" tab. Signing up twice is a
+// quiet success, not an error — it doesn't add a row, and doesn't tell a
+// stranger whether an address is already on the list.
+function handleNewsletter_(data) {
+  // Hidden "website" field on the form: people never see it, bots fill it in.
+  if (String(data.website || "").trim()) return json_({ ok: true });
+
+  const email = String(data.email || "").trim().slice(0, 200);
+  const referral = String(data.referral || "").trim().slice(0, 200);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return json_({ ok: false, error: "Please enter a valid email address." });
+  }
+
+  let added = false;
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const ss = getSpreadsheet_();
+    let sheet = ss.getSheetByName(NEWSLETTER_TAB);
+    if (!sheet) {
+      sheet = ss.insertSheet(NEWSLETTER_TAB);
+      sheet.appendRow(["Timestamp", "Email", "Referred by"]);
+      sheet.setFrozenRows(1);
+    }
+    const last = sheet.getLastRow();
+    const existing = last > 1 ? sheet.getRange(2, 2, last - 1, 1).getValues() : [];
+    const needle = email.toLowerCase();
+    const already = existing.some(function (r) { return String(r[0]).trim().toLowerCase() === needle; });
+    if (!already) {
+      sheet.appendRow([new Date(), email, referral]);
+      added = true;
+    }
+  } finally {
+    lock.releaseLock();
+  }
+
+  if (added) {
+    MailApp.sendEmail({
+      to: CAPTAIN_EMAIL,
+      name: SENDER_NAME,
+      subject: "New newsletter signup: " + email,
+      htmlBody: page_("New newsletter signup",
+        "<strong>" + esc_(email) + "</strong> signed up for the newsletter." +
+        (referral ? "<br>Referred by: <strong>" + esc_(referral) + "</strong>" : "")),
+    });
+  }
+
+  return json_({ ok: true });
 }
 
 // ---------------------------------------------------------------------------
