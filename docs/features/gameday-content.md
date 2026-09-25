@@ -57,9 +57,9 @@ fill it in and the tile becomes a live player.
 - **Times are read as displayed text, not raw cell values.** Sheets turns a
   typed "8:00 AM" into a time value, which `getValues()` returns as "Sat Dec 30
   1899 08:00:00 GMT-0600". The first live read after the redeploy showed
-  exactly that. `getGamedayContent_` now uses `getDisplayValues()`. **That fix
-  needs one more `Code.gs` redeploy** (open since 2026-09-25). Until then,
-  typed times read wrong; typing the time as text (`'8:00 AM`) avoids it.
+  exactly that. `getGamedayContent_` now uses `getDisplayValues()`. It went live
+  in the Version 4 deployment, verified 2026-09-25: the times read
+  "8:00 AM".
 - **CORS is fine.** Verified against the live deployment that the Apps Script
   `ContentService` JSON path returns `access-control-allow-origin: *` on both
   the 302 and the final 200, so the cross-origin browser read works. (The
@@ -68,9 +68,6 @@ fill it in and the tile becomes a live player.
 
 ## Manual steps and open questions
 
-- **Redeploy `Code.gs` once more** for the display-value fix above (steps in
-  [rsvp-backend](rsvp-backend.md)). Check that
-  `curl "$ENDPOINT?action=gameday"` shows `"8:00 AM"`, not an 1899 date.
 - The four `Gameday *` tabs exist now, with starter rows. They need real
   content before Nov 14.
 - **Open:** should `/gameday` go in the top nav for Game Day? It's link-only

@@ -69,9 +69,10 @@ validation, and is saved to a "Newsletter" tab. See
   editor: paste the file in, then **Deploy → Manage deployments → ✏️ → New
   version**. The URL stays the same and no secret changes. A repo edit alone
   changes nothing live.
-- **Open since 2026-09-25:** one more redeploy, for the Command Center's
-  display-value fix (see [gameday-content](gameday-content.md)). The
-  2026-08-12 redeploy is done: on 2026-09-25 `?action=gameday` returned JSON
-  and an RSVP for Bingo (already over) was refused.
+- **The live deployment matches the repo** as of 2026-09-25 (Version 4).
+  Checked then:
+  - `?action=gameday` returns display-value times ("8:00 AM");
+  - an RSVP for the already-finished Bingo event is refused;
+  - newsletter signups save and de-duplicate.
 - Adding an RSVP event means an entry in `rsvpEvents.ts` **and** a matching
   entry in `Code.gs`'s `EVENTS`, then a redeploy.
