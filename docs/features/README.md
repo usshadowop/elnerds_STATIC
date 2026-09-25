@@ -14,6 +14,7 @@ from the code.
 | [gameday-content](gameday-content.md) | Command Center contents, editable mid-event from a sheet | Live, dormant |
 | [rsvp-backend](rsvp-backend.md) | RSVP form → sheet → confirmation + cancel emails | Live |
 | [extra-life-api](extra-life-api.md) | Live team, roster and donor data from DonorDrive | Live |
+| [newsletter-signup](newsletter-signup.md) | `/newsletter` signup → sheet, with a referral field | Built, awaiting redeploy |
 | [deploy-pipeline](deploy-pipeline.md) | Push to `main` → GitHub Pages | Live |
 | [branding-docs](branding-docs.md) | The email template, block library and design brief | Live |
 

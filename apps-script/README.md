@@ -8,6 +8,7 @@ that:
 2. Emails the **registrant** a confirmation with **Add to Calendar** + **Cancel** buttons
 3. Emails the **captain account** a "new RSVP" notification
 4. Handles **cancel** links (marks the row `Cancelled`, notifies the captain)
+5. Receives **newsletter signups** from `elnerds.com/newsletter` into a `Newsletter` tab (Email, Referred by) and notifies the captain
 
 Nothing about this is visible to the visitor — they stay on the styled site the
 whole time. The Google Sheet is your private back-office view.
@@ -133,6 +134,17 @@ with the site rather than rendering an empty section.
 **This needs `Code.gs` redeployed** (see below) before it does anything — until
 then the endpoint doesn't answer `?action=gameday` and the page quietly shows
 its built-in copy.
+
+## Newsletter signups
+
+`/newsletter` posts `{ type: "newsletter", email, referral }` to this same
+endpoint. Each new address becomes a row in a **`Newsletter`** tab (Timestamp,
+Email, Referred by), created on the first signup, and the captain gets an
+email. A repeat signup from the same address is accepted but not saved
+again. To send a newsletter, export the tab and import it into Brevo.
+
+**This needs `Code.gs` redeployed** before it works. The old version rejects
+these posts with "Invalid submission."
 
 ## Limits & notes
 

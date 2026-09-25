@@ -3,6 +3,15 @@ import { Mail } from "lucide-react";
 export function Footer() {
   return (
     <footer className="border-t border-line bg-paper py-12">
+      <div className="mb-10 flex justify-center px-4">
+        <a
+          href={`${import.meta.env.BASE_URL}newsletter`}
+          className="inline-flex items-center gap-2 rounded-full border-2 border-teal px-6 py-3 text-xs font-extrabold uppercase tracking-widest text-teal transition-all hover:bg-teal hover:text-white"
+        >
+          <Mail className="size-4 shrink-0" />
+          Sign up for our newsletter
+        </a>
+      </div>
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 sm:px-6 md:flex-row md:gap-8">
         <p className="text-center text-xs text-ink-soft">
           &copy; {new Date().getFullYear()} Extra Life Nerds. All proceeds support Gillette

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Menu, X, Instagram, Facebook, ChevronDown } from "lucide-react";
+import { Menu, X, Instagram, Facebook, ChevronDown, Mail } from "lucide-react";
 import { DiscordIcon } from "./DiscordIcon";
 import logoUrl from "@/assets/eln-logo.svg";
 
@@ -130,6 +130,14 @@ export function SiteNav() {
             >
               <DiscordIcon className="size-5" />
             </a>
+            <a
+              href={`${HOME}newsletter`}
+              aria-label="Newsletter signup"
+              title="Sign up for our newsletter"
+              className="flex items-center text-ink/70 transition-colors hover:text-purple"
+            >
+              <Mail className="size-5" />
+            </a>
           </div>
         </div>
 
@@ -214,6 +222,14 @@ export function SiteNav() {
                 className="text-ink/70 transition-colors hover:text-orange"
               >
                 <DiscordIcon className="size-5" />
+              </a>
+              <a
+                href={`${HOME}newsletter`}
+                onClick={() => setOpen(false)}
+                aria-label="Newsletter signup"
+                className="text-ink/70 transition-colors hover:text-purple"
+              >
+                <Mail className="size-5" />
               </a>
             </div>
           </div>
