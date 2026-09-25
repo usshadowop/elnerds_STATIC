@@ -11,10 +11,10 @@ from the code.
 | --- | --- | --- |
 | [schedule-archival](schedule-archival.md) | Event cards that move themselves Future → Past | Live |
 | [gameday-hero-states](gameday-hero-states.md) | Hero countdown across Game Day, and the total after | Live |
-| [gameday-content](gameday-content.md) | Command Center contents, editable mid-event from a sheet | Live, dormant |
+| [gameday-content](gameday-content.md) | Command Center contents, editable mid-event from a sheet | Live |
 | [rsvp-backend](rsvp-backend.md) | RSVP form → sheet → confirmation + cancel emails | Live |
 | [extra-life-api](extra-life-api.md) | Live team, roster and donor data from DonorDrive | Live |
-| [newsletter-signup](newsletter-signup.md) | `/newsletter` signup → sheet, with a referral field | Built, awaiting redeploy |
+| [newsletter-signup](newsletter-signup.md) | `/newsletter` signup → sheet, with a referral field | Live |
 | [deploy-pipeline](deploy-pipeline.md) | Push to `main` → GitHub Pages | Live |
 | [branding-docs](branding-docs.md) | The email template, block library and design brief | Live |
 

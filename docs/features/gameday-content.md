@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
-- **Status:** Live in the site, **dormant** until `Code.gs` is redeployed
-- **Last reviewed:** 2026-09-18
+- **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
+- **Last reviewed:** 2026-09-25
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`
 
 ## Purpose
@@ -54,6 +54,12 @@ fill it in and the tile becomes a live player.
 - **Embed URLs are the platform's embed address, not the channel page**, and
   Twitch additionally needs `&parent=elnerds.com` or the player refuses to
   load.
+- **Times are read as displayed text, not raw cell values.** Sheets turns a
+  typed "8:00 AM" into a time value, which `getValues()` returns as "Sat Dec 30
+  1899 08:00:00 GMT-0600". The first live read after the redeploy showed
+  exactly that. `getGamedayContent_` now uses `getDisplayValues()`. **That fix
+  needs one more `Code.gs` redeploy** (open since 2026-09-25). Until then,
+  typed times read wrong; typing the time as text (`'8:00 AM`) avoids it.
 - **CORS is fine.** Verified against the live deployment that the Apps Script
   `ContentService` JSON path returns `access-control-allow-origin: *` on both
   the 302 and the final 200, so the cross-origin browser read works. (The
@@ -62,11 +68,11 @@ fill it in and the tile becomes a live player.
 
 ## Manual steps and open questions
 
-- **Blocking:** `Code.gs` must be redeployed by hand before any of this does
-  anything. Until then `/gameday` serves its built-in copy. Check with
-  `curl "$ENDPOINT?action=gameday"` — JSON means done, HTML means not. See
-  [rsvp-backend](rsvp-backend.md) for the redeploy steps.
-- After redeploying, open `/gameday` once so the four tabs are created.
+- **Redeploy `Code.gs` once more** for the display-value fix above (steps in
+  [rsvp-backend](rsvp-backend.md)). Check that
+  `curl "$ENDPOINT?action=gameday"` shows `"8:00 AM"`, not an 1899 date.
+- The four `Gameday *` tabs exist now, with starter rows. They need real
+  content before Nov 14.
 - **Open:** should `/gameday` go in the top nav for Game Day? It's link-only
   today, reachable from the hero button while the marathon runs.
 - The run of show is display text, not parsed — the page does not compute

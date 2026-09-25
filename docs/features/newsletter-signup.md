@@ -1,6 +1,6 @@
 # Newsletter signup
 
-- **Status:** Built, **not live**. It waits on the `Code.gs` redeploy, because the live script rejects newsletter posts
+- **Status:** Live (backend verified 2026-09-25)
 - **Last reviewed:** 2026-09-25
 - **Covers:** `src/pages/Newsletter.tsx`, `src/lib/newsletter.ts`
 
@@ -53,16 +53,18 @@ own link.
 - **The subscriber gets no confirmation email.** Only the captain is
   notified. There is no double opt-in, and no unsubscribe step on the site;
   Brevo's `{{ unsubscribe }}` covers that when mail goes out.
-- **The live script is the old version.** It rejects this post with
-  "Invalid submission." because the post has no `name` or `title`. So the
-  links and page must not ship until `Code.gs` is redeployed. The upside is
-  that the old script can't mistake a signup for an RSVP.
+- **An older `Code.gs` rejects these posts** with "Invalid submission.",
+  because they have no `name` or `title`. So a stale deployment can never
+  mistake a signup for an RSVP; the form just shows an error.
 
 ## Manual steps and open questions
 
-- **Before it goes live:** redeploy `Code.gs` (see
-  [rsvp-backend](rsvp-backend.md)). Then send one test signup and check
-  that the "Newsletter" tab appears in the sheet.
+- **Verified live on 2026-09-25**, by posts straight to the endpoint:
+  - a test signup, `newsletter-test@example.com`, returned ok. That row can be
+    deleted from the sheet;
+  - the same address with different capitals returned ok without adding a
+    row;
+  - a bad address was refused.
 - Each signup sends one captain email, and free Gmail allows about 100 a
   day, shared with RSVPs. A big signup push could hit that cap. Rows are
   still saved if it does; only the notification emails stop.

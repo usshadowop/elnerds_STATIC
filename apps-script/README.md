@@ -131,9 +131,11 @@ Rows whose first cell is empty are skipped, so gaps and half-typed rows are
 safe. If a whole tab is emptied, the page falls back to the copy that ships
 with the site rather than rendering an empty section.
 
-**This needs `Code.gs` redeployed** (see below) before it does anything — until
-then the endpoint doesn't answer `?action=gameday` and the page quietly shows
-its built-in copy.
+If the endpoint doesn't answer `?action=gameday` (for example, an older
+deployment), the page quietly shows its built-in copy.
+
+Times in the Run of Show are sent exactly as the cell displays them, so
+"8:00 AM" stays "8:00 AM" even though Sheets stores it as a time.
 
 ## Newsletter signups
 
@@ -142,9 +144,6 @@ endpoint. Each new address becomes a row in a **`Newsletter`** tab (Timestamp,
 Email, Referred by), created on the first signup, and the captain gets an
 email. A repeat signup from the same address is accepted but not saved
 again. To send a newsletter, export the tab and import it into Brevo.
-
-**This needs `Code.gs` redeployed** before it works. The old version rejects
-these posts with "Invalid submission."
 
 ## Limits & notes
 

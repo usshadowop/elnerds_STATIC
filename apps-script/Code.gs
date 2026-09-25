@@ -140,7 +140,10 @@ function getGamedayContent_() {
     for (let s = 0; s < GAMEDAY_SECTIONS.length; s++) {
       const section = GAMEDAY_SECTIONS[s];
       const sheet = getGamedaySheet_(ss, section.tab, section.headers, section.seed);
-      const values = sheet.getDataRange().getValues();
+      // Display values, not raw ones: Sheets turns a typed "8:00 AM" into a
+      // time, which getValues() returns as "Sat Dec 30 1899 08:00:00 GMT-0600".
+      // getDisplayValues() returns what's shown in the cell ("8:00 AM").
+      const values = sheet.getDataRange().getDisplayValues();
       const rows = [];
 
       for (let r = 1; r < values.length; r++) {
@@ -163,7 +166,7 @@ function getGamedayContent_() {
       ["Banner message (clear this cell to hide the banner)"],
       [[""]],
     );
-    out.notice = String(noticeSheet.getRange(2, 1).getValue() || "").trim();
+    out.notice = String(noticeSheet.getRange(2, 1).getDisplayValue() || "").trim();
 
     return out;
   } catch (err) {
