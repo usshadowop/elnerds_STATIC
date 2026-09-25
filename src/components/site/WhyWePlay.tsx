@@ -141,7 +141,7 @@ function VictoriaStoryReveal() {
         className="group inline-flex items-center gap-3 rounded-full border-2 border-magenta/30 bg-white px-5 py-3 text-left shadow-[var(--shadow-soft)] transition-all hover:border-magenta hover:shadow-[var(--shadow-lift)]"
         aria-label="Learn about Victoria's Story"
       >
-        <span className="grid size-10 place-items-center rounded-full bg-magenta text-white transition-transform group-hover:scale-110">
+        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-magenta text-white transition-transform group-hover:scale-110">
           <Youtube className="size-5" />
         </span>
         <span className="font-display text-base font-extrabold tracking-tight text-ink sm:text-lg">
