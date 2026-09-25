@@ -70,7 +70,8 @@ export function DonationTicker({ refreshMs }: { refreshMs?: number }) {
 
   if (donations.length === 0) return null;
 
-  const duration = `${Math.max(20, donations.length * SECONDS_PER_ITEM)}s`;
+  // +1 for the blank lead-in, so it doesn't speed the strip up.
+  const duration = `${Math.max(20, (donations.length + 1) * SECONDS_PER_ITEM)}s`;
 
   return (
     <div className="mx-auto -mt-6 mb-10 max-w-2xl">
@@ -85,14 +86,18 @@ export function DonationTicker({ refreshMs }: { refreshMs?: number }) {
 
         <div className="donation-ticker relative min-w-0 flex-1 overflow-hidden py-3">
           {/* The list is rendered twice so the loop joins up seamlessly; the
-            copy is hidden from screen readers. */}
+            copy is hidden from screen readers. Each copy opens with a blank
+            gap one strip wide, so the newest donation enters from the right
+            and crosses the whole strip instead of leaving first. */}
           <div className="donation-ticker-track flex w-max" style={{ animationDuration: duration }}>
             <ul className="flex">
+              <li className="donation-ticker-gap" aria-hidden />
               {donations.map((d) => (
                 <Item key={d.donationID} d={d} now={now} />
               ))}
             </ul>
             <ul className="flex" aria-hidden>
+              <li className="donation-ticker-gap" />
               {donations.map((d) => (
                 <Item key={d.donationID} d={d} now={now} />
               ))}

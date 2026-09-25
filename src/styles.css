@@ -61,11 +61,20 @@
 }
 
 .donation-ticker {
+  container-type: inline-size;
   mask-image: linear-gradient(to right, transparent, black 1.5rem, black calc(100% - 1.5rem), transparent);
 }
 
 .donation-ticker-track {
   animation: donation-ticker linear infinite;
+}
+
+/* Blank lead-in, exactly as wide as the visible strip (100cqw), so the loop
+   starts with the newest donation entering from the right. */
+.donation-ticker-gap {
+  flex: none;
+  width: 20rem;
+  width: 100cqw;
 }
 
 /* Pause to read — but only with a real mouse. On touch screens a tap leaves
@@ -83,7 +92,8 @@
   .donation-ticker-track {
     animation: none;
   }
-  .donation-ticker-track > [aria-hidden] {
+  .donation-ticker-track > [aria-hidden],
+  .donation-ticker-gap {
     display: none;
   }
 }

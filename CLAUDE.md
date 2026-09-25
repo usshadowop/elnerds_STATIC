@@ -73,6 +73,8 @@ newsletter signup #44, `Code.gs` redeployed):*
   - `/donations` sends `max-age=14400`, so the hook fetches with
     `cache: "no-store"`;
   - a tap on a phone left `:hover` stuck on, which froze the strip.
+- **The ticker now opens each loop with a blank gap one strip wide (#45)**,
+  so the newest donation enters from the right instead of leaving first.
 - **The Donors badges squashed into ovals on phones (#43).** Any fixed-size
   icon next to text that can wrap needs `shrink-0`.
 - **Shipped the newsletter signup (#44).** It saves to a `Newsletter` sheet

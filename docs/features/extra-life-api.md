@@ -1,7 +1,7 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-09-24
+- **Last reviewed:** 2026-09-25
 - **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`
 
 ## Purpose
@@ -42,7 +42,12 @@ first 6. It asks for 20 so that 6 real donations remain even when several
 sign-ups land together. The hero
 passes a refresh interval of one minute while Game Day is live and five minutes
 otherwise. The strip scrolls by rendering the list twice and sliding the track
-by half. It pauses on hover, but only on devices with a real mouse (`hover: hover` and `pointer: fine`). On a phone a tap leaves `:hover` stuck on, which used to freeze the strip until you tapped elsewhere. Under `prefers-reduced-motion` it
+by half. Each copy opens with a blank gap as wide as the visible strip
+(`.donation-ticker-gap`, `width: 100cqw`, with the strip as a size
+container). So each loop starts empty, and the newest donation enters from
+the right instead of scrolling away first. The donor's name is readable for
+about 5s on desktop and about 2s on a 390px phone. The gap counts as one
+more item in the loop duration, so it doesn't speed the strip up. It pauses on hover, but only on devices with a real mouse (`hover: hover` and `pointer: fine`). On a phone a tap leaves `:hover` stuck on, which used to freeze the strip until you tapped elsewhere. Under `prefers-reduced-motion` it
 stops moving and becomes a plain horizontal scroll.
 
 ## Decisions and gotchas
