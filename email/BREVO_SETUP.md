@@ -1,7 +1,9 @@
-# Sending this campaign with Brevo (free plan)
+# Sending a campaign with Brevo (free plan)
 
-This walks through sending `elnerds-announcement.html` (general list) and
-`elnerds-announcement-vip.html` (VIP list) from **info@elnerds.com** using
+This walks through sending a campaign to the general and VIP lists, using the
+August 2026 announcement (now in `archive/2026-08-announcement/`:
+`elnerds-announcement.html` for the general list and
+`elnerds-announcement-vip.html` for the VIP list) as the worked example, from **info@elnerds.com** using
 Brevo's free plan — 300 emails/day, unlimited contacts, no credit card.
 
 If your combined list is under ~300 people, everything below fits in a
@@ -56,8 +58,8 @@ Repeat for each list:
    step 1).
 5. **Design**: choose **"Import a code"** / **"Rich HTML"** (Brevo's editor
    name for pasting raw HTML) and paste the full contents of:
-   - `email/elnerds-announcement-vip.html` for the VIP campaign
-   - `email/elnerds-announcement.html` for the General campaign
+   - the VIP variant for the VIP campaign (for the example, `email/archive/2026-08-announcement/elnerds-announcement-vip.html`)
+   - the general file for the General campaign (for the example, `email/archive/2026-08-announcement/elnerds-announcement.html`)
 6. **Recipients**: select the matching list (`VIP Supporters` or
    `General Mailing List`). If a contact is on both lists and you don't
    want VIPs to also get the general send, exclude the VIP list under

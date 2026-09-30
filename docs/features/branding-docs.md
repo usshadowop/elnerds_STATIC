@@ -1,7 +1,7 @@
 # Branding design docs
 
 - **Status:** Live — `email/` section complete; no other surfaces documented yet
-- **Last reviewed:** 2026-09-24 (audited the file list against the repo)
+- **Last reviewed:** 2026-09-30 (repointed at the archived reference email)
 - **Covers:** `branding/*`
 
 ## Purpose
@@ -29,14 +29,15 @@ project.
   one self-contained file, for an assistant that can't read the repo.
   **Generated** by `branding/email/build-bundle.sh`; never hand-edited.
 
-Campaigns themselves live in `email/` at the repo root, published from
-`public/email/`. This directory holds the template and the rules, not the
-sends.
+Campaigns themselves live in `email/` at the repo root (sent ones in
+`email/archive/`), and the current one is published as
+`public/email/index.html`. This directory holds the template and the rules,
+not the sends.
 
 ## How it works
 
 Everything in `branding/email/` was extracted from the shipped announcement
-email (`email/elnerds-announcement.html`), so the markup is already proven in
+email (`email/archive/2026-08-announcement/elnerds-announcement.html`), so the markup is already proven in
 real inboxes rather than freshly authored. `template.html` carries the chrome
 that is easy to get wrong and never needs to change — doctype, resets, the
 `[if mso]` conditionals, the 600px container with its Outlook fallback table,
@@ -82,7 +83,7 @@ grep -o '\[\[[A-Z_]*\]\]' your-email.html    # must print nothing
   reinvent a `<div>` layout, drop the VML button twin, or use
   `FIRSTNAME`. The eight constraints each cost someone real time once.
 - **The reference email is upstream of these docs.** If the design of
-  `email/elnerds-announcement.html` changes, `tokens.md` and `blocks.html`
+  the reference email changes, `tokens.md` and `blocks.html`
   can silently go stale — and the commit guard will *not* catch it, because
   the campaign files are content and aren't in `Covers` (blocking every copy
   edit would just train people to type `no-card`). The 90-day review report
@@ -108,6 +109,9 @@ grep -o '\[\[[A-Z_]*\]\]' your-email.html    # must print nothing
   run.
 - **Open:** `branding/` has room for siblings (site, logos, social) if those
   surfaces ever need documenting. Only `email/` exists today.
-- When a new campaign is written, it goes in `email/` — and the announcement
-  email is served from **two** copies under `public/email/` that drift
-  silently if only one is updated (see `CLAUDE.md`).
+- When a new campaign is written, it goes in `email/`; the previous one moves
+  to `email/archive/` (see `email/archive/README.md`).
+- **Open:** the September 2026 sign-up/recruit email
+  (`email/elnerds-signup-recruit.html`) adds a social icon row, which breaks
+  the brief's logo-and-badge-only image rule on purpose, as a trial. If the
+  owner keeps it, write it into `blocks.html` and the brief's constraint 3.

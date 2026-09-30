@@ -2,7 +2,7 @@
 
 The template, block library and design rules behind Extra Life Nerds
 emails. Extracted from the shipped announcement email
-(`../../email/elnerds-announcement.html`) so everything here is already
+(`../../email/archive/2026-08-announcement/elnerds-announcement.html`, now archived) so everything here is already
 tested in real inboxes.
 
 ## Start here
@@ -55,11 +55,11 @@ re-run:
 
 - **This directory** holds the template and the rules.
 - **`email/`** at the repo root holds actual campaigns, plus
-  `BREVO_SETUP.md` for the send procedure and `README.md` for the
-  announcement email's own notes.
-- **`public/email/`** holds the two published copies that serve
-  <https://elnerds.com/email/>. They drift silently — see the warning in
-  `CLAUDE.md`.
+  `BREVO_SETUP.md` for the send procedure; sent campaigns move to
+  `email/archive/`.
+- **`public/email/`** publishes them: `index.html` is the current campaign
+  at <https://elnerds.com/email/>, and `archive/<folder>/index.html` keeps
+  each past one up. See `email/archive/README.md`.
 
 The site's own styling is not duplicated here; it lives in `src/styles.css`
 as Tailwind theme tokens. `tokens.md` exists because email clients can't

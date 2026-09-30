@@ -1,7 +1,7 @@
 # Email design tokens
 
 Every value below is taken from the shipped announcement email
-(`email/elnerds-announcement.html`), not from the site's CSS. Email clients
+(`email/archive/2026-08-announcement/elnerds-announcement.html`), not from the site's CSS. Email clients
 can't read CSS custom properties, so these have to be typed as literal hex
 and px into inline styles — which is exactly why they need writing down.
 

@@ -8,7 +8,7 @@ the three files it points to.
 - `tokens.md` — the authoritative colour, type and layout values
 - `template.html` — the skeleton to start from (chrome is already correct)
 - `blocks.html` — tested section markup to assemble the body from
-- `../../email/elnerds-announcement.html` — the reference email that all of
+- `../../email/archive/2026-08-announcement/elnerds-announcement.html` — the reference email that all of
   the above was extracted from. When in doubt, look at what shipped.
 
 ---
@@ -151,6 +151,6 @@ These are not stylistic preferences. Each one cost someone real time.
 
 A new campaign's HTML lives in `email/` at the repo root — **not** in
 `branding/`. This directory holds the template and the rules; `email/` holds
-the campaigns. And note the trap documented in `CLAUDE.md`: the announcement
-email is served from **two** copies under `public/email/`, which drift
-silently if you update one and forget the other.
+the campaigns. The current campaign is published by copying it over
+`public/email/index.html`; sent campaigns move to `email/archive/` (see
+`email/archive/README.md`).
