@@ -8,6 +8,7 @@ lets you change text and images; MJML gets the full drag-and-drop editor.
 | File | What it is |
 | --- | --- |
 | `elnerds-signup-recruit.mjml` | The Sep 2026 sign-up/recruit email (`../elnerds-signup-recruit.html`), rebuilt in MJML. Use it as the team's starting template. |
+| `elnerds-signup-recruit.compiled.html` | The same MJML compiled to HTML (minified, about 60 KB). Only for Stripo's HTML code editor or for pasting into Brevo directly; in Stripo it allows text and image edits only. Regenerate it whenever the `.mjml` changes. |
 
 ## Import it into Stripo
 
@@ -18,6 +19,10 @@ lets you change text and images; MJML gets the full drag-and-drop editor.
 2. Choose **HTML / MJML**, then upload `elnerds-signup-recruit.mjml` or
    paste its contents.
 3. Stripo converts it and saves it to your email library.
+
+Don't paste the MJML into Stripo's HTML **code editor**. That editor checks
+code as a web page and rejects MJML ("missing doctype", "trailing solidus
+not allowed"). Use the import, or paste the compiled HTML file instead.
 
 ## Set it up once after importing
 
