@@ -2,6 +2,8 @@
 # Regenerates BRIEF_BUNDLE.md — the whole email design system as one
 # self-contained file, for handing to an AI that cannot read this repo.
 #
+# Also regenerates public/email/index.html (see build-preview.py).
+#
 # BRIEF_BUNDLE.md is GENERATED. Never edit it by hand; edit the four source
 # files and re-run this:
 #
@@ -76,3 +78,7 @@ HEADER
 } > "$OUT"
 
 echo "Wrote $OUT ($(wc -c < "$OUT") bytes, $(wc -l < "$OUT") lines)"
+
+# The public preview at https://elnerds.com/email/ is generated from the same
+# sources, so rebuild it whenever the bundle is rebuilt.
+python3 "$(pwd)/build-preview.py"

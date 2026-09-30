@@ -1,7 +1,7 @@
 # Branding design docs
 
 - **Status:** Live — `email/` section complete; no other surfaces documented yet
-- **Last reviewed:** 2026-09-30 (template updated from the Sep 2026 send)
+- **Last reviewed:** 2026-09-30 (added the public template preview)
 - **Covers:** `branding/*`
 
 ## Purpose
@@ -29,10 +29,14 @@ project.
 - `branding/email/BRIEF_BUNDLE.md` — all four of the above concatenated into
   one self-contained file, for an assistant that can't read the repo.
   **Generated** by `branding/email/build-bundle.sh`; never hand-edited.
+- `branding/email/build-preview.py` — builds `public/email/index.html`,
+  the page at <https://elnerds.com/email/>: the template with all twelve
+  blocks in its content slot, each under a small "Block N" label, and a
+  notice at the top. `build-bundle.sh` runs it, so one command refreshes
+  both generated files.
 
 Campaigns themselves live in `email/` at the repo root (sent ones in
-`email/archive/`), and the current one is published as
-`public/email/index.html`. This directory holds the template and the rules,
+`email/archive/`, each published under `public/email/archive/`). This directory holds the template and the rules,
 not the sends.
 
 ## How it works

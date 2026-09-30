@@ -49,7 +49,8 @@ re-run:
 | [`template.html`](template.html) | The skeleton — correct chrome, `[[PLACEHOLDERS]]` for content |
 | [`blocks.html`](blocks.html) | Twelve tested section blocks to build the body from |
 | [`BRIEF_BUNDLE.md`](BRIEF_BUNDLE.md) | Generated — all of the above in one paste-able file |
-| [`build-bundle.sh`](build-bundle.sh) | Regenerates the bundle |
+| [`build-bundle.sh`](build-bundle.sh) | Regenerates the bundle and the public preview |
+| [`build-preview.py`](build-preview.py) | Builds `public/email/index.html`, the template-plus-all-blocks page at <https://elnerds.com/email/> |
 
 ## What lives where
 
@@ -57,9 +58,9 @@ re-run:
 - **`email/`** at the repo root holds actual campaigns, plus
   `BREVO_SETUP.md` for the send procedure; sent campaigns move to
   `email/archive/`.
-- **`public/email/`** publishes them: `index.html` is the current campaign
-  at <https://elnerds.com/email/>, and `archive/<folder>/index.html` keeps
-  each past one up. See `email/archive/README.md`.
+- **`public/email/`**: `index.html` is the generated template preview at
+  <https://elnerds.com/email/>, and `archive/<folder>/index.html` keeps each
+  sent campaign up. See `email/archive/README.md`.
 
 The site's own styling is not duplicated here; it lives in `src/styles.css`
 as Tailwind theme tokens. `tokens.md` exists because email clients can't
