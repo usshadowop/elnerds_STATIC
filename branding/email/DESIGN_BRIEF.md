@@ -132,6 +132,10 @@ These are not stylistic preferences. Each one cost someone real time.
 ## 6. Before you hand it over
 
 - [ ] No `[[PLACEHOLDER]]` left
+- [ ] The template's instruction comment at the top is deleted. Brevo sits
+      behind a web firewall, and command-like text in pasted HTML (an
+      earlier version of that comment quoted a `grep`) got the sender's
+      session blocked on brevo.com
 - [ ] Every link opens the right page — RSVP links point at
       `elnerds.com/rsvp/<slug>`, and directions links use the
       `https://www.google.com/maps/dir/?api=1&destination=…` form so the
