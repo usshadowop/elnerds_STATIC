@@ -1,0 +1,307 @@
+<mjml>
+  <mj-head>
+    <mj-title>Sign Up for Game Day 2026 | Extra Life Nerds</mj-title>
+    <mj-preview>Register free, set a goal, and recruit your crew for Game Day 2026.</mj-preview>
+    <mj-font name="Nunito" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&amp;display=swap" />
+
+    <!-- Defaults, so each block below only states what differs. Values come
+         from branding/email/tokens.md. -->
+    <mj-attributes>
+      <mj-all font-family="Nunito, Helvetica, Arial, sans-serif" />
+      <mj-text color="#4a5a73" font-size="16px" line-height="1.6" font-weight="600" align="center" padding="0 40px" />
+      <mj-section padding="0" />
+      <mj-column padding="0" />
+      <mj-button font-size="15px" font-weight="800" letter-spacing="1px" text-transform="uppercase" border-radius="100px" inner-padding="16px 34px" padding="0" />
+      <mj-class name="eyebrow" font-size="12px" font-weight="800" letter-spacing="2px" text-transform="uppercase" padding="0 40px 10px" />
+      <mj-class name="h2" font-size="26px" line-height="1.2" font-weight="900" letter-spacing="-0.5px" color="#1a2b4a" padding="0 40px 14px" />
+      <mj-class name="body" font-size="16px" line-height="1.65" font-weight="500" padding="0 40px" />
+      <mj-class name="card" background-color="#ffffff" border="1px solid #e6eaed" border-radius="16px" />
+    </mj-attributes>
+
+    <mj-style>
+      :root { color-scheme: light only; supported-color-schemes: light only; }
+      @media only screen and (max-width: 480px) {
+        .h1 div { font-size: 30px !important; line-height: 1.12 !important; }
+        .date-xl div { font-size: 38px !important; }
+      }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#fdfaf6" width="600px">
+
+    <!-- ===== View in browser ===== -->
+    <mj-section padding="24px 0 0">
+      <mj-column>
+        <mj-text font-size="11px" color="#8a97a8" padding="0 32px">
+          Trouble viewing this email? <a href="{{ mirror }}" style="color:#1d6e7a; font-weight:700; text-decoration:underline;">View it in your browser</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- ===== Logo ===== -->
+    <mj-section padding="8px 0 20px">
+      <mj-column>
+        <mj-image src="https://elnerds.com/email/assets/logo-dark.png" alt="Extra Life Nerds" width="190px" href="https://elnerds.com" padding="0" />
+      </mj-column>
+    </mj-section>
+
+    <!-- ===== The white card: everything from the hero to the socials ===== -->
+    <mj-wrapper background-color="#ffffff" border="1px solid #e6eaed" border-radius="24px" padding="0">
+
+      <!-- Hero -->
+      <mj-section background-color="#eef7f7" border-radius="24px 24px 0 0" padding="40px 0 36px">
+        <mj-column>
+          <mj-text font-size="14px" font-weight="700" padding="0 40px 14px">
+            Hi {{ contact.FULL_NAME|default:"there" }} &mdash;
+          </mj-text>
+          <mj-text font-size="11px" font-weight="800" letter-spacing="2px" color="#1d6e7a" padding="0 40px 22px">
+            <span style="display:inline-block; background-color:#ffffff; border-radius:100px; padding:8px 16px; text-transform:uppercase;"><span style="color:#c8327c;">&#9679;</span>&nbsp; SIGN UP &bull; RECRUIT &bull; MAIN EVENT NOV 14</span>
+          </mj-text>
+          <mj-text css-class="h1" font-size="42px" line-height="1.08" font-weight="900" letter-spacing="-1px" color="#1a2b4a" padding="0 40px 14px">
+            Join the Team.<br /><span style="color:#c8327c;">Heal Kids.</span>
+          </mj-text>
+          <mj-text>
+            Game Day is coming up fast, and we&rsquo;d love to have you on the team. Whether you play for 24 hours or just 1, every hour raises money for the kids at Gillette Children&rsquo;s Hospital.
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <!-- 1. Game Day band: date, venue, directions (teal) -->
+      <mj-section background-color="#e6f2f3" padding="36px 0 0">
+        <mj-column>
+          <mj-text font-size="18px" line-height="1.25" font-weight="900" letter-spacing="1.2px" text-transform="uppercase" color="#1d6e7a" padding="0 40px 12px">
+            GAME DAY 2026
+          </mj-text>
+          <mj-text css-class="date-xl" font-size="44px" line-height="1.05" font-weight="900" letter-spacing="-1.5px" color="#1a2b4a">
+            November 14, 8AM<br /><span style="color:#c8327c;">&ndash; 15th, 8AM</span>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section background-color="#e6f2f3" padding="20px 16px 0">
+        <mj-column width="15%"></mj-column>
+        <mj-column width="70%" mj-class="card" padding="22px 30px">
+          <mj-text font-size="20px" font-weight="900" color="#1a2b4a" padding="0">
+            Improving, Office Building
+          </mj-text>
+          <mj-text font-size="15px" line-height="1.5" padding="6px 0 0">
+            3033 Excelsior Blvd #180<br />Minneapolis, MN 55416
+          </mj-text>
+        </mj-column>
+        <mj-column width="15%"></mj-column>
+      </mj-section>
+      <mj-section background-color="#e6f2f3" padding="18px 0 36px">
+        <mj-column>
+          <mj-button href="https://www.google.com/maps/dir/?api=1&amp;destination=3033+Excelsior+Blvd+%23180,+Minneapolis,+MN+55416" background-color="#1d6e7a" color="#ffffff" font-size="12px" letter-spacing="1.5px" inner-padding="11px 24px">
+            Get Directions &rarr;
+          </mj-button>
+        </mj-column>
+      </mj-section>
+
+      <!-- 2. Step 1: Sign up (white) -->
+      <mj-section padding="40px 0 8px">
+        <mj-column>
+          <mj-text mj-class="eyebrow" color="#e87722">Step 1 &bull; Sign Up</mj-text>
+          <mj-text mj-class="h2">Getting started takes about 5 minutes</mj-text>
+          <mj-text mj-class="body">
+            Registration is free, and you don&rsquo;t need to be a hardcore gamer to play. Here&rsquo;s how it works:
+          </mj-text>
+          <mj-text align="left" padding="16px 40px 0">
+            <p style="margin:0; padding:6px 0;"><span style="color:#1d6e7a; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Register on ELNerds.com and join the Extra Life Nerds team</p>
+            <p style="margin:0; padding:6px 0;"><span style="color:#c8327c; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Set a fundraising goal &mdash; even a small one counts</p>
+            <p style="margin:0; padding:6px 0;"><span style="color:#d4a017; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Share your page with family, friends, and coworkers</p>
+            <p style="margin:0; padding:6px 0;"><span style="color:#e87722; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Pick your play time: the full 24 hours or just 1 hour</p>
+          </mj-text>
+          <mj-button href="https://elnerds.com/registration" background-color="#e87722" color="#ffffff" padding="24px 0 32px">
+            Register Today
+          </mj-button>
+        </mj-column>
+      </mj-section>
+
+      <!-- 3. Step 2: Recruit (purple) -->
+      <mj-section background-color="#f3ecf7" padding="40px 0">
+        <mj-column>
+          <mj-text mj-class="eyebrow" color="#6b3d8a">Step 2 &bull; Recruit</mj-text>
+          <mj-text mj-class="h2">Every new player multiplies the impact</mj-text>
+          <mj-text mj-class="body">
+            The fastest way to grow our total is to bring more people into the game. Think about who in your life would jump at a reason to play for a good cause:
+          </mj-text>
+          <mj-text align="left" padding="18px 40px 0">
+            <p style="margin:0; padding:6px 0;"><span style="color:#1d6e7a; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Friends, family and kids welcome. Bring a board game, console, or laptop, however you play!</p>
+            <p style="margin:0; padding:6px 0;"><span style="color:#c8327c; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Coworkers looking for a fun team activity</p>
+            <p style="margin:0; padding:6px 0;"><span style="color:#d4a017; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Your Discord or online gaming crew &mdash; join in person or play from home</p>
+            <p style="margin:0; padding:6px 0;"><span style="color:#e87722; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Your local game group, D&amp;D table, or board game night</p>
+          </mj-text>
+          <mj-button href="https://www.extra-life.org/teams/73600" background-color="#ffffff" color="#6b3d8a" border="2px solid #6b3d8a" inner-padding="14px 32px" padding="22px 0 0">
+            Share the Team Page
+          </mj-button>
+        </mj-column>
+      </mj-section>
+
+      <!-- 4. Step 3: Earn donations (teal) with three reward cards.
+           Each card is one column; the amount and the details sit side by
+           side in a small table inside a single text block, so the whole
+           card stays one editable piece in Stripo. -->
+      <mj-section background-color="#e6f2f3" padding="40px 0 22px">
+        <mj-column>
+          <mj-text mj-class="eyebrow" color="#1d6e7a">Step 3 &bull; Earn Donations</mj-text>
+          <mj-text mj-class="h2">Earn donations just for doing Steps 1 &amp; 2</mj-text>
+          <mj-text mj-class="body">
+            Courtesy of your Extra Life Nerds leadership team, to help you get started or to bolster your already flourishing campaign: Earn the following donations for signing up and recruiting!
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#e6f2f3" padding="0 16px 14px">
+        <mj-column width="12%"></mj-column>
+        <mj-column width="76%" mj-class="card" padding="20px 22px">
+          <mj-text align="left" font-size="15px" line-height="1.5" padding="0">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+              <td width="92" valign="top" align="center" style="width:92px; padding-right:16px; border-right:2px solid #e6f2f3; font-size:36px; line-height:1; font-weight:900; letter-spacing:-1px; color:#1d6e7a;">$75</td>
+              <td valign="top" style="padding-left:16px;">
+                <div style="font-size:17px; line-height:1.3; font-weight:900; color:#1a2b4a; margin-bottom:6px;">Show up for Game Day</div>
+                <div style="padding:3px 0;"><span style="color:#1d6e7a; font-weight:700;">&#8226;</span>&nbsp;&nbsp;RSVP for Game Day</div>
+                <div style="padding:3px 0;"><span style="color:#1d6e7a; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Raise $25 by kickoff (Nov 14, 8AM)</div>
+                <div style="padding:3px 0;"><span style="color:#1d6e7a; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Show up to the event!</div>
+                <a href="https://elnerds.com/rsvp/marathon" style="display:inline-block; margin-top:10px; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#1d6e7a; text-decoration:none;">RSVP for Game Day &rarr;</a>
+              </td>
+            </tr></table>
+          </mj-text>
+        </mj-column>
+        <mj-column width="12%"></mj-column>
+      </mj-section>
+
+      <mj-section background-color="#e6f2f3" padding="0 16px 14px">
+        <mj-column width="12%"></mj-column>
+        <mj-column width="76%" mj-class="card" padding="20px 22px">
+          <mj-text align="left" font-size="15px" line-height="1.5" padding="0">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+              <td width="92" valign="top" align="center" style="width:92px; padding-right:16px; border-right:2px solid #e6f2f3; font-size:36px; line-height:1; font-weight:900; letter-spacing:-1px; color:#1d6e7a;">$25</td>
+              <td valign="top" style="padding-left:16px;">
+                <div style="font-size:17px; line-height:1.3; font-weight:900; color:#1a2b4a; margin-bottom:6px;">Recruit a teammate</div>
+                <div>Get someone to join the Extra Life Nerds team.</div>
+                <a href="https://dd.extra-life.org/teams/73600" style="display:inline-block; margin-top:10px; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#1d6e7a; text-decoration:none;">Join the team &rarr;</a>
+              </td>
+            </tr></table>
+          </mj-text>
+        </mj-column>
+        <mj-column width="12%"></mj-column>
+      </mj-section>
+
+      <mj-section background-color="#e6f2f3" padding="0 16px 40px">
+        <mj-column width="12%"></mj-column>
+        <mj-column width="76%" mj-class="card" padding="20px 22px">
+          <mj-text align="left" font-size="15px" line-height="1.5" padding="0">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+              <td width="92" valign="top" align="center" style="width:92px; padding-right:16px; border-right:2px solid #e6f2f3; color:#1d6e7a;">
+                <div style="font-size:36px; line-height:1; font-weight:900; letter-spacing:-1px;">$5</div>
+                <div style="font-size:11px; line-height:1.3; font-weight:800; letter-spacing:1px; text-transform:uppercase; margin-top:4px;">each &bull; up to $20</div>
+              </td>
+              <td valign="top" style="padding-left:16px;">
+                <div style="font-size:17px; line-height:1.3; font-weight:900; color:#1a2b4a; margin-bottom:6px;">Grow our socials</div>
+                <div>Get someone to follow us on Instagram or Facebook, join our Discord, or sign up for our newsletter. If they do all 4, $20 is coming your way!</div>
+              </td>
+            </tr></table>
+          </mj-text>
+        </mj-column>
+        <mj-column width="12%"></mj-column>
+      </mj-section>
+
+      <!-- 5. The Impact (white) with the venue perks card -->
+      <mj-section padding="40px 0 20px">
+        <mj-column>
+          <mj-text mj-class="eyebrow" color="#c8327c">The Impact</mj-text>
+          <mj-text mj-class="h2">What your hour does</mj-text>
+          <mj-text mj-class="body">
+            Be a part of the team that has raised over $500K, with $50K raised last year alone!
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section padding="0 16px">
+        <mj-column width="17%"></mj-column>
+        <mj-column width="66%" mj-class="card" padding="20px 28px">
+          <mj-text align="left" font-size="13px" font-weight="900" letter-spacing="1.5px" text-transform="uppercase" color="#6b3d8a" padding="0 0 10px">
+            What&rsquo;s Waiting For You At The Venue
+          </mj-text>
+          <mj-text align="left" font-size="15px" padding="0">
+            <p style="margin:0; padding:4px 0;"><span style="color:#6b3d8a; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Ample parking</p>
+            <p style="margin:0; padding:4px 0;"><span style="color:#1d6e7a; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Fully integrated modern technology</p>
+            <p style="margin:0; padding:4px 0;"><span style="color:#e87722; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Comfy chairs and plug-and-play monitors</p>
+            <p style="margin:0; padding:4px 0;"><span style="color:#c8327c; font-weight:700;">&#8226;</span>&nbsp;&nbsp;Easily accessible central location</p>
+          </mj-text>
+        </mj-column>
+        <mj-column width="17%"></mj-column>
+      </mj-section>
+
+      <mj-section padding="32px 0 0">
+        <mj-column>
+          <mj-divider border-color="#e6eaed" border-width="1px" padding="0 40px" />
+        </mj-column>
+      </mj-section>
+
+      <!-- 6. Follow our socials: icon row. mj-group keeps the four icons on
+           one row on phones instead of stacking them. -->
+      <mj-section padding="36px 0 0">
+        <mj-column>
+          <mj-text font-size="18px" line-height="1.5" font-weight="800" color="#1a2b4a" padding="0 40px 22px">
+            Follow our socials for the latest updates and news about the event.
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section padding="0 16px 40px">
+        <mj-group>
+          <mj-column width="25%">
+            <mj-image src="https://elnerds.com/email/assets/icon-instagram.png" alt="Instagram" width="48px" href="https://www.instagram.com/elnerdsmn/" padding="0" />
+            <mj-text font-size="10px" font-weight="800" letter-spacing="0.5px" text-transform="uppercase" padding="8px 0 0"><a href="https://www.instagram.com/elnerdsmn/" style="color:#c8327c; text-decoration:none;">Instagram</a></mj-text>
+          </mj-column>
+          <mj-column width="25%">
+            <mj-image src="https://elnerds.com/email/assets/icon-facebook.png" alt="Facebook" width="48px" href="https://www.facebook.com/extralifenerds/" padding="0" />
+            <mj-text font-size="10px" font-weight="800" letter-spacing="0.5px" text-transform="uppercase" padding="8px 0 0"><a href="https://www.facebook.com/extralifenerds/" style="color:#1d6e7a; text-decoration:none;">Facebook</a></mj-text>
+          </mj-column>
+          <mj-column width="25%">
+            <mj-image src="https://elnerds.com/email/assets/icon-discord.png" alt="Discord" width="48px" href="https://discord.gg/fg2FMBXwub" padding="0" />
+            <mj-text font-size="10px" font-weight="800" letter-spacing="0.5px" text-transform="uppercase" padding="8px 0 0"><a href="https://discord.gg/fg2FMBXwub" style="color:#6b3d8a; text-decoration:none;">Discord</a></mj-text>
+          </mj-column>
+          <mj-column width="25%">
+            <mj-image src="https://elnerds.com/email/assets/icon-email.png" alt="Newsletter" width="48px" href="https://elnerds.com/newsletter" padding="0" />
+            <mj-text font-size="10px" font-weight="800" letter-spacing="0.5px" text-transform="uppercase" padding="8px 0 0"><a href="https://elnerds.com/newsletter" style="color:#e87722; text-decoration:none;">Newsletter</a></mj-text>
+          </mj-column>
+        </mj-group>
+      </mj-section>
+
+    </mj-wrapper>
+
+    <!-- ===== Sign-off ===== -->
+    <mj-section padding="32px 0 8px">
+      <mj-column>
+        <mj-text font-weight="700">
+          See you on Game Day.<br /><span style="font-weight:900; color:#1a2b4a;">&mdash; The Extra Life Nerds Team</span>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- ===== Footer. Keep the unsubscribe tag: Brevo will not save a
+               campaign without it. ===== -->
+    <mj-section padding="28px 0 24px">
+      <mj-column>
+        <mj-text font-size="12px" font-weight="800" letter-spacing="1.5px" text-transform="uppercase" padding="0 40px 16px">
+          <a href="https://www.extra-life.org/team/73600" style="color:#e87722; text-decoration:none;">Donate to the Extra Life Nerds &rarr;</a>
+        </mj-text>
+        <mj-image src="https://elnerds.com/email/assets/cmn-badge.png" alt="Extra Life, a program of Children's Miracle Network Hospitals" width="170px" container-background-color="#fdfaf6" padding="0 0 16px" />
+        <mj-text font-size="13px" line-height="1.5" font-weight="700" color="#1d6e7a" padding="0 40px 16px">
+          <span style="display:inline-block; background-color:#e6f2f3; border-radius:12px; padding:12px 20px;">This is a monitored email address &mdash; feel free to reply with questions!</span>
+        </mj-text>
+        <mj-text font-size="12px" color="#8a97a8" padding="0 40px 14px">
+          <a href="https://elnerds.com" style="color:#1d6e7a; font-weight:800; text-decoration:none;">ELNerds.com</a> &nbsp;&bull;&nbsp; All proceeds support Gillette Children&rsquo;s Hospital
+        </mj-text>
+        <mj-text font-size="11px" color="#a6b0be" padding="0 40px">
+          You&rsquo;re receiving this because you&rsquo;ve supported the Extra Life Nerds or signed up for our newsletter.<br />
+          <a href="{{ unsubscribe }}" style="color:#a6b0be; text-decoration:underline;">Unsubscribe</a>
+        </mj-text>
+        <mj-text font-size="11px" color="#c2ccd8" padding="12px 40px 0">
+          &copy; 2026 Extra Life Nerds
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+  </mj-body>
+</mjml>
