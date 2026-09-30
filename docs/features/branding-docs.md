@@ -1,7 +1,7 @@
 # Branding design docs
 
 - **Status:** Live — `email/` section complete; no other surfaces documented yet
-- **Last reviewed:** 2026-09-30 (repointed at the archived reference email)
+- **Last reviewed:** 2026-09-30 (template comment no longer quotes a shell command)
 - **Covers:** `branding/*`
 
 ## Purpose
@@ -89,6 +89,14 @@ grep -o '\[\[[A-Z_]*\]\]' your-email.html    # must print nothing
   edit would just train people to type `no-card`). The 90-day review report
   is the backstop. When reviewing this card, diff the tokens against what
   the shipped email actually uses.
+- **brevo.com's firewall blocked the owner for pasting HTML that quoted a
+  shell command.** The template's instruction comment used to include the
+  `grep` placeholder check verbatim; the sign-up/recruit email (Sep 2026)
+  kept that comment, and pasting it into Brevo got the sender blocked
+  (the August email, which predates the template, pasted fine). The
+  comment now points at `README.md` for the check instead, and says to
+  delete it before pasting. Keep commands out of anything that gets
+  pasted into Brevo.
 - **Two flaws found by smoke-testing the template**, both fixed, both worth
   not reintroducing: the instruction comment contained placeholder-shaped
   text, which made the pre-send grep never come back empty; and it contained

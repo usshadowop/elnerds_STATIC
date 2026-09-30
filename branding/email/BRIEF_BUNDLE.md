@@ -159,6 +159,10 @@ These are not stylistic preferences. Each one cost someone real time.
 ## 6. Before you hand it over
 
 - [ ] No `[[PLACEHOLDER]]` left
+- [ ] The template's instruction comment at the top is deleted. Brevo sits
+      behind a web firewall, and command-like text in pasted HTML (an
+      earlier version of that comment quoted a `grep`) got the sender's
+      session blocked on brevo.com
 - [ ] Every link opens the right page — RSVP links point at
       `elnerds.com/rsvp/<slug>`, and directions links use the
       `https://www.google.com/maps/dir/?api=1&destination=…` form so the
@@ -307,13 +311,14 @@ Copy this, then fill every `[[PLACEHOLDER]]`.
 
   Placeholders use double square brackets on purpose — Brevo's own merge
   tags use curly braces, so the two can never be confused, and an unfilled
-  placeholder is greppable before you send:
+  placeholder can be found mechanically before you send (the check is in
+  README.md).
 
-      grep -o '\[\[[A-Z_]*\]\]' your-email.html
-
-  That check should come back empty. (This comment deliberately contains no
-  placeholder-shaped text and no curly-brace tags, so it can't produce a
-  false positive or get resolved by Brevo. Delete it if you'd rather.)
+  DELETE THIS WHOLE COMMENT BEFORE PASTING INTO BREVO. It is for whoever
+  builds the email, not for recipients, and an earlier version of it that
+  quoted a shell command got the sender blocked by brevo.com's firewall.
+  (It deliberately contains no placeholder-shaped text, no curly-brace
+  tags and no commands.)
 
   See README.md for the workflow and DESIGN_BRIEF.md for the rules.
 -->

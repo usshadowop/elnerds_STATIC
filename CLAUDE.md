@@ -246,6 +246,10 @@ the full send. Notes that cost time to work out:
 - Design is CSS/tables, not images — only the header logo and CMN badge
   are `<img>`, both with alt text, so it survives images-off intact.
 - Free plan caps at **300 emails/day** across all campaigns.
+- **brevo.com sits behind a web firewall that blocks the sender for
+  command-like text in pasted HTML.** The template's old instruction comment
+  quoted a `grep` and got the owner blocked (2026-09-30). Delete that comment
+  before pasting, and keep shell commands out of email HTML.
 
 ## Gotchas
 
