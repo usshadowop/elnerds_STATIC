@@ -15,9 +15,6 @@ Event details mirror [`src/lib/rsvpEvents.ts`](../src/lib/rsvpEvents.ts) and
 [`src/lib/scheduleEvents.ts`](../src/lib/scheduleEvents.ts) — check dates,
 times and addresses against those before sending.
 
-A Stripo-ready MJML version of the current campaign lives in
-[`stripo/`](stripo/), with the import and Brevo export steps.
-
 New campaigns start from [`branding/email/template.html`](../branding/email/template.html)
 following [`branding/email/DESIGN_BRIEF.md`](../branding/email/DESIGN_BRIEF.md).
 

@@ -47,7 +47,6 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
 | 2026-09-30 | Owner (decision) | Keep the social icon row in `email/elnerds-signup-recruit.html`? It breaks the brief's logo-and-badge-only image rule as a trial. If it stays, fold it into `branding/email/blocks.html` and the brief. |
-| 2026-09-30 | Owner | Import `email/stripo/elnerds-signup-recruit.mjml` into Stripo and report what didn't convert cleanly (Stripo's docs name fonts, dividers and background images as the usual problems). Also check which Stripo plan covers MJML import and Brevo export. |
 
 Rules that keep this honest:
 
@@ -84,13 +83,11 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   unknown slug silently falls back to the RSVP chooser, so check every
   `/rsvp/<slug>` against `rsvpEvents.ts`.
 - **Pre-existing, not fixed:** the template renders about 418px wide in a
-  375px viewport (the August email does too). The MJML rebuild in
-  `email/stripo/` fits 375px.
-- **Stripo chosen as the team's visual editor** (Brevo's simple editor
-  can't do bands or buttons; its Drag & Drop editor was the runner-up).
-  `email/stripo/elnerds-signup-recruit.mjml` validates with `mjml -l strict`
-  and was screenshot-compared against the HTML. Not yet imported into
-  Stripo by the owner.
+  375px viewport (the August email does too).
+- **Stripo/MJML was tried and dropped.** An MJML rebuild for the Stripo
+  editor imported badly (duplicated blocks, lost styling), so the owner
+  chose to stay with the hand-coded HTML pasted into Brevo. The MJML
+  files were deleted; see PRs #53–#56 in git history if it comes up again.
 
 ## Ship-live workflow
 
@@ -226,11 +223,6 @@ already there.
   `elnerds.com/email/archive/<slug-folder>/`; `email/archive/README.md` is the
   index and has the steps. `public/email/elnerds-announcement.html` is a
   redirect stub for the old August 2026 URL.
-- `email/stripo/` holds an MJML rebuild of the current campaign for the
-  Stripo drag-and-drop editor, which imports MJML as fully editable (HTML
-  imports only allow text/image edits). Its README has the import, Brevo
-  export and pre-send checks. The MJML and the HTML are separate copies;
-  a copy edit to one does not reach the other.
 
 ## Announcement email (Brevo)
 
