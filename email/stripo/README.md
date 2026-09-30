@@ -82,16 +82,35 @@ with **Import a code / Rich HTML**, as we do today.
 - **Phones fit better.** The cards drop their side spacer columns and go
   full width, so the email fits a 375px screen. The hand-coded HTML renders
   about 418px wide there.
+- **No outer card border.** The white sections no longer sit inside one
+  bordered card, because Stripo's importer mishandled the wrapper.
+- **Icon labels** are a text line under the icons instead of one label
+  under each icon.
 - Reward cards, the address card and the venue card are each a single text
   block holding a small table, so in Stripo you edit the words in place and
   move the card as one piece.
 
 ## Updating the MJML
 
-Don't use self-closing tags. Stripo's importer rejects `<br />` and
-`<mj-image ... />` with "trailing solidus not allowed", so write `<br>`
-and close every MJML tag explicitly (`<mj-image ...></mj-image>`).
-MJML accepts both forms and produces identical output.
+Stripo's MJML importer is picky. The first import (2026-09-30) duplicated
+the icon row three times, put the sign-off beside the footer, and dropped
+most font weights and backgrounds. The file now follows these rules; keep
+them when editing:
+
+- **Write every style on the element itself.** Stripo ignores the shared
+  defaults block (`mj-attributes`) and named style classes (`mj-class`).
+- **No outer wrapper (`mj-wrapper`)** around the sections. Give each
+  section its own `background-color` instead; the hero and the socials
+  section carry the rounded top and bottom corners.
+- **No column groups (`mj-group`).** That's what tripled the icon row. The
+  icons are now Stripo's native social block (`mj-social`), with a line of
+  text links under it as the labels.
+- **Don't put two single-column sections back to back with nothing
+  between them in the footer**; Stripo merged the sign-off and footer into
+  one two-column row. They're one section now.
+- **No self-closing tags.** Stripo rejects `<br />` and `<mj-image ... />`
+  with "trailing solidus not allowed", so write `<br>` and close every
+  MJML tag explicitly (`<mj-image ...></mj-image>`).
 
 Edit the `.mjml` file, then check it compiles cleanly and looks right. The
 official compiler is on npm as `mjml`; run it with strict validation and
