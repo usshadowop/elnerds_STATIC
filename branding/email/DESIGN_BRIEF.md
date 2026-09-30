@@ -8,6 +8,8 @@ the three files it points to.
 - `tokens.md` — the authoritative colour, type and layout values
 - `template.html` — the skeleton to start from (chrome is already correct)
 - `blocks.html` — tested section markup to assemble the body from
+- `../../email/archive/2026-09-signup-recruit/elnerds-signup-recruit.html` — the most recent send (Sep 2026), and the best example of
+  blocks 11 and 12 and the current footer.
 - `../../email/archive/2026-08-announcement/elnerds-announcement.html` — the reference email that all of
   the above was extracted from. When in doubt, look at what shipped.
 
@@ -115,7 +117,8 @@ These are not stylistic preferences. Each one cost someone real time.
      Game Day, not with the website news, because the date is the reason to
      read.
    - **One primary button per email.** Everything else is a chip. Two
-     competing calls to action means neither gets clicked.
+     competing calls to action means neither gets clicked. (The footer's
+     outlined Donate button is part of the chrome and doesn't count.)
    - Give each section one accent colour and use it for the eyebrow, the
      bullets and the chip in that section.
 4. Check nothing is unfilled:
@@ -137,7 +140,9 @@ These are not stylistic preferences. Each one cost someone real time.
       earlier version of that comment quoted a `grep`) got the sender's
       session blocked on brevo.com
 - [ ] Every link opens the right page — RSVP links point at
-      `elnerds.com/rsvp/<slug>`, and directions links use the
+      `elnerds.com/rsvp/<slug>` with a slug that actually exists in
+      `src/lib/rsvpEvents.ts` (an unknown slug silently lands on the
+      generic RSVP list; the first Sep 2026 draft shipped two of these), and directions links use the
       `https://www.google.com/maps/dir/?api=1&destination=…` form so the
       route starts from the reader's own location (a shared
       `maps.app.goo.gl` directions link bakes in the creator's origin)

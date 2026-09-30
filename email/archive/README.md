@@ -12,14 +12,18 @@ Each archived email also stays viewable on the site at
 | Sent | Folder | Subject | Variants | On the site |
 | --- | --- | --- | --- | --- |
 | Aug 2026 | [`2026-08-announcement`](2026-08-announcement/) | New Website, New Venue, Bingo Night & Game Day 2026 | General, VIP | [/email/archive/2026-08-announcement/](https://elnerds.com/email/archive/2026-08-announcement/) |
+| Sep 2026 | [`2026-09-signup-recruit`](2026-09-signup-recruit/) | Sign Up for Game Day 2026 (sign up, recruit, earn donations) | General | [/email/archive/2026-09-signup-recruit/](https://elnerds.com/email/archive/2026-09-signup-recruit/) |
 
-## Archiving the current campaign
+## Archiving a campaign
 
-When a new campaign replaces the one at <https://elnerds.com/email/>:
+As soon as a campaign is sent:
 
 1. `git mv` the campaign file(s) from `email/` into a new
    `email/archive/YYYY-MM-<slug>/` folder.
-2. `git mv public/email/index.html public/email/archive/YYYY-MM-<slug>/index.html`
-   so the old email keeps a permanent URL.
+2. Copy `public/email/index.html` to `public/email/archive/YYYY-MM-<slug>/index.html`
+   so the email keeps a permanent URL.
 3. Add a row to the table above.
-4. Copy the new campaign over `public/email/index.html`.
+
+`https://elnerds.com/email/` keeps showing the most recently sent email
+until the next campaign is ready; then copy the new one over
+`public/email/index.html`.

@@ -1,7 +1,7 @@
 # Branding design docs
 
 - **Status:** Live — `email/` section complete; no other surfaces documented yet
-- **Last reviewed:** 2026-09-30 (template comment no longer quotes a shell command)
+- **Last reviewed:** 2026-09-30 (template updated from the Sep 2026 send)
 - **Covers:** `branding/*`
 
 ## Purpose
@@ -23,7 +23,8 @@ project.
   audience, voice, brand values, the eight hard client constraints, how to
   assemble a body, pre-send checklist.
 - `branding/email/template.html` — the skeleton, with `[[PLACEHOLDERS]]`.
-- `branding/email/blocks.html` — ten section blocks.
+- `branding/email/blocks.html` — twelve section blocks (11 and 12, the
+  tinted section and reward card, came from the Sep 2026 email).
 - `branding/email/tokens.md` — authoritative palette, type scale, layout.
 - `branding/email/BRIEF_BUNDLE.md` — all four of the above concatenated into
   one self-contained file, for an assistant that can't read the repo.
@@ -119,7 +120,9 @@ grep -o '\[\[[A-Z_]*\]\]' your-email.html    # must print nothing
   surfaces ever need documenting. Only `email/` exists today.
 - When a new campaign is written, it goes in `email/`; the previous one moves
   to `email/archive/` (see `email/archive/README.md`).
-- **Open:** the September 2026 sign-up/recruit email
-  (`email/elnerds-signup-recruit.html`) adds a social icon row, which breaks
-  the brief's logo-and-badge-only image rule on purpose, as a trial. If the
-  owner keeps it, write it into `blocks.html` and the brief's constraint 3.
+- **The social icon row was tried and not adopted.** The Sep 2026 email
+  closed with a row of icon images; the owner then chose to keep socials as
+  text links in the footer (Instagram | Facebook | Discord | Newsletter)
+  and to add an outlined Donate button above the CMN badge instead. The
+  icon PNGs stay in `public/email/assets/` because the archived email
+  still uses them.

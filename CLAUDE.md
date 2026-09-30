@@ -46,7 +46,6 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
-| 2026-09-30 | Owner (decision) | Keep the social icon row in `email/elnerds-signup-recruit.html`? It breaks the brief's logo-and-badge-only image rule as a trial. If it stays, fold it into `branding/email/blocks.html` and the brief. |
 
 Rules that keep this honest:
 
@@ -84,6 +83,12 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   `/rsvp/<slug>` against `rsvpEvents.ts`.
 - **Pre-existing, not fixed:** the template renders about 418px wide in a
   375px viewport (the August email does too).
+- **The Sep 2026 email is now the template's basis.** It's archived in
+  `email/archive/2026-09-signup-recruit/`. `branding/email/` gained
+  blocks 11 (tinted section) and 12 (reward card). The template footer's
+  socials are text links again (Instagram | Facebook | Discord |
+  Newsletter; Newsletter replaced Donate), with an outlined Donate button
+  above the CMN badge. The icon-row trial was not adopted.
 - **Stripo/MJML was tried and dropped.** An MJML rebuild for the Stripo
   editor imported badly (duplicated blocks, lost styling), so the owner
   chose to stay with the hand-coded HTML pasted into Brevo. The MJML
@@ -210,17 +215,17 @@ already there.
   (e.g. "Improving, 3033 Excelsior Blvd #180, Minneapolis, MN 55416").
 - `branding/` — design source of truth for surfaces that can't read the
   site's Tailwind tokens. `branding/email/` holds the email template,
-  a ten-block library, the palette/type/layout values, and
+  a twelve-block library, the palette/type/layout values, and
   `DESIGN_BRIEF.md` — a self-contained brief to point a developer or an
   AI model at ("build me an email, follow
   `branding/email/DESIGN_BRIEF.md`"). New campaigns are written into
   `email/`, not `branding/`.
-- `email/` holds the **current** campaign (today
-  `email/elnerds-signup-recruit.html`). Edit only that file, then copy it
-  over `public/email/index.html`, the single public copy that serves
-  https://elnerds.com/email/. Sent campaigns move to
-  `email/archive/YYYY-MM-<slug>/` and stay viewable at
-  `elnerds.com/email/archive/<slug-folder>/`; `email/archive/README.md` is the
+- `email/` holds the campaign being written (none right now). Edit only
+  that file, then copy it over `public/email/index.html`, the single public
+  copy that serves https://elnerds.com/email/. As soon as a campaign is
+  sent it moves to `email/archive/YYYY-MM-<slug>/` and gets a permanent
+  page at `elnerds.com/email/archive/<folder>/`; `/email/` keeps showing
+  it until the next campaign replaces it. `email/archive/README.md` is the
   index and has the steps. `public/email/elnerds-announcement.html` is a
   redirect stub for the old August 2026 URL.
 
@@ -248,7 +253,7 @@ the full send. Notes that cost time to work out:
   `light` meta); Gmail mobile and Outlook.com still force their own
   inversion and no email HTML can opt out.
 - Design is CSS/tables, not images — only the header logo and CMN badge
-  are `<img>`, both with alt text, so it survives images-off intact.
+  are `<img>` in the template (the Sep 2026 email's icon row was a one-off), both with alt text, so it survives images-off intact.
 - Free plan caps at **300 emails/day** across all campaigns.
 - **brevo.com sits behind a web firewall that blocks the sender for
   command-like text in pasted HTML.** The template's old instruction comment

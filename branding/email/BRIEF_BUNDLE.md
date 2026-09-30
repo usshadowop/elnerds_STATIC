@@ -35,6 +35,8 @@ the three files it points to.
 - `tokens.md` — the authoritative colour, type and layout values
 - `template.html` — the skeleton to start from (chrome is already correct)
 - `blocks.html` — tested section markup to assemble the body from
+- `../../email/archive/2026-09-signup-recruit/elnerds-signup-recruit.html` — the most recent send (Sep 2026), and the best example of
+  blocks 11 and 12 and the current footer.
 - `../../email/archive/2026-08-announcement/elnerds-announcement.html` — the reference email that all of
   the above was extracted from. When in doubt, look at what shipped.
 
@@ -142,7 +144,8 @@ These are not stylistic preferences. Each one cost someone real time.
      Game Day, not with the website news, because the date is the reason to
      read.
    - **One primary button per email.** Everything else is a chip. Two
-     competing calls to action means neither gets clicked.
+     competing calls to action means neither gets clicked. (The footer's
+     outlined Donate button is part of the chrome and doesn't count.)
    - Give each section one accent colour and use it for the eyebrow, the
      bullets and the chip in that section.
 4. Check nothing is unfilled:
@@ -164,7 +167,9 @@ These are not stylistic preferences. Each one cost someone real time.
       earlier version of that comment quoted a `grep`) got the sender's
       session blocked on brevo.com
 - [ ] Every link opens the right page — RSVP links point at
-      `elnerds.com/rsvp/<slug>`, and directions links use the
+      `elnerds.com/rsvp/<slug>` with a slug that actually exists in
+      `src/lib/rsvpEvents.ts` (an unknown slug silently lands on the
+      generic RSVP list; the first Sep 2026 draft shipped two of these), and directions links use the
       `https://www.google.com/maps/dir/?api=1&destination=…` form so the
       route starts from the reader's own location (a shared
       `maps.app.goo.gl` directions link bakes in the creator's origin)
@@ -501,7 +506,25 @@ Copy this, then fill every `[[PLACEHOLDER]]`.
                   <td style="color:#e6eaed;">|</td>
                   <td style="padding:0 8px;"><a href="https://discord.gg/fg2FMBXwub" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#6b3d8a;">Discord</a></td>
                   <td style="color:#e6eaed;">|</td>
-                  <td style="padding:0 8px;"><a href="https://www.extra-life.org/team/73600" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#e87722;">Donate</a></td>
+                  <td style="padding:0 8px;"><a href="https://elnerds.com/newsletter" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#e87722;">Newsletter</a></td>
+                </tr>
+              </table>
+
+              <!-- Donate button (outlined orange). It sits below the email's one
+                   primary button, so it stays outlined rather than solid. -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 20px auto;">
+                <tr>
+                  <td align="center" style="border-radius:100px; background-color:#ffffff;">
+                    <!--[if mso]>
+                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.extra-life.org/team/73600" style="height:44px;v-text-anchor:middle;width:280px;" arcsize="100%" strokecolor="#e87722" fillcolor="#ffffff">
+                    <w:anchorlock/>
+                    <center style="color:#e87722;font-family:sans-serif;font-size:13px;font-weight:bold;">DONATE TO THE EXTRA LIFE NERDS</center>
+                    </v:roundrect>
+                    <![endif]-->
+                    <!--[if !mso]><!-->
+                    <a href="https://www.extra-life.org/team/73600" style="display:inline-block; padding:11px 26px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:13px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#e87722; background-color:#ffffff; border:2px solid #e87722; border-radius:100px;">Donate to the Extra Life Nerds</a>
+                    <!--<![endif]-->
+                  </td>
                 </tr>
               </table>
 
@@ -532,7 +555,7 @@ Copy this, then fill every `[[PLACEHOLDER]]`.
 
               <!-- Unsubscribe (Brevo merge tag) -->
               <p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; line-height:1.6; font-weight:600; color:#a6b0be;">
-                You&rsquo;re receiving this because you&rsquo;ve supported the Extra Life Nerds.<br />
+                You&rsquo;re receiving this because you&rsquo;ve supported the Extra Life Nerds or signed up for our newsletter.<br />
                 <a href="{{ unsubscribe }}" style="color:#a6b0be; text-decoration:underline;">Unsubscribe</a>
               </p>
               <p style="margin:12px 0 0 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; line-height:1.6; font-weight:600; color:#c2ccd8;">
@@ -794,4 +817,55 @@ Assemble the body from these. Not a sendable email on its own.
     <!-- Then block 8. -->
   </td>
 </tr>
+
+
+<!-- ==========================================================================
+     11. TINTED SECTION — block 2 on a coloured band, for a section that
+     should stand out without a date (the "Step 2 • Recruit" band in the
+     Sep 2026 email). Theme: #f3ecf7 band, #6b3d8a eyebrow. For the teal
+     version use #e6f2f3 and #1d6e7a. Alternate it with white sections.
+     Put a block 8 list and a block 4 button (tinted to match) inside the
+     same <td> if needed.
+     ========================================================================== -->
+<tr>
+  <td class="px" style="padding:40px 40px 40px 40px; background-color:#f3ecf7; border-radius:0;" align="center">
+    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#6b3d8a;">[[EYEBROW]]</p>
+    <h2 style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
+      [[HEADING]]
+    </h2>
+    <p style="margin:0 auto; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
+      [[BODY]]
+    </p>
+  </td>
+</tr>
+
+
+<!-- ==========================================================================
+     12. REWARD CARD — a big amount on the left, title and details on the
+     right, in a bordered white card. From the Sep 2026 "Earn Donations"
+     section. Stack two or three inside a tinted section's <td> (block 11,
+     teal); give every card but the last a 14px bottom margin, as here.
+     Change the paragraph above the cards to margin:0 auto 22px so the
+     first card doesn't sit on the text.
+     Theme: #1d6e7a amount, bullets and link; #e6f2f3 divider line. The
+     link line is optional; delete it if the card has nowhere to point.
+     ========================================================================== -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 auto 14px auto; max-width:460px;">
+  <tr>
+    <td style="border:1px solid #e6eaed; border-radius:16px; background-color:#ffffff; padding:20px 22px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td width="92" valign="top" align="center" style="width:92px; padding-right:16px; border-right:2px solid #e6f2f3;">
+            <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:36px; line-height:1; font-weight:900; letter-spacing:-1px; color:#1d6e7a;">[[AMOUNT]]</div>
+          </td>
+          <td valign="top" align="left" style="padding-left:16px;">
+            <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:17px; line-height:1.3; font-weight:900; color:#1a2b4a; margin-bottom:6px;">[[CARD_TITLE]]</div>
+            <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.5; font-weight:600; color:#4a5a73;">[[CARD_DETAILS]]</div>
+            <a href="[[CARD_LINK_URL]]" style="display:inline-block; margin-top:10px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#1d6e7a;">[[CARD_LINK_LABEL]] &rarr;</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
 ```
