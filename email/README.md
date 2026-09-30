@@ -6,7 +6,7 @@ campaigns move to [`archive/`](archive/), one folder per send.
 **Current campaign:** none in progress. The most recent send is the
 Sep 2026 sign-up/recruit email, now in
 [`archive/2026-09-signup-recruit/`](archive/2026-09-signup-recruit/); it is
-still what [elnerds.com/email/](https://elnerds.com/email/) shows.
+viewable at [elnerds.com/email/archive/2026-09-signup-recruit/](https://elnerds.com/email/archive/2026-09-signup-recruit/).
 
 Event details mirror [`src/lib/rsvpEvents.ts`](../src/lib/rsvpEvents.ts) and
 [`src/lib/scheduleEvents.ts`](../src/lib/scheduleEvents.ts) — check dates,
@@ -49,24 +49,17 @@ teal-outline secondary CTA, matching the site nav/hero.
 - No JavaScript, no external CSS. Only external dependency is the Nunito web
   font (with a safe system fallback); it degrades gracefully where blocked.
 
-## Live preview
+## Previewing
 
-`public/email/index.html` is a copy of the current campaign, published at
-[elnerds.com/email/](https://elnerds.com/email/). It is the **only** public
-copy, so there is one file to keep in sync. Re-copy it whenever the campaign
-changes:
-
-```bash
-cp email/<new-campaign>.html public/email/index.html
-```
-
-Past campaigns stay up at `elnerds.com/email/archive/<folder>/`; see
-[`archive/README.md`](archive/README.md) for how to archive one.
+[elnerds.com/email/](https://elnerds.com/email/) shows the **template**
+(generated from `branding/email/`), not a campaign. To preview a draft,
+open the HTML file in a browser. Sent campaigns get their own page under
+`elnerds.com/email/archive/`; see [`archive/README.md`](archive/README.md).
 `public/email/elnerds-announcement.html` is a redirect stub so old links to
 the August 2026 announcement land on its archive page.
 
-The preview shows the raw Brevo tags as literal text — that's expected;
-they only resolve when Brevo sends the campaign.
+Previews show the raw Brevo tags as literal text. That's expected; they
+only resolve when Brevo sends the campaign.
 
 ## Sending
 

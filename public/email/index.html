@@ -1,5 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!--
+  Extra Life Nerds — email template.
+
+  Everything outside the CONTENT SECTIONS marker below is chrome: it is
+  already correct and should be copied as-is. Fill in every placeholder,
+  then build the middle out of blocks from blocks.html.
+
+  Placeholders use double square brackets on purpose — Brevo's own merge
+  tags use curly braces, so the two can never be confused, and an unfilled
+  placeholder can be found mechanically before you send (the check is in
+  README.md).
+
+  DELETE THIS WHOLE COMMENT BEFORE PASTING INTO BREVO. It is for whoever
+  builds the email, not for recipients, and an earlier version of it that
+  quoted a shell command got the sender blocked by brevo.com's firewall.
+  (It deliberately contains no placeholder-shaped text, no curly-brace
+  tags and no commands.)
+
+  See README.md for the workflow and DESIGN_BRIEF.md for the rules.
+-->
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +27,7 @@
   <meta name="x-apple-disable-message-reformatting" />
   <meta name="color-scheme" content="light" />
   <meta name="supported-color-schemes" content="light" />
-  <title>Sign Up for Game Day 2026 | Extra Life Nerds</title>
+  <title>Email Template | Extra Life Nerds</title>
 
   <!--[if mso]>
   <noscript>
@@ -54,12 +74,21 @@
 </head>
 
 <body style="margin:0; padding:0; width:100%; background-color:#fdfaf6; font-family:'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <div style="max-width:600px; margin:16px auto 0; padding:14px 18px; background-color:#ffffff; border:1px dashed #1d6e7a; border-radius:12px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:13px; line-height:1.55; font-weight:600; color:#4a5a73;">
+    <strong style="color:#1a2b4a;">Extra Life Nerds email template.</strong>
+    Anything in <code>[[DOUBLE_BRACKETS]]</code> is a placeholder, and every block
+    from the library is shown once in the middle. To build an email, follow
+    <a href="https://github.com/usshadowop/elnerds_STATIC/blob/main/branding/email/DESIGN_BRIEF.md" style="color:#1d6e7a;">the design brief</a>.
+    Past emails are listed in
+    <a href="https://github.com/usshadowop/elnerds_STATIC/blob/main/email/archive/README.md" style="color:#1d6e7a;">the email archive</a>.
+  </div>
+
 
   <!-- Preheader (hidden). First ~90 chars show in the inbox preview next to
        the subject line. The entity padding after it stops clients pulling
        body copy into the preview — keep it. -->
   <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#fdfaf6; opacity:0;">
-    Register free, set a goal, and recruit your crew for Game Day 2026.
+    [[PREHEADER]]
     &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
   </div>
 
@@ -118,344 +147,236 @@
                     <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 22px auto; border:none;">
                       <tr>
                         <td style="background-color:#ffffff; border:none; border-radius:100px; padding:8px 16px;" align="center">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#1d6e7a;"><span style="color:#c8327c;">&#9679;</span>&nbsp; SIGN UP &bull; RECRUIT &bull; MAIN EVENT NOV 14</span>
+                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#1d6e7a;"><span style="color:#c8327c;">&#9679;</span>&nbsp; [[BADGE_PILL]]</span>
                         </td>
                       </tr>
                     </table>
 
                     <h1 class="h1" style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:42px; line-height:1.08; font-weight:900; letter-spacing:-1px; color:#1a2b4a;">
-                      Join the Team.<br />
-                      <span style="color:#c8327c;">Heal Kids.</span>
+                      [[HEADLINE_A]]<br />
+                      <span style="color:#c8327c;">[[HEADLINE_B]]</span>
                     </h1>
 
                     <p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:600; color:#4a5a73; max-width:420px;">
-                      Game Day is coming up fast, and we&rsquo;d love to have you on the team. Whether you play for 24 hours or just 1, every hour raises money for the kids at Gillette Children&rsquo;s Hospital.
+                      [[HERO_BLURB]]
                     </p>
                   </td>
                 </tr>
 
                 <!-- ============================================================
                      CONTENT SECTIONS
+
+                     Build the body here from blocks.html. Rules of thumb:
+                       - 3 to 5 sections. More than five and nobody reaches the end.
+                       - Alternate tinted bands with white sections.
+                       - One primary call to action; everything else is a chip.
+                       - Lead with the thing that has a date on it.
+                       - Put a divider between unrelated topics, not between
+                         a tinted band and the section after it.
                      ============================================================ -->
 
-                <!-- ===== 1. EVENT BAND — date, venue, directions (tinted teal) ===== -->
-                <tr>
-                  <td class="px" style="padding:36px 40px; background-color:#e6f2f3; border-radius:0;" align="center">
-                    <p class="event-label" style="margin:0 0 12px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:18px; line-height:1.25; font-weight:900; letter-spacing:1.2px; text-transform:uppercase; color:#1d6e7a;">Game Day 2026</p>
-                    <div class="date-xl" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:44px; line-height:1.05; font-weight:900; letter-spacing:-1.5px; color:#1a2b4a;">
-                      November 14, 8AM
-                    </div>
-                    <div class="date-xl" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:44px; line-height:1.05; font-weight:900; letter-spacing:-1.5px; color:#c8327c;">
-                      &ndash; 15th, 8AM
-                    </div>
+                <tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 1 &middot; Event Band</p></td></tr>
+<tr>
+  <td class="px" style="padding:36px 40px; background-color:#e6f2f3; border-radius:0;" align="center">
+    <p class="event-label" style="margin:0 0 12px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:18px; line-height:1.25; font-weight:900; letter-spacing:1.2px; text-transform:uppercase; color:#1d6e7a;">[[EYEBROW]]</p>
+    <div class="date-xl" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:44px; line-height:1.05; font-weight:900; letter-spacing:-1.5px; color:#1a2b4a;">
+      [[DATE_LINE_1]]
+    </div>
+    <!-- Optional second date line, magenta for a range's end -->
+    <div class="date-xl" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:44px; line-height:1.05; font-weight:900; letter-spacing:-1.5px; color:#c8327c;">
+      [[DATE_LINE_2]]
+    </div>
+    <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:20px; line-height:1.2; font-weight:900; letter-spacing:3px; color:#1d6e7a; margin-top:8px;">
+      [[YEAR]]
+    </div>
+    <p style="margin:14px auto 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.55; font-weight:600; color:#4a5a73; max-width:400px;">
+      [[BLURB]]
+    </p>
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 2 &middot; Text Section</p></td></tr>
+<tr>
+  <td class="px" style="padding:40px 40px 8px 40px;" align="center">
+    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#c8327c;">[[EYEBROW]]</p>
+    <h2 style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
+      [[HEADING]]
+    </h2>
+    <p style="margin:0 auto; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
+      [[BODY]]
+    </p>
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 3 &middot; Primary Button</p></td></tr>
+<tr>
+  <td class="px" style="padding:24px 40px 8px 40px;" align="center">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" class="btn">
+      <tr>
+        <td align="center" style="border-radius:100px; background-color:#e87722;">
+          <!--[if mso]>
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:52px;v-text-anchor:middle;width:260px;" arcsize="100%" strokecolor="#e87722" fillcolor="#e87722">
+          <w:anchorlock/>
+          <center style="color:#ffffff;font-family:sans-serif;font-size:15px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+          </v:roundrect>
+          <![endif]-->
+          <!--[if !mso]><!-->
+          <a href="[[HREF]]" style="display:inline-block; padding:16px 34px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#ffffff; background-color:#e87722; border-radius:100px;">[[LABEL]]</a>
+          <!--<![endif]-->
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 4 &middot; Secondary Button</p></td></tr>
+<tr>
+  <td class="px" style="padding:22px 40px 8px 40px;" align="center">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" class="btn">
+      <tr>
+        <td align="center" style="border-radius:100px; background-color:#ffffff;">
+          <!--[if mso]>
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:52px;v-text-anchor:middle;width:260px;" arcsize="100%" strokecolor="#1d6e7a" fillcolor="#ffffff">
+          <w:anchorlock/>
+          <center style="color:#1d6e7a;font-family:sans-serif;font-size:15px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+          </v:roundrect>
+          <![endif]-->
+          <!--[if !mso]><!-->
+          <a href="[[HREF]]" style="display:inline-block; padding:15px 34px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#1d6e7a; background-color:#ffffff; border:2px solid #1d6e7a; border-radius:100px;">[[LABEL]]</a>
+          <!--<![endif]-->
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 5 &middot; Chip</p></td></tr>
+<tr><td class="px" style="padding:16px 40px 0 40px; background-color:#e6f2f3;" align="center">
+<!-- 5a. Solid chip -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:18px auto 0 auto;">
+  <tr>
+    <td align="center" style="border-radius:100px; background-color:#1d6e7a;">
+      <!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:40px;v-text-anchor:middle;width:150px;" arcsize="100%" strokecolor="#1d6e7a" fillcolor="#1d6e7a">
+      <w:anchorlock/>
+      <center style="color:#ffffff;font-family:sans-serif;font-size:12px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+      </v:roundrect>
+      <![endif]-->
+      <!--[if !mso]><!-->
+      <a href="[[HREF]]" style="display:inline-block; padding:11px 24px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#ffffff; background-color:#1d6e7a; border-radius:100px;">[[LABEL]] &rarr;</a>
+      <!--<![endif]-->
+    </td>
+  </tr>
+</table>
 
-                    <!-- Address card -->
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:20px auto 0;">
-                      <tr>
-                        <td style="border:1px solid #e6eaed; border-radius:16px; padding:22px 30px; background-color:#ffffff;" align="center">
-                          <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:20px; font-weight:900; color:#1a2b4a;">Improving, Office Building</div>
-                          <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.5; font-weight:600; color:#4a5a73; margin-top:6px;">
-                            3033 Excelsior Blvd #180<br />
-                            Minneapolis, MN 55416
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-
-                    <!-- Chip: directions (solid teal) -->
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:18px auto 0 auto;">
-                      <tr>
-                        <td align="center" style="border-radius:100px; background-color:#1d6e7a;">
-                          <!--[if mso]>
-                          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.google.com/maps/dir/?api=1&destination=3033+Excelsior+Blvd+%23180,+Minneapolis,+MN+55416" style="height:40px;v-text-anchor:middle;width:170px;" arcsize="100%" strokecolor="#1d6e7a" fillcolor="#1d6e7a">
-                          <w:anchorlock/>
-                          <center style="color:#ffffff;font-family:sans-serif;font-size:12px;font-weight:bold;">GET DIRECTIONS</center>
-                          </v:roundrect>
-                          <![endif]-->
-                          <!--[if !mso]><!-->
-                          <a href="https://www.google.com/maps/dir/?api=1&destination=3033+Excelsior+Blvd+%23180,+Minneapolis,+MN+55416" style="display:inline-block; padding:11px 24px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#ffffff; background-color:#1d6e7a; border-radius:100px;">Get Directions &rarr;</a>
-                          <!--<![endif]-->
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-
-                <!-- ===== 2. TEXT SECTION — Step 1: Sign up (white) ===== -->
-                <tr>
-                  <td class="px" style="padding:40px 40px 8px 40px;" align="center">
-                    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#e87722;">Step 1 &bull; Sign Up</p>
-                    <h2 style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
-                      Getting started takes about 5 minutes
-                    </h2>
-                    <p style="margin:0 auto; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
-                      Registration is free, and you don&rsquo;t need to be a hardcore gamer to play. Here&rsquo;s how it works:
-                    </p>
-                  </td>
-                </tr>
-
-                <!-- Bulleted list for Step 1 -->
-                <tr>
-                  <td class="px" style="padding:16px 40px 0 40px;" align="center">
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
-                      <tr>
-                        <td style="padding:6px 0;">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#1d6e7a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">Register on ELNerds.com and join the Extra Life Nerds team</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding:6px 0;">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#c8327c;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">Set a fundraising goal &mdash; even a small one counts</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding:6px 0;">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#d4a017;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">Share your page with family, friends, and coworkers</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding:6px 0;">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#e87722;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">Pick your play time: the full 24 hours or just 1 hour</span>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-
-                <!-- Primary button: Register (the one main CTA for this email) -->
-                <tr>
-                  <td class="px" style="padding:24px 40px 8px 40px;" align="center">
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" class="btn">
-                      <tr>
-                        <td align="center" style="border-radius:100px; background-color:#e87722;">
-                          <!--[if mso]>
-                          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://elnerds.com/registration" style="height:52px;v-text-anchor:middle;width:260px;" arcsize="100%" strokecolor="#e87722" fillcolor="#e87722">
-                          <w:anchorlock/>
-                          <center style="color:#ffffff;font-family:sans-serif;font-size:15px;font-weight:bold;">REGISTER TODAY</center>
-                          </v:roundrect>
-                          <![endif]-->
-                          <!--[if !mso]><!-->
-                          <a href="https://elnerds.com/registration" style="display:inline-block; padding:16px 34px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#ffffff; background-color:#e87722; border-radius:100px;">Register Today</a>
-                          <!--<![endif]-->
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-
-                <!-- ===== 3. Step 2: Recruit (tinted purple band) ===== -->
-                <tr>
-                  <td class="px" style="padding:40px 40px 40px 40px; background-color:#f3ecf7; border-radius:0;" align="center">
-                    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#6b3d8a;">Step 2 &bull; Recruit</p>
-                    <h2 style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
-                      Every new player multiplies the impact
-                    </h2>
-                    <p style="margin:0 auto 18px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
-                      The fastest way to grow our total is to bring more people into the game. Think about who in your life would jump at a reason to play for a good cause:
-                    </p>
-
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
-                      <tr>
-                        <td style="padding:6px 0;">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#1d6e7a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">Friends, family and kids welcome. Bring a board game, console, or laptop, however you play!</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding:6px 0;">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#c8327c;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">Coworkers looking for a fun team activity</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding:6px 0;">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#d4a017;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">Your Discord or online gaming crew &mdash; join in person or play from home</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding:6px 0;">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#e87722;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">Your local game group, D&amp;D table, or board game night</span>
-                        </td>
-                      </tr>
-                    </table>
-
-                    <!-- Chip: share team page (outlined purple) -->
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:22px auto 0 auto;">
-                      <tr>
-                        <td align="center" style="border-radius:100px; background-color:#ffffff;">
-                          <!--[if mso]>
-                          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.extra-life.org/teams/73600" style="height:52px;v-text-anchor:middle;width:300px;" arcsize="100%" strokecolor="#6b3d8a" fillcolor="#ffffff">
-                          <w:anchorlock/>
-                          <center style="color:#6b3d8a;font-family:sans-serif;font-size:15px;font-weight:bold;">SHARE THE TEAM PAGE</center>
-                          </v:roundrect>
-                          <![endif]-->
-                          <!--[if !mso]><!-->
-                          <a href="https://www.extra-life.org/teams/73600" style="display:inline-block; padding:14px 32px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#6b3d8a; background-color:#ffffff; border:2px solid #6b3d8a; border-radius:100px;">Share the Team Page</a>
-                          <!--<![endif]-->
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-
-                <!-- ===== 3b. Step 3: Earn donations (tinted teal band, reward cards) ===== -->
-                <tr>
-                  <td class="px" style="padding:40px 40px 40px 40px; background-color:#e6f2f3; border-radius:0;" align="center">
-                    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#1d6e7a;">Step 3 &bull; Earn Donations</p>
-                    <h2 style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
-                      Earn donations just for doing Steps 1 &amp; 2
-                    </h2>
-                    <p style="margin:0 auto 22px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
-                      Courtesy of your Extra Life Nerds leadership team, to help you get started or to bolster your already flourishing campaign: Earn the following donations for signing up and recruiting!
-                    </p>
-
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 auto 14px auto; max-width:460px;">
-                      <tr>
-                        <td style="border:1px solid #e6eaed; border-radius:16px; background-color:#ffffff; padding:20px 22px;">
-                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-                            <tr>
-                              <td width="92" valign="top" align="center" style="width:92px; padding-right:16px; border-right:2px solid #e6f2f3;">
-                              <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:36px; line-height:1; font-weight:900; letter-spacing:-1px; color:#1d6e7a;">$75</div>
-                              </td>
-                              <td valign="top" align="left" style="padding-left:16px;">
-                              <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:17px; line-height:1.3; font-weight:900; color:#1a2b4a; margin-bottom:6px;">Show up for Game Day</div>
-                              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
-                                  <tr><td style="padding:3px 0;"><span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:700; color:#1d6e7a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; color:#4a5a73;">RSVP for Game Day</span></td></tr>
-                                  <tr><td style="padding:3px 0;"><span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:700; color:#1d6e7a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; color:#4a5a73;">Raise $25 by kickoff (Nov 14, 8AM)</span></td></tr>
-                                  <tr><td style="padding:3px 0;"><span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:700; color:#1d6e7a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; color:#4a5a73;">Show up to the event!</span></td></tr>
-                              </table>
-                              <a href="https://elnerds.com/rsvp/marathon" style="display:inline-block; margin-top:10px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#1d6e7a;">RSVP for Game Day &rarr;</a>
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                    </table>
-
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 auto 14px auto; max-width:460px;">
-                      <tr>
-                        <td style="border:1px solid #e6eaed; border-radius:16px; background-color:#ffffff; padding:20px 22px;">
-                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-                            <tr>
-                              <td width="92" valign="top" align="center" style="width:92px; padding-right:16px; border-right:2px solid #e6f2f3;">
-                              <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:36px; line-height:1; font-weight:900; letter-spacing:-1px; color:#1d6e7a;">$25</div>
-                              </td>
-                              <td valign="top" align="left" style="padding-left:16px;">
-                              <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:17px; line-height:1.3; font-weight:900; color:#1a2b4a; margin-bottom:6px;">Recruit a teammate</div>
-                              <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.5; font-weight:600; color:#4a5a73;">Get someone to join the Extra Life Nerds team.</div>
-                              <a href="https://dd.extra-life.org/teams/73600" style="display:inline-block; margin-top:10px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#1d6e7a;">Join the team &rarr;</a>
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                    </table>
-
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 auto; max-width:460px;">
-                      <tr>
-                        <td style="border:1px solid #e6eaed; border-radius:16px; background-color:#ffffff; padding:20px 22px;">
-                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-                            <tr>
-                              <td width="92" valign="top" align="center" style="width:92px; padding-right:16px; border-right:2px solid #e6f2f3;">
-                              <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:36px; line-height:1; font-weight:900; letter-spacing:-1px; color:#1d6e7a;">$5</div>
-                              <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; line-height:1.3; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#1d6e7a; margin-top:4px;">each &bull; up to $20</div>
-                              </td>
-                              <td valign="top" align="left" style="padding-left:16px;">
-                              <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:17px; line-height:1.3; font-weight:900; color:#1a2b4a; margin-bottom:6px;">Grow our socials</div>
-                              <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.5; font-weight:600; color:#4a5a73;">Get someone to follow us on Instagram or Facebook, join our Discord, or sign up for our newsletter. If they do all 4, $20 is coming your way!</div>
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-
-                <!-- ===== 4. TEXT SECTION — Why it's worth it (white) ===== -->
-                <tr>
-                  <td class="px" style="padding:40px 40px 8px 40px;" align="center">
-                    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#c8327c;">The Impact</p>
-                    <h2 style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
-                      What your hour does
-                    </h2>
-                    <p style="margin:0 auto; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
-                      Be a part of the team that has raised over $500K, with $50K raised last year alone!
-                    </p>
-
-                    <!-- Detail card: venue perks -->
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:20px auto 0;">
-                      <tr>
-                        <td style="border:1px solid #e6eaed; border-radius:16px; padding:20px 28px; background-color:#ffffff;" align="left">
-                          <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:13px; font-weight:900; letter-spacing:1.5px; text-transform:uppercase; color:#6b3d8a; margin-bottom:10px;">What&rsquo;s Waiting For You At The Venue</div>
-                          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
-                            <tr>
-                              <td style="padding:4px 0;">
-                                <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:700; color:#6b3d8a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; color:#4a5a73;">Ample parking</span>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td style="padding:4px 0;">
-                                <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:700; color:#1d6e7a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; color:#4a5a73;">Fully integrated modern technology</span>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td style="padding:4px 0;">
-                                <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:700; color:#e87722;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; color:#4a5a73;">Comfy chairs and plug-and-play monitors</span>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td style="padding:4px 0;">
-                                <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:700; color:#c8327c;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; color:#4a5a73;">Easily accessible central location</span>
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-
-                <!-- ===== DIVIDER — between unrelated white sections ===== -->
-                <tr><td class="px" style="padding:32px 40px 0 40px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td style="border-top:1px solid #e6eaed; font-size:0; line-height:0;">&nbsp;</td></tr></table></td></tr>
-
-                <!-- ===== 5. CLOSING SECTION — Follow our socials (icon row) ===== -->
-                <!-- Experimental: icon images break the template's "only the logo
-                     and CMN badge" rule. Each icon has alt text and a text label
-                     under it, so the row still works with images blocked. -->
-                <tr>
-                  <td class="px" style="padding:36px 40px 40px 40px;" align="center">
-                    <p style="margin:0 auto 22px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:18px; line-height:1.5; font-weight:800; color:#1a2b4a; max-width:420px;">
-                      Follow our socials for the latest updates and news about the event.
-                    </p>
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
-                      <tr>
-                        <td style="padding:0 10px;" align="center" valign="top">
-                          <a href="https://www.instagram.com/elnerdsmn/" style="text-decoration:none;">
-                            <img src="https://elnerds.com/email/assets/icon-instagram.png" width="48" height="48" alt="Instagram" style="display:block; width:48px; height:48px; margin:0 auto;" />
-                          </a>
-                          <a href="https://www.instagram.com/elnerdsmn/" style="display:block; margin-top:8px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#c8327c;">Instagram</a>
-                        </td>
-                        <td style="padding:0 10px;" align="center" valign="top">
-                          <a href="https://www.facebook.com/extralifenerds/" style="text-decoration:none;">
-                            <img src="https://elnerds.com/email/assets/icon-facebook.png" width="48" height="48" alt="Facebook" style="display:block; width:48px; height:48px; margin:0 auto;" />
-                          </a>
-                          <a href="https://www.facebook.com/extralifenerds/" style="display:block; margin-top:8px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#1d6e7a;">Facebook</a>
-                        </td>
-                        <td style="padding:0 10px;" align="center" valign="top">
-                          <a href="https://discord.gg/fg2FMBXwub" style="text-decoration:none;">
-                            <img src="https://elnerds.com/email/assets/icon-discord.png" width="48" height="48" alt="Discord" style="display:block; width:48px; height:48px; margin:0 auto;" />
-                          </a>
-                          <a href="https://discord.gg/fg2FMBXwub" style="display:block; margin-top:8px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#6b3d8a;">Discord</a>
-                        </td>
-                        <td style="padding:0 10px;" align="center" valign="top">
-                          <a href="https://elnerds.com/newsletter" style="text-decoration:none;">
-                            <img src="https://elnerds.com/email/assets/icon-email.png" width="48" height="48" alt="Newsletter" style="display:block; width:48px; height:48px; margin:0 auto;" />
-                          </a>
-                          <a href="https://elnerds.com/newsletter" style="display:block; margin-top:8px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#e87722;">Newsletter</a>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
+<!-- 5b. Outlined chip. Widen the VML `width` for a longer label or Outlook clips it. -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:10px auto 0 auto;">
+  <tr>
+    <td align="center" style="border-radius:100px; background-color:#ffffff;">
+      <!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:40px;v-text-anchor:middle;width:230px;" arcsize="100%" strokecolor="#6b3d8a" fillcolor="#ffffff">
+      <w:anchorlock/>
+      <center style="color:#6b3d8a;font-family:sans-serif;font-size:12px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+      </v:roundrect>
+      <![endif]-->
+      <!--[if !mso]><!-->
+      <a href="[[HREF]]" style="display:inline-block; padding:10px 22px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#6b3d8a; background-color:#ffffff; border:2px solid #6b3d8a; border-radius:100px;">[[LABEL]]</a>
+      <!--<![endif]-->
+    </td>
+  </tr>
+</table>
+</td></tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 6 &middot; Address Card</p></td></tr>
+<tr><td class="px" style="padding:16px 40px 0 40px;" align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+  <tr>
+    <td style="border:1px solid #e6eaed; border-radius:16px; padding:22px 30px; background-color:#ffffff;" align="center">
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:20px; font-weight:900; color:#1a2b4a;">[[VENUE_NAME]]</div>
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.5; font-weight:600; color:#4a5a73; margin-top:6px;">
+        [[STREET]]<br />
+        [[CITY_STATE_ZIP]]
+      </div>
+    </td>
+  </tr>
+</table>
+</td></tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 7 &middot; Detail Card</p></td></tr>
+<tr><td class="px" style="padding:16px 40px 0 40px;" align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:20px auto 0;">
+  <tr>
+    <td style="border:1px solid #e6d9ee; border-radius:16px; padding:20px 28px; background-color:#ffffff;" align="left">
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:17px; line-height:1.3; font-weight:900; color:#c8327c; margin:0 0 14px 0;">[[CARD_CALLOUT]]</div>
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:13px; font-weight:900; letter-spacing:1.5px; text-transform:uppercase; color:#6b3d8a; margin-bottom:10px;">[[CARD_LABEL]]</div>
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+        <!-- Repeat, cycling the bullet colour: purple, teal, orange, magenta -->
+        <tr>
+          <td style="padding:4px 0;">
+            <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:700; color:#6b3d8a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; color:#4a5a73;">[[ITEM]]</span>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</td></tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 8 &middot; Bulleted List</p></td></tr>
+<tr><td class="px" style="padding:16px 40px 0 40px;" align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+  <tr>
+    <td style="padding:6px 0;">
+      <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#1d6e7a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">[[ITEM]]</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:6px 0;">
+      <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#c8327c;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">[[ITEM]]</span>
+    </td>
+  </tr>
+</table>
+</td></tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 9 &middot; Divider</p></td></tr>
+<tr><td class="px" style="padding:32px 40px 0 40px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td style="border-top:1px solid #e6eaed; font-size:0; line-height:0;">&nbsp;</td></tr></table></td></tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 10 &middot; Closing Section</p></td></tr>
+<tr>
+  <td class="px" style="padding:36px 40px 40px 40px;" align="center">
+    <h2 style="margin:0 0 12px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#6b3d8a;">
+      [[HEADING]]
+    </h2>
+    <p style="margin:0 auto 20px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:600; color:#4a5a73; max-width:420px;">
+      [[LEAD_IN]]
+    </p>
+    <!-- Then block 8. -->
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 11 &middot; Tinted Section</p></td></tr>
+<tr>
+  <td class="px" style="padding:40px 40px 40px 40px; background-color:#f3ecf7; border-radius:0;" align="center">
+    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#6b3d8a;">[[EYEBROW]]</p>
+    <h2 style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
+      [[HEADING]]
+    </h2>
+    <p style="margin:0 auto; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
+      [[BODY]]
+    </p>
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 12 &middot; Reward Card</p></td></tr>
+<tr><td class="px" style="padding:16px 40px 0 40px;" align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 auto 14px auto; max-width:460px;">
+  <tr>
+    <td style="border:1px solid #e6eaed; border-radius:16px; background-color:#ffffff; padding:20px 22px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td width="92" valign="top" align="center" style="width:92px; padding-right:16px; border-right:2px solid #e6f2f3;">
+            <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:36px; line-height:1; font-weight:900; letter-spacing:-1px; color:#1d6e7a;">[[AMOUNT]]</div>
+          </td>
+          <td valign="top" align="left" style="padding-left:16px;">
+            <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:17px; line-height:1.3; font-weight:900; color:#1a2b4a; margin-bottom:6px;">[[CARD_TITLE]]</div>
+            <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.5; font-weight:600; color:#4a5a73;">[[CARD_DETAILS]]</div>
+            <a href="[[CARD_LINK_URL]]" style="display:inline-block; margin-top:10px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#1d6e7a;">[[CARD_LINK_LABEL]] &rarr;</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</td></tr>
 
                 <!-- ============ /CONTENT SECTIONS ============ -->
 
@@ -467,7 +388,7 @@
           <tr>
             <td class="px" style="padding:32px 40px 8px 40px;" align="center">
               <p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:700; color:#4a5a73;">
-                See you on Game Day.
+                [[SIGNOFF]]
               </p>
               <p style="margin:4px 0 0 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:900; color:#1a2b4a;">
                 &mdash; The Extra Life Nerds Team
@@ -479,10 +400,36 @@
                      required and Brevo will not save a campaign without it. -->
           <tr>
             <td class="px" style="padding:28px 40px 12px 40px;" align="center">
-              <!-- Donate link -->
-              <p style="margin:0 0 16px 0;">
-                <a href="https://www.extra-life.org/team/73600" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#e87722;">Donate to the Extra Life Nerds &rarr;</a>
-              </p>
+              <!-- Social links -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 16px auto;">
+                <tr>
+                  <td style="padding:0 8px;"><a href="https://www.instagram.com/elnerdsmn/" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#c8327c;">Instagram</a></td>
+                  <td style="color:#e6eaed;">|</td>
+                  <td style="padding:0 8px;"><a href="https://www.facebook.com/extralifenerds/" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#1d6e7a;">Facebook</a></td>
+                  <td style="color:#e6eaed;">|</td>
+                  <td style="padding:0 8px;"><a href="https://discord.gg/fg2FMBXwub" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#6b3d8a;">Discord</a></td>
+                  <td style="color:#e6eaed;">|</td>
+                  <td style="padding:0 8px;"><a href="https://elnerds.com/newsletter" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#e87722;">Newsletter</a></td>
+                </tr>
+              </table>
+
+              <!-- Donate button (outlined orange). It sits below the email's one
+                   primary button, so it stays outlined rather than solid. -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 20px auto;">
+                <tr>
+                  <td align="center" style="border-radius:100px; background-color:#ffffff;">
+                    <!--[if mso]>
+                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.extra-life.org/team/73600" style="height:44px;v-text-anchor:middle;width:280px;" arcsize="100%" strokecolor="#e87722" fillcolor="#ffffff">
+                    <w:anchorlock/>
+                    <center style="color:#e87722;font-family:sans-serif;font-size:13px;font-weight:bold;">DONATE TO THE EXTRA LIFE NERDS</center>
+                    </v:roundrect>
+                    <![endif]-->
+                    <!--[if !mso]><!-->
+                    <a href="https://www.extra-life.org/team/73600" style="display:inline-block; padding:11px 26px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:13px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#e87722; background-color:#ffffff; border:2px solid #e87722; border-radius:100px;">Donate to the Extra Life Nerds</a>
+                    <!--<![endif]-->
+                  </td>
+                </tr>
+              </table>
 
               <!-- CMN Hospitals badge -->
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 16px auto; border:none;">
@@ -515,7 +462,7 @@
                 <a href="{{ unsubscribe }}" style="color:#a6b0be; text-decoration:underline;">Unsubscribe</a>
               </p>
               <p style="margin:12px 0 0 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; line-height:1.6; font-weight:600; color:#c2ccd8;">
-                &copy; 2026 Extra Life Nerds
+                &copy; [[YEAR]] Extra Life Nerds
               </p>
             </td>
           </tr>
