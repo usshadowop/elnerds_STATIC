@@ -3,13 +3,10 @@
 This folder holds the campaign currently being written or sent. Sent
 campaigns move to [`archive/`](archive/), one folder per send.
 
-**Current campaign:** [`elnerds-signup-recruit.html`](elnerds-signup-recruit.html)
-— "Sign Up for Game Day 2026": register, recruit, and earn donations (Step 3
-reward cards), with a social icon row (Instagram, Facebook, Discord,
-Newsletter). The icon PNGs live in `public/email/assets/`. The icon row is a
-deliberate trial against the design brief's "only the logo and CMN badge"
-image rule; each icon has alt text and a text label so it survives
-images-off.
+**Current campaign:** none in progress. The most recent send is the
+Sep 2026 sign-up/recruit email, now in
+[`archive/2026-09-signup-recruit/`](archive/2026-09-signup-recruit/); it is
+still what [elnerds.com/email/](https://elnerds.com/email/) shows.
 
 Event details mirror [`src/lib/rsvpEvents.ts`](../src/lib/rsvpEvents.ts) and
 [`src/lib/scheduleEvents.ts`](../src/lib/scheduleEvents.ts) — check dates,
@@ -60,7 +57,7 @@ copy, so there is one file to keep in sync. Re-copy it whenever the campaign
 changes:
 
 ```bash
-cp email/elnerds-signup-recruit.html public/email/index.html
+cp email/<new-campaign>.html public/email/index.html
 ```
 
 Past campaigns stay up at `elnerds.com/email/archive/<folder>/`; see

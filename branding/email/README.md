@@ -47,7 +47,7 @@ re-run:
 | [`DESIGN_BRIEF.md`](DESIGN_BRIEF.md) | The brief. Read first. |
 | [`tokens.md`](tokens.md) | Authoritative colour, type, layout and mobile values |
 | [`template.html`](template.html) | The skeleton — correct chrome, `[[PLACEHOLDERS]]` for content |
-| [`blocks.html`](blocks.html) | Ten tested section blocks to build the body from |
+| [`blocks.html`](blocks.html) | Twelve tested section blocks to build the body from |
 | [`BRIEF_BUNDLE.md`](BRIEF_BUNDLE.md) | Generated — all of the above in one paste-able file |
 | [`build-bundle.sh`](build-bundle.sh) | Regenerates the bundle |
 
