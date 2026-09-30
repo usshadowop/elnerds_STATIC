@@ -46,6 +46,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
+| 2026-09-30 | Owner (decision) | Keep the social icon row in `email/elnerds-signup-recruit.html`? It breaks the brief's logo-and-badge-only image rule as a trial. If it stays, fold it into `branding/email/blocks.html` and the brief. |
 
 Rules that keep this honest:
 
@@ -63,33 +64,26 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-09-24 → 09-25 (PRs #40–#45: donation ticker, newsletter
-signup, `Code.gs` finally redeployed):*
+*Session of 2026-09-30 (sign-up/recruit email, email archive):*
 
-- **Donation ticker under the hero countdown** (#40–#42, #45). It shows the
-  6 newest DonorDrive donations, and each loop opens with a blank gap one
-  strip wide so the newest enters from the right. A "See all donations ↓"
-  link goes to `#donors`. Two bugs worth remembering:
-  - `/donations` sends `max-age=14400`, so the hook fetches with
-    `cache: "no-store"`;
-  - a phone tap leaves `:hover` stuck on, so pause-on-hover sits behind
-    `(hover: hover) and (pointer: fine)`.
-
-  The card is `docs/features/extra-life-api.md`.
-- **Newsletter signup** (#44): `/newsletter`, plus a nav envelope icon and
-  a footer button. It saves to a `Newsletter` sheet tab through `Code.gs`;
-  the owner chose that over Brevo. The card is
-  `docs/features/newsletter-signup.md`.
-- **The owner redeployed `Code.gs` twice**, closing the thread open since
-  Aug 12. The first live read showed Run of Show times as 1899 dates, which
-  the `getDisplayValues()` fix solved. The live script matches the repo as
-  of Version 4 (verified 2026-09-25).
-- **Donors badges squashed into ovals on phones** (#43). Any fixed-size icon
-  next to text that can wrap needs `shrink-0`.
-- **Flow the owner liked:** a mockup with screenshots first (real data
-  stubbed into a local build), then "push it live". When the owner asks for
-  Apps Script code, give the **whole file** in a chat code block, not a
-  diff; they paste it into the editor.
+- **New campaign `email/elnerds-signup-recruit.html`**, built by the owner
+  from the template and then edited here. It adds a Step 3 section with
+  reward cards ($75 / $25 / $5 each), a closing row of social icons
+  (Instagram, Facebook, Discord, Newsletter) whose PNGs are in
+  `public/email/assets/icon-*.png`, and a Donate text link in the footer.
+  The icons were rendered from the site's own lucide/Discord SVGs with
+  Playwright. The owner iterated on a private claude.ai artifact preview
+  before pushing live.
+- **Email archive.** Sent campaigns now live in `email/archive/YYYY-MM-<slug>/`,
+  and each also stays up at `/email/archive/<folder>/`. The August
+  announcement moved there. `public/email/index.html` is now the only public
+  copy of the current email, so the old "two copies drift" trap is gone. The
+  old `/email/elnerds-announcement.html` URL is a meta-refresh stub.
+- **The draft's button links pointed at `/rsvp/` slugs that don't exist.** An
+  unknown slug silently falls back to the RSVP chooser, so check every
+  `/rsvp/<slug>` against `rsvpEvents.ts`.
+- **Pre-existing, not fixed:** the template renders about 418px wide in a
+  375px viewport (the August email does too).
 
 ## Ship-live workflow
 
@@ -217,12 +211,14 @@ already there.
   AI model at ("build me an email, follow
   `branding/email/DESIGN_BRIEF.md`"). New campaigns are written into
   `email/`, not `branding/`.
-- `email/elnerds-announcement.html` — the announcement email. Edit only
-  this file, then copy it over **both** `public/email/elnerds-announcement.html`
-  and `public/email/index.html`; the two public copies are what serve
-  https://elnerds.com/email/ and drift silently if you forget.
-  `email/elnerds-announcement-vip.html` is a separate VIP variant that has
-  to be edited alongside it (same content plus a VIP badge and greeting).
+- `email/` holds the **current** campaign (today
+  `email/elnerds-signup-recruit.html`). Edit only that file, then copy it
+  over `public/email/index.html`, the single public copy that serves
+  https://elnerds.com/email/. Sent campaigns move to
+  `email/archive/YYYY-MM-<slug>/` and stay viewable at
+  `elnerds.com/email/archive/<slug-folder>/`; `email/archive/README.md` is the
+  index and has the steps. `public/email/elnerds-announcement.html` is a
+  redirect stub for the old August 2026 URL.
 
 ## Announcement email (Brevo)
 

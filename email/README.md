@@ -1,18 +1,22 @@
-# Extra Life Nerds — Announcement Email
+# Extra Life Nerds — campaign emails
 
-`elnerds-announcement.html` (general list) and `elnerds-announcement-vip.html`
-(VIP list — adds a personalized thank-you and a "VIP Supporter" badge) are
-production-ready, brand-matched HTML emails announcing:
+This folder holds the campaign currently being written or sent. Sent
+campaigns move to [`archive/`](archive/), one folder per send.
 
-- **Game Day 2026: November 14–15** (with an RSVP chip → `/rsvp/marathon`)
-- The new venue — **Improving, 3033 Excelsior Blvd #180, Minneapolis, MN 55416**
-- **Extra Life Bingo, Aug 8** at Truplayerz — pricing, an RSVP chip
-  (`/rsvp/bingo`), and a "Directions to Truplayerz" chip
-- The refreshed **ELNerds.com** website
+**Current campaign:** [`elnerds-signup-recruit.html`](elnerds-signup-recruit.html)
+— "Sign Up for Game Day 2026": register, recruit, and earn donations (Step 3
+reward cards), with a social icon row (Instagram, Facebook, Discord,
+Newsletter). The icon PNGs live in `public/email/assets/`. The icon row is a
+deliberate trial against the design brief's "only the logo and CMN badge"
+image rule; each icon has alt text and a text label so it survives
+images-off.
 
 Event details mirror [`src/lib/rsvpEvents.ts`](../src/lib/rsvpEvents.ts) and
-[`src/components/site/Schedule.tsx`](../src/components/site/Schedule.tsx) —
-update those and this email together.
+[`src/lib/scheduleEvents.ts`](../src/lib/scheduleEvents.ts) — check dates,
+times and addresses against those before sending.
+
+New campaigns start from [`branding/email/template.html`](../branding/email/template.html)
+following [`branding/email/DESIGN_BRIEF.md`](../branding/email/DESIGN_BRIEF.md).
 
 ## Branding
 
@@ -50,22 +54,26 @@ teal-outline secondary CTA, matching the site nav/hero.
 
 ## Live preview
 
-`public/email/index.html` and `public/email/elnerds-announcement.html` are
-copies of the general template, published at
-[elnerds.com/email/](https://elnerds.com/email/). Re-copy them whenever the
-source template changes:
+`public/email/index.html` is a copy of the current campaign, published at
+[elnerds.com/email/](https://elnerds.com/email/). It is the **only** public
+copy, so there is one file to keep in sync. Re-copy it whenever the campaign
+changes:
 
 ```bash
-cp email/elnerds-announcement.html public/email/elnerds-announcement.html
-cp email/elnerds-announcement.html public/email/index.html
+cp email/elnerds-signup-recruit.html public/email/index.html
 ```
+
+Past campaigns stay up at `elnerds.com/email/archive/<folder>/`; see
+[`archive/README.md`](archive/README.md) for how to archive one.
+`public/email/elnerds-announcement.html` is a redirect stub so old links to
+the August 2026 announcement land on its archive page.
 
 The preview shows the raw Brevo tags as literal text — that's expected;
 they only resolve when Brevo sends the campaign.
 
 ## Sending
 
-Paste the raw HTML into your ESP. Both templates are written for **Brevo**
+Paste the raw HTML into your ESP. Campaigns are written for **Brevo**
 and carry its merge tags:
 
 - `{{ unsubscribe }}` — footer unsubscribe link
