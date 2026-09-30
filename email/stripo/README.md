@@ -83,6 +83,11 @@ with **Import a code / Rich HTML**, as we do today.
 
 ## Updating the MJML
 
+Don't use self-closing tags. Stripo's importer rejects `<br />` and
+`<mj-image ... />` with "trailing solidus not allowed", so write `<br>`
+and close every MJML tag explicitly (`<mj-image ...></mj-image>`).
+MJML accepts both forms and produces identical output.
+
 Edit the `.mjml` file, then check it compiles cleanly and looks right. The
 official compiler is on npm as `mjml`; run it with strict validation and
 open the HTML it writes in a browser at desktop and phone width. Once the
