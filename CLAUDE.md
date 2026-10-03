@@ -73,10 +73,9 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   buttons that pushed Donate Now off the left edge on phones. With Nunito
   loaded it stays on one row from 375px, and RSVP drops to a second line at
   360px and below. The details are in `docs/features/gameday-hero-states.md`.
-- **To measure layout with the real font**, curl the Google Fonts CSS and
-  woff2 files and serve them through Playwright `route()`. The sandbox
-  Chromium can't load them itself, and its fallback font is wider than
-  Nunito, so overflow measured without it is overstated.
+- **Layout measured without Nunito is wrong.** The sandbox Chromium can't
+  load Google Fonts, and its fallback font is wider. The verify skill now
+  says how to serve the real font to Playwright.
 - The previous session's email notes (Brevo firewall, `/email/` as the
   template, blocks 11 and 12) are covered in the sections below and in
   `docs/features/branding-docs.md`.
