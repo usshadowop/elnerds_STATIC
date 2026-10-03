@@ -1,7 +1,7 @@
 # Game Day hero states
 
 - **Status:** Live
-- **Last reviewed:** 2026-09-24 (Covers audited against imports; donation ticker added)
+- **Last reviewed:** 2026-10-03 (blue RSVP button added to the hero's button row)
 - **Covers:** `src/hooks/use-countdown.ts`, `src/components/site/Hero.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -16,7 +16,10 @@ on the day.
 - `src/hooks/use-countdown.ts` — `useGameday(startIso, endIso)`, which ticks
   once a second and reports both the phase and the time left in it.
 - `src/components/site/Hero.tsx` — the card itself, plus `GrandTotalCard` and
-  the Command Center button.
+  the Command Center button. Also the button row under the ticker: Donate Now
+  (orange, to the Extra Life team page), Join The Team (teal outline, to
+  `/registration`) and RSVP (blue, to the `/rsvp` chooser). These show in
+  every phase.
 
 ## How it works
 
@@ -51,6 +54,13 @@ otherwise.
 - Cents appear only when the total has them (`$61,250`, not `$61,250.00`).
 - The event name in the label comes from the API, so it reads "Extra Life
   2027" next year with no edit.
+- **The button row wraps on narrow phones.** With three buttons it no longer
+  fits on one line everywhere. Measured with Nunito loaded, it stays on one
+  row from 375px wide; at 360px and below, RSVP drops to a centered second
+  line. It used to be `flex-nowrap`, which would push Donate Now off the
+  left edge. The buttons use `px-4` below `sm` to keep 375px on one row.
+- The RSVP button's blue is the `--color-blue` token in `src/styles.css`.
+  The rest of the palette had no blue.
 - `useGameday` replaced a generic `useCountdown`; the hero was its only caller.
   One ticking clock now reports the phase *and* the remainder, instead of a
   second interval alongside the countdown just to work out the state.
