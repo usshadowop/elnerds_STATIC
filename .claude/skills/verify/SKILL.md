@@ -33,6 +33,13 @@ Static Vite + React SPA. No tests; verification = drive the page in a browser.
   proxy). To drive the deployed build, serve it locally instead —
   `npx serve -s dist -l 4173` — after confirming with `curl` that the live
   bytes match `dist/`.
+- That also means **Nunito never loads** (it comes from Google Fonts), and
+  the fallback font is wider. So any width or overflow measurement is wrong
+  without the real font. Fetch it with curl, which does use the proxy: the
+  `fonts.googleapis.com/css2?family=Nunito…` CSS from `index.html` (send a
+  Chrome User-Agent to get woff2) plus each `fonts.gstatic.com` file it
+  names. Then serve them through `context.route()` and wait on
+  `document.fonts.ready`. Abort every other external request.
 
 ## RSVP form (`/rsvp`)
 
