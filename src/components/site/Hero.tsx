@@ -236,7 +236,7 @@ export function Hero() {
           </a>
         )}
 
-        <div className="mb-12 flex flex-nowrap items-center justify-center gap-2.5 sm:gap-3">
+        <div className="mb-12 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
           <div
             className="relative"
             onMouseEnter={() => setHeartsOn(true)}
@@ -246,7 +246,7 @@ export function Hero() {
           >
             <a
               href="https://www.extra-life.org/team/73600"
-              className="relative z-10 inline-block whitespace-nowrap rounded-full bg-orange px-5 py-3 text-xs font-extrabold uppercase tracking-wide text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110 sm:px-7 sm:py-3.5 sm:text-sm sm:tracking-wider"
+              className="relative z-10 inline-block whitespace-nowrap rounded-full bg-orange px-4 py-3 text-xs font-extrabold uppercase tracking-wide text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110 sm:px-7 sm:py-3.5 sm:text-sm sm:tracking-wider"
             >
               Donate Now
             </a>
@@ -254,9 +254,15 @@ export function Hero() {
           </div>
           <a
             href={`${import.meta.env.BASE_URL}registration`}
-            className="whitespace-nowrap rounded-full border-2 border-teal bg-white px-5 py-3 text-xs font-extrabold uppercase tracking-wide text-teal transition-all hover:bg-teal hover:text-white sm:px-7 sm:py-3.5 sm:text-sm sm:tracking-wider"
+            className="whitespace-nowrap rounded-full border-2 border-teal bg-white px-4 py-3 text-xs font-extrabold uppercase tracking-wide text-teal transition-all hover:bg-teal hover:text-white sm:px-7 sm:py-3.5 sm:text-sm sm:tracking-wider"
           >
             Join The Team
+          </a>
+          <a
+            href={`${import.meta.env.BASE_URL}rsvp`}
+            className="whitespace-nowrap rounded-full bg-blue px-4 py-3 text-xs font-extrabold uppercase tracking-wide text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110 sm:px-7 sm:py-3.5 sm:text-sm sm:tracking-wider"
+          >
+            RSVP
           </a>
         </div>
 
