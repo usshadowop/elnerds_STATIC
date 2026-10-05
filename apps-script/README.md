@@ -9,6 +9,7 @@ that:
 3. Emails the **captain account** a "new RSVP" notification
 4. Handles **cancel** links (marks the row `Cancelled`, notifies the captain)
 5. Receives **newsletter signups** from `elnerds.com/newsletter` into a `Newsletter` tab (Email, Referred by) and notifies the captain
+6. Serves the **`/gameday` Command Center**'s contents from a second sheet, **"Gameday_Command_Center"** (see [below](#gameday-command-center-content))
 
 Nothing about this is visible to the visitor — they stay on the styled site the
 whole time. The Google Sheet is your private back-office view.
@@ -40,8 +41,10 @@ lands in its Drive and emails come "from" it).
 2. Google shows a permissions prompt → **Review permissions** → pick your
    account → "Google hasn't verified this app" → **Advanced** →
    **Go to (project name)** → **Allow**. (This is normal for your own scripts.)
-3. Open **Execution log** (View → Logs) — it prints the URL of the new
-   "elnerds RSVPs" spreadsheet. Bookmark it; that's where submissions land.
+3. Open **Execution log** (View → Logs) — it prints the URLs of the new
+   "elnerds RSVPs" spreadsheet (where submissions land) and the
+   "Gameday_Command_Center" spreadsheet (the `/gameday` page's contents).
+   Bookmark both.
 
 ### 3. Deploy as a Web App
 
@@ -111,14 +114,40 @@ Clicking **Cancel** flips that row's `Status` to `Cancelled` and emails the capt
 
 ## Gameday Command Center content
 
-The `/gameday` page reads its contents from four tabs in the same
-"elnerds RSVPs" spreadsheet, so the run of show, streams, milestones and
-banner can all be changed **during** the marathon without a deploy. The page
-re-reads once a minute, so an edit shows up within about a minute on every
-open browser — no one has to refresh.
+The `/gameday` page reads its contents from four tabs in their own
+spreadsheet, **"Gameday_Command_Center"**, so the run of show, streams,
+milestones and banner can all be changed **during** the marathon without a
+deploy. The page re-reads once a minute, so an edit shows up within about a
+minute on every open browser — no one has to refresh.
 
-The tabs are created with headers and starter rows the first time the page
-asks for them. Just open the sheet and type.
+It's a separate file from "elnerds RSVPs" so you can share it with whoever
+runs Game Day (Share → Editor) without also sharing everyone's names and
+emails. Anyone with edit access can change the page.
+
+The spreadsheet and its tabs are created the first time the page asks for
+them, in the Drive of the account that owns the script. Just open it and type.
+Running **`setup`** from the editor prints its URL to the Execution log, or
+search Drive for `Gameday_Command_Center`.
+
+### Moving the tabs out of "elnerds RSVPs" (once)
+
+Until October 2026 these tabs lived inside "elnerds RSVPs". The current
+`Code.gs` moves them on its own the first time it's asked for gameday content:
+it creates "Gameday_Command_Center", copies the four `Gameday *` tabs into it
+as they are (whatever you've typed survives), then deletes them from
+"elnerds RSVPs". Nothing to copy by hand.
+
+Do it in this order, so the old version can't recreate empty tabs in the
+RSVP sheet after they've moved:
+
+1. Paste the new `Code.gs` into the editor and **💾 Save**.
+2. **Deploy → Manage deployments → ✏️ → Version: New version → Deploy.**
+3. Pick **`setup`** in the function dropdown → **Run**. The log prints the
+   "Gameday_Command_Center" URL, and the four tabs are gone from
+   "elnerds RSVPs".
+
+The script remembers the new file by its ID, so renaming or moving it in Drive
+is fine. If it's deleted, the next read makes a fresh one with starter rows.
 
 | Tab | Columns | Notes |
 | --- | --- | --- |
@@ -152,4 +181,5 @@ again. To send a newsletter, export the tab and import it into Brevo.
   move to a Cloudflare Worker + Resend later (the frontend wouldn't change).
 - Emails send "from" the owning Google account's address, not `rsvp@elnerds.com`.
 - The endpoint is public but only does what `Code.gs` allows: validate an RSVP,
-  append a row, send those emails, or cancel by token. It can't read the sheet back.
+  append a row, send those emails, cancel by token, or return the Command
+  Center's contents. It can't read RSVPs back.

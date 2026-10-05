@@ -1,7 +1,7 @@
 # RSVP backend
 
 - **Status:** Live, including the close-on-end rejection (redeployed 2026-09-25, verified)
-- **Last reviewed:** 2026-09-25 (newsletter handler added, redeploy verified)
+- **Last reviewed:** 2026-10-05 (Command Center tabs moved to their own spreadsheet; not redeployed yet)
 - **Covers:** `apps-script/Code.gs`, `src/lib/rsvp.ts`, `src/lib/rsvpEvents.ts`, `src/pages/Rsvp.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -42,6 +42,11 @@ The same `doPost` also receives newsletter signups. A body with
 validation, and is saved to a "Newsletter" tab. See
 [newsletter-signup](newsletter-signup.md).
 
+`doGet(?action=gameday)` serves the `/gameday` Command Center from a second
+spreadsheet, `Gameday_Command_Center`, which the script creates and remembers
+by its ID (script property `GAMEDAY_SPREADSHEET_ID`, next to the RSVP sheet's
+`SPREADSHEET_ID`). See [gameday-content](gameday-content.md).
+
 ## Decisions and gotchas
 
 - **The request is deliberately `text/plain`.** Apps Script web apps don't
@@ -69,8 +74,10 @@ validation, and is saved to a "Newsletter" tab. See
   editor: paste the file in, then **Deploy → Manage deployments → ✏️ → New
   version**. The URL stays the same and no secret changes. A repo edit alone
   changes nothing live.
-- **The live deployment matches the repo** as of 2026-09-25 (Version 4).
-  Checked then:
+- **The live deployment is one change behind the repo** as of 2026-10-05: the
+  move of the Command Center tabs into `Gameday_Command_Center` waits on a
+  redeploy (order in `apps-script/README.md`). Before that it matched the repo
+  as of 2026-09-25 (Version 4). Checked then:
   - `?action=gameday` returns display-value times ("8:00 AM");
   - an RSVP for the already-finished Bingo event is refused;
   - newsletter signups save and de-duplicate.

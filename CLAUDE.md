@@ -39,13 +39,14 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | Owner | Fill in the four `Gameday *` tabs in the RSVP sheet before Nov 14. They exist, but on 2026-10-03 they still held only the starter rows ("TBD", empty stream embeds); check with `curl "$ENDPOINT?action=gameday"`. Also delete the test row `newsletter-test@example.com` from the `Newsletter` tab. That can't be checked from here, so ask. |
+| 2026-08-12 | Owner | Fill in the four `Gameday *` tabs before Nov 14 (in `Gameday_Command_Center` once the redeploy below has run; until then they're still in the RSVP sheet). They exist, but on 2026-10-03 they still held only the starter rows ("TBD", empty stream embeds); check with `curl "$ENDPOINT?action=gameday"`. Also delete the test row `newsletter-test@example.com` from the `Newsletter` tab. That can't be checked from here, so ask. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
+| 2026-10-05 | Owner | Redeploy `Code.gs` so the `Gameday *` tabs move from "elnerds RSVPs" into their own `Gameday_Command_Center` spreadsheet. Order matters: paste and save, **New version**, *then* run `setup` (`apps-script/README.md`). The JSON is identical before and after, so curl can't confirm it; ask whether the new file exists and the old tabs are gone. |
 
 Rules that keep this honest:
 
@@ -63,22 +64,19 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-10-03 (PR #61: hero RSVP button):*
+*Session of 2026-10-05 (Command Center sheet split):*
 
-- **The hero has a blue RSVP button** after Join The Team, under the
-  countdown. It links to the `/rsvp` chooser and shows in every phase.
-  Its blue is a new `--color-blue` token in `src/styles.css`; the palette
-  had no blue before.
-- **The hero button row now wraps.** It was `flex-nowrap`; with three
-  buttons that pushed Donate Now off the left edge on phones. With Nunito
-  loaded it stays on one row from 375px, and RSVP drops to a second line at
-  360px and below. The details are in `docs/features/gameday-hero-states.md`.
-- **Layout measured without Nunito is wrong.** The sandbox Chromium can't
-  load Google Fonts, and its fallback font is wider. The verify skill now
-  says how to serve the real font to Playwright.
-- The previous session's email notes (Brevo firewall, `/email/` as the
-  template, blocks 11 and 12) are covered in the sections below and in
-  `docs/features/branding-docs.md`.
+- **The `/gameday` tabs now live in their own spreadsheet,
+  `Gameday_Command_Center`**, so Game Day volunteers can edit them without
+  seeing RSVPs. The change is in `Code.gs` only. It isn't live until the owner
+  redeploys (open thread above).
+- **The script makes the move itself.** On its first gameday read,
+  `getGamedaySpreadsheet_()` creates the file, copies over the existing tabs
+  with their content, and then deletes the originals. The Google Drive
+  connector here can't see the RSVP sheet, so it couldn't do
+  the move from outside. The details are in `docs/features/gameday-content.md`.
+- The migration was tested against mocked Apps Script services, not live
+  Google. Nothing on the site changed apart from two source comments.
 
 ## Ship-live workflow
 
@@ -179,7 +177,8 @@ already there.
   the Command Center button, then the team's Extra Life total as
   "$X Raised". Nothing to switch by hand on the day.
 - `src/pages/CommandCenter.tsx` (`/gameday`) — the Command Center. Its
-  contents are **edited live in the RSVP spreadsheet's "Gameday *" tabs**,
+  contents are **edited live in the "Gameday *" tabs of the
+  `Gameday_Command_Center` spreadsheet** (its own file, not the RSVP sheet),
   served by `doGet(?action=gameday)` in `Code.gs` and re-read once a
   minute, so the run of show can change mid-marathon without a deploy.
   `src/lib/gamedayContent.ts` holds the shipped fallback copy, used

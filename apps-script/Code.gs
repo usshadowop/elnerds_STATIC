@@ -12,6 +12,8 @@
  *     "Cancelled" and notifies the captain
  *   - Receives newsletter signups (POST { type: "newsletter", email, referral })
  *     from /newsletter into a "Newsletter" tab, and notifies the captain
+ *   - Serves the /gameday Command Center's contents (GET ?action=gameday) from
+ *     a second spreadsheet, "Gameday_Command_Center"
  *
  * Setup: see apps-script/README.md in the repo.
  */
@@ -28,6 +30,11 @@ const SENDER_NAME = "Extra Life Nerds";
 
 // Spreadsheet that stores RSVPs (created automatically on first submission).
 const SPREADSHEET_NAME = "elnerds RSVPs";
+
+// Spreadsheet behind the /gameday Command Center (created automatically on
+// first use). It's separate from the RSVP sheet so it can be shared with the
+// people running Game Day without sharing everyone's RSVP details.
+const GAMEDAY_SPREADSHEET_NAME = "Gameday_Command_Center";
 
 // Per-event details for the Add-to-Calendar button, keyed by slug. Keys must
 // match the slugs in src/lib/rsvpEvents.ts. Times are ISO 8601 with a UTC
@@ -67,7 +74,8 @@ function hasEnded_(slug) {
 // Gameday Command Center content
 // ---------------------------------------------------------------------------
 //
-// The /gameday page on the site reads these tabs, so the run of show, the
+// The /gameday page on the site reads these tabs from the
+// "Gameday_Command_Center" spreadsheet, so the run of show, the
 // stream tiles, the milestones and the banner can all be changed mid-marathon
 // by typing in the sheet — no code change, no redeploy. The page re-reads every
 // minute while it's open.
@@ -119,6 +127,7 @@ const GAMEDAY_SECTIONS = [
 // One-line announcement across the top of the page. Cell A2 of this tab —
 // clear it to hide the banner.
 const GAMEDAY_NOTICE_TAB = "Gameday Notice";
+const GAMEDAY_NOTICE_HEADERS = ["Banner message (clear this cell to hide the banner)"];
 
 function getGamedaySheet_(ss, tab, headers, seed) {
   let sheet = ss.getSheetByName(tab);
@@ -132,9 +141,61 @@ function getGamedaySheet_(ss, tab, headers, seed) {
   return sheet;
 }
 
+// The Command Center's own spreadsheet. These tabs used to live in the RSVP
+// sheet, so creating it moves any that are there across, content and all, and
+// then deletes the originals: a tab left behind would look editable while the
+// page ignored it.
+function getGamedaySpreadsheet_() {
+  const props = PropertiesService.getScriptProperties();
+  const id = props.getProperty("GAMEDAY_SPREADSHEET_ID");
+  if (id) {
+    try {
+      return SpreadsheetApp.openById(id);
+    } catch (e) {
+      // was deleted — fall through and recreate
+    }
+  }
+
+  // Every open /gameday page polls once a minute, so the first requests after
+  // a redeploy can arrive together. Only one of them may create the sheet.
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    const current = props.getProperty("GAMEDAY_SPREADSHEET_ID");
+    if (current && current !== id) return SpreadsheetApp.openById(current);
+
+    const ss = SpreadsheetApp.create(GAMEDAY_SPREADSHEET_NAME);
+    const blank = ss.getSheets()[0];
+    const rsvp = getSpreadsheet_();
+    const tabs = GAMEDAY_SECTIONS.map(function (section) { return section.tab; }).concat([GAMEDAY_NOTICE_TAB]);
+    const moved = [];
+
+    for (let i = 0; i < tabs.length; i++) {
+      const old = rsvp.getSheetByName(tabs[i]);
+      if (!old) continue;
+      old.copyTo(ss).setName(tabs[i]); // copyTo names it "Copy of …"
+      moved.push(old);
+    }
+    // Any tab that wasn't there to move starts from the starter rows.
+    for (let s = 0; s < GAMEDAY_SECTIONS.length; s++) {
+      const section = GAMEDAY_SECTIONS[s];
+      getGamedaySheet_(ss, section.tab, section.headers, section.seed);
+    }
+    getGamedaySheet_(ss, GAMEDAY_NOTICE_TAB, GAMEDAY_NOTICE_HEADERS, [[""]]);
+    ss.deleteSheet(blank);
+    props.setProperty("GAMEDAY_SPREADSHEET_ID", ss.getId());
+
+    // Only once the new sheet is the one being read.
+    for (let i = 0; i < moved.length; i++) rsvp.deleteSheet(moved[i]);
+    return ss;
+  } finally {
+    lock.releaseLock();
+  }
+}
+
 function getGamedayContent_() {
   try {
-    const ss = getSpreadsheet_();
+    const ss = getGamedaySpreadsheet_();
     const out = { ok: true };
 
     for (let s = 0; s < GAMEDAY_SECTIONS.length; s++) {
@@ -160,12 +221,7 @@ function getGamedayContent_() {
       out[section.key] = rows;
     }
 
-    const noticeSheet = getGamedaySheet_(
-      ss,
-      GAMEDAY_NOTICE_TAB,
-      ["Banner message (clear this cell to hide the banner)"],
-      [[""]],
-    );
+    const noticeSheet = getGamedaySheet_(ss, GAMEDAY_NOTICE_TAB, GAMEDAY_NOTICE_HEADERS, [[""]]);
     out.notice = String(noticeSheet.getRange(2, 1).getDisplayValue() || "").trim();
 
     return out;
@@ -550,5 +606,6 @@ function page_(title, bodyHtml) {
 function setup() {
   const ss = getSpreadsheet_();
   Logger.log("Spreadsheet ready: " + ss.getUrl());
+  Logger.log("Gameday Command Center ready: " + getGamedaySpreadsheet_().getUrl());
   Logger.log("Notifications will go to: " + CAPTAIN_EMAIL);
 }
