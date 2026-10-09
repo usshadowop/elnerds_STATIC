@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Builds public/emailtemplate/index.html: the email template with every block
-from blocks.html dropped into its content slot, so https://elnerds.com/emailtemplate/
+"""Builds public/email/template/index.html: the email template with every block
+from blocks.html dropped into its content slot, so https://elnerds.com/email/template/
 shows the whole design system at a glance. (/email/ itself shows the campaign
 currently under review; see email/README.md.)
 
-GENERATED output. Don't edit public/emailtemplate/index.html by hand; edit
+GENERATED output. Don't edit public/email/template/index.html by hand; edit
 template.html or blocks.html and re-run this (build-bundle.sh runs it too).
 
 Placeholders are left visible on purpose: the page is a map of what to
@@ -14,7 +14,7 @@ import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-OUT = HERE.parent.parent / "public" / "emailtemplate" / "index.html"
+OUT = HERE.parent.parent / "public" / "email" / "template" / "index.html"
 
 template = (HERE / "template.html").read_text()
 blocks_src = (HERE / "blocks.html").read_text()
