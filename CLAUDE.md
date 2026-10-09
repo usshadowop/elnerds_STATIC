@@ -72,7 +72,7 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   "More to Win" section on Gillette's Game Week swag drawing, two stacked
   hero pills, and the primary button moved into its own closing section.
 - **It is published for review at `/email/`** from `public/email/index.html`
-  (the template preview moved to `/emailtemplate/`; `/email/signup-today/`
+  (the template preview moved to `/email/template/`; `/email/signup-today/`
   is now a redirect stub). That is a review copy only; it goes away when
   the campaign is archived.
 - **The 320px check can't be trusted in the sandbox.** Headless Chromium
@@ -214,8 +214,8 @@ already there.
   `email/archive/README.md` is the index and has the steps.
   `public/email/elnerds-announcement.html` is a redirect stub for the old
   August 2026 URL.
-- **https://elnerds.com/emailtemplate/ shows the template; /email/ shows
-  the campaign under review.** `public/emailtemplate/index.html` is generated
+- **https://elnerds.com/email/template/ shows the template; /email/ shows
+  the campaign under review.** `public/email/template/index.html` is generated
   by `branding/email/build-preview.py` (the template with all twelve blocks,
   placeholders visible). Don't edit it by hand; re-run
   `./branding/email/build-bundle.sh`, which rebuilds it.

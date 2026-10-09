@@ -58,7 +58,7 @@ teal-outline secondary CTA, matching the site nav/hero.
 [elnerds.com/email/](https://elnerds.com/email/) shows the **campaign
 currently under review** — `public/email/index.html` is a copy of the draft
 in this folder, refreshed on every change so the team can review it in a
-browser. [elnerds.com/emailtemplate/](https://elnerds.com/emailtemplate/)
+browser. [elnerds.com/email/template/](https://elnerds.com/email/template/)
 shows the **template** (generated from `branding/email/`). Sent campaigns get their own page under
 `elnerds.com/email/archive/`; see [`archive/README.md`](archive/README.md).
 `public/email/elnerds-announcement.html` is a redirect stub so old links to
