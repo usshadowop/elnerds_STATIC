@@ -1,7 +1,7 @@
 # Branding design docs
 
 - **Status:** Live — `email/` section complete; no other surfaces documented yet
-- **Last reviewed:** 2026-10-09 (template preview moved to /email/template/)
+- **Last reviewed:** 2026-10-09 (template preview at /email/template/, campaign under review at /email/current/)
 - **Covers:** `branding/*`
 
 ## Purpose

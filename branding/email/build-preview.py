@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Builds public/email/template/index.html: the email template with every block
 from blocks.html dropped into its content slot, so https://elnerds.com/email/template/
-shows the whole design system at a glance. (/email/ itself shows the campaign
-currently under review; see email/README.md.)
+shows the whole design system at a glance. (/email/current/ shows the campaign
+under review; see email/README.md.)
 
 GENERATED output. Don't edit public/email/template/index.html by hand; edit
 template.html or blocks.html and re-run this (build-bundle.sh runs it too).

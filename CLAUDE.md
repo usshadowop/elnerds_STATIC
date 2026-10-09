@@ -46,7 +46,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
-| 2026-10-09 | Owner | Review and send the October "Sign Up Today" email (`email/elnerds-signup-today.html`, live preview at https://elnerds.com/email/). Unverified facts in it that came from Mike's draft or the hero pills, not the repo: food for anyone who raises $50+, "tourneys", and "Gorilla butler". The Game Week drawing details came from Grant Gray's Oct 2 email. Once sent: archive per `email/archive/README.md`, replace `public/email/index.html` (and the `signup-today/` stub) per `email/archive/README.md`, and drop this line. |
+| 2026-10-09 | Owner | Review and send the October "Sign Up Today" email (`email/elnerds-signup-today.html`, live preview at https://elnerds.com/email/current/). Unverified facts in it that came from Mike's draft or the hero pills, not the repo: food for anyone who raises $50+, "tourneys", and "Gorilla butler". The Game Week drawing details came from Grant Gray's Oct 2 email. Once sent: archive per `email/archive/README.md`, replace `public/email/current/index.html` (and the `signup-today/` stub) per `email/archive/README.md`, and drop this line. |
 
 Rules that keep this honest:
 
@@ -71,9 +71,10 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   the leftover builder comment removed, the preheader reordered, a purple
   "More to Win" section on Gillette's Game Week swag drawing, two stacked
   hero pills, and the primary button moved into its own closing section.
-- **It is published for review at `/email/`** from `public/email/index.html`
-  (the template preview moved to `/email/template/`; `/email/signup-today/`
-  is now a redirect stub). That is a review copy only; it goes away when
+- **It is published for review at `/email/current/`** from
+  `public/email/current/index.html` (the template preview moved to
+  `/email/template/`, `/email/` is an index page, and `/email/signup-today/`
+  is a redirect stub). That is a review copy only; it goes away when
   the campaign is archived.
 - **The 320px check can't be trusted in the sandbox.** Headless Chromium
   floors `--window-size` at 500px, and even in a 320px iframe both this
@@ -214,12 +215,12 @@ already there.
   `email/archive/README.md` is the index and has the steps.
   `public/email/elnerds-announcement.html` is a redirect stub for the old
   August 2026 URL.
-- **https://elnerds.com/email/template/ shows the template; /email/ shows
-  the campaign under review.** `public/email/template/index.html` is generated
+- **https://elnerds.com/email/template/ shows the template; /email/current/
+  shows the campaign under review; /email/ is a small index page.** `public/email/template/index.html` is generated
   by `branding/email/build-preview.py` (the template with all twelve blocks,
   placeholders visible). Don't edit it by hand; re-run
   `./branding/email/build-bundle.sh`, which rebuilds it.
-  `public/email/index.html` is a plain copy of the draft in `email/`,
+  `public/email/current/index.html` is a plain copy of the draft in `email/`,
   refreshed on every change so the owner can review it in a browser.
 
 ## Announcement email (Brevo)

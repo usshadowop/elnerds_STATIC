@@ -190,8 +190,8 @@ A new campaign's HTML lives in `email/` at the repo root — **not** in
 the campaigns. Sent campaigns move to `email/archive/` and get a page on the site (see
 `email/archive/README.md`). Don't copy a campaign over
 `public/email/template/index.html`: that page is the generated template
-preview. `public/email/index.html` is the campaign currently under review
-(see `email/README.md`).
+preview. `public/email/current/index.html` is the campaign under review (see
+`email/README.md`), and `public/email/index.html` is a small index page.
 
 ---
 
