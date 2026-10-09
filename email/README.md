@@ -3,8 +3,12 @@
 This folder holds the campaign currently being written or sent. Sent
 campaigns move to [`archive/`](archive/), one folder per send.
 
-**Current campaign:** none in progress. The most recent send is the
-Sep 2026 sign-up/recruit email, now in
+**Current campaign:** [`elnerds-signup-today.html`](elnerds-signup-today.html)
+— the October 2026 "Sign Up Today" email (join the team, the $75/$25/$5
+leadership donations, food for anyone who raises $50+, and Gillette's Game
+Week swag drawing). Not sent yet; when it goes out, move it to `archive/`
+per [`archive/README.md`](archive/README.md). The most recent send is the
+Sep 2026 sign-up/recruit email, in
 [`archive/2026-09-signup-recruit/`](archive/2026-09-signup-recruit/); it is
 viewable at [elnerds.com/email/archive/2026-09-signup-recruit/](https://elnerds.com/email/archive/2026-09-signup-recruit/).
 
