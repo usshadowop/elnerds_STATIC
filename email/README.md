@@ -55,9 +55,11 @@ teal-outline secondary CTA, matching the site nav/hero.
 
 ## Previewing
 
-[elnerds.com/email/](https://elnerds.com/email/) shows the **template**
-(generated from `branding/email/`), not a campaign. To preview a draft,
-open the HTML file in a browser. Sent campaigns get their own page under
+[elnerds.com/email/](https://elnerds.com/email/) shows the **campaign
+currently under review** — `public/email/index.html` is a copy of the draft
+in this folder, refreshed on every change so the team can review it in a
+browser. [elnerds.com/emailtemplate/](https://elnerds.com/emailtemplate/)
+shows the **template** (generated from `branding/email/`). Sent campaigns get their own page under
 `elnerds.com/email/archive/`; see [`archive/README.md`](archive/README.md).
 `public/email/elnerds-announcement.html` is a redirect stub so old links to
 the August 2026 announcement land on its archive page.

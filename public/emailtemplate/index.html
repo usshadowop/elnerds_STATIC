@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!--
+  Extra Life Nerds — email template.
+
+  Everything outside the CONTENT SECTIONS marker below is chrome: it is
+  already correct and should be copied as-is. Fill in every placeholder,
+  then build the middle out of blocks from blocks.html.
+
+  Placeholders use double square brackets on purpose — Brevo's own merge
+  tags use curly braces, so the two can never be confused, and an unfilled
+  placeholder can be found mechanically before you send (the check is in
+  README.md).
+
+  DELETE THIS WHOLE COMMENT BEFORE PASTING INTO BREVO. It is for whoever
+  builds the email, not for recipients, and an earlier version of it that
+  quoted a shell command got the sender blocked by brevo.com's firewall.
+  (It deliberately contains no placeholder-shaped text, no curly-brace
+  tags and no commands.)
+
+  See README.md for the workflow and DESIGN_BRIEF.md for the rules.
+-->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta name="color-scheme" content="light" />
+  <meta name="supported-color-schemes" content="light" />
+  <title>Email Template | Extra Life Nerds</title>
+
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+
+  <!--[if !mso]><!-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <!--<![endif]-->
+
+  <style type="text/css">
+    /* ---------- Force light theme (no dark-mode variants) ---------- */
+    :root { color-scheme: light only; supported-color-schemes: light only; }
+
+    /* ---------- Resets ---------- */
+    html, body { margin: 0 !important; padding: 0 !important; height: 100% !important; width: 100% !important; }
+    * { -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important; border-collapse: collapse !important; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    a { text-decoration: none; }
+    #MessageViewBody a { color: inherit; text-decoration: none; font-size: inherit; font-family: inherit; font-weight: inherit; line-height: inherit; }
+    .im { color: inherit !important; }
+
+    /* ---------- Mobile ---------- */
+    @media only screen and (max-width: 620px) {
+      .email-container { width: 100% !important; margin: 0 auto !important; }
+      .fluid { width: 100% !important; max-width: 100% !important; height: auto !important; }
+      .stack-col { display: block !important; width: 100% !important; }
+      .px { padding-left: 24px !important; padding-right: 24px !important; }
+      .h1 { font-size: 30px !important; line-height: 1.12 !important; }
+      .date-xl { font-size: 40px !important; line-height: 1.05 !important; }
+      .event-label { font-size: 16px !important; letter-spacing: 1px !important; }
+      .btn a { display: block !important; width: 100% !important; box-sizing: border-box !important; }
+    }
+
+  </style>
+</head>
+
+<body style="margin:0; padding:0; width:100%; background-color:#fdfaf6; font-family:'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <div style="max-width:600px; margin:16px auto 0; padding:14px 18px; background-color:#ffffff; border:1px dashed #1d6e7a; border-radius:12px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:13px; line-height:1.55; font-weight:600; color:#4a5a73;">
+    <strong style="color:#1a2b4a;">Extra Life Nerds email template.</strong>
+    Anything in <code>[[DOUBLE_BRACKETS]]</code> is a placeholder, and every block
+    from the library is shown once in the middle. To build an email, follow
+    <a href="https://github.com/usshadowop/elnerds_STATIC/blob/main/branding/email/DESIGN_BRIEF.md" style="color:#1d6e7a;">the design brief</a>.
+    Past emails are listed in
+    <a href="https://github.com/usshadowop/elnerds_STATIC/blob/main/email/archive/README.md" style="color:#1d6e7a;">the email archive</a>.
+  </div>
+
+
+  <!-- Preheader (hidden). First ~90 chars show in the inbox preview next to
+       the subject line. The entity padding after it stops clients pulling
+       body copy into the preview — keep it. -->
+  <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#fdfaf6; opacity:0;">
+    [[PREHEADER]]
+    &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+  </div>
+
+  <!-- Outer background -->
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="bg-outer" style="background-color:#fdfaf6;">
+    <tr>
+      <td align="center" style="padding:24px 12px;">
+
+        <!--[if mso]>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" align="center"><tr><td>
+        <![endif]-->
+
+        <!-- ============ EMAIL CONTAINER ============ -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="email-container" style="width:600px; max-width:600px;">
+
+          <!-- ===== VIEW IN BROWSER ===== -->
+          <tr>
+            <td class="px" style="padding:14px 32px 0 32px;" align="center">
+              <p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:600; color:#8a97a8;">
+                Trouble viewing this email? <a href="{{ mirror }}" style="color:#1d6e7a; font-weight:700; text-decoration:underline;">View it in your browser</a>
+              </p>
+            </td>
+          </tr>
+
+          <!-- ===== HEADER / LOGO ===== -->
+          <tr>
+            <td class="px" style="padding:8px 32px 20px 32px;" align="center">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <a href="https://elnerds.com" style="text-decoration:none;">
+                      <img src="https://elnerds.com/email/assets/logo-dark.png" width="190" height="106" alt="Extra Life Nerds" style="display:inline-block; width:190px; height:106px; max-width:100%;" />
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ===== HERO CARD ===== -->
+          <tr>
+            <td style="padding:0;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="card" style="background-color:#ffffff; border:1px solid #e6eaed; border-radius:24px; overflow:hidden;">
+
+                <!-- Hero band -->
+                <tr>
+                  <td class="px" style="padding:40px 40px 36px 40px; background-color:#eef7f7; border-radius:24px 24px 0 0; background-image:linear-gradient(135deg,#e6f2f3 0%,#ffffff 52%,#fbe7f0 100%);" align="center">
+
+                    <!-- Personalized greeting. FULL_NAME is the real attribute
+                         name in Brevo — not FIRSTNAME. Keep the default filter. -->
+                    <p style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:14px; font-weight:700; color:#4a5a73;">
+                      Hi {{ contact.FULL_NAME|default:"there" }} &mdash;
+                    </p>
+
+                    <!-- Badge pill: 2–4 words per segment, separated by bullets -->
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 22px auto; border:none;">
+                      <tr>
+                        <td style="background-color:#ffffff; border:none; border-radius:100px; padding:8px 16px;" align="center">
+                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#1d6e7a;"><span style="color:#c8327c;">&#9679;</span>&nbsp; [[BADGE_PILL]]</span>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <h1 class="h1" style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:42px; line-height:1.08; font-weight:900; letter-spacing:-1px; color:#1a2b4a;">
+                      [[HEADLINE_A]]<br />
+                      <span style="color:#c8327c;">[[HEADLINE_B]]</span>
+                    </h1>
+
+                    <p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:600; color:#4a5a73; max-width:420px;">
+                      [[HERO_BLURB]]
+                    </p>
+                  </td>
+                </tr>
+
+                <!-- ============================================================
+                     CONTENT SECTIONS
+
+                     Build the body here from blocks.html. Rules of thumb:
+                       - 3 to 5 sections. More than five and nobody reaches the end.
+                       - Alternate tinted bands with white sections.
+                       - One primary call to action; everything else is a chip.
+                       - Lead with the thing that has a date on it.
+                       - Put a divider between unrelated topics, not between
+                         a tinted band and the section after it.
+                     ============================================================ -->
+
+                <tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 1 &middot; Event Band</p></td></tr>
+<tr>
+  <td class="px" style="padding:36px 40px; background-color:#e6f2f3; border-radius:0;" align="center">
+    <p class="event-label" style="margin:0 0 12px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:18px; line-height:1.25; font-weight:900; letter-spacing:1.2px; text-transform:uppercase; color:#1d6e7a;">[[EYEBROW]]</p>
+    <div class="date-xl" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:44px; line-height:1.05; font-weight:900; letter-spacing:-1.5px; color:#1a2b4a;">
+      [[DATE_LINE_1]]
+    </div>
+    <!-- Optional second date line, magenta for a range's end -->
+    <div class="date-xl" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:44px; line-height:1.05; font-weight:900; letter-spacing:-1.5px; color:#c8327c;">
+      [[DATE_LINE_2]]
+    </div>
+    <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:20px; line-height:1.2; font-weight:900; letter-spacing:3px; color:#1d6e7a; margin-top:8px;">
+      [[YEAR]]
+    </div>
+    <p style="margin:14px auto 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.55; font-weight:600; color:#4a5a73; max-width:400px;">
+      [[BLURB]]
+    </p>
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 2 &middot; Text Section</p></td></tr>
+<tr>
+  <td class="px" style="padding:40px 40px 8px 40px;" align="center">
+    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#c8327c;">[[EYEBROW]]</p>
+    <h2 style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
+      [[HEADING]]
+    </h2>
+    <p style="margin:0 auto; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
+      [[BODY]]
+    </p>
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 3 &middot; Primary Button</p></td></tr>
+<tr>
+  <td class="px" style="padding:24px 40px 8px 40px;" align="center">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" class="btn">
+      <tr>
+        <td align="center" style="border-radius:100px; background-color:#e87722;">
+          <!--[if mso]>
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:52px;v-text-anchor:middle;width:260px;" arcsize="100%" strokecolor="#e87722" fillcolor="#e87722">
+          <w:anchorlock/>
+          <center style="color:#ffffff;font-family:sans-serif;font-size:15px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+          </v:roundrect>
+          <![endif]-->
+          <!--[if !mso]><!-->
+          <a href="[[HREF]]" style="display:inline-block; padding:16px 34px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#ffffff; background-color:#e87722; border-radius:100px;">[[LABEL]]</a>
+          <!--<![endif]-->
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 4 &middot; Secondary Button</p></td></tr>
+<tr>
+  <td class="px" style="padding:22px 40px 8px 40px;" align="center">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" class="btn">
+      <tr>
+        <td align="center" style="border-radius:100px; background-color:#ffffff;">
+          <!--[if mso]>
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:52px;v-text-anchor:middle;width:260px;" arcsize="100%" strokecolor="#1d6e7a" fillcolor="#ffffff">
+          <w:anchorlock/>
+          <center style="color:#1d6e7a;font-family:sans-serif;font-size:15px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+          </v:roundrect>
+          <![endif]-->
+          <!--[if !mso]><!-->
+          <a href="[[HREF]]" style="display:inline-block; padding:15px 34px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#1d6e7a; background-color:#ffffff; border:2px solid #1d6e7a; border-radius:100px;">[[LABEL]]</a>
+          <!--<![endif]-->
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 5 &middot; Chip</p></td></tr>
+<tr><td class="px" style="padding:16px 40px 0 40px; background-color:#e6f2f3;" align="center">
+<!-- 5a. Solid chip -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:18px auto 0 auto;">
+  <tr>
+    <td align="center" style="border-radius:100px; background-color:#1d6e7a;">
+      <!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:40px;v-text-anchor:middle;width:150px;" arcsize="100%" strokecolor="#1d6e7a" fillcolor="#1d6e7a">
+      <w:anchorlock/>
+      <center style="color:#ffffff;font-family:sans-serif;font-size:12px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+      </v:roundrect>
+      <![endif]-->
+      <!--[if !mso]><!-->
+      <a href="[[HREF]]" style="display:inline-block; padding:11px 24px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#ffffff; background-color:#1d6e7a; border-radius:100px;">[[LABEL]] &rarr;</a>
+      <!--<![endif]-->
+    </td>
+  </tr>
+</table>
+
+<!-- 5b. Outlined chip. Widen the VML `width` for a longer label or Outlook clips it. -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:10px auto 0 auto;">
+  <tr>
+    <td align="center" style="border-radius:100px; background-color:#ffffff;">
+      <!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="[[HREF]]" style="height:40px;v-text-anchor:middle;width:230px;" arcsize="100%" strokecolor="#6b3d8a" fillcolor="#ffffff">
+      <w:anchorlock/>
+      <center style="color:#6b3d8a;font-family:sans-serif;font-size:12px;font-weight:bold;">[[LABEL_UPPERCASE]]</center>
+      </v:roundrect>
+      <![endif]-->
+      <!--[if !mso]><!-->
+      <a href="[[HREF]]" style="display:inline-block; padding:10px 22px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#6b3d8a; background-color:#ffffff; border:2px solid #6b3d8a; border-radius:100px;">[[LABEL]]</a>
+      <!--<![endif]-->
+    </td>
+  </tr>
+</table>
+</td></tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 6 &middot; Address Card</p></td></tr>
+<tr><td class="px" style="padding:16px 40px 0 40px;" align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+  <tr>
+    <td style="border:1px solid #e6eaed; border-radius:16px; padding:22px 30px; background-color:#ffffff;" align="center">
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:20px; font-weight:900; color:#1a2b4a;">[[VENUE_NAME]]</div>
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.5; font-weight:600; color:#4a5a73; margin-top:6px;">
+        [[STREET]]<br />
+        [[CITY_STATE_ZIP]]
+      </div>
+    </td>
+  </tr>
+</table>
+</td></tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 7 &middot; Detail Card</p></td></tr>
+<tr><td class="px" style="padding:16px 40px 0 40px;" align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:20px auto 0;">
+  <tr>
+    <td style="border:1px solid #e6d9ee; border-radius:16px; padding:20px 28px; background-color:#ffffff;" align="left">
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:17px; line-height:1.3; font-weight:900; color:#c8327c; margin:0 0 14px 0;">[[CARD_CALLOUT]]</div>
+      <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:13px; font-weight:900; letter-spacing:1.5px; text-transform:uppercase; color:#6b3d8a; margin-bottom:10px;">[[CARD_LABEL]]</div>
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+        <!-- Repeat, cycling the bullet colour: purple, teal, orange, magenta -->
+        <tr>
+          <td style="padding:4px 0;">
+            <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:700; color:#6b3d8a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; font-weight:600; color:#4a5a73;">[[ITEM]]</span>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</td></tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 8 &middot; Bulleted List</p></td></tr>
+<tr><td class="px" style="padding:16px 40px 0 40px;" align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+  <tr>
+    <td style="padding:6px 0;">
+      <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#1d6e7a;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">[[ITEM]]</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:6px 0;">
+      <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; color:#c8327c;">&#8226;</span>&nbsp;&nbsp;<span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; font-weight:600; color:#4a5a73;">[[ITEM]]</span>
+    </td>
+  </tr>
+</table>
+</td></tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 9 &middot; Divider</p></td></tr>
+<tr><td class="px" style="padding:32px 40px 0 40px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td style="border-top:1px solid #e6eaed; font-size:0; line-height:0;">&nbsp;</td></tr></table></td></tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 10 &middot; Closing Section</p></td></tr>
+<tr>
+  <td class="px" style="padding:36px 40px 40px 40px;" align="center">
+    <h2 style="margin:0 0 12px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#6b3d8a;">
+      [[HEADING]]
+    </h2>
+    <p style="margin:0 auto 20px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:600; color:#4a5a73; max-width:420px;">
+      [[LEAD_IN]]
+    </p>
+    <!-- Then block 8. -->
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 11 &middot; Tinted Section</p></td></tr>
+<tr>
+  <td class="px" style="padding:40px 40px 40px 40px; background-color:#f3ecf7; border-radius:0;" align="center">
+    <p style="margin:0 0 10px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#6b3d8a;">[[EYEBROW]]</p>
+    <h2 style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:26px; line-height:1.2; font-weight:900; letter-spacing:-0.5px; color:#1a2b4a;">
+      [[HEADING]]
+    </h2>
+    <p style="margin:0 auto; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.65; font-weight:500; color:#4a5a73; max-width:440px;">
+      [[BODY]]
+    </p>
+  </td>
+</tr>
+<tr><td style="padding:28px 24px 8px 24px;" align="left"><p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#8a97a8; border-top:1px dashed #c2ccd8; padding-top:10px;">Block 12 &middot; Reward Card</p></td></tr>
+<tr><td class="px" style="padding:16px 40px 0 40px;" align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 auto 14px auto; max-width:460px;">
+  <tr>
+    <td style="border:1px solid #e6eaed; border-radius:16px; background-color:#ffffff; padding:20px 22px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td width="92" valign="top" align="center" style="width:92px; padding-right:16px; border-right:2px solid #e6f2f3;">
+            <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:36px; line-height:1; font-weight:900; letter-spacing:-1px; color:#1d6e7a;">[[AMOUNT]]</div>
+          </td>
+          <td valign="top" align="left" style="padding-left:16px;">
+            <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:17px; line-height:1.3; font-weight:900; color:#1a2b4a; margin-bottom:6px;">[[CARD_TITLE]]</div>
+            <div style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:15px; line-height:1.5; font-weight:600; color:#4a5a73;">[[CARD_DETAILS]]</div>
+            <a href="[[CARD_LINK_URL]]" style="display:inline-block; margin-top:10px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#1d6e7a;">[[CARD_LINK_LABEL]] &rarr;</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</td></tr>
+
+                <!-- ============ /CONTENT SECTIONS ============ -->
+
+              </table>
+            </td>
+          </tr>
+
+          <!-- ===== SIGN-OFF ===== -->
+          <tr>
+            <td class="px" style="padding:32px 40px 8px 40px;" align="center">
+              <p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:700; color:#4a5a73;">
+                [[SIGNOFF]]
+              </p>
+              <p style="margin:4px 0 0 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:16px; line-height:1.6; font-weight:900; color:#1a2b4a;">
+                &mdash; The Extra Life Nerds Team
+              </p>
+            </td>
+          </tr>
+
+          <!-- ===== FOOTER — fixed. Do not restyle; the unsubscribe tag is
+                     required and Brevo will not save a campaign without it. -->
+          <tr>
+            <td class="px" style="padding:28px 40px 12px 40px;" align="center">
+              <!-- Social links -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 16px auto;">
+                <tr>
+                  <td style="padding:0 8px;"><a href="https://www.instagram.com/elnerdsmn/" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#c8327c;">Instagram</a></td>
+                  <td style="color:#e6eaed;">|</td>
+                  <td style="padding:0 8px;"><a href="https://www.facebook.com/extralifenerds/" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#1d6e7a;">Facebook</a></td>
+                  <td style="color:#e6eaed;">|</td>
+                  <td style="padding:0 8px;"><a href="https://discord.gg/fg2FMBXwub" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#6b3d8a;">Discord</a></td>
+                  <td style="color:#e6eaed;">|</td>
+                  <td style="padding:0 8px;"><a href="https://elnerds.com/newsletter" style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#e87722;">Newsletter</a></td>
+                </tr>
+              </table>
+
+              <!-- Donate button (outlined orange). It sits below the email's one
+                   primary button, so it stays outlined rather than solid. -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 20px auto;">
+                <tr>
+                  <td align="center" style="border-radius:100px; background-color:#ffffff;">
+                    <!--[if mso]>
+                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.extra-life.org/team/73600" style="height:44px;v-text-anchor:middle;width:280px;" arcsize="100%" strokecolor="#e87722" fillcolor="#ffffff">
+                    <w:anchorlock/>
+                    <center style="color:#e87722;font-family:sans-serif;font-size:13px;font-weight:bold;">DONATE TO THE EXTRA LIFE NERDS</center>
+                    </v:roundrect>
+                    <![endif]-->
+                    <!--[if !mso]><!-->
+                    <a href="https://www.extra-life.org/team/73600" style="display:inline-block; padding:11px 26px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:13px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#e87722; background-color:#ffffff; border:2px solid #e87722; border-radius:100px;">Donate to the Extra Life Nerds</a>
+                    <!--<![endif]-->
+                  </td>
+                </tr>
+              </table>
+
+              <!-- CMN Hospitals badge -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 16px auto; border:none;">
+                <tr>
+                  <td style="background-color:#ffffff; border-radius:12px; padding:10px 16px;" align="center">
+                    <img src="https://elnerds.com/email/assets/cmn-badge.png" width="170" height="68" alt="Extra Life, a program of Children's Miracle Network Hospitals" style="display:block; width:170px; height:68px; max-width:100%;" />
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Monitored inbox note -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 16px auto;">
+                <tr>
+                  <td style="background-color:#e6f2f3; border-radius:12px; padding:12px 20px;" align="center">
+                    <p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:13px; line-height:1.5; font-weight:700; color:#1d6e7a;">
+                      This is a monitored email address &mdash; feel free to reply with questions!
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0 0 14px 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:12px; line-height:1.6; font-weight:600; color:#8a97a8;">
+                <a href="https://elnerds.com" style="color:#1d6e7a; font-weight:800;">ELNerds.com</a>
+                &nbsp;&bull;&nbsp; All proceeds support Gillette Children&rsquo;s Hospital
+              </p>
+
+              <!-- Unsubscribe (Brevo merge tag) -->
+              <p style="margin:0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; line-height:1.6; font-weight:600; color:#a6b0be;">
+                You&rsquo;re receiving this because you&rsquo;ve supported the Extra Life Nerds or signed up for our newsletter.<br />
+                <a href="{{ unsubscribe }}" style="color:#a6b0be; text-decoration:underline;">Unsubscribe</a>
+              </p>
+              <p style="margin:12px 0 0 0; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; line-height:1.6; font-weight:600; color:#c2ccd8;">
+                &copy; [[YEAR]] Extra Life Nerds
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- ============ /EMAIL CONTAINER ============ -->
+
+        <!--[if mso]>
+        </td></tr></table>
+        <![endif]-->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
