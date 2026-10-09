@@ -46,6 +46,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
+| 2026-10-09 | Owner | Review and send the October "Sign Up Today" email (`email/elnerds-signup-today.html`, live preview at https://elnerds.com/email/signup-today/). Unverified facts in it that came from Mike's draft or the hero pills, not the repo: food for anyone who raises $50+, "tourneys", and "Gorilla butler". The Game Week drawing details came from Grant Gray's Oct 2 email. Once sent: archive per `email/archive/README.md`, delete `public/email/signup-today/`, and drop this line. |
 
 Rules that keep this honest:
 
@@ -63,22 +64,22 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-10-03 (PR #61: hero RSVP button):*
+*Session of 2026-10-09 (PR #63: October "Sign Up Today" email):*
 
-- **The hero has a blue RSVP button** after Join The Team, under the
-  countdown. It links to the `/rsvp` chooser and shows in every phase.
-  Its blue is a new `--color-blue` token in `src/styles.css`; the palette
-  had no blue before.
-- **The hero button row now wraps.** It was `flex-nowrap`; with three
-  buttons that pushed Donate Now off the left edge on phones. With Nunito
-  loaded it stays on one row from 375px, and RSVP drops to a second line at
-  360px and below. The details are in `docs/features/gameday-hero-states.md`.
-- **Layout measured without Nunito is wrong.** The sandbox Chromium can't
-  load Google Fonts, and its fallback font is wider. The verify skill now
-  says how to serve the real font to Playwright.
-- The previous session's email notes (Brevo firewall, `/email/` as the
-  template, blocks 11 and 12) are covered in the sections below and in
-  `docs/features/branding-docs.md`.
+- **A new campaign is in `email/elnerds-signup-today.html`**, built from
+  a draft Mike supplied (an upload, not in the repo). Changes on top of it:
+  the leftover builder comment removed, the preheader reordered, a purple
+  "More to Win" section on Gillette's Game Week swag drawing, two stacked
+  hero pills, and the primary button moved into its own closing section.
+- **It is published for review at `/email/signup-today/`** from
+  `public/email/signup-today/index.html`. That is a review copy only; it
+  goes away when the campaign is archived.
+- **The 320px check can't be trusted in the sandbox.** Headless Chromium
+  floors `--window-size` at 500px, and even in a 320px iframe both this
+  email and the shipped Sep send measure ~455px wide because Nunito never
+  loads. Serve the real font (see the verify skill) before reading
+  anything into an overflow number.
+- `email/` has no feature card, so campaign commits use `no-card`.
 
 ## Ship-live workflow
 
