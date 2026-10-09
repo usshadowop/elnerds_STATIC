@@ -50,7 +50,7 @@ re-run:
 | [`blocks.html`](blocks.html) | Twelve tested section blocks to build the body from |
 | [`BRIEF_BUNDLE.md`](BRIEF_BUNDLE.md) | Generated — all of the above in one paste-able file |
 | [`build-bundle.sh`](build-bundle.sh) | Regenerates the bundle and the public preview |
-| [`build-preview.py`](build-preview.py) | Builds `public/email/index.html`, the template-plus-all-blocks page at <https://elnerds.com/email/> |
+| [`build-preview.py`](build-preview.py) | Builds `public/emailtemplate/index.html`, the template-plus-all-blocks page at <https://elnerds.com/emailtemplate/> |
 
 ## What lives where
 

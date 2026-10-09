@@ -1,7 +1,7 @@
 # Branding design docs
 
 - **Status:** Live — `email/` section complete; no other surfaces documented yet
-- **Last reviewed:** 2026-09-30 (added the public template preview)
+- **Last reviewed:** 2026-10-09 (template preview moved to /emailtemplate/)
 - **Covers:** `branding/*`
 
 ## Purpose
@@ -29,8 +29,8 @@ project.
 - `branding/email/BRIEF_BUNDLE.md` — all four of the above concatenated into
   one self-contained file, for an assistant that can't read the repo.
   **Generated** by `branding/email/build-bundle.sh`; never hand-edited.
-- `branding/email/build-preview.py` — builds `public/email/index.html`,
-  the page at <https://elnerds.com/email/>: the template with all twelve
+- `branding/email/build-preview.py` — builds `public/emailtemplate/index.html`,
+  the page at <https://elnerds.com/emailtemplate/>: the template with all twelve
   blocks in its content slot, each under a small "Block N" label, and a
   notice at the top. `build-bundle.sh` runs it, so one command refreshes
   both generated files.
