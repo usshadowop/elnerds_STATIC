@@ -76,8 +76,8 @@ becomes a live player.
   whose title or detail mentions breakfast, lunch, dinner, waffles, snacks
   or food becomes a green banner in the first lane only (the all-day
   block's), so the other lanes stay free for stacking; banners that start
-  together share that lane's width. Riders are inset 12px to the right of
-  the block underneath. Hours with nothing starting or ending fold into one "…" row when
+  together share that lane's width. Riders are shifted 12px to the right of
+  the block underneath at full width, so they overhang its right edge. Hours with nothing starting or ending fold into one "…" row when
   two or more run together, so the overnight stretch doesn't dominate. A
   Time cell with no clock time ("TBD") is listed under the grid instead of
   dropped. The sheet's columns are unchanged.

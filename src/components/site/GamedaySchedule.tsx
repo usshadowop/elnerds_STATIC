@@ -191,11 +191,11 @@ export function GamedaySchedule({
     return spec.top + into * spec.px;
   };
 
-  // Riders sit a little to the right of the block underneath, so it's plain
-  // they're a separate event on top.
+  // Riders are shifted right by RIDE_PX, keeping their full width, so they
+  // hang past the right edge of the block underneath like a card on a card.
   const RIDE_PX = 12;
-  const laneLeft = (lane: number, lanes: number, inset = 0) => `calc(${(lane / lanes) * 100}% + ${3 + inset}px)`;
-  const laneWidth = (lanes: number, inset = 0) => `calc(${100 / lanes}% - ${6 + inset}px)`;
+  const laneLeft = (lane: number, lanes: number, shift = 0) => `calc(${(lane / lanes) * 100}% + ${3 + shift}px)`;
+  const laneWidth = (lanes: number) => `calc(${100 / lanes}% - 6px)`;
   // Meal banners live in the first lane only (the all-day block's), split
   // between meals that start together, leaving the other lanes free.
   const foodLeft = (f: Block) => `calc(${(100 / laneCount) * (f.lane / f.lanes)}% + 3px)`;
@@ -246,8 +246,8 @@ export function GamedaySchedule({
               ))}
             </div>
 
-            {/* Lanes */}
-            <div className="relative flex-1">
+            {/* Lanes (right padding so a rider in the last lane can overhang) */}
+            <div className="relative flex-1 pr-4">
               {rowSpecs.map((r) => (
                 <div
                   key={r.h}
@@ -286,7 +286,7 @@ export function GamedaySchedule({
                       top,
                       height,
                       left: laneLeft(b.lane, laneCount, b.overlay ? RIDE_PX : 0),
-                      width: laneWidth(laneCount, b.overlay ? RIDE_PX : 0),
+                      width: laneWidth(laneCount),
                     }}
                   >
                     <div
