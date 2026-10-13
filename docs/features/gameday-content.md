@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-13 (seed detection, Come visit, sponsor logos)
+- **Last reviewed:** 2026-10-13 (sample stills in empty stream slots)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -45,8 +45,10 @@ asks for them, so setup is opening the sheet and typing. The page fetches
 `?action=gameday` and re-reads once a minute, so an edit reaches every open
 browser within about a minute — nobody refreshes.
 
-A stream tile with a blank **Embed URL** stays a labelled placeholder slot;
-fill it in and the tile becomes a live player.
+A stream tile with a blank **Embed URL** shows a sample still (an event
+photo from `src/assets/carousel/`) with a "Live" badge, a "Sample" tag and a
+play button, so the demo reads as a stream wall; fill it in and the tile
+becomes a live player.
 
 ## Decisions and gotchas
 

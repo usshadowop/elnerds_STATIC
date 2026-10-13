@@ -6,12 +6,19 @@
 // changed mid-marathon without a deploy. See src/lib/gamedayContent.ts; the
 // copy that ships with the site is the fallback when that read fails.
 
-import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink, Handshake, MapPin, Navigation } from "lucide-react";
+import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink, Handshake, MapPin, Navigation, Play } from "lucide-react";
 
 import improvingLogo from "@/assets/logos/sponsors/improving.svg";
 import papaJohnsLogo from "@/assets/logos/sponsors/papa-johns.svg";
 import tacoBellLogo from "@/assets/logos/sponsors/taco-bell.svg";
 import gilletteLogo from "@/assets/logos/sponsors/gillette-childrens.svg";
+import stillPc from "@/assets/carousel/event-5.jpg";
+import stillCrowd from "@/assets/carousel/event-3.jpg";
+import stillVr from "@/assets/carousel/event-4.jpg";
+
+// Stand-in stills for stream slots that have no embed yet, so the page reads
+// as a demo rather than a row of empty boxes. A real Embed URL replaces one.
+const SAMPLE_STILLS = [stillPc, stillCrowd, stillVr];
 
 import { GamedaySchedule } from "@/components/site/GamedaySchedule";
 import { useGameday } from "@/hooks/use-countdown";
@@ -66,7 +73,7 @@ function SectionHeading({
  *  never looks like a broken one. */
 function Slot({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-block rounded-full border border-dashed border-ink-soft/40 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-ink-soft">
+    <span className="inline-block rounded-full border border-dashed border-white/70 bg-ink/50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white backdrop-blur">
       {children}
     </span>
   );
@@ -160,12 +167,12 @@ export function CommandCenter() {
           <div className="mb-16">
             <SectionHeading icon={Video} label="Watch" title="Live streams" />
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {streams.map((stream) => (
+              {streams.map((stream, i) => (
                 <div
                   key={stream.name}
                   className="overflow-hidden rounded-2xl border border-line bg-paper shadow-[var(--shadow-soft)]"
                 >
-                  <div className="flex aspect-video items-center justify-center border-b border-line bg-ink/[0.03]">
+                  <div className="relative flex aspect-video items-center justify-center border-b border-line bg-ink/[0.03]">
                     {stream.embedUrl ? (
                       <iframe
                         src={stream.embedUrl}
@@ -174,7 +181,25 @@ export function CommandCenter() {
                         className="size-full"
                       />
                     ) : (
-                      <Slot>Stream slot</Slot>
+                      <>
+                        <img
+                          src={SAMPLE_STILLS[i % SAMPLE_STILLS.length]}
+                          alt=""
+                          aria-hidden
+                          className="size-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
+                        <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-red-600 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                          <span className="inline-block size-1.5 animate-pulse rounded-full bg-white" />
+                          Live
+                        </span>
+                        <span className="absolute right-3 top-3">
+                          <Slot>Sample</Slot>
+                        </span>
+                        <span className="absolute grid size-14 place-items-center rounded-full bg-white/90 text-ink shadow-[var(--shadow-lift)]">
+                          <Play className="ml-1 size-6" />
+                        </span>
+                      </>
                     )}
                   </div>
                   <div className="p-5">
