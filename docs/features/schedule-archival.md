@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-09-24 (Covers audited against imports)
+- **Last reviewed:** 2026-10-13 (Past Events folded behind a toggle)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -37,6 +37,12 @@ A past event greys out, gains a "Completed" badge, and **drops its RSVP chip**
 submissions).
 
 ## Decisions and gotchas
+
+- **Past Events start collapsed.** The section is one button ("Click to see
+  N past events", with the derived year label above it) that toggles the
+  list open; it closes again on a second click. The list only grows through
+  the year, and the upcoming events are what visitors come for. Plain React
+  state, so a reload folds it back up — deliberate.
 
 - **An event with no resolvable end never archives.** `endsAtMs` returns
   `Infinity` when `endsAt` is missing or unparseable, so a config typo leaves

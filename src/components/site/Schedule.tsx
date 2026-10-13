@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight, ChevronDown, ExternalLink } from "lucide-react";
 
 import { useNow } from "@/hooks/use-now";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
@@ -192,6 +192,8 @@ export function Schedule() {
   const { future, past } = useMemo(() => splitByDate(EVENTS, now), [now]);
 
   const toggle = (i: string) => setOpenIndex(openIndex === i ? null : i);
+  // Past events start folded away; the list only gets longer as the year goes on.
+  const [pastOpen, setPastOpen] = useState(false);
 
   return (
     <section id="schedule" className="bg-cream px-4 py-24 sm:px-6 sm:py-28">
@@ -231,23 +233,42 @@ export function Schedule() {
         {/* Past Events */}
         {past.length > 0 && (
           <>
-            <div className="mb-12 max-w-2xl">
-              <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-ink-soft">
-                {yearPrefix(past)}Past Events
-              </p>
-            </div>
-            <div className="grid gap-4">
-              {past.map((item) => (
-                <EventCard
-                  key={item.title}
-                  item={item}
-                  index={item.title}
-                  openIndex={openIndex}
-                  toggle={toggle}
-                  past
-                />
-              ))}
-            </div>
+            <button
+              type="button"
+              onClick={() => setPastOpen((v) => !v)}
+              aria-expanded={pastOpen}
+              aria-controls="past-events"
+              className="group flex w-full items-center justify-between gap-4 rounded-2xl border border-line bg-paper/60 px-5 py-4 text-left transition-colors hover:border-ink-soft/40 hover:bg-paper"
+            >
+              <span>
+                <span className="block text-[10px] font-extrabold uppercase tracking-[0.3em] text-ink-soft">
+                  {yearPrefix(past)}Past Events
+                </span>
+                <span className="mt-1 block text-sm font-bold text-ink">
+                  {pastOpen
+                    ? "Hide past events"
+                    : `Click to see ${past.length} past ${past.length === 1 ? "event" : "events"}`}
+                </span>
+              </span>
+              <ChevronDown
+                aria-hidden
+                className={`size-5 shrink-0 text-ink-soft transition-transform ${pastOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+            {pastOpen && (
+              <div id="past-events" className="mt-6 grid gap-4">
+                {past.map((item) => (
+                  <EventCard
+                    key={item.title}
+                    item={item}
+                    index={item.title}
+                    openIndex={openIndex}
+                    toggle={toggle}
+                    past
+                  />
+                ))}
+              </div>
+            )}
           </>
         )}
 
