@@ -6,27 +6,40 @@
 // changed mid-marathon without a deploy. See src/lib/gamedayContent.ts; the
 // copy that ships with the site is the fallback when that read fails.
 
-import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink, Handshake } from "lucide-react";
+import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink, Handshake, MapPin, Navigation } from "lucide-react";
+
+import improvingLogo from "@/assets/logos/sponsors/improving.svg";
+import papaJohnsLogo from "@/assets/logos/sponsors/papa-johns.svg";
+import tacoBellLogo from "@/assets/logos/sponsors/taco-bell.svg";
+import gilletteLogo from "@/assets/logos/sponsors/gillette-childrens.svg";
 
 import { GamedaySchedule } from "@/components/site/GamedaySchedule";
 import { useGameday } from "@/hooks/use-countdown";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
 
-const MARATHON = getRsvpEvent("marathon")?.calendar;
+const MARATHON_EVENT = getRsvpEvent("marathon");
+const MARATHON = MARATHON_EVENT?.calendar;
 const GAME_DAY_START = MARATHON?.start ?? "2026-11-14T08:00:00-06:00";
 const GAME_DAY_END = MARATHON?.end ?? "2026-11-15T08:00:00-06:00";
+
+// The venue line is the marathon's RSVP location, so it's written down once.
+// Directions use the dir/ form so the route starts from the visitor.
+const VENUE = MARATHON_EVENT?.location ?? "Improving, 3033 Excelsior Blvd #180, Minneapolis, MN 55416";
+const [VENUE_NAME, ...VENUE_REST] = VENUE.split(", ");
+const VENUE_ADDRESS = VENUE_REST.join(", ");
+const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(VENUE)}`;
 
 const HOME = import.meta.env.BASE_URL;
 
 const DONATE_URL = "https://www.extra-life.org/team/73600";
 
 // The sponsors who make Game Day happen. Each goes to the sponsor's own site.
-const SPONSOR_LINKS: { label: string; note: string; href: string }[] = [
-  { label: "Improving", note: "Our Game Day venue", href: "https://www.improving.com/" },
-  { label: "Papa Johns Eden Prairie", note: "Pizza", href: "https://www.papajohns.com/" },
-  { label: "Random Taco Company", note: "Tacos", href: "https://www.tacobell.com/" },
-  { label: "Gillette Children’s", note: "Where every dollar goes", href: "https://www.gillettechildrens.org/" },
+const SPONSOR_LINKS: { label: string; note: string; href: string; logo: string; logoClass: string }[] = [
+  { label: "Improving", note: "Our Game Day venue", href: "https://www.improving.com/", logo: improvingLogo, logoClass: "h-10" },
+  { label: "Papa Johns Eden Prairie", note: "Pizza", href: "https://www.papajohns.com/", logo: papaJohnsLogo, logoClass: "h-12" },
+  { label: "Random Taco Company", note: "Tacos", href: "https://www.tacobell.com/", logo: tacoBellLogo, logoClass: "h-14" },
+  { label: "Gillette Children’s", note: "Where every dollar goes", href: "https://www.gillettechildrens.org/", logo: gilletteLogo, logoClass: "h-12" },
 ];
 
 function SectionHeading({
@@ -120,6 +133,29 @@ export function CommandCenter() {
 
           <StatusBanner phase={phase} />
 
+          {/* Come visit ----------------------------------------------------- */}
+          <div className="mb-10 flex flex-col items-start gap-4 rounded-2xl border border-line bg-paper p-5 shadow-[var(--shadow-soft)] sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-4">
+              <span className="grid size-12 shrink-0 place-items-center rounded-full bg-teal-soft text-teal">
+                <MapPin className="size-6" />
+              </span>
+              <div>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-teal">Come visit</p>
+                <p className="font-display text-lg font-extrabold text-ink">{VENUE_NAME}</p>
+                <p className="text-sm text-ink-soft">{VENUE_ADDRESS}</p>
+              </div>
+            </div>
+            <a
+              href={DIRECTIONS_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-teal px-5 py-3 text-sm font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
+            >
+              <Navigation className="size-4" />
+              Click for directions
+            </a>
+          </div>
+
           {/* Watch ---------------------------------------------------------- */}
           <div className="mb-16">
             <SectionHeading icon={Video} label="Watch" title="Live streams" />
@@ -197,20 +233,29 @@ export function CommandCenter() {
           {/* Sponsor links -------------------------------------------------- */}
           <div>
             <SectionHeading icon={Handshake} label="Thank you" title="Links to our sponsors!" />
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {SPONSOR_LINKS.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="group flex items-center justify-between gap-3 rounded-2xl border border-line bg-paper px-6 py-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5"
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-paper shadow-[var(--shadow-soft)] transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
                 >
-                  <span>
-                    <span className="block font-display text-base font-extrabold text-ink">{link.label}</span>
-                    <span className="block text-xs font-bold uppercase tracking-widest text-ink-soft">{link.note}</span>
-                  </span>
-                  <ExternalLink className="size-4 shrink-0 text-teal transition-transform group-hover:translate-x-0.5" />
+                  <div className="flex h-28 items-center justify-center border-b border-line bg-white px-6">
+                    <img
+                      src={link.logo}
+                      alt={`${link.label} logo`}
+                      className={`w-auto max-w-full object-contain transition-transform group-hover:scale-105 ${link.logoClass}`}
+                    />
+                  </div>
+                  <div className="flex flex-1 items-center justify-between gap-3 px-5 py-4">
+                    <span>
+                      <span className="block font-display text-base font-extrabold text-ink">{link.label}</span>
+                      <span className="block text-xs font-bold uppercase tracking-widest text-ink-soft">{link.note}</span>
+                    </span>
+                    <ExternalLink className="size-4 shrink-0 text-teal transition-transform group-hover:translate-x-0.5" />
+                  </div>
                 </a>
               ))}
             </div>

@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-13 (run of show became the lane-style Schedule)
+- **Last reviewed:** 2026-10-13 (seed detection, Come visit, sponsor logos)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -17,7 +17,11 @@ a spreadsheet during the event.
 - `src/pages/CommandCenter.tsx` — the page (route `/gameday`, wired in
   `App.tsx`). Presentation only. The closing "Links to our sponsors!" grid
   is a hand-maintained list in the file (Improving, Papa Johns Eden Prairie,
-  Random Taco Company, Gillette Children's), not sheet content.
+  Random Taco Company, Gillette Children's), not sheet content, with each
+  sponsor's logo from `src/assets/logos/sponsors/` (Improving's and
+  Gillette's from their sites, Papa John's and Taco Bell from Wikimedia).
+  Above the streams, a "Come visit" card shows the marathon's venue from
+  `rsvpEvents.ts` with a directions button in the `maps/dir/` form.
 - `src/lib/gamedayContent.ts` — types, the shipped fallback copy, `fetch` and
   the response parser.
 - `src/hooks/use-gameday-content.ts` — the polling hook.
@@ -45,6 +49,15 @@ A stream tile with a blank **Embed URL** stays a labelled placeholder slot;
 fill it in and the tile becomes a live player.
 
 ## Decisions and gotchas
+
+- **An untouched starter tab counts as empty.** The "Gameday Run of Show"
+  tab is seeded with five rows (Kickoff, two TBDs, Open house wraps,
+  Finale). When the sheet returns exactly those, `parseGamedayContent`
+  treats the section as unfilled and keeps the example schedule, instead of
+  the page flashing the example and then swapping to a grid of TBDs a
+  second later (which is what happened on 2026-10-13). Change a single row
+  in the sheet and it takes over. `RUN_OF_SHOW_SEED` in `gamedayContent.ts`
+  must match the seed in `Code.gs`.
 
 - **The schedule is laid out like the printed 2025 run of show**, not a
   list: a navy Time / Event header, red hourly pills, parallel lanes of
