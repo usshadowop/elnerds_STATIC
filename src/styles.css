@@ -34,6 +34,15 @@
   --shadow-lift: 0 20px 50px -20px rgba(29, 110, 122, 0.35);
 
   --animate-pulse-soft: pulse-soft 2.4s ease-in-out infinite;
+  --animate-incentive-glow: incentive-glow 2s ease-out infinite;
+}
+
+/* The hero's incentives chip: a ring that radiates out and fades, so the chip
+   blinks without its text ever dimming. Paired with motion-reduce:animate-none. */
+@keyframes incentive-glow {
+  0% { box-shadow: 0 0 0 0 rgba(200, 50, 124, 0.55); }
+  70% { box-shadow: 0 0 0 14px rgba(200, 50, 124, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(200, 50, 124, 0); }
 }
 
 @keyframes pulse-soft {

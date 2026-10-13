@@ -46,7 +46,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
-| 2026-10-09 | Owner | Review and send the October "Sign Up Today" email (`email/elnerds-signup-today.html`, live preview at https://elnerds.com/email/current/). Unverified facts in it that came from Mike's draft or the hero pills, not the repo: food for anyone who raises $50+, "tourneys", and "Gorilla butler". The Game Week drawing details came from Grant Gray's Oct 2 email. Once sent: archive per `email/archive/README.md`, replace `public/email/current/index.html` (and the `signup-today/` stub) per `email/archive/README.md`, and drop this line. |
+| 2026-10-09 | Owner | Review and send the October "Sign Up Today" email (`email/elnerds-signup-today.html`, live preview at https://elnerds.com/email/current/). Unverified facts in it that came from Mike's draft or the hero pills, not the repo: food for anyone who raises $50+, "tourneys", and "Gorilla butler". The Game Week drawing details came from Grant Gray's Oct 2 email. The `$50+` food line and the drawing are now also on `/incentives` and the home page; if either is wrong, fix the site too. Once sent: archive per `email/archive/README.md`, replace `public/email/current/index.html` (and the `signup-today/` stub) per `email/archive/README.md`, and drop this line. |
 
 Rules that keep this honest:
 
@@ -64,24 +64,26 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-10-09 (PR #63: October "Sign Up Today" email):*
+*Session of 2026-10-13 (branch `claude/dreamy-ramanujan-j5nw3w`: `/incentives`,
+the Game Week section, and the sponsors band moved):*
 
-- **A new campaign is in `email/elnerds-signup-today.html`**, built from
-  a draft Mike supplied (an upload, not in the repo). Changes on top of it:
-  the leftover builder comment removed, the preheader reordered, a purple
-  "More to Win" section on Gillette's Game Week swag drawing, two stacked
-  hero pills, and the primary button moved into its own closing section.
-- **It is published for review at `/email/current/`** from
-  `public/email/current/index.html` (the template preview moved to
-  `/email/template/`, `/email/` is an index page, and `/email/signup-today/`
-  is a redirect stub). That is a review copy only; it goes away when
-  the campaign is archived.
-- **The 320px check can't be trusted in the sandbox.** Headless Chromium
-  floors `--window-size` at 500px, and even in a 320px iframe both this
-  email and the shipped Sep send measure ~455px wide because Nunito never
-  loads. Serve the real font (see the verify skill) before reading
-  anything into an overflow number.
-- `email/` has no feature card, so campaign commits use `no-card`.
+- **`/incentives` is new** (`src/pages/Incentives.tsx`): every Game Day
+  donation incentive from the Sep and Oct emails on one page, meant to be
+  sent as a text or email link. A pulsing orange→purple chip under the
+  hero's event pills is the way in; the chip hides after Game Day, the page
+  stays up with a "has wrapped" banner.
+- **Gillette's Game Week drawing is its own section**
+  (`src/components/site/GameWeekDrawing.tsx`), on the home page right after
+  Events and again on `/incentives`. One component; the home copy links to
+  `/incentives` and drops off after Game Day.
+- **The 2025 sponsors band moved** below the donor wall and Active Roster,
+  directly above Leadership (`src/pages/Home.tsx` is just the order).
+- Nothing in the nav points at `/incentives` or `#game-week`; the chip and
+  the section's own link are the entry points. Adding a nav item is a
+  one-line change in `SiteNav.tsx` if wanted.
+- Verified in headless Chromium with the real Nunito font (fetched with
+  curl, served via `context.route()`): no horizontal overflow at 320px, and
+  the live/after phases checked by `page.clock.setFixedTime(...)`.
 
 ## Ship-live workflow
 
@@ -173,6 +175,17 @@ already there.
 - `src/components/site/DonationTicker.tsx` — the "Latest" donations strip
   under the countdown. The number shown (6) is set where the ticker calls
   `useExtraLifeDonations`.
+- `src/pages/Incentives.tsx` (`/incentives`) — the Game Day donation
+  incentives ($75 / $25 / $5 from the leadership team, the $50 food
+  threshold, the Platinum tip), mirrored from the Sep and Oct 2026 emails
+  and built to be sent as a text or email link.
+  `src/components/site/GameWeekDrawing.tsx` holds Gillette's Game Week
+  drawing as its own section, rendered on the home page after Events and
+  again on `/incentives` (one component, `variant="home"` | `"page"`). The
+  hero's pulsing gradient chip links to `/incentives`. Chip and home section
+  both hide once the marathon ends; the page stays up with a "has wrapped"
+  banner. When an email changes the incentives, change them here in the
+  same breath — nothing links `/incentives` or `#game-week` from the nav.
 - `src/pages/Newsletter.tsx` (`/newsletter`): newsletter signup, with
   `?ref=Name` pre-filling "Referred by". It posts to the RSVP endpoint with
   `type: "newsletter"`, and `Code.gs` writes it to a `Newsletter` sheet tab.

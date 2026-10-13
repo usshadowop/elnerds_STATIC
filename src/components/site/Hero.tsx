@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, ChevronLeft, ChevronRight, Heart, Baby, Building2, X } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Heart, Baby, Building2, Gift, X } from "lucide-react";
 import heroImg from "@/assets/hero-marathon.jpg";
 import { useGameday } from "@/hooks/use-countdown";
 import { useNow } from "@/hooks/use-now";
@@ -160,6 +160,27 @@ export function Hero() {
                 {item.chip!.label}
               </a>
             ))}
+          </div>
+        )}
+
+        {/* The incentives chip sits under the event pills and is deliberately
+            not one of them: filled, pulsing, with a live dot, so it reads as
+            "there's something to earn here" rather than another date. Like the
+            pills, it leaves on its own once the marathon is over. */}
+        {c.phase !== "after" && (
+          <div className="mb-8 flex justify-center">
+            <a
+              href={`${import.meta.env.BASE_URL}incentives`}
+              className="group inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-orange via-magenta to-purple px-4 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] animate-incentive-glow transition-all hover:brightness-110 motion-reduce:animate-none sm:px-5 sm:tracking-widest"
+            >
+              <span className="relative flex size-2.5" aria-hidden>
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-white opacity-75 motion-reduce:animate-none" />
+                <span className="relative inline-flex size-2.5 rounded-full bg-white" />
+              </span>
+              <Gift className="size-4 shrink-0" aria-hidden />
+              <span>Donation incentives live</span>
+              <ArrowRight className="hidden size-4 shrink-0 transition-transform group-hover:translate-x-1 sm:block" aria-hidden />
+            </a>
           </div>
         )}
 
