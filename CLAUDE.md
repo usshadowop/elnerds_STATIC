@@ -64,8 +64,8 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-10-13 (branch `claude/dreamy-ramanujan-j5nw3w`: `/incentives`,
-the Game Week section, and the sponsors band moved):*
+*Session of 2026-10-13 (PR #71: `/incentives`, the Game Week section, the
+Venue Donation card, and the sponsors band moved):*
 
 - **`/incentives` is new** (`src/pages/Incentives.tsx`): every Game Day
   donation incentive from the Sep and Oct emails on one page, meant to be
