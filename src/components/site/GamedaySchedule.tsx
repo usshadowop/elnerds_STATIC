@@ -26,6 +26,13 @@ const START_HOUR = 8; // Game Day runs 8:00 AM Saturday to 8:00 AM Sunday.
 const ROW_PX = 60; // one hour
 const FOLD_PX = 34; // a folded run of quiet hours
 const FOOD = /breakfast|lunch|dinner|waffle|snack|food|pizza/i;
+// A short block may sit on top of a long one in the same lane (Smash on top
+// of Warhammer open play), which keeps the grid narrow. Limits: the rider is
+// at most three hours, the block underneath at least twice as long and not
+// the all-day block, and the block underneath must keep a clear stretch tall
+// enough for its own label (MIN_LABEL_MIN of minutes, roughly two rows).
+const MAX_OVERLAY_MIN = 180;
+const MIN_LABEL_MIN = 100;
 
 function pillLabel(h: number): string {
   const hour = (START_HOUR + h) % 24;
@@ -46,6 +53,7 @@ interface Block {
   food: boolean;
   lane: number;
   lanes: number; // how many blocks share this start (food banners split the width)
+  overlay: boolean; // drawn on top of a longer block in the same lane
 }
 
 export function GamedaySchedule({
@@ -84,22 +92,11 @@ export function GamedaySchedule({
       food: FOOD.test(`${row.title} ${row.detail}`),
       lane: 0,
       lanes: 1,
+      overlay: false,
     });
   }
   const trackEnd = Math.max(DAY_MINUTES, ...parsed.map((b) => b.end));
   const hours = Math.ceil(trackEnd / 60);
-
-  // Blue blocks: earliest start first, longest first on a tie; each takes the
-  // first lane that is free by its start.
-  const blocks = parsed.filter((b) => !b.food).sort((a, b) => a.start - b.start || b.end - a.end);
-  const laneEnds: number[] = [];
-  for (const b of blocks) {
-    let lane = laneEnds.findIndex((end) => end <= b.start);
-    if (lane === -1) lane = laneEnds.length;
-    laneEnds[lane] = b.end;
-    b.lane = lane;
-  }
-  const laneCount = Math.max(laneEnds.length, 1);
 
   // Green banners: those that start together share the width.
   const foods = parsed.filter((b) => b.food).sort((a, b) => a.start - b.start);
@@ -108,6 +105,58 @@ export function GamedaySchedule({
     f.lanes = peers.length;
     f.lane = peers.indexOf(f);
   }
+
+  // Blue blocks, longest first. Each takes the first lane where it overlaps
+  // nothing; failing that, a short block may ride on top of a long one that
+  // fully contains it, as long as it clears the other riders in that lane.
+  const blocks = parsed.filter((b) => !b.food).sort((a, b) => b.end - b.start - (a.end - a.start) || a.start - b.start);
+  const longest = blocks[0] ? blocks[0].end - blocks[0].start : 0;
+  const lanes: { bases: Block[]; overlays: Block[] }[] = [];
+  const clear = (list: Block[], b: Block) => list.every((o) => o.end <= b.start || o.start >= b.end);
+  // The tallest stretch of `base` not covered by banners (first lane only,
+  // where they live) or the given riders.
+  const freeRun = (base: Block, riders: Block[], laneIdx: number) => {
+    const covered = [...(laneIdx === 0 ? foods : []), ...riders]
+      .filter((o) => o.end > base.start && o.start < base.end)
+      .map((o) => [Math.max(o.start, base.start), Math.min(o.end, base.end)] as const)
+      .sort((m, n) => m[0] - n[0]);
+    let best = 0;
+    let cursor = base.start;
+    for (const [c0, c1] of [...covered, [base.end, base.end] as const]) {
+      best = Math.max(best, c0 - cursor);
+      cursor = Math.max(cursor, c1);
+    }
+    return best;
+  };
+  for (const b of blocks) {
+    let lane = lanes.findIndex((l) => clear(l.bases, b) && clear(l.overlays, b));
+    if (lane === -1 && b.end - b.start <= MAX_OVERLAY_MIN) {
+      lane = lanes.findIndex(
+        (l, laneIdx) =>
+          clear(l.overlays, b) &&
+          l.bases.some(
+            (base) =>
+              base.start <= b.start && base.end >= b.end &&
+              base.end - base.start >= 2 * (b.end - b.start) &&
+              base.end - base.start < longest &&
+              freeRun(base, [...l.overlays, b], laneIdx) >= MIN_LABEL_MIN,
+          ),
+      );
+      if (lane !== -1) {
+        b.overlay = true;
+        lanes[lane].overlays.push(b);
+        b.lane = lane;
+        continue;
+      }
+    }
+    if (lane === -1) {
+      lane = lanes.length;
+      lanes.push({ bases: [], overlays: [] });
+    }
+    lanes[lane].bases.push(b);
+    b.lane = lane;
+  }
+  const laneCount = Math.max(lanes.length, 1);
 
   // ── Fold quiet hours ────────────────────────────────────────────────────
   // An hour is quiet when nothing starts or ends inside it. Runs of two or
@@ -142,8 +191,15 @@ export function GamedaySchedule({
     return spec.top + into * spec.px;
   };
 
-  const laneLeft = (lane: number, lanes: number) => `calc(${(lane / lanes) * 100}% + 3px)`;
+  // Riders are shifted right by RIDE_PX, keeping their full width, so they
+  // hang past the right edge of the block underneath like a card on a card.
+  const RIDE_PX = 12;
+  const laneLeft = (lane: number, lanes: number, shift = 0) => `calc(${(lane / lanes) * 100}% + ${3 + shift}px)`;
   const laneWidth = (lanes: number) => `calc(${100 / lanes}% - 6px)`;
+  // Meal banners live in the first lane only (the all-day block's), split
+  // between meals that start together, leaving the other lanes free.
+  const foodLeft = (f: Block) => `calc(${(100 / laneCount) * (f.lane / f.lanes)}% + 3px)`;
+  const foodWidth = (f: Block) => `calc(${100 / laneCount / f.lanes}% - 6px)`;
 
   return (
     <div className="rounded-2xl border border-line bg-paper p-3 shadow-[var(--shadow-soft)] sm:p-5">
@@ -190,8 +246,8 @@ export function GamedaySchedule({
               ))}
             </div>
 
-            {/* Lanes */}
-            <div className="relative flex-1">
+            {/* Lanes (right padding so a rider in the last lane can overhang) */}
+            <div className="relative flex-1 pr-4">
               {rowSpecs.map((r) => (
                 <div
                   key={r.h}
@@ -204,10 +260,12 @@ export function GamedaySchedule({
                 const top = y(b.start) + 3;
                 const height = Math.max(y(b.end) - y(b.start) - 6, 26);
                 const current = nowMinutes >= b.start && nowMinutes < b.end;
-                // Banners lie across the lanes, so the block's text goes in
-                // the tallest stretch of the block a banner doesn't cover.
-                const covered = foods
-                  .filter((f) => f.end > b.start && f.start < b.end)
+                // Banners lie across the lanes and riders sit on top of long
+                // blocks, so the text goes in the tallest uncovered stretch.
+                const covered = [
+                  ...(b.lane === 0 ? foods.filter((f) => f.end > b.start && f.start < b.end) : []),
+                  ...(b.overlay ? [] : lanes[b.lane].overlays.filter((o) => o.end > b.start && o.start < b.end)),
+                ]
                   .map((f) => [y(f.start) + 3 - top, y(f.end) - 3 - top] as const)
                   .sort((m, n) => m[0] - n[0]);
                 let gap = { top: 0, height };
@@ -222,9 +280,14 @@ export function GamedaySchedule({
                   <div
                     key={`${b.row.time}-${b.row.title}`}
                     className={`absolute overflow-hidden rounded-lg border-2 border-ink bg-[#56c6f5] ${
-                      current ? "border-magenta animate-now-pulse motion-reduce:animate-none motion-reduce:ring-2 motion-reduce:ring-magenta" : ""
-                    }`}
-                    style={{ top, height, left: laneLeft(b.lane, laneCount), width: laneWidth(laneCount) }}
+                      b.overlay ? "z-[5] shadow-[var(--shadow-soft)]" : ""
+                    } ${current ? "animate-now-pulse motion-reduce:animate-none motion-reduce:ring-2 motion-reduce:ring-magenta" : ""}`}
+                    style={{
+                      top,
+                      height,
+                      left: laneLeft(b.lane, laneCount, b.overlay ? RIDE_PX : 0),
+                      width: laneWidth(laneCount),
+                    }}
                   >
                     <div
                       className="absolute left-0 right-0 flex flex-col items-center justify-center px-2 py-1 text-center"
@@ -246,9 +309,9 @@ export function GamedaySchedule({
                   <div
                     key={`${f.row.time}-${f.row.title}`}
                     className="absolute z-10 flex items-center justify-center rounded-lg border-2 border-ink bg-[#c7f36b] px-3 py-1 text-center shadow-[var(--shadow-soft)]"
-                    style={{ top: y(f.start) + 3, height, left: laneLeft(f.lane, f.lanes), width: laneWidth(f.lanes) }}
+                    style={{ top: y(f.start) + 3, height, left: foodLeft(f), width: foodWidth(f) }}
                   >
-                    <p className="text-[13px] leading-tight text-ink">
+                    <p className="text-xs leading-tight text-ink">
                       <span className="font-extrabold">{f.row.title}</span>
                       {f.row.detail && <> {f.row.detail}</>}
                     </p>

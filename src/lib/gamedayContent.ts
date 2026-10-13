@@ -52,7 +52,6 @@ export const FALLBACK_CONTENT: GamedayContent = {
     { time: "8am Saturday - 8am Sunday", title: "24-hour gaming for fundraisers", detail: "" },
     { time: "8a - 5p", title: "Open house gaming", detail: "Consoles and board games provided!" },
     { time: "8:30a - 9:30a", title: "Waffles", detail: "provided by Butchy for donations!" },
-    { time: "8:30a - 9:30a", title: "Breakfast", detail: "provided by Extra Life Nerds Leadership Team" },
     { time: "9:30a - 12:30p", title: "Dungeons and Dragons", detail: "with Badwolf Adventure Studios" },
     { time: "10a - 8p", title: "Warhammer 40k Open Play", detail: "" },
     { time: "11a - 4p", title: "Golf Simulator Tournament", detail: "ALL skill levels welcome!" },
