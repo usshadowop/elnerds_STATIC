@@ -1,7 +1,15 @@
+import { ArrowUpRight, Building2 } from "lucide-react";
 import { useExtraLifeDonors } from "@/hooks/useExtraLifeDonors";
 
+// The Game Day venue is a donation too, and a big one: it gets its own block
+// above the in-kind list rather than a line in it.
+const VENUE = {
+  name: "Improving",
+  href: "https://www.improving.com/",
+  blurb: "The home of Game Day 2026 — their Minneapolis office, donated for the whole 24 hours.",
+};
+
 const inKindDonors: { name: string; href?: string }[] = [
-  { name: "Improving - Venue", href: "https://www.improving.com/" },
   { name: "Mike Hochscheidt - Miniatures" },
   { name: "Mike Smith - Board Games" },
 ];
@@ -106,41 +114,69 @@ export function Donors() {
             <ExtraLifeDonorWall />
           </div>
 
-          <div className="rounded-3xl border border-line bg-cream p-8 shadow-[var(--shadow-soft)]">
-            <div className="mb-6 flex items-center gap-3">
-              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-orange text-white font-display font-extrabold">
-                IK
-              </span>
-              <div>
-                <h3 className="font-display text-xl font-extrabold text-ink">
-                  In-Kind Donors
-                </h3>
-                <p className="text-xs font-bold uppercase tracking-widest text-ink-soft">
-                  Goods &amp; services
-                </p>
+          <div className="flex flex-col gap-8">
+            <div className="rounded-3xl border border-line bg-cream p-8 shadow-[var(--shadow-soft)]">
+              <div className="mb-6 flex items-center gap-3">
+                <span className="grid size-10 shrink-0 place-items-center rounded-full bg-purple text-white">
+                  <Building2 className="size-5" />
+                </span>
+                <div>
+                  <h3 className="font-display text-xl font-extrabold text-ink">
+                    Venue Donation
+                  </h3>
+                  <p className="text-xs font-bold uppercase tracking-widest text-ink-soft">
+                    Game Day&rsquo;s home
+                  </p>
+                </div>
               </div>
+              <a
+                href={VENUE.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 font-display text-3xl font-extrabold tracking-tight text-purple underline decoration-purple/30 decoration-4 underline-offset-8 transition-colors hover:text-magenta hover:decoration-magenta/40 sm:text-4xl"
+              >
+                {VENUE.name}
+                <ArrowUpRight className="size-6 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+              <p className="mt-4 text-sm text-ink-soft">{VENUE.blurb}</p>
             </div>
-            <ul className="space-y-3">
-              {inKindDonors.map((donor) => (
-                <li
-                  key={donor.name}
-                  className="border-l-2 border-orange/50 pl-3 text-sm font-bold text-ink"
-                >
-                  {donor.href ? (
-                    <a
-                      href={donor.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="underline transition-colors hover:text-orange"
-                    >
-                      {donor.name}
-                    </a>
-                  ) : (
-                    donor.name
-                  )}
-                </li>
-              ))}
-            </ul>
+
+            <div className="flex-1 rounded-3xl border border-line bg-cream p-8 shadow-[var(--shadow-soft)]">
+              <div className="mb-6 flex items-center gap-3">
+                <span className="grid size-10 shrink-0 place-items-center rounded-full bg-orange text-white font-display font-extrabold">
+                  IK
+                </span>
+                <div>
+                  <h3 className="font-display text-xl font-extrabold text-ink">
+                    In-Kind Donors
+                  </h3>
+                  <p className="text-xs font-bold uppercase tracking-widest text-ink-soft">
+                    Goods &amp; services
+                  </p>
+                </div>
+              </div>
+              <ul className="space-y-3">
+                {inKindDonors.map((donor) => (
+                  <li
+                    key={donor.name}
+                    className="border-l-2 border-orange/50 pl-3 text-sm font-bold text-ink"
+                  >
+                    {donor.href ? (
+                      <a
+                        href={donor.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline transition-colors hover:text-orange"
+                      >
+                        {donor.name}
+                      </a>
+                    ) : (
+                      donor.name
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

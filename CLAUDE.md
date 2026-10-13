@@ -77,7 +77,9 @@ the Game Week section, and the sponsors band moved):*
   Events and again on `/incentives`. One component; the home copy links to
   `/incentives` and drops off after Game Day.
 - **The 2025 sponsors band moved** below the donor wall and Active Roster,
-  directly above Leadership (`src/pages/Home.tsx` is just the order).
+  directly above Leadership (`src/pages/Home.tsx` is just the order). In
+  the donor wall's right column, Improving now has its own **Venue
+  Donation** card above In-Kind Donors (`Donors.tsx`), with the link large.
 - Nothing in the nav points at `/incentives` or `#game-week`; the chip and
   the section's own link are the entry points. Adding a nav item is a
   one-line change in `SiteNav.tsx` if wanted.

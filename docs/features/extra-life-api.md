@@ -1,7 +1,7 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-09-25
+- **Last reviewed:** 2026-10-13 (Donors.tsx: Venue Donation block added)
 - **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`
 
 ## Purpose
@@ -22,6 +22,11 @@ someone donates.
   under the hero countdown (keyframes in `src/styles.css`).
 - `src/components/site/ActiveRoster.tsx` — the roster section, with skeleton
   placeholders while loading.
+- `src/components/site/Donors.tsx` — the "2026 Donors" section: the live
+  donor wall takes two-thirds, and the right column is two hand-maintained
+  cards, **Venue Donation** (Improving, the Game Day venue, as one large
+  link — it is the biggest in-kind gift and reads that way) above **In-Kind
+  Donors** (a plain list). Nothing in the right column comes from the API.
 - `src/components/site/Hero.tsx` — the post-Game-Day grand total (see
   [gameday-hero-states](gameday-hero-states.md)).
 
