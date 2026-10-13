@@ -14,9 +14,9 @@ export function Home() {
       <Stats />
       <Schedule />
       <WhyWePlay />
-      <Sponsors />
       <Donors />
       <ActiveRoster />
+      <Sponsors />
       <Team />
     </main>
   );
