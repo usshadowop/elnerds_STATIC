@@ -120,14 +120,7 @@ export function Donors() {
                 <span className="grid size-10 shrink-0 place-items-center rounded-full bg-purple text-white">
                   <Building2 className="size-5" />
                 </span>
-                <div>
-                  <h3 className="font-display text-xl font-extrabold text-ink">
-                    Venue Donation
-                  </h3>
-                  <p className="text-xs font-bold uppercase tracking-widest text-ink-soft">
-                    Game Day&rsquo;s home
-                  </p>
-                </div>
+                <h3 className="font-display text-xl font-extrabold text-ink">Venue Donation</h3>
               </div>
               <a
                 href={VENUE.href}

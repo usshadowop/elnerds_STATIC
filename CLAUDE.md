@@ -72,15 +72,16 @@ Venue Donation card, and the sponsors band moved):*
   sent as a text or email link. A pulsing orange→purple chip under the
   hero's event pills is the way in; the chip hides after Game Day, the page
   stays up with a "has wrapped" banner.
-- **Gillette's Game Week drawing is its own section**
-  (`src/components/site/GameWeekDrawing.tsx`), on the home page right after
-  Events and again on `/incentives`. One component; the home copy links to
-  `/incentives` and drops off after Game Day.
+- **The leadership-team incentives are a home-page section**
+  (`src/components/site/TeamIncentives.tsx`, `#incentives`, right after
+  Events; drops off after Game Day). Gillette's Game Week drawing
+  (`GameWeekDrawing.tsx`) is on `/incentives` only — it was on the home page
+  briefly and was swapped out as the less important of the two.
 - **The 2025 sponsors band moved** below the donor wall and Active Roster,
   directly above Leadership (`src/pages/Home.tsx` is just the order). In
   the donor wall's right column, Improving now has its own **Venue
   Donation** card above In-Kind Donors (`Donors.tsx`), with the link large.
-- Nothing in the nav points at `/incentives` or `#game-week`; the chip and
+- Nothing in the nav points at `/incentives` or `#incentives`; the chip and
   the section's own link are the entry points. Adding a nav item is a
   one-line change in `SiteNav.tsx` if wanted.
 - Verified in headless Chromium with the real Nunito font (fetched with
@@ -181,13 +182,15 @@ already there.
   incentives ($75 / $25 / $5 from the leadership team, the $50 food
   threshold, the Platinum tip), mirrored from the Sep and Oct 2026 emails
   and built to be sent as a text or email link.
-  `src/components/site/GameWeekDrawing.tsx` holds Gillette's Game Week
-  drawing as its own section, rendered on the home page after Events and
-  again on `/incentives` (one component, `variant="home"` | `"page"`). The
-  hero's pulsing gradient chip links to `/incentives`. Chip and home section
-  both hide once the marathon ends; the page stays up with a "has wrapped"
-  banner. When an email changes the incentives, change them here in the
-  same breath — nothing links `/incentives` or `#game-week` from the nav.
+  `src/components/site/TeamIncentives.tsx` holds the three leadership-team
+  cards ($75 / $25 / $5), rendered on the home page after Events
+  (`#incentives`, with a link to the full page) and at the top of
+  `/incentives`. `src/components/site/GameWeekDrawing.tsx` is Gillette's
+  Game Week drawing, on `/incentives` only. The hero's pulsing gradient chip
+  links to `/incentives`. Chip and home section both hide once the marathon
+  ends; the page stays up with a "has wrapped" banner. When an email changes
+  the incentives, change them here in the same breath — nothing links
+  `/incentives` or `#incentives` from the nav.
 - `src/pages/Newsletter.tsx` (`/newsletter`): newsletter signup, with
   `?ref=Name` pre-filling "Referred by". It posts to the RSVP endpoint with
   `type: "newsletter"`, and `Code.gs` writes it to a `Newsletter` sheet tab.

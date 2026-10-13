@@ -1,7 +1,7 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-13 (Donors.tsx: Venue Donation block added)
+- **Last reviewed:** 2026-10-13 (Donors.tsx: Venue Donation block added, subtitle dropped)
 - **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`
 
 ## Purpose
