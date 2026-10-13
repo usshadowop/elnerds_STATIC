@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-13 (run of show became the Schedule track)
+- **Last reviewed:** 2026-10-13 (run of show became the lane-style Schedule)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -44,21 +44,29 @@ fill it in and the tile becomes a live player.
 
 ## Decisions and gotchas
 
-- **The schedule is a 24-hour track, not a list.** `GamedaySchedule` parses
-  each row's Time ("8:00 AM", "12:00 AM", "8:00 AM (Sun)") into minutes from
-  kickoff; a block runs until the next row's time. Times before 8 AM are
-  taken as Sunday's small hours, and "(Sun)" forces the second morning. A
-  time that doesn't parse ("TBD", "Whenever") is listed under the track
-  rather than dropped, so the sheet's columns are unchanged.
+- **The schedule is laid out like the printed 2025 run of show**, not a
+  list: a navy Time / Event header, red hourly pills, parallel lanes of
+  sky-blue black-bordered blocks, and lime-green meal banners layered across
+  the lanes. `parseShowTime` in `gamedayContent.ts` reads the Time cell as a
+  range ("9:30a - 12:30p", "11 - 1p", "8am Saturday - 8am Sunday") or a
+  single time (one hour). A start with no meridian borrows the end's, and
+  flips to AM when it would otherwise land after the end. Times before 8 AM
+  or marked "Sunday" are the second morning. Overlapping blocks are packed
+  into lanes automatically (earliest first, longest first on a tie). A row
+  whose title or detail mentions breakfast, lunch, dinner, waffles, snacks
+  or food becomes a green banner; banners that start together share the
+  width. Hours with nothing starting or ending fold into one "…" row when
+  two or more run together, so the overnight stretch doesn't dominate. A
+  Time cell with no clock time ("TBD") is listed under the grid instead of
+  dropped. The sheet's columns are unchanged.
 - **The "now" line is real only during Game Day.** Outside it the line
   previews with the visitor's own clock (today's 2:15 PM sits where
   Saturday's 2:15 PM will), labelled as a preview, so the page can be
   checked any day. During the event it's minutes since the marathon's
   `calendar.start`, so it reads the same in every timezone.
-- The shipped fallback run of show is an **example day** shaped like past
-  Game Days (waffle bar, Smash tournament, D&D, retro stations, Gorilla
-  Butler, from the Oct 2026 email's "what's planned"), not the real 2026
-  plan. The sheet replaces it row for row.
+- The shipped fallback run of show is **the 2025 schedule as an example**
+  (from the printed Canva run of show), not the 2026 plan. The sheet
+  replaces it row for row.
 
 - **Nothing here can leave the page blank.** Every failure path — endpoint not
   yet redeployed, network down, a tab emptied out, a half-typed row — falls

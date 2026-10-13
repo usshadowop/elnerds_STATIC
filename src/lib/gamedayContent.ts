@@ -45,26 +45,25 @@ export const FALLBACK_CONTENT: GamedayContent = {
     { name: "Second Feed", who: "Roaming camera / co-streamer" },
     { name: "Third Feed", who: "Spare slot" },
   ],
-  // An example day, shaped like past Game Days, so the schedule has something
-  // to show until the sheet is filled in. Times are Central; "(Sun)" marks the
-  // second morning.
+  // The 2025 schedule, as an example, so the page has something to show until
+  // the sheet is filled in. Times are Central; "Sunday" marks the second
+  // morning. Rows that mention a meal render as green banners.
   runOfShow: [
-    { time: "8:00 AM", title: "Kickoff", detail: "Doors open, streams go live" },
-    { time: "9:00 AM", title: "Waffle Bar", detail: "Breakfast for everyone in the room" },
-    { time: "10:00 AM", title: "Open House Family Gaming", detail: "All ages, bring the whole family" },
-    { time: "12:00 PM", title: "Lunch", detail: "Gameday lunch, courtesy of our sponsor" },
-    { time: "1:00 PM", title: "Smash Bros tournament", detail: "Bracket sign-ups at the front table" },
-    { time: "3:00 PM", title: "D&D session one", detail: "A one-shot for drop-in players" },
-    { time: "5:00 PM", title: "Open house wraps", detail: "Family gaming session ends" },
-    { time: "6:00 PM", title: "Dinner", detail: "Refuel before the night shift" },
-    { time: "7:00 PM", title: "Retro stations open", detail: "Free play on the classics" },
-    { time: "9:00 PM", title: "Mario Kart", detail: "Grand prix, winner takes bragging rights" },
-    { time: "11:00 PM", title: "Gorilla Butler", detail: "You read that right" },
-    { time: "12:00 AM", title: "Midnight D&D", detail: "Session two, for the night owls" },
-    { time: "2:00 AM", title: "Late-night co-op", detail: "Whatever the room votes for" },
-    { time: "5:00 AM", title: "Coffee and a stretch", detail: "The home stretch starts here" },
-    { time: "7:00 AM", title: "Final hour push", detail: "Last call for donations" },
-    { time: "8:00 AM (Sun)", title: "Finale & grand total", detail: "Cross the line together" },
+    { time: "8am Saturday - 8am Sunday", title: "24-hour gaming for fundraisers", detail: "" },
+    { time: "8a - 5p", title: "Open house gaming", detail: "Consoles and board games provided!" },
+    { time: "8:30a - 9:30a", title: "Waffles", detail: "provided by Butchy for donations!" },
+    { time: "8:30a - 9:30a", title: "Breakfast", detail: "provided by Extra Life Nerds Leadership Team" },
+    { time: "9:30a - 12:30p", title: "Dungeons and Dragons", detail: "with Badwolf Adventure Studios" },
+    { time: "10a - 8p", title: "Warhammer 40k Open Play", detail: "" },
+    { time: "11a - 4p", title: "Golf Simulator Tournament", detail: "ALL skill levels welcome!" },
+    { time: "11 - 1p", title: "Final Fantasy MtG Cube Draft", detail: "" },
+    { time: "12p - 1p", title: "Lunch", detail: "Provided by Eric Morris with Edward Jones for EL NERDS FUNDRAISERS ONLY" },
+    { time: "1:30p - 4:30p", title: "Dungeons and Dragons", detail: "with Badwolf Adventure Studios" },
+    { time: "2p - 4p", title: "Super Smash Brothers Tournament", detail: "" },
+    { time: "5p - 8p", title: "Dungeons and Dragons", detail: "with Badwolf Adventure Studios" },
+    { time: "6p - 7p", title: "Dinner", detail: "Provided by Gillette Children\u2019s Hospital for EL NERDS FUNDRAISERS ONLY" },
+    { time: "6p - 8p", title: "Dark Souls Speedrun Race", detail: "" },
+    { time: "8am Sunday", title: "Cleanup", detail: "" },
   ],
   incentives: [
     { amount: "$—", what: "Milestone to be announced" },
@@ -74,18 +73,49 @@ export const FALLBACK_CONTENT: GamedayContent = {
   notice: "",
 };
 
-/** "8:00 AM" → 0, "12:00 PM" → 240, "7:30 PM" → 690, "2:00 AM" → 1080,
- *  "8:00 AM (Sun)" → 1440. Null when the text isn't a clock time. */
-export function minutesFromKickoff(time: string): number | null {
-  const m = time.match(/(\d{1,2})(?::(\d{2}))?\s*([ap])\.?m?/i);
-  if (!m) return null;
-  let h = parseInt(m[1], 10) % 12;
-  if (m[3].toLowerCase() === "p") h += 12;
-  const mins = h * 60 + (m[2] ? parseInt(m[2], 10) : 0) - 8 * 60;
-  const sunday = /sun|day 2|\+1/i.test(time);
-  if (sunday) return mins + 24 * 60;
-  // Times earlier than kickoff are the small hours of Sunday morning.
-  return mins < 0 ? mins + 24 * 60 : mins;
+const DAY = 24 * 60;
+const KICKOFF = 8 * 60;
+
+/** One clock token ("9:30a", "12pm", "8") into minutes since midnight, given a
+ *  meridian to fall back on when the token has none. */
+function clock(h: number, m: number, mer: string | undefined, fallback: string | undefined): number | null {
+  const ap = (mer ?? fallback ?? "").toLowerCase();
+  if (!ap) return null;
+  let hour = h % 12;
+  if (ap === "p") hour += 12;
+  return hour * 60 + m;
+}
+
+/** A sheet Time cell → minutes from kickoff. Ranges ("9:30a - 12:30p",
+ *  "11 - 1p", "8am Saturday - 8am Sunday") give start and end; a single time
+ *  ("8am Sunday") gets one hour. Times before 8 AM, or marked Sunday, are the
+ *  second morning. Null when the text holds no clock time. */
+export function parseShowTime(time: string): { start: number; end: number } | null {
+  const re = /(\d{1,2})(?::(\d{2}))?\s*([ap])?\.?m?\b/gi;
+  const tokens = [...time.matchAll(re)].slice(0, 2).map((m) => ({
+    h: parseInt(m[1], 10),
+    m: m[2] ? parseInt(m[2], 10) : 0,
+    mer: m[3]?.toLowerCase(),
+    index: m.index ?? 0,
+  }));
+  if (tokens.length === 0) return null;
+  const [a, b] = tokens;
+  // "11 - 1p": a start with no meridian borrows the end's, but flips to AM
+  // when that would put it after the end.
+  let startMer = a.mer ?? b?.mer;
+  if (!a.mer && b?.mer === "p" && a.h % 12 > b.h % 12) startMer = "a";
+  const s = clock(a.h, a.m, a.mer, startMer);
+  if (s === null) return null;
+  const text = time.toLowerCase();
+  const sundayAt = (pos: number) => /sun/.test(text.slice(pos, pos + 16));
+  let start = s - KICKOFF;
+  if (sundayAt(a.index) || start < 0) start += DAY;
+  if (!b) return { start, end: start + 60 };
+  const e = clock(b.h, b.m, b.mer, startMer);
+  if (e === null) return { start, end: start + 60 };
+  let end = e - KICKOFF;
+  if (sundayAt(b.index) || end <= start) end += DAY;
+  return { start, end: Math.min(end, DAY + 60) };
 }
 
 function text(value: unknown): string {
