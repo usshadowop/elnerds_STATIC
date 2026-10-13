@@ -113,9 +113,10 @@ export function GamedaySchedule({
   const longest = blocks[0] ? blocks[0].end - blocks[0].start : 0;
   const lanes: { bases: Block[]; overlays: Block[] }[] = [];
   const clear = (list: Block[], b: Block) => list.every((o) => o.end <= b.start || o.start >= b.end);
-  // The tallest stretch of `base` not covered by banners or the given riders.
-  const freeRun = (base: Block, riders: Block[]) => {
-    const covered = [...foods, ...riders]
+  // The tallest stretch of `base` not covered by banners (first lane only,
+  // where they live) or the given riders.
+  const freeRun = (base: Block, riders: Block[], laneIdx: number) => {
+    const covered = [...(laneIdx === 0 ? foods : []), ...riders]
       .filter((o) => o.end > base.start && o.start < base.end)
       .map((o) => [Math.max(o.start, base.start), Math.min(o.end, base.end)] as const)
       .sort((m, n) => m[0] - n[0]);
@@ -131,14 +132,14 @@ export function GamedaySchedule({
     let lane = lanes.findIndex((l) => clear(l.bases, b) && clear(l.overlays, b));
     if (lane === -1 && b.end - b.start <= MAX_OVERLAY_MIN) {
       lane = lanes.findIndex(
-        (l) =>
+        (l, laneIdx) =>
           clear(l.overlays, b) &&
           l.bases.some(
             (base) =>
               base.start <= b.start && base.end >= b.end &&
               base.end - base.start >= 2 * (b.end - b.start) &&
               base.end - base.start < longest &&
-              freeRun(base, [...l.overlays, b]) >= MIN_LABEL_MIN,
+              freeRun(base, [...l.overlays, b], laneIdx) >= MIN_LABEL_MIN,
           ),
       );
       if (lane !== -1) {
@@ -190,8 +191,15 @@ export function GamedaySchedule({
     return spec.top + into * spec.px;
   };
 
-  const laneLeft = (lane: number, lanes: number) => `calc(${(lane / lanes) * 100}% + 3px)`;
-  const laneWidth = (lanes: number) => `calc(${100 / lanes}% - 6px)`;
+  // Riders sit a little to the right of the block underneath, so it's plain
+  // they're a separate event on top.
+  const RIDE_PX = 12;
+  const laneLeft = (lane: number, lanes: number, inset = 0) => `calc(${(lane / lanes) * 100}% + ${3 + inset}px)`;
+  const laneWidth = (lanes: number, inset = 0) => `calc(${100 / lanes}% - ${6 + inset}px)`;
+  // Meal banners live in the first lane only (the all-day block's), split
+  // between meals that start together, leaving the other lanes free.
+  const foodLeft = (f: Block) => `calc(${(100 / laneCount) * (f.lane / f.lanes)}% + 3px)`;
+  const foodWidth = (f: Block) => `calc(${100 / laneCount / f.lanes}% - 6px)`;
 
   return (
     <div className="rounded-2xl border border-line bg-paper p-3 shadow-[var(--shadow-soft)] sm:p-5">
@@ -255,7 +263,7 @@ export function GamedaySchedule({
                 // Banners lie across the lanes and riders sit on top of long
                 // blocks, so the text goes in the tallest uncovered stretch.
                 const covered = [
-                  ...foods.filter((f) => f.end > b.start && f.start < b.end),
+                  ...(b.lane === 0 ? foods.filter((f) => f.end > b.start && f.start < b.end) : []),
                   ...(b.overlay ? [] : lanes[b.lane].overlays.filter((o) => o.end > b.start && o.start < b.end)),
                 ]
                   .map((f) => [y(f.start) + 3 - top, y(f.end) - 3 - top] as const)
@@ -274,7 +282,12 @@ export function GamedaySchedule({
                     className={`absolute overflow-hidden rounded-lg border-2 border-ink bg-[#56c6f5] ${
                       b.overlay ? "z-[5] shadow-[var(--shadow-soft)]" : ""
                     } ${current ? "animate-now-pulse motion-reduce:animate-none motion-reduce:ring-2 motion-reduce:ring-magenta" : ""}`}
-                    style={{ top, height, left: laneLeft(b.lane, laneCount), width: laneWidth(laneCount) }}
+                    style={{
+                      top,
+                      height,
+                      left: laneLeft(b.lane, laneCount, b.overlay ? RIDE_PX : 0),
+                      width: laneWidth(laneCount, b.overlay ? RIDE_PX : 0),
+                    }}
                   >
                     <div
                       className="absolute left-0 right-0 flex flex-col items-center justify-center px-2 py-1 text-center"
@@ -296,9 +309,9 @@ export function GamedaySchedule({
                   <div
                     key={`${f.row.time}-${f.row.title}`}
                     className="absolute z-10 flex items-center justify-center rounded-lg border-2 border-ink bg-[#c7f36b] px-3 py-1 text-center shadow-[var(--shadow-soft)]"
-                    style={{ top: y(f.start) + 3, height, left: laneLeft(f.lane, f.lanes), width: laneWidth(f.lanes) }}
+                    style={{ top: y(f.start) + 3, height, left: foodLeft(f), width: foodWidth(f) }}
                   >
-                    <p className="text-[13px] leading-tight text-ink">
+                    <p className="text-xs leading-tight text-ink">
                       <span className="font-extrabold">{f.row.title}</span>
                       {f.row.detail && <> {f.row.detail}</>}
                     </p>
