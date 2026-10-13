@@ -132,6 +132,23 @@ function rows<T>(value: unknown, map: (row: Record<string, unknown>) => T, keyOf
     .filter((row) => keyOf(row).length > 0);
 }
 
+/** The starter rows `Code.gs` writes into a brand-new "Gameday Run of Show"
+ *  tab. Keep in step with the seed there. */
+const RUN_OF_SHOW_SEED: [string, string][] = [
+  ["8:00 AM", "Kickoff"],
+  ["10:00 AM", "TBD"],
+  ["12:00 PM", "TBD"],
+  ["5:00 PM", "Open house wraps"],
+  ["8:00 AM (Sun)", "Finale & grand total"],
+];
+
+function isUntouchedSeed(rowsIn: GamedayShowRow[]): boolean {
+  return (
+    rowsIn.length === RUN_OF_SHOW_SEED.length &&
+    rowsIn.every((r, i) => r.time === RUN_OF_SHOW_SEED[i][0] && r.title === RUN_OF_SHOW_SEED[i][1])
+  );
+}
+
 /** Shape whatever the sheet returned into something the page can render.
  *  A section that comes back empty or unparseable keeps its shipped copy, so a
  *  cleared tab can't silently blank out part of the page. */
@@ -150,11 +167,15 @@ export function parseGamedayContent(data: unknown): GamedayContent {
     (r) => r.name,
   );
 
-  const runOfShow = rows<GamedayShowRow>(
+  let runOfShow = rows<GamedayShowRow>(
     raw.runOfShow,
     (r) => ({ time: text(r.time), title: text(r.title), detail: text(r.detail) }),
     (r) => r.time,
   );
+  // The tab is created with starter rows ("TBD" blocks). Until someone has
+  // replaced them, the sheet hasn't said anything yet — show the example day
+  // rather than a grid of TBDs.
+  if (isUntouchedSeed(runOfShow)) runOfShow = [];
 
   const incentives = rows<GamedayIncentive>(
     raw.incentives,
