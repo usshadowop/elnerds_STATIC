@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-13 (sample stills in empty stream slots)
+- **Last reviewed:** 2026-10-13 (layered lane packing, new heading)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -69,7 +69,10 @@ becomes a live player.
   single time (one hour). A start with no meridian borrows the end's, and
   flips to AM when it would otherwise land after the end. Times before 8 AM
   or marked "Sunday" are the second morning. Overlapping blocks are packed
-  into lanes automatically (earliest first, longest first on a tie). A row
+  into lanes automatically, longest first; a block of three hours or less
+  may ride on top of a block at least twice as long in the same lane (not
+  the all-day block), provided the one underneath keeps a clear stretch of
+  about 100 minutes for its own label, which the label then moves into. A row
   whose title or detail mentions breakfast, lunch, dinner, waffles, snacks
   or food becomes a green banner; banners that start together share the
   width. Hours with nothing starting or ending fold into one "…" row when

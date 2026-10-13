@@ -114,19 +114,15 @@ export function CommandCenter() {
 
   return (
     <main>
-      <section className="bg-cream px-4 pt-28 pb-20 sm:px-6 sm:pt-32 sm:pb-24">
+      <section className="bg-cream px-4 pt-10 pb-20 sm:px-6 sm:pt-12 sm:pb-24">
         <div className="mx-auto max-w-6xl">
 
-          <div className="mb-10 text-center">
-            <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">
-              Extra Life Nerds
-            </p>
+          <div className="mb-6 text-center">
             <h1 className="font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl md:text-5xl">
-              Gameday Command Center
+              Game Day is Live
             </h1>
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-ink-soft sm:text-base">
-              Everything happening across the 24 hours, in one place — where to
-              watch, what&rsquo;s on next, and how to help us hit the goal.
+            <p className="mx-auto mt-3 max-w-2xl text-base font-bold text-ink-soft sm:text-lg">
+              Come visit, play games, win prizes, have fun, help the kids!
             </p>
           </div>
 
