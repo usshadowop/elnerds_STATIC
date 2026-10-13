@@ -20,7 +20,9 @@ from the code.
 
 Features without a card yet: Stats, Why We Play, Sponsors, Donors,
 Leadership Team, SiteNav, Footer, Registration, Patient Profiles, the
-client-side router, design tokens, and the Brevo send procedure. Most
+`/incentives` page and the Game Week drawing section it shares with the
+home page, the client-side router, design tokens, and the Brevo send
+procedure. Most
 are a static list in one file; write a card when one grows a mechanism
 worth explaining, not on principle.
 

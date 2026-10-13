@@ -1,7 +1,7 @@
 # Game Day hero states
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-03 (blue RSVP button added to the hero's button row)
+- **Last reviewed:** 2026-10-13 (incentives chip added under the event pills)
 - **Covers:** `src/hooks/use-countdown.ts`, `src/components/site/Hero.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -20,6 +20,11 @@ on the day.
   (orange, to the Extra Life team page), Join The Team (teal outline, to
   `/registration`) and RSVP (blue, to the `/rsvp` chooser). These show in
   every phase.
+- Also in `Hero.tsx`, under the event pills and above the headline: the
+  **incentives chip**, a filled orange→magenta→purple pill with a pinging
+  dot that links to `/incentives` (the Game Day donation incentives page,
+  `src/pages/Incentives.tsx`). It is deliberately not styled like the event
+  pills, so it reads as "something to earn" rather than another date.
 
 ## How it works
 
@@ -33,6 +38,11 @@ boundary is next.
 | `before` | "Countdown to Gameday", four units to kickoff |
 | `live` | "Gameday is LIVE!" + a 24-hour countdown to the finish, plus a full-width button to [/gameday](gameday-content.md) |
 | `after` | The team's Extra Life total as "$X Raised" |
+
+The incentives chip follows the same phases: shown in `before` and `live`,
+gone in `after`, since every incentive on that page is for this year's
+marathon. The page itself stays up (with its own "has wrapped" banner), so a
+link sent by text or email never dies.
 
 Under the card, in every phase, sits the latest-donations ticker. Its
 mechanism is described in [extra-life-api](extra-life-api.md). The hero only
@@ -61,6 +71,16 @@ otherwise.
   left edge. The buttons use `px-4` below `sm` to keep 375px on one row.
 - The RSVP button's blue is the `--color-blue` token in `src/styles.css`.
   The rest of the palette had no blue.
+- **The incentives chip blinks with a radiating ring, not by fading.** Its
+  `animate-incentive-glow` (keyframes in `src/styles.css`) pulses a
+  box-shadow outward every two seconds, so the text never dims; the dot
+  uses Tailwind's `animate-ping`. Both carry `motion-reduce:animate-none`,
+  verified: with `prefers-reduced-motion: reduce` the computed
+  `animation-name` is `none`.
+- The chip reads "Donation incentives live" at every width. Below `sm` it
+  drops the trailing arrow and tightens padding and tracking, which is what
+  keeps it on one line at 320px (measured with Nunito loaded: 311px wide
+  from 360px up, narrower below, no horizontal overflow).
 - `useGameday` replaced a generic `useCountdown`; the hero was its only caller.
   One ticking clock now reports the phase *and* the remainder, instead of a
   second interval alongside the countdown just to work out the state.
