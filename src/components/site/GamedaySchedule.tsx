@@ -222,7 +222,7 @@ export function GamedaySchedule({
                   <div
                     key={`${b.row.time}-${b.row.title}`}
                     className={`absolute overflow-hidden rounded-lg border-2 border-ink bg-[#56c6f5] ${
-                      current ? "border-magenta animate-now-pulse motion-reduce:animate-none motion-reduce:ring-2 motion-reduce:ring-magenta" : ""
+                      current ? "animate-now-pulse motion-reduce:animate-none motion-reduce:ring-2 motion-reduce:ring-magenta" : ""
                     }`}
                     style={{ top, height, left: laneLeft(b.lane, laneCount), width: laneWidth(laneCount) }}
                   >
