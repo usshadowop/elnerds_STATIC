@@ -1,7 +1,7 @@
 import { Hero } from "@/components/site/Hero";
 import { Stats } from "@/components/site/Stats";
 import { Schedule } from "@/components/site/Schedule";
-import { GameWeekDrawing } from "@/components/site/GameWeekDrawing";
+import { TeamIncentives } from "@/components/site/TeamIncentives";
 import { WhyWePlay } from "@/components/site/WhyWePlay";
 import { Sponsors } from "@/components/site/Sponsors";
 import { Donors } from "@/components/site/Donors";
@@ -14,7 +14,7 @@ export function Home() {
       <Hero />
       <Stats />
       <Schedule />
-      <GameWeekDrawing />
+      <TeamIncentives />
       <WhyWePlay />
       <Donors />
       <ActiveRoster />

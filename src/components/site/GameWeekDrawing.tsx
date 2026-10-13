@@ -1,22 +1,9 @@
-// Gillette's Game Week swag drawing — a Game Day incentive with its own section
-// on the home page (after Events) and on /incentives, so the numbers live in
-// exactly one place.
+// Gillette's Game Week swag drawing — its own section on /incentives.
 //
 // The details came from Grant Gray's Oct 2 email, by way of the Oct 2026
 // "Sign Up Today" campaign in email/. When the drawing changes, change it here.
 
-import { ArrowRight, Gift, Sparkles } from "lucide-react";
-
-import { useGameday } from "@/hooks/use-countdown";
-import { getRsvpEvent } from "@/lib/rsvpEvents";
-
-const HOME = import.meta.env.BASE_URL;
-
-// Game Day's bounds come from the marathon's RSVP entry, so the date is written
-// down once. The fallbacks only matter if that event is ever renamed away.
-const MARATHON = getRsvpEvent("marathon")?.calendar;
-const GAME_DAY_START = MARATHON?.start ?? "2026-11-14T08:00:00-06:00";
-const GAME_DAY_END = MARATHON?.end ?? "2026-11-15T08:00:00-06:00";
+import { Gift, Sparkles } from "lucide-react";
 
 const TIERS = [
   { raised: "$100", entries: "1 entry" },
@@ -32,16 +19,7 @@ const SWAG = [
   "…and more",
 ];
 
-/**
- * `home` (the default) is the home-page section: it links out to /incentives
- * and drops off the page once the marathon is over, like the hero's pills.
- * `page` is the copy on /incentives itself: no self-link, and it stays up after
- * Game Day as the record, under that page's "has wrapped" banner.
- */
-export function GameWeekDrawing({ variant = "home" }: { variant?: "home" | "page" }) {
-  const { phase } = useGameday(GAME_DAY_START, GAME_DAY_END);
-  if (variant === "home" && phase === "after") return null;
-
+export function GameWeekDrawing() {
   return (
     <section id="game-week" className="bg-paper px-4 py-20 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-6xl">
@@ -72,15 +50,6 @@ export function GameWeekDrawing({ variant = "home" }: { variant?: "home" | "page
               </ul>
               <p className="mt-2 text-xs font-bold text-white/70">…and one more entry for every extra $250.</p>
 
-              {variant === "home" && (
-                <a
-                  href={`${HOME}incentives`}
-                  className="group mt-8 inline-flex items-center gap-2 rounded-full border-2 border-white/60 px-6 py-3 text-sm font-extrabold uppercase tracking-wider text-white transition-all hover:bg-white/10"
-                >
-                  All Game Day incentives
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                </a>
-              )}
             </div>
 
             <div className="rounded-2xl bg-white p-6 text-ink shadow-[var(--shadow-soft)] sm:p-8 md:self-center">
