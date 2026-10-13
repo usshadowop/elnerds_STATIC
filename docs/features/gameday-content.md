@@ -1,8 +1,8 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-09-25
-- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`
+- **Last reviewed:** 2026-10-13 (run of show became the Schedule track)
+- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
 
@@ -19,6 +19,8 @@ a spreadsheet during the event.
 - `src/lib/gamedayContent.ts` — types, the shipped fallback copy, `fetch` and
   the response parser.
 - `src/hooks/use-gameday-content.ts` — the polling hook.
+- `src/components/site/GamedaySchedule.tsx` — the "Schedule" section: the
+  run-of-show rows on a 24-hour track with a "now" line.
 - `apps-script/Code.gs` — `doGet(?action=gameday)` and `getGamedayContent_()`.
 
 ## How it works
@@ -41,6 +43,22 @@ A stream tile with a blank **Embed URL** stays a labelled placeholder slot;
 fill it in and the tile becomes a live player.
 
 ## Decisions and gotchas
+
+- **The schedule is a 24-hour track, not a list.** `GamedaySchedule` parses
+  each row's Time ("8:00 AM", "12:00 AM", "8:00 AM (Sun)") into minutes from
+  kickoff; a block runs until the next row's time. Times before 8 AM are
+  taken as Sunday's small hours, and "(Sun)" forces the second morning. A
+  time that doesn't parse ("TBD", "Whenever") is listed under the track
+  rather than dropped, so the sheet's columns are unchanged.
+- **The "now" line is real only during Game Day.** Outside it the line
+  previews with the visitor's own clock (today's 2:15 PM sits where
+  Saturday's 2:15 PM will), labelled as a preview, so the page can be
+  checked any day. During the event it's minutes since the marathon's
+  `calendar.start`, so it reads the same in every timezone.
+- The shipped fallback run of show is an **example day** shaped like past
+  Game Days (waffle bar, Smash tournament, D&D, retro stations, Gorilla
+  Butler, from the Oct 2026 email's "what's planned"), not the real 2026
+  plan. The sheet replaces it row for row.
 
 - **Nothing here can leave the page blank.** Every failure path — endpoint not
   yet redeployed, network down, a tab emptied out, a half-typed row — falls
@@ -72,5 +90,3 @@ fill it in and the tile becomes a live player.
   content before Nov 14.
 - **Open:** should `/gameday` go in the top nav for Game Day? It's link-only
   today, reachable from the hero button while the marathon runs.
-- The run of show is display text, not parsed — the page does not compute
-  "what's on now" from it.

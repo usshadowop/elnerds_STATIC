@@ -8,6 +8,7 @@
 
 import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink } from "lucide-react";
 
+import { GamedaySchedule } from "@/components/site/GamedaySchedule";
 import { useGameday } from "@/hooks/use-countdown";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
@@ -160,25 +161,12 @@ export function CommandCenter() {
 
           {/* Run of show ---------------------------------------------------- */}
           <div className="mb-16">
-            <SectionHeading icon={CalendarClock} label="What's on" title="Run of show" />
-            <div className="overflow-hidden rounded-2xl border border-line bg-paper shadow-[var(--shadow-soft)]">
-              {runOfShow.map((row, i) => (
-                <div
-                  key={`${row.time}-${row.title}`}
-                  className={`grid gap-1 px-6 py-4 sm:grid-cols-12 sm:items-baseline sm:gap-4 ${
-                    i > 0 ? "border-t border-line" : ""
-                  }`}
-                >
-                  <p className="font-display text-sm font-extrabold text-magenta sm:col-span-3">
-                    {row.time}
-                  </p>
-                  <div className="sm:col-span-9">
-                    <h3 className="font-display text-base font-extrabold text-ink">{row.title}</h3>
-                    <p className="text-sm text-ink-soft">{row.detail}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <SectionHeading icon={CalendarClock} label="What's on" title="Schedule" />
+            <GamedaySchedule
+              rows={runOfShow}
+              startMs={Date.parse(GAME_DAY_START)}
+              endMs={Date.parse(GAME_DAY_END)}
+            />
           </div>
 
           {/* Incentives ----------------------------------------------------- */}
