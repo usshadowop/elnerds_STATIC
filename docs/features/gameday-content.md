@@ -15,7 +15,9 @@ a spreadsheet during the event.
 ## Where it lives
 
 - `src/pages/CommandCenter.tsx` — the page (route `/gameday`, wired in
-  `App.tsx`). Presentation only.
+  `App.tsx`). Presentation only. The closing "Links to our sponsors!" grid
+  is a hand-maintained list in the file (Improving, Papa Johns Eden Prairie,
+  Random Taco Company, Gillette Children's), not sheet content.
 - `src/lib/gamedayContent.ts` — types, the shipped fallback copy, `fetch` and
   the response parser.
 - `src/hooks/use-gameday-content.ts` — the polling hook.

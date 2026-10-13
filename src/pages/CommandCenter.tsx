@@ -6,7 +6,7 @@
 // changed mid-marathon without a deploy. See src/lib/gamedayContent.ts; the
 // copy that ships with the site is the fallback when that read fails.
 
-import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink } from "lucide-react";
+import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink, Handshake } from "lucide-react";
 
 import { GamedaySchedule } from "@/components/site/GamedaySchedule";
 import { useGameday } from "@/hooks/use-countdown";
@@ -21,11 +21,12 @@ const HOME = import.meta.env.BASE_URL;
 
 const DONATE_URL = "https://www.extra-life.org/team/73600";
 
-const QUICK_LINKS: { label: string; href: string; external?: boolean }[] = [
-  { label: "Donate to the team", href: DONATE_URL, external: true },
-  { label: "RSVP for the marathon", href: `${HOME}rsvp/marathon` },
-  { label: "Full event schedule", href: `${HOME}#schedule` },
-  { label: "Join the team", href: `${HOME}registration` },
+// The sponsors who make Game Day happen. Each goes to the sponsor's own site.
+const SPONSOR_LINKS: { label: string; note: string; href: string }[] = [
+  { label: "Improving", note: "Our Game Day venue", href: "https://www.improving.com/" },
+  { label: "Papa Johns Eden Prairie", note: "Pizza", href: "https://www.papajohns.com/" },
+  { label: "Random Taco Company", note: "Tacos", href: "https://www.tacobell.com/" },
+  { label: "Gillette Children’s", note: "Where every dollar goes", href: "https://www.gillettechildrens.org/" },
 ];
 
 function SectionHeading({
@@ -193,21 +194,23 @@ export function CommandCenter() {
             </div>
           </div>
 
-          {/* Quick links ---------------------------------------------------- */}
+          {/* Sponsor links -------------------------------------------------- */}
           <div>
-            <SectionHeading icon={Radio} label="Elsewhere" title="Quick links" />
+            <SectionHeading icon={Handshake} label="Thank you" title="Links to our sponsors!" />
             <div className="grid gap-3 sm:grid-cols-2">
-              {QUICK_LINKS.map((link) => (
+              {SPONSOR_LINKS.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                  target="_blank"
+                  rel="noreferrer"
                   className="group flex items-center justify-between gap-3 rounded-2xl border border-line bg-paper px-6 py-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5"
                 >
-                  <span className="font-display text-base font-extrabold text-ink">
-                    {link.label}
+                  <span>
+                    <span className="block font-display text-base font-extrabold text-ink">{link.label}</span>
+                    <span className="block text-xs font-bold uppercase tracking-widest text-ink-soft">{link.note}</span>
                   </span>
-                  <ArrowRight className="size-4 shrink-0 text-teal transition-transform group-hover:translate-x-0.5" />
+                  <ExternalLink className="size-4 shrink-0 text-teal transition-transform group-hover:translate-x-0.5" />
                 </a>
               ))}
             </div>
