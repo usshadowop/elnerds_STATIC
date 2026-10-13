@@ -154,7 +154,7 @@ export function Incentives() {
                 href={`${HOME}registration`}
                 className="rounded-full bg-teal px-7 py-3.5 text-sm font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
               >
-                Register Today
+                Join Today
               </a>
               <a
                 href={DONATE_URL}
