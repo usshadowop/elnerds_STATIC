@@ -232,22 +232,13 @@ export function Incentives() {
               </p>
             </div>
 
-            <div className="flex flex-col rounded-3xl bg-gradient-to-br from-teal to-purple p-8 text-white shadow-[var(--shadow-soft)]">
+            <div className="rounded-3xl bg-gradient-to-br from-teal to-purple p-8 text-white shadow-[var(--shadow-soft)]">
               <Eyebrow className="text-white/70">Tip</Eyebrow>
               <h3 className="font-display text-xl font-extrabold sm:text-2xl">Pick Platinum when you register</h3>
               <p className="mt-4 text-sm text-white/85 sm:text-base">
                 Platinum participants also unlock Extra Life&rsquo;s own milestone rewards — a decal at
                 $75, a T-shirt at $200, and medals and an LED sign higher up.
               </p>
-              <div className="mt-auto pt-8">
-                <a
-                  href={`${HOME}registration`}
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-extrabold uppercase tracking-wider text-teal shadow-[var(--shadow-soft)] transition-all hover:bg-cream"
-                >
-                  How to register
-                  <ArrowRight className="size-4" />
-                </a>
-              </div>
             </div>
           </div>
 
@@ -263,7 +254,7 @@ export function Incentives() {
                 href={`${HOME}registration`}
                 className="rounded-full bg-teal px-7 py-3.5 text-sm font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
               >
-                Sign Up Today
+                Register Today
               </a>
               <a
                 href={DONATE_URL}

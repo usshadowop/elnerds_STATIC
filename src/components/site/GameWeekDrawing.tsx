@@ -72,23 +72,15 @@ export function GameWeekDrawing({ variant = "home" }: { variant?: "home" | "page
               </ul>
               <p className="mt-2 text-xs font-bold text-white/70">…and one more entry for every extra $250.</p>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              {variant === "home" && (
                 <a
-                  href={`${HOME}registration`}
-                  className="rounded-full bg-white px-6 py-3 text-sm font-extrabold uppercase tracking-wider text-purple shadow-[var(--shadow-soft)] transition-all hover:bg-cream"
+                  href={`${HOME}incentives`}
+                  className="group mt-8 inline-flex items-center gap-2 rounded-full border-2 border-white/60 px-6 py-3 text-sm font-extrabold uppercase tracking-wider text-white transition-all hover:bg-white/10"
                 >
-                  Join the team
+                  All Game Day incentives
+                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </a>
-                {variant === "home" && (
-                  <a
-                    href={`${HOME}incentives`}
-                    className="group inline-flex items-center gap-2 rounded-full border-2 border-white/60 px-6 py-3 text-sm font-extrabold uppercase tracking-wider text-white transition-all hover:bg-white/10"
-                  >
-                    All Game Day incentives
-                    <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                  </a>
-                )}
-              </div>
+              )}
             </div>
 
             <div className="rounded-2xl bg-white p-6 text-ink shadow-[var(--shadow-soft)] sm:p-8 md:self-center">
