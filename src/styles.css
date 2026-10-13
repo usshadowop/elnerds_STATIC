@@ -35,6 +35,14 @@
 
   --animate-pulse-soft: pulse-soft 2.4s ease-in-out infinite;
   --animate-incentive-glow: incentive-glow 2s ease-out infinite;
+  --animate-now-pulse: now-pulse 1.8s ease-in-out infinite;
+}
+
+/* The Command Center schedule: blocks the now-line is passing through breathe
+   a magenta outline. Paired with motion-reduce:animate-none. */
+@keyframes now-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(200, 50, 124, 1), 0 0 0 4px rgba(200, 50, 124, 0.15); }
+  50% { box-shadow: 0 0 0 3px rgba(200, 50, 124, 1), 0 0 0 10px rgba(200, 50, 124, 0); }
 }
 
 /* The hero's incentives chip: a ring that radiates out and fades, so the chip
