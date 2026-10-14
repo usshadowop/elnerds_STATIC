@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-13 (layered lane packing, new heading)
+- **Last reviewed:** 2026-10-14 (end-of-session review; PRs #75–#78)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -26,7 +26,7 @@ a spreadsheet during the event.
   the response parser.
 - `src/hooks/use-gameday-content.ts` — the polling hook.
 - `src/components/site/GamedaySchedule.tsx` — the "Schedule" section: the
-  run-of-show rows on a 24-hour track with a "now" line.
+  run-of-show rows laid out as a lane grid with a "now" line (rules below).
 - `apps-script/Code.gs` — `doGet(?action=gameday)` and `getGamedayContent_()`.
 
 ## How it works
@@ -62,25 +62,34 @@ becomes a live player.
   must match the seed in `Code.gs`.
 
 - **The schedule is laid out like the printed 2025 run of show**, not a
-  list: a navy Time / Event header, red hourly pills, parallel lanes of
-  sky-blue black-bordered blocks, and lime-green meal banners layered across
-  the lanes. `parseShowTime` in `gamedayContent.ts` reads the Time cell as a
-  range ("9:30a - 12:30p", "11 - 1p", "8am Saturday - 8am Sunday") or a
-  single time (one hour). A start with no meridian borrows the end's, and
-  flips to AM when it would otherwise land after the end. Times before 8 AM
-  or marked "Sunday" are the second morning. Overlapping blocks are packed
-  into lanes automatically, longest first; a block of three hours or less
-  may ride on top of a block at least twice as long in the same lane (not
-  the all-day block), provided the one underneath keeps a clear stretch of
-  about 100 minutes for its own label, which the label then moves into. A row
-  whose title or detail mentions breakfast, lunch, dinner, waffles, snacks
-  or food becomes a green banner in the first lane only (the all-day
-  block's), so the other lanes stay free for stacking; banners that start
-  together share that lane's width. Riders are shifted 12px to the right of
-  the block underneath at full width, so they overhang its right edge. Hours with nothing starting or ending fold into one "…" row when
-  two or more run together, so the overnight stretch doesn't dominate. A
-  Time cell with no clock time ("TBD") is listed under the grid instead of
-  dropped. The sheet's columns are unchanged.
+  list: a navy Time / Event header, red hourly pills, lanes of sky-blue
+  black-bordered blocks, lime-green meal banners. Everything below is
+  computed from the rows on every render, so editing the sheet re-packs the
+  grid; nobody touches code.
+  - **Time cells** are read by `parseShowTime` in `gamedayContent.ts` as a
+    range ("9:30a - 12:30p", "11 - 1p", "8am Saturday - 8am Sunday") or a
+    single time, which gets an hour. A start with no meridian borrows the
+    end's and flips to AM when it would land after the end. Times before
+    8 AM or marked "Sunday" are the second morning. A cell with no clock
+    time ("TBD") is listed under the grid, not dropped.
+  - **Lanes and stacking.** Blocks are placed longest first, each into the
+    first lane where it overlaps nothing. Failing that, a block of three
+    hours or less may ride on top of a block at least twice as long in the
+    same lane (never the all-day block), provided the one underneath keeps
+    about 100 minutes clear for its own label; the label moves into that
+    gap. Riders are shifted 12px right at full width so they overhang the
+    block beneath. The thresholds (`MAX_OVERLAY_MIN`, `MIN_LABEL_MIN`,
+    `RIDE_PX`) are constants at the top of `GamedaySchedule.tsx`.
+  - **Meals.** A row whose title or detail mentions breakfast, lunch,
+    dinner, waffles, snacks, food or pizza becomes a green banner in the
+    first lane only (the all-day block's), so the other lanes stay free;
+    banners that start together share that lane's width.
+  - **Quiet hours fold.** Two or more consecutive hours with nothing
+    starting or ending collapse to one "…" row, so the overnight stretch
+    doesn't dominate.
+  - **Current blocks** (the ones the now-line crosses) glow with a magenta
+    pulse that fades fully in and out (`now-pulse` in `styles.css`); with
+    reduced motion they get a static ring instead.
 - **The "now" line is real only during Game Day.** Outside it the line
   previews with the visitor's own clock (today's 2:15 PM sits where
   Saturday's 2:15 PM will), labelled as a preview, so the page can be
@@ -117,6 +126,10 @@ becomes a live player.
 ## Manual steps and open questions
 
 - The four `Gameday *` tabs exist now, with starter rows. They need real
-  content before Nov 14.
+  content before Nov 14. For the run of show, Time cells may be ranges
+  ("9:30a - 12:30p"); meal rows just need the meal word in the title.
+- The sponsor list is hand-maintained in `CommandCenter.tsx`. Papa Johns
+  links to papajohns.com; the Eden Prairie store page URL was never
+  supplied.
 - **Open:** should `/gameday` go in the top nav for Game Day? It's link-only
   today, reachable from the hero button while the marathon runs.
