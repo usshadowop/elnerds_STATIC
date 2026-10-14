@@ -11,20 +11,28 @@ function EventCard({
   openIndex,
   toggle,
   past,
+  muted,
 }: {
   item: EventItem;
   index: string;
   openIndex: string | null;
   toggle: (i: string) => void;
   past?: boolean;
+  /** Grey styling for partner events, so the team's own events carry the colour. */
+  muted?: boolean;
 }) {
   const isOpen = openIndex === index;
+  const compact = muted && new URLSearchParams(window.location.search).get("partner") === "compact";
+  const color = muted ? "border-ink-soft/40" : item.color;
+  const accent = muted ? "text-ink-soft" : item.accent;
   const mapUrl = item.mapUrl ?? (item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.mapUrl : undefined);
   // RSVPs to an event that already happened would only pollute the sheet.
   const rsvpSlug = past ? undefined : item.rsvpSlug;
   return (
     <div
-      className={`group relative rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${item.color} ${past ? "bg-ink/[0.03] opacity-60" : "bg-paper"}`}
+      className={`group relative rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${color} ${
+        past ? "bg-ink/[0.03] opacity-60" : muted ? "bg-ink/[0.03]" : "bg-paper"
+      } ${compact ? "opacity-80" : ""}`}
     >
       {/* Top-left corner: RSVP + Directions buttons */}
       {(rsvpSlug || mapUrl) && (
@@ -43,7 +51,9 @@ function EventCard({
               href={mapUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border-2 border-teal bg-paper px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-teal shadow-[var(--shadow-soft)] transition-all hover:bg-teal-soft"
+              className={`inline-flex items-center gap-1.5 rounded-full border-2 bg-paper px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-wider shadow-[var(--shadow-soft)] transition-all ${
+                muted ? "border-ink-soft/40 text-ink-soft hover:bg-ink/5" : "border-teal text-teal hover:bg-teal-soft"
+              }`}
             >
               Directions
               <ExternalLink className="size-3.5" />
@@ -55,7 +65,7 @@ function EventCard({
       {/* Top-right corner: expand indicator */}
       <span
         className={`pointer-events-none absolute right-4 top-4 z-10 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 sm:right-5 sm:top-5 ${
-          isOpen ? "bg-ink/10 text-ink-soft" : "bg-teal-soft text-teal"
+          isOpen || muted ? "bg-ink/10 text-ink-soft" : "bg-teal-soft text-teal"
         }`}
       >
         {isOpen ? "Close" : "Details"}
@@ -71,7 +81,7 @@ function EventCard({
       >
         <div className="grid gap-4 md:grid-cols-12 md:items-center md:gap-6">
           <div className="md:col-span-4">
-            <p className={`font-display text-base font-extrabold ${item.accent}`}>
+            <p className={`font-display text-base font-extrabold ${accent}`}>
               {item.time}
             </p>
             {(item.main || item.partner || past) && (
@@ -82,7 +92,7 @@ function EventCard({
                   </span>
                 )}
                 {item.partner && (
-                  <span className="shrink-0 rounded-full bg-gold px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                  <span className={`shrink-0 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white ${muted ? "bg-ink-soft" : "bg-gold"}`}>
                     Partner Event
                   </span>
                 )}
@@ -95,7 +105,7 @@ function EventCard({
             )}
           </div>
           <div className="md:col-span-8">
-            <h3 className="mb-1 font-display text-xl font-extrabold text-ink">{item.title}</h3>
+            <h3 className={`mb-1 font-display font-extrabold ${compact ? "text-lg text-ink/80" : "text-xl text-ink"}`}>{item.title}</h3>
             <p className="text-sm text-ink-soft sm:text-base">{item.blurb}</p>
           </div>
         </div>
@@ -190,6 +200,9 @@ export function Schedule() {
   const now = useNow();
 
   const { future, past } = useMemo(() => splitByDate(EVENTS, now), [now]);
+  // The team's own events lead; partner events sit below them in grey.
+  const hosted = future.filter((item) => !item.partner);
+  const partners = future.filter((item) => item.partner);
 
   const toggle = (i: string) => setOpenIndex(openIndex === i ? null : i);
   // Past events start folded away; the list only gets longer as the year goes on.
@@ -199,15 +212,15 @@ export function Schedule() {
     <section id="schedule" className="bg-cream px-4 py-24 sm:px-6 sm:py-28">
       <div className="mx-auto max-w-6xl">
 
-        {/* Future Events */}
+        {/* Extra Life Nerds events */}
         <div className="mb-12 max-w-2xl">
           <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-teal">
-            {yearPrefix(future)}Future Events
+            {yearPrefix(hosted)}Extra Life Nerds Events
           </p>
         </div>
-        {future.length > 0 ? (
+        {hosted.length > 0 ? (
           <div className="grid gap-4">
-            {future.map((item) => (
+            {hosted.map((item) => (
               <EventCard
                 key={item.title}
                 item={item}
@@ -225,6 +238,30 @@ export function Schedule() {
               Check back soon, or follow us for the announcement.
             </p>
           </div>
+        )}
+
+        {/* Partner events */}
+        {partners.length > 0 && (
+          <>
+            <div className="my-12 border-t border-line" />
+            <div className="mb-8 max-w-2xl">
+              <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-ink-soft">
+                {yearPrefix(partners)}Partner Events
+              </p>
+            </div>
+            <div className="grid gap-4">
+              {partners.map((item) => (
+                <EventCard
+                  key={item.title}
+                  item={item}
+                  index={item.title}
+                  openIndex={openIndex}
+                  toggle={toggle}
+                  muted
+                />
+              ))}
+            </div>
+          </>
         )}
 
         {/* Divider */}

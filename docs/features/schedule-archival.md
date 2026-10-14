@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-13 (Past Events folded behind a toggle)
+- **Last reviewed:** 2026-10-14 (upcoming split into hosted and partner groups)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -37,6 +37,15 @@ A past event greys out, gains a "Completed" badge, and **drops its RSVP chip**
 submissions).
 
 ## Decisions and gotchas
+
+- **Upcoming events are two groups.** "Extra Life Nerds Events" (the
+  team's own, the marathon among them) lead; events flagged `partner` sit
+  below under "Partner Events", rendered grey (`muted` on `EventCard`: grey
+  edge, date, badge and buttons, tinted background) so the team's events
+  carry the colour. The partner group only renders when there is one.
+  `?partner=compact` on the URL previews a further-faded variant (80%
+  opacity, smaller title); it is a mock-up switch awaiting the owner's
+  pick and should be removed once chosen.
 
 - **Past Events start collapsed.** The section is one button ("Click to see
   N past events", with the derived year label above it) that toggles the
