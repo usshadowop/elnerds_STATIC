@@ -40,19 +40,16 @@ submissions).
 
 - **Upcoming events are two groups.** "Extra Life Nerds Events" (the
   team's own, the marathon among them) lead; events flagged `partner` sit
-  below under "Partner Events", rendered grey (`muted` on `EventCard`: grey
-  edge, date, badge and buttons, tinted background) so the team's events
-  carry the colour. The partner group only renders when there is one.
-  `?partner=compact` on the URL previews a further-faded variant (80%
-  opacity, smaller title); it is a mock-up switch awaiting the owner's
-  pick and should be removed once chosen.
-- **The main event card has three candidate looks** behind `?main=glow`
-  (default: magenta ring and glow, a "The Big One · N days" tag hanging off
-  the top edge, gradient title), `?main=band` (a gradient header band with
-  a trophy and the countdown) and `?main=fill` (the whole card a
-  magenta→purple→teal gradient with white text). All three turn the RSVP
-  button orange. Mock-ups awaiting the owner's pick; the switch goes once
-  chosen. The "N days" count is to the marathon's `calendar.start`.
+  below under "Partner Events", in their usual colours. The partner group
+  only renders when there is one. (Grey partner cards were mocked up on
+  2026-10-14 and turned down.)
+- **The main event card wears a header band**: a magenta→purple→teal strip
+  with a trophy, "The Big One · Game Day 2026", a live "N days away" pill
+  (counted to the marathon's `calendar.start`), and the RSVP (orange) and
+  Directions buttons. Other cards keep those buttons floating top-left;
+  moving them into the band is what keeps the main card's body tight. The
+  title is gradient text. Glow-ring and full-gradient looks were mocked up
+  and turned down.
 
 - **Past Events start collapsed.** The section is one button ("Click to see
   N past events", with the derived year label above it) that toggles the
