@@ -146,6 +146,13 @@ export const EVENTS: EventItem[] = [
         accent: "text-teal",
       },
       {
+        time: "Nov 14 · 2:30 PM",
+        title: "Super Smash Bros. Tournament",
+        blurb: "Bracket play for bragging rights. Sign up at the front table when you arrive.",
+        color: "border-purple",
+        accent: "text-purple",
+      },
+      {
         time: "Nov 15 · 8:00 AM",
         title: "Finale & Grand Total",
         blurb: "Cross the finish line together and reveal what we raised — for the kids.",

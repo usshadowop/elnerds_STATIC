@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-14 (upcoming split into hosted and partner groups)
+- **Last reviewed:** 2026-10-14 (Smash tournament sub-event added to the marathon)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
