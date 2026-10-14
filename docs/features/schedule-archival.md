@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-13 (Past Events folded behind a toggle)
+- **Last reviewed:** 2026-10-14 (upcoming split into hosted and partner groups)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -37,6 +37,19 @@ A past event greys out, gains a "Completed" badge, and **drops its RSVP chip**
 submissions).
 
 ## Decisions and gotchas
+
+- **Upcoming events are two groups.** "Extra Life Nerds Events" (the
+  team's own, the marathon among them) lead; events flagged `partner` sit
+  below under "Partner Events", in their usual colours. The partner group
+  only renders when there is one. (Grey partner cards were mocked up on
+  2026-10-14 and turned down.)
+- **The main event card wears a header band**: a magenta→purple→teal strip
+  with a trophy, "The Big One · Game Day 2026", a live "N days away" pill
+  (counted to the marathon's `calendar.start`), and the RSVP (orange) and
+  Directions buttons. Other cards keep those buttons floating top-left;
+  moving them into the band is what keeps the main card's body tight. The
+  title is gradient text. Glow-ring and full-gradient looks were mocked up
+  and turned down.
 
 - **Past Events start collapsed.** The section is one button ("Click to see
   N past events", with the derived year label above it) that toggles the

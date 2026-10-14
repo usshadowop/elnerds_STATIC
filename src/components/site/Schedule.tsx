@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, ChevronDown, ExternalLink } from "lucide-react";
+import { ArrowRight, ChevronDown, ExternalLink, Trophy } from "lucide-react";
 
 import { useNow } from "@/hooks/use-now";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
@@ -19,15 +19,54 @@ function EventCard({
   past?: boolean;
 }) {
   const isOpen = openIndex === index;
+  // The main event (the marathon) gets a gradient header band with the RSVP
+  // and Directions buttons and a countdown in it, so the body stays tight.
+  const band = Boolean(item.main && !past);
+  const start = item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.calendar.start : undefined;
+  const daysAway = start ? Math.max(0, Math.ceil((Date.parse(start) - Date.now()) / 86_400_000)) : null;
   const mapUrl = item.mapUrl ?? (item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.mapUrl : undefined);
   // RSVPs to an event that already happened would only pollute the sheet.
   const rsvpSlug = past ? undefined : item.rsvpSlug;
   return (
     <div
-      className={`group relative rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${item.color} ${past ? "bg-ink/[0.03] opacity-60" : "bg-paper"}`}
+      className={`group relative rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${item.color} ${
+        past ? "bg-ink/[0.03] opacity-60" : "bg-paper"
+      } ${band ? "overflow-hidden border-l-0 ring-2 ring-magenta/40" : ""}`}
     >
-      {/* Top-left corner: RSVP + Directions buttons */}
-      {(rsvpSlug || mapUrl) && (
+      {band && (
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 bg-gradient-to-r from-magenta via-purple to-teal px-5 py-2.5 text-white sm:px-6">
+          <span className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.25em]">
+            <Trophy className="size-4" /> The Big One · Game Day 2026
+            {daysAway !== null && (
+              <span className="ml-1 rounded-full bg-white/20 px-2.5 py-0.5 tracking-wider">{daysAway} days away</span>
+            )}
+          </span>
+          <span className="flex flex-wrap items-center gap-2">
+            {rsvpSlug && (
+              <a
+                href={`${import.meta.env.BASE_URL}rsvp/${rsvpSlug}`}
+                className="group/rsvp inline-flex items-center gap-1.5 rounded-full bg-orange px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
+              >
+                RSVP
+                <ArrowRight className="size-3.5 transition-transform group-hover/rsvp:translate-x-0.5" />
+              </a>
+            )}
+            {mapUrl && (
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full border-2 border-white/80 bg-white/10 px-4 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white transition-all hover:bg-white/20"
+              >
+                Directions
+                <ExternalLink className="size-3.5" />
+              </a>
+            )}
+          </span>
+        </div>
+      )}
+      {/* Top-left corner: RSVP + Directions buttons (the main event has them in its band) */}
+      {!band && (rsvpSlug || mapUrl) && (
         <div className="absolute left-4 top-4 z-10 flex flex-col items-start gap-2 sm:left-5 sm:top-5">
           {rsvpSlug && (
             <a
@@ -54,7 +93,7 @@ function EventCard({
 
       {/* Top-right corner: expand indicator */}
       <span
-        className={`pointer-events-none absolute right-4 top-4 z-10 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 sm:right-5 sm:top-5 ${
+        className={`pointer-events-none absolute right-4 z-10 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 sm:right-5 ${band ? "top-[3.75rem]" : "top-4 sm:top-5"} ${
           isOpen ? "bg-ink/10 text-ink-soft" : "bg-teal-soft text-teal"
         }`}
       >
@@ -65,7 +104,7 @@ function EventCard({
         type="button"
         onClick={() => toggle(index)}
         className={`w-full cursor-pointer p-6 text-left ${
-          rsvpSlug ? "pt-28 sm:pt-28" : mapUrl ? "pt-16 sm:pt-16" : "pr-24 sm:pr-32"
+          band ? "pr-24 sm:pr-32" : rsvpSlug ? "pt-28 sm:pt-28" : mapUrl ? "pt-16 sm:pt-16" : "pr-24 sm:pr-32"
         }`}
         aria-expanded={isOpen}
       >
@@ -95,7 +134,15 @@ function EventCard({
             )}
           </div>
           <div className="md:col-span-8">
-            <h3 className="mb-1 font-display text-xl font-extrabold text-ink">{item.title}</h3>
+            <h3
+              className={`mb-1 font-display font-extrabold ${
+                band
+                  ? "bg-gradient-to-r from-magenta via-purple to-teal bg-clip-text text-2xl text-transparent sm:text-3xl"
+                  : "text-xl text-ink"
+              }`}
+            >
+              {item.title}
+            </h3>
             <p className="text-sm text-ink-soft sm:text-base">{item.blurb}</p>
           </div>
         </div>
@@ -190,6 +237,9 @@ export function Schedule() {
   const now = useNow();
 
   const { future, past } = useMemo(() => splitByDate(EVENTS, now), [now]);
+  // The team's own events lead; partner events sit below them in grey.
+  const hosted = future.filter((item) => !item.partner);
+  const partners = future.filter((item) => item.partner);
 
   const toggle = (i: string) => setOpenIndex(openIndex === i ? null : i);
   // Past events start folded away; the list only gets longer as the year goes on.
@@ -199,15 +249,15 @@ export function Schedule() {
     <section id="schedule" className="bg-cream px-4 py-24 sm:px-6 sm:py-28">
       <div className="mx-auto max-w-6xl">
 
-        {/* Future Events */}
+        {/* Extra Life Nerds events */}
         <div className="mb-12 max-w-2xl">
           <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-teal">
-            {yearPrefix(future)}Future Events
+            {yearPrefix(hosted)}Extra Life Nerds Events
           </p>
         </div>
-        {future.length > 0 ? (
+        {hosted.length > 0 ? (
           <div className="grid gap-4">
-            {future.map((item) => (
+            {hosted.map((item) => (
               <EventCard
                 key={item.title}
                 item={item}
@@ -225,6 +275,29 @@ export function Schedule() {
               Check back soon, or follow us for the announcement.
             </p>
           </div>
+        )}
+
+        {/* Partner events */}
+        {partners.length > 0 && (
+          <>
+            <div className="my-12 border-t border-line" />
+            <div className="mb-8 max-w-2xl">
+              <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-ink-soft">
+                {yearPrefix(partners)}Partner Events
+              </p>
+            </div>
+            <div className="grid gap-4">
+              {partners.map((item) => (
+                <EventCard
+                  key={item.title}
+                  item={item}
+                  index={item.title}
+                  openIndex={openIndex}
+                  toggle={toggle}
+                />
+              ))}
+            </div>
+          </>
         )}
 
         {/* Divider */}
