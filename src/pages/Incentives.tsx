@@ -84,12 +84,6 @@ export function Incentives() {
             <h1 className="font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl md:text-5xl">
               Donation Incentives
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-ink-soft sm:text-lg">
-              Sign up, show up and spread the word, and your Extra Life Nerds leadership team will put
-              real donations on your fundraising page. Raise a little more and there&rsquo;s food,
-              prizes and swag on top. Registration is free, takes a couple of minutes, and you
-              don&rsquo;t need to be a hardcore gamer.
-            </p>
           </div>
 
           <PhaseBanner phase={phase} />
