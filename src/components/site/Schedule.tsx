@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, ChevronDown, ExternalLink } from "lucide-react";
+import { ArrowRight, ChevronDown, ExternalLink, Sparkles, Trophy } from "lucide-react";
 
 import { useNow } from "@/hooks/use-now";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
@@ -22,9 +22,22 @@ function EventCard({
   muted?: boolean;
 }) {
   const isOpen = openIndex === index;
-  const compact = muted && new URLSearchParams(window.location.search).get("partner") === "compact";
+  const params = new URLSearchParams(window.location.search);
+  const compact = muted && params.get("partner") === "compact";
+  // Mock-up switch for the main event's look: glow | band | fill (default glow).
+  const mainStyle = item.main && !past ? (params.get("main") ?? "glow") : null;
   const color = muted ? "border-ink-soft/40" : item.color;
-  const accent = muted ? "text-ink-soft" : item.accent;
+  const accent = muted ? "text-ink-soft" : mainStyle === "fill" ? "text-white" : item.accent;
+  const start = item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.calendar.start : undefined;
+  const daysAway = start ? Math.max(0, Math.ceil((Date.parse(start) - Date.now()) / 86_400_000)) : null;
+  const shell =
+    mainStyle === "glow"
+      ? "border-l-0 bg-paper ring-[3px] ring-magenta shadow-[0_0_0_8px_rgba(200,50,124,0.12),0_24px_60px_-20px_rgba(200,50,124,0.45)]"
+      : mainStyle === "band"
+        ? "border-l-0 bg-paper overflow-hidden ring-2 ring-magenta/40"
+        : mainStyle === "fill"
+          ? "border-l-0 overflow-hidden bg-gradient-to-br from-magenta via-purple to-teal text-white shadow-[var(--shadow-lift)]"
+          : "";
   const mapUrl = item.mapUrl ?? (item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.mapUrl : undefined);
   // RSVPs to an event that already happened would only pollute the sheet.
   const rsvpSlug = past ? undefined : item.rsvpSlug;
@@ -32,15 +45,40 @@ function EventCard({
     <div
       className={`group relative rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${color} ${
         past ? "bg-ink/[0.03] opacity-60" : muted ? "bg-ink/[0.03]" : "bg-paper"
-      } ${compact ? "opacity-80" : ""}`}
+      } ${compact ? "opacity-80" : ""} ${shell}`}
     >
+      {mainStyle === "band" && (
+        <div className="flex items-center justify-between gap-3 bg-gradient-to-r from-magenta via-purple to-teal px-6 py-2.5 text-white">
+          <span className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.25em]">
+            <Trophy className="size-4" /> The Big One · Game Day 2026
+          </span>
+          {daysAway !== null && (
+            <span className="rounded-full bg-white/20 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider">
+              {daysAway} days away
+            </span>
+          )}
+        </div>
+      )}
+      {mainStyle === "glow" && (
+        <div className="pointer-events-none absolute -top-3.5 left-6 z-20 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-magenta to-orange px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.2em] text-white shadow-[var(--shadow-soft)]">
+          <Sparkles className="size-3.5" /> The Big One
+          {daysAway !== null && <span className="ml-1 rounded-full bg-white/25 px-2 py-0.5">{daysAway} days</span>}
+        </div>
+      )}
+      {mainStyle === "fill" && daysAway !== null && (
+        <div className="pointer-events-none absolute right-5 top-14 z-20 rounded-full bg-white/20 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white sm:top-16">
+          {daysAway} days away
+        </div>
+      )}
       {/* Top-left corner: RSVP + Directions buttons */}
       {(rsvpSlug || mapUrl) && (
-        <div className="absolute left-4 top-4 z-10 flex flex-col items-start gap-2 sm:left-5 sm:top-5">
+        <div className={`absolute left-4 z-10 flex flex-col items-start gap-2 sm:left-5 ${mainStyle === "band" ? "top-16 sm:top-[4.25rem]" : "top-4 sm:top-5"}`}>
           {rsvpSlug && (
             <a
               href={`${import.meta.env.BASE_URL}rsvp/${rsvpSlug}`}
-              className="group/rsvp inline-flex items-center gap-1.5 rounded-full bg-teal px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
+              className={`group/rsvp inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all ${
+                mainStyle ? "bg-orange hover:brightness-110" : "bg-teal hover:bg-teal-bright"
+              }`}
             >
               RSVP
               <ArrowRight className="size-3.5 transition-transform group-hover/rsvp:translate-x-0.5" />
@@ -52,7 +90,7 @@ function EventCard({
               target="_blank"
               rel="noreferrer"
               className={`inline-flex items-center gap-1.5 rounded-full border-2 bg-paper px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-wider shadow-[var(--shadow-soft)] transition-all ${
-                muted ? "border-ink-soft/40 text-ink-soft hover:bg-ink/5" : "border-teal text-teal hover:bg-teal-soft"
+                muted ? "border-ink-soft/40 text-ink-soft hover:bg-ink/5" : mainStyle === "fill" ? "border-white bg-white/10 text-white hover:bg-white/20" : "border-teal text-teal hover:bg-teal-soft"
               }`}
             >
               Directions
@@ -64,8 +102,8 @@ function EventCard({
 
       {/* Top-right corner: expand indicator */}
       <span
-        className={`pointer-events-none absolute right-4 top-4 z-10 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 sm:right-5 sm:top-5 ${
-          isOpen || muted ? "bg-ink/10 text-ink-soft" : "bg-teal-soft text-teal"
+        className={`pointer-events-none absolute right-4 z-10 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 sm:right-5 ${mainStyle === "band" ? "top-16 sm:top-[4.25rem]" : "top-4 sm:top-5"} ${
+          isOpen || muted ? "bg-ink/10 text-ink-soft" : mainStyle === "fill" ? "bg-white/20 text-white" : "bg-teal-soft text-teal"
         }`}
       >
         {isOpen ? "Close" : "Details"}
@@ -75,7 +113,7 @@ function EventCard({
         type="button"
         onClick={() => toggle(index)}
         className={`w-full cursor-pointer p-6 text-left ${
-          rsvpSlug ? "pt-28 sm:pt-28" : mapUrl ? "pt-16 sm:pt-16" : "pr-24 sm:pr-32"
+          rsvpSlug ? (mainStyle === "band" ? "pt-40" : "pt-28 sm:pt-28") : mapUrl ? "pt-16 sm:pt-16" : "pr-24 sm:pr-32"
         }`}
         aria-expanded={isOpen}
       >
@@ -87,7 +125,7 @@ function EventCard({
             {(item.main || item.partner || past) && (
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 {item.main && (
-                  <span className="shrink-0 rounded-full bg-magenta px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
+                  <span className={`shrink-0 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider ${mainStyle === "fill" ? "bg-white text-magenta" : "bg-magenta text-white"}`}>
                     Main Event
                   </span>
                 )}
@@ -105,8 +143,20 @@ function EventCard({
             )}
           </div>
           <div className="md:col-span-8">
-            <h3 className={`mb-1 font-display font-extrabold ${compact ? "text-lg text-ink/80" : "text-xl text-ink"}`}>{item.title}</h3>
-            <p className="text-sm text-ink-soft sm:text-base">{item.blurb}</p>
+            <h3
+              className={`mb-1 font-display font-extrabold ${
+                compact
+                  ? "text-lg text-ink/80"
+                  : mainStyle === "fill"
+                    ? "text-2xl text-white sm:text-3xl"
+                    : mainStyle
+                      ? "bg-gradient-to-r from-magenta via-purple to-teal bg-clip-text text-2xl text-transparent sm:text-3xl"
+                      : "text-xl text-ink"
+              }`}
+            >
+              {item.title}
+            </h3>
+            <p className={`text-sm sm:text-base ${mainStyle === "fill" ? "text-white/85" : "text-ink-soft"}`}>{item.blurb}</p>
           </div>
         </div>
       </button>

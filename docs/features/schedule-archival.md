@@ -46,6 +46,13 @@ submissions).
   `?partner=compact` on the URL previews a further-faded variant (80%
   opacity, smaller title); it is a mock-up switch awaiting the owner's
   pick and should be removed once chosen.
+- **The main event card has three candidate looks** behind `?main=glow`
+  (default: magenta ring and glow, a "The Big One · N days" tag hanging off
+  the top edge, gradient title), `?main=band` (a gradient header band with
+  a trophy and the countdown) and `?main=fill` (the whole card a
+  magenta→purple→teal gradient with white text). All three turn the RSVP
+  button orange. Mock-ups awaiting the owner's pick; the switch goes once
+  chosen. The "N days" count is to the marathon's `calendar.start`.
 
 - **Past Events start collapsed.** The section is one button ("Click to see
   N past events", with the derived year label above it) that toggles the
