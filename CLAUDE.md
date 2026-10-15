@@ -39,14 +39,15 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | Owner | Fill in the four `Gameday *` tabs in the RSVP sheet before Nov 14. They exist, but on 2026-10-03 they still held only the starter rows ("TBD", empty stream embeds); check with `curl "$ENDPOINT?action=gameday"`. Also delete the test row `newsletter-test@example.com` from the `Newsletter` tab. That can't be checked from here, so ask. |
+| 2026-10-15 | **Owner** | **Redeploy `Code.gs`** (paste `apps-script/Code.gs` over the script, Deploy → Manage deployments → ✏️ → New version), then run `setupDashboard` for the new "Dashboard" spreadsheet's URL. Until then `/gameday` still reads the old `Gameday *` tabs in the RSVP sheet. Check with `curl "$ENDPOINT?action=gameday"`: once the response has a `Schedule`-shaped `runOfShow` from the new sheet, delete the old tabs. |
+| 2026-08-12 | Owner | Fill in the four tabs (`Streams`, `Schedule`, `Incentives`, `Notice`) of the "Dashboard" sheet before Nov 14; the old tabs on 2026-10-03 still held only the starter rows ("TBD", empty stream embeds). Also delete the test row `newsletter-test@example.com` from the `Newsletter` tab. That can't be checked from here, so ask. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
-| 2026-10-13 | Owner | Fill the `Gameday Run of Show` tab with the real 2026 schedule. **`/gameday` now shows the tab verbatim**, so until it's filled visitors see the starter rows (Kickoff, two TBDs, Open house wraps, Finale); on 2026-10-15 that's still what it held. Time cells may be ranges like `9:30a - 12:30p`; rows mentioning a meal turn green. Also confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. |
+| 2026-10-13 | Owner | Fill the `Schedule` tab (Dashboard sheet) with the real 2026 schedule. **`/gameday` now shows the tab verbatim**, so until it's filled visitors see the starter rows (Kickoff, two TBDs, Open house wraps, Finale); on 2026-10-15 that's still what it held. Time cells may be ranges like `9:30a - 12:30p`; rows mentioning a meal turn green. Also confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
 | 2026-10-09 | Owner | Review and send the October "Sign Up Today" email (`email/elnerds-signup-today.html`, live preview at https://elnerds.com/email/current/). Unverified facts in it that came from Mike's draft or the hero pills, not the repo: food for anyone who raises $50+, "tourneys", and "Gorilla butler". The Game Week drawing details came from Grant Gray's Oct 2 email. The `$50+` food line and the drawing are now also on `/incentives` and the home page; if either is wrong, fix the site too. Once sent: archive per `email/archive/README.md`, replace `public/email/current/index.html` (and the `signup-today/` stub) per `email/archive/README.md`, and drop this line. |
 
@@ -71,8 +72,13 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 - **The 2025 example schedule is gone from `/gameday`.** The owner asked
   to drop the sample and use the spreadsheet live. `FALLBACK_CONTENT.runOfShow`
   is now empty and the seed-detection (`RUN_OF_SHOW_SEED`, `isUntouchedSeed`)
-  was removed, so the `Gameday Run of Show` tab renders verbatim — today
-  that is the five starter rows, two of them "TBD".
+  was removed, so the schedule tab renders verbatim — today that is the
+  five starter rows, two of them "TBD".
+- **The four tabs moved to their own spreadsheet, "Dashboard"**, with
+  shorter names: `Schedule` (was `Gameday Run of Show`), `Streams`,
+  `Incentives`, `Notice`. `Code.gs` creates it on first read
+  (`getDashboard_`, property `DASHBOARD_SPREADSHEET_ID`) or via
+  `setupDashboard`. **Not live until the owner redeploys `Code.gs`.**
 - An empty or unreachable tab shows a dashed "The run of show is coming
   soon" card instead of the grid; "Loading the schedule…" until the first
   fetch settles (`settled` on `useGamedayContent`).
@@ -196,7 +202,9 @@ already there.
   the Command Center button, then the team's Extra Life total as
   "$X Raised". Nothing to switch by hand on the day.
 - `src/pages/CommandCenter.tsx` (`/gameday`) — the Command Center. Its
-  contents are **edited live in the RSVP spreadsheet's "Gameday *" tabs**,
+  contents are **edited live in the "Dashboard" spreadsheet's tabs**
+  (`Schedule`, `Streams`, `Incentives`, `Notice`; a separate file from the
+  RSVP sheet since 2026-10-15),
   served by `doGet(?action=gameday)` in `Code.gs` and re-read once a
   minute, so the run of show can change mid-marathon without a deploy.
   `src/lib/gamedayContent.ts` holds the shipped fallback copy for streams,

@@ -1,8 +1,8 @@
 # Command Center content pipeline
 
-- **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-15 (example schedule removed; the run of show is sheet-only)
-- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
+- **Status:** Live on the old tabs. The move to the "Dashboard" spreadsheet (2026-10-15) needs a `Code.gs` redeploy before it takes effect
+- **Last reviewed:** 2026-10-15 (example schedule removed; tabs moved to the "Dashboard" spreadsheet)
+- **Covers:** `apps-script/Code.gs`, `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
 
@@ -31,17 +31,25 @@ a spreadsheet during the event.
 
 ## How it works
 
-Four tabs in the RSVP spreadsheet drive the page:
+Four tabs in a **separate spreadsheet named "Dashboard"** drive the page:
 
 | Tab | Columns |
 | --- | --- |
-| `Gameday Streams` | Name, Description, Embed URL, Channel URL |
-| `Gameday Run of Show` | Time, Title, Detail |
-| `Gameday Incentives` | Amount, What |
-| `Gameday Notice` | one banner message in cell **A2** |
+| `Streams` | Name, Description, Embed URL, Channel URL |
+| `Schedule` | Time, Title, Detail |
+| `Incentives` | Amount, What |
+| `Notice` | one banner message in cell **A2** |
 
-The tabs are created with headers and starter rows the first time the page
-asks for them, so setup is opening the sheet and typing. The page fetches
+`getDashboard_()` in `Code.gs` opens it by the script property
+`DASHBOARD_SPREADSHEET_ID`, creating the spreadsheet if the property is
+unset or the file was deleted (the same pattern `getSpreadsheet_()` uses
+for the RSVP sheet). The tabs are created with headers and starter rows
+the first time the page asks for them, so setup is opening the sheet and
+typing; `setupDashboard()` can be run from the editor to create it up
+front and log its URL. Until 2026-10-15 the tabs were `Gameday *` tabs in
+the RSVP spreadsheet, so the schedule editors never had to see
+registrations was the reason for the split; the old tabs are no longer
+read. The page fetches
 `?action=gameday` and re-reads once a minute, so an edit reaches every open
 browser within about a minute — nobody refreshes.
 
@@ -53,7 +61,7 @@ becomes a live player.
 ## Decisions and gotchas
 
 - **The run of show has no shipped copy; the sheet is the only source.**
-  Whatever the `Gameday Run of Show` tab holds is what renders, starter
+  Whatever the `Schedule` tab holds is what renders, starter
   rows ("TBD") included. An empty tab, or a read that hasn't landed, shows
   a dashed "The run of show is coming soon" card in the grid's place
   ("Loading the schedule…" until the first fetch settles, via the hook's
@@ -129,8 +137,11 @@ becomes a live player.
 
 ## Manual steps and open questions
 
-- The four `Gameday *` tabs exist now, with starter rows. They need real
-  content before Nov 14. For the run of show, Time cells may be ranges
+- **`Code.gs` must be redeployed** (Deploy → Manage deployments → ✏️ → New
+  version) for the Dashboard split to take effect; until then the live
+  endpoint still reads the old `Gameday *` tabs in the RSVP sheet. After
+  the redeploy, run `setupDashboard` for the sheet URL, and delete the old
+  tabs. The `Schedule` tab needs real content before Nov 14. For the run of show, Time cells may be ranges
   ("9:30a - 12:30p"); meal rows just need the meal word in the title.
 - The sponsor list is hand-maintained in `CommandCenter.tsx`. Papa Johns
   links to papajohns.com; the Eden Prairie store page URL was never

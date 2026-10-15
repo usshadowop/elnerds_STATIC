@@ -2,7 +2,7 @@
 // where to watch, what's happening right now, and how to chip in.
 //
 // The contents — streams, run of show, milestones, banner — are edited in the
-// RSVP spreadsheet's "Gameday *" tabs and re-read every minute, so they can be
+// "Dashboard" spreadsheet's tabs and re-read every minute, so they can be
 // changed mid-marathon without a deploy. See src/lib/gamedayContent.ts; the
 // copy that ships with the site is the fallback when that read fails.
 

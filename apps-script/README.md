@@ -111,30 +111,38 @@ Clicking **Cancel** flips that row's `Status` to `Cancelled` and emails the capt
 
 ## Gameday Command Center content
 
-The `/gameday` page reads its contents from four tabs in the same
-"elnerds RSVPs" spreadsheet, so the run of show, streams, milestones and
-banner can all be changed **during** the marathon without a deploy. The page
+The `/gameday` page reads its contents from four tabs in a **separate
+spreadsheet named "Dashboard"** (not the RSVP sheet), so the schedule,
+streams, milestones and banner can all be changed **during** the marathon
+without a deploy, by people who never need to see the registrations. The page
 re-reads once a minute, so an edit shows up within about a minute on every
 open browser — no one has to refresh.
 
-The tabs are created with headers and starter rows the first time the page
-asks for them. Just open the sheet and type.
+The spreadsheet and its tabs are created with headers and starter rows the
+first time the page asks for them. To get the link up front, run
+**`setupDashboard`** from the editor (Run → setupDashboard) and read the URL
+from the execution log; its ID is remembered in the script property
+`DASHBOARD_SPREADSHEET_ID`. Then open the sheet and type.
+
+Until 2026-10-15 the tabs lived in the RSVP spreadsheet as `Gameday Streams`,
+`Gameday Run of Show`, `Gameday Incentives` and `Gameday Notice`. Those are no
+longer read and can be deleted; anything typed there has to be copied over.
 
 | Tab | Columns | Notes |
 | --- | --- | --- |
-| `Gameday Streams` | Name, Description, Embed URL, Channel URL | Leave **Embed URL** blank and the tile stays an empty "stream slot". Fill it in and the tile becomes a live player — use the platform's *embed* URL, not the channel page, and append `&parent=elnerds.com` for Twitch or the player refuses to load. |
-| `Gameday Run of Show` | Time, Title, Detail | Times are display text ("2:00 AM"), not parsed. |
-| `Gameday Incentives` | Amount, What | |
-| `Gameday Notice` | one message in cell **A2** | Shows as a banner across the top. Clear the cell to hide it. |
+| `Streams` | Name, Description, Embed URL, Channel URL | Leave **Embed URL** blank and the tile stays an empty "stream slot". Fill it in and the tile becomes a live player — use the platform's *embed* URL, not the channel page, and append `&parent=elnerds.com` for Twitch or the player refuses to load. |
+| `Schedule` | Time, Title, Detail | Times are sent as display text; the site parses single times ("2:00 AM") and ranges ("9:30a - 12:30p"). |
+| `Incentives` | Amount, What | |
+| `Notice` | one message in cell **A2** | Shows as a banner across the top. Clear the cell to hide it. |
 
 Rows whose first cell is empty are skipped, so gaps and half-typed rows are
-safe. If a whole tab is emptied, the page falls back to the copy that ships
-with the site rather than rendering an empty section.
+safe. If the Streams or Incentives tab is emptied, the page falls back to the
+copy that ships with the site; an empty Schedule shows a "coming soon" card.
 
 If the endpoint doesn't answer `?action=gameday` (for example, an older
 deployment), the page quietly shows its built-in copy.
 
-Times in the Run of Show are sent exactly as the cell displays them, so
+Times in the Schedule are sent exactly as the cell displays them, so
 "8:00 AM" stays "8:00 AM" even though Sheets stores it as a time.
 
 ## Newsletter signups

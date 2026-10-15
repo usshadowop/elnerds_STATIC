@@ -1,8 +1,8 @@
 // Contents of the Gameday Command Center (/gameday).
 //
 // These are editable mid-marathon: the Apps Script backend serves them from
-// tabs in the RSVP spreadsheet ("Gameday Run of Show", "Gameday Streams",
-// "Gameday Incentives", "Gameday Notice"), and the page re-reads every minute
+// the tabs of a separate "Dashboard" spreadsheet ("Schedule", "Streams",
+// "Incentives", "Notice"), and the page re-reads every minute
 // while it's open. Typing in the sheet at 2am changes the page at 2:01am — no
 // deploy, no code change.
 //

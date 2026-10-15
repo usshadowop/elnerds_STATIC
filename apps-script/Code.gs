@@ -29,6 +29,12 @@ const SENDER_NAME = "Extra Life Nerds";
 // Spreadsheet that stores RSVPs (created automatically on first submission).
 const SPREADSHEET_NAME = "elnerds RSVPs";
 
+// Separate spreadsheet that drives the /gameday page (created automatically
+// the first time the page asks for it, or by running setupDashboard). Kept
+// apart from the RSVP sheet so the people editing the schedule on Game Day
+// never have to touch the registrations.
+const DASHBOARD_NAME = "Dashboard";
+
 // Per-event details for the Add-to-Calendar button, keyed by slug. Keys must
 // match the slugs in src/lib/rsvpEvents.ts. Times are ISO 8601 with a UTC
 // offset (Minnesota: -05:00 CDT in summer, -06:00 CST in winter).
@@ -67,19 +73,22 @@ function hasEnded_(slug) {
 // Gameday Command Center content
 // ---------------------------------------------------------------------------
 //
-// The /gameday page on the site reads these tabs, so the run of show, the
-// stream tiles, the milestones and the banner can all be changed mid-marathon
-// by typing in the sheet — no code change, no redeploy. The page re-reads every
-// minute while it's open.
+// The /gameday page on the site reads these tabs from the "Dashboard"
+// spreadsheet, so the schedule, the stream tiles, the milestones and the
+// banner can all be changed mid-marathon by typing in the sheet — no code
+// change, no redeploy. The page re-reads every minute while it's open.
 //
-// The tabs are created with headers and starter rows the first time the page
-// asks for them, so setup is "open the sheet and start typing". Rows whose
-// first cell is blank are skipped, so leaving gaps is safe.
+// The spreadsheet and its tabs are created with headers and starter rows the
+// first time the page asks for them, so setup is "open the sheet and start
+// typing". Rows whose first cell is blank are skipped, so leaving gaps is safe.
+//
+// Before 2026-10-15 these lived in the RSVP spreadsheet as "Gameday *" tabs;
+// those tabs are no longer read and can be deleted.
 
 const GAMEDAY_SECTIONS = [
   {
     key: "streams",
-    tab: "Gameday Streams",
+    tab: "Streams",
     // Embed URL is the platform's *embed* address, not the channel page. Twitch
     // also needs &parent=elnerds.com on it or the player refuses to load.
     headers: ["Name", "Description", "Embed URL", "Channel URL"],
@@ -92,7 +101,7 @@ const GAMEDAY_SECTIONS = [
   },
   {
     key: "runOfShow",
-    tab: "Gameday Run of Show",
+    tab: "Schedule",
     headers: ["Time", "Title", "Detail"],
     fields: ["time", "title", "detail"],
     seed: [
@@ -105,7 +114,7 @@ const GAMEDAY_SECTIONS = [
   },
   {
     key: "incentives",
-    tab: "Gameday Incentives",
+    tab: "Incentives",
     headers: ["Amount", "What"],
     fields: ["amount", "what"],
     seed: [
@@ -118,7 +127,7 @@ const GAMEDAY_SECTIONS = [
 
 // One-line announcement across the top of the page. Cell A2 of this tab —
 // clear it to hide the banner.
-const GAMEDAY_NOTICE_TAB = "Gameday Notice";
+const GAMEDAY_NOTICE_TAB = "Notice";
 
 function getGamedaySheet_(ss, tab, headers, seed) {
   let sheet = ss.getSheetByName(tab);
@@ -134,7 +143,7 @@ function getGamedaySheet_(ss, tab, headers, seed) {
 
 function getGamedayContent_() {
   try {
-    const ss = getSpreadsheet_();
+    const ss = getDashboard_();
     const out = { ok: true };
 
     for (let s = 0; s < GAMEDAY_SECTIONS.length; s++) {
@@ -193,6 +202,23 @@ function getSpreadsheet_() {
   const ss = SpreadsheetApp.create(SPREADSHEET_NAME);
   props.setProperty("SPREADSHEET_ID", ss.getId());
   // Drop the default empty "Sheet1" once real event tabs exist (handled lazily).
+  return ss;
+}
+
+// The "Dashboard" spreadsheet behind /gameday. Same shape as getSpreadsheet_:
+// remembered by ID in a script property, recreated if it was deleted.
+function getDashboard_() {
+  const props = PropertiesService.getScriptProperties();
+  let id = props.getProperty("DASHBOARD_SPREADSHEET_ID");
+  if (id) {
+    try {
+      return SpreadsheetApp.openById(id);
+    } catch (e) {
+      // was deleted — fall through and recreate
+    }
+  }
+  const ss = SpreadsheetApp.create(DASHBOARD_NAME);
+  props.setProperty("DASHBOARD_SPREADSHEET_ID", ss.getId());
   return ss;
 }
 
@@ -551,4 +577,22 @@ function setup() {
   const ss = getSpreadsheet_();
   Logger.log("Spreadsheet ready: " + ss.getUrl());
   Logger.log("Notifications will go to: " + CAPTAIN_EMAIL);
+}
+
+/**
+ * Run this once from the editor (Run > setupDashboard) to create the
+ * "Dashboard" spreadsheet with its four tabs and print its URL. The page would
+ * create it on its first read anyway; this just gets you the link up front.
+ */
+function setupDashboard() {
+  const ss = getDashboard_();
+  for (let s = 0; s < GAMEDAY_SECTIONS.length; s++) {
+    const section = GAMEDAY_SECTIONS[s];
+    getGamedaySheet_(ss, section.tab, section.headers, section.seed);
+  }
+  getGamedaySheet_(ss, GAMEDAY_NOTICE_TAB, ["Banner message (clear this cell to hide the banner)"], [[""]]);
+  // Drop the empty default tab a new spreadsheet comes with.
+  const blank = ss.getSheetByName("Sheet1");
+  if (blank && ss.getSheets().length > 1 && blank.getLastRow() === 0) ss.deleteSheet(blank);
+  Logger.log("Dashboard ready: " + ss.getUrl());
 }
