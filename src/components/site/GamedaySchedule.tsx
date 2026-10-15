@@ -320,14 +320,16 @@ export function GamedaySchedule({
               })}
 
               {/* Now line */}
+              {/* The row is centred on the time (-translate-y-1/2); with its top
+                  edge there instead, the line drew ~10 minutes late. */}
               <div
-                className="pointer-events-none absolute -left-2 right-0 z-20 flex items-center"
+                className="pointer-events-none absolute -left-2 right-0 z-20 flex -translate-y-1/2 items-center"
                 style={{ top: y(nowMinutes) }}
                 aria-label={`Current time: ${clockLabel(nowMinutes)}`}
               >
                 <span className="size-3 shrink-0 rounded-full border-2 border-white bg-magenta shadow" />
                 <span className="h-[3px] flex-1 bg-magenta" />
-                <span className="shrink-0 -translate-y-1/2 rounded-full bg-magenta px-2 py-0.5 text-[10px] font-extrabold tabular-nums text-white shadow">
+                <span className="shrink-0 rounded-full bg-magenta px-2 py-0.5 text-[10px] font-extrabold tabular-nums text-white shadow">
                   {clockLabel(nowMinutes)}
                 </span>
               </div>
