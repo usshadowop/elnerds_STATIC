@@ -109,7 +109,7 @@ export function CommandCenter() {
   const { phase } = useGameday(GAME_DAY_START, GAME_DAY_END);
   // Streams, run of show, milestones and the banner all come from the sheet,
   // re-read every minute so mid-marathon edits land without a reload.
-  const { content } = useGamedayContent();
+  const { content, settled } = useGamedayContent();
   const { streams, runOfShow, incentives, notice } = content;
 
   return (
@@ -220,11 +220,24 @@ export function CommandCenter() {
           {/* Run of show ---------------------------------------------------- */}
           <div className="mb-16">
             <SectionHeading icon={CalendarClock} label="What's on" title="Schedule" />
-            <GamedaySchedule
-              rows={runOfShow}
-              startMs={Date.parse(GAME_DAY_START)}
-              endMs={Date.parse(GAME_DAY_END)}
-            />
+            {runOfShow.length > 0 ? (
+              <GamedaySchedule
+                rows={runOfShow}
+                startMs={Date.parse(GAME_DAY_START)}
+                endMs={Date.parse(GAME_DAY_END)}
+              />
+            ) : (
+              <div className="rounded-2xl border border-dashed border-line bg-paper px-6 py-10 text-center shadow-[var(--shadow-soft)]">
+                <p className="font-display text-lg font-extrabold text-ink">
+                  {settled ? "The run of show is coming soon." : "Loading the schedule…"}
+                </p>
+                <p className="mt-2 text-sm text-ink-soft">
+                  {settled
+                    ? "The schedule is posted here the moment it’s set — check back shortly."
+                    : "Fetching the latest schedule from the team."}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Incentives ----------------------------------------------------- */}

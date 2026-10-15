@@ -45,25 +45,10 @@ export const FALLBACK_CONTENT: GamedayContent = {
     { name: "Second Feed", who: "Roaming camera / co-streamer" },
     { name: "Third Feed", who: "Spare slot" },
   ],
-  // The 2025 schedule, as an example, so the page has something to show until
-  // the sheet is filled in. Times are Central; "Sunday" marks the second
-  // morning. Rows that mention a meal render as green banners.
-  runOfShow: [
-    { time: "8am Saturday - 8am Sunday", title: "24-hour gaming for fundraisers", detail: "" },
-    { time: "8a - 5p", title: "Open house gaming", detail: "Consoles and board games provided!" },
-    { time: "8:30a - 9:30a", title: "Waffles", detail: "provided by Butchy for donations!" },
-    { time: "9:30a - 12:30p", title: "Dungeons and Dragons", detail: "with Badwolf Adventure Studios" },
-    { time: "10a - 8p", title: "Warhammer 40k Open Play", detail: "" },
-    { time: "11a - 4p", title: "Golf Simulator Tournament", detail: "ALL skill levels welcome!" },
-    { time: "11 - 1p", title: "Final Fantasy MtG Cube Draft", detail: "" },
-    { time: "12p - 1p", title: "Lunch", detail: "Provided by Eric Morris with Edward Jones for EL NERDS FUNDRAISERS ONLY" },
-    { time: "1:30p - 4:30p", title: "Dungeons and Dragons", detail: "with Badwolf Adventure Studios" },
-    { time: "2p - 4p", title: "Super Smash Brothers Tournament", detail: "" },
-    { time: "5p - 8p", title: "Dungeons and Dragons", detail: "with Badwolf Adventure Studios" },
-    { time: "6p - 7p", title: "Dinner", detail: "Provided by Gillette Children\u2019s Hospital for EL NERDS FUNDRAISERS ONLY" },
-    { time: "6p - 8p", title: "Dark Souls Speedrun Race", detail: "" },
-    { time: "8am Sunday", title: "Cleanup", detail: "" },
-  ],
+  // The run of show has no shipped copy: the page shows whatever the sheet
+  // holds, including its starter rows, and an "arriving soon" notice when the
+  // tab is empty or hasn't been read yet.
+  runOfShow: [],
   incentives: [
     { amount: "$—", what: "Milestone to be announced" },
     { amount: "$—", what: "Milestone to be announced" },
@@ -131,26 +116,10 @@ function rows<T>(value: unknown, map: (row: Record<string, unknown>) => T, keyOf
     .filter((row) => keyOf(row).length > 0);
 }
 
-/** The starter rows `Code.gs` writes into a brand-new "Gameday Run of Show"
- *  tab. Keep in step with the seed there. */
-const RUN_OF_SHOW_SEED: [string, string][] = [
-  ["8:00 AM", "Kickoff"],
-  ["10:00 AM", "TBD"],
-  ["12:00 PM", "TBD"],
-  ["5:00 PM", "Open house wraps"],
-  ["8:00 AM (Sun)", "Finale & grand total"],
-];
-
-function isUntouchedSeed(rowsIn: GamedayShowRow[]): boolean {
-  return (
-    rowsIn.length === RUN_OF_SHOW_SEED.length &&
-    rowsIn.every((r, i) => r.time === RUN_OF_SHOW_SEED[i][0] && r.title === RUN_OF_SHOW_SEED[i][1])
-  );
-}
-
 /** Shape whatever the sheet returned into something the page can render.
- *  A section that comes back empty or unparseable keeps its shipped copy, so a
- *  cleared tab can't silently blank out part of the page. */
+ *  Streams and incentives that come back empty or unparseable keep their
+ *  shipped copy, so a cleared tab can't silently blank out part of the page.
+ *  The run of show is the exception: it has no shipped copy (see above). */
 export function parseGamedayContent(data: unknown): GamedayContent {
   if (typeof data !== "object" || data === null) return FALLBACK_CONTENT;
   const raw = data as Record<string, unknown>;
@@ -166,15 +135,13 @@ export function parseGamedayContent(data: unknown): GamedayContent {
     (r) => r.name,
   );
 
-  let runOfShow = rows<GamedayShowRow>(
+  // The run of show is the sheet's, verbatim — starter rows included. There is
+  // no example schedule to fall back on; an empty tab renders as "coming soon".
+  const runOfShow = rows<GamedayShowRow>(
     raw.runOfShow,
     (r) => ({ time: text(r.time), title: text(r.title), detail: text(r.detail) }),
     (r) => r.time,
   );
-  // The tab is created with starter rows ("TBD" blocks). Until someone has
-  // replaced them, the sheet hasn't said anything yet — show the example day
-  // rather than a grid of TBDs.
-  if (isUntouchedSeed(runOfShow)) runOfShow = [];
 
   const incentives = rows<GamedayIncentive>(
     raw.incentives,
@@ -184,7 +151,7 @@ export function parseGamedayContent(data: unknown): GamedayContent {
 
   return {
     streams: streams.length ? streams : FALLBACK_CONTENT.streams,
-    runOfShow: runOfShow.length ? runOfShow : FALLBACK_CONTENT.runOfShow,
+    runOfShow,
     incentives: incentives.length ? incentives : FALLBACK_CONTENT.incentives,
     notice: text(raw.notice),
   };

@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-15 (now-line centring fix, PR #83)
+- **Last reviewed:** 2026-10-15 (example schedule removed; the run of show is sheet-only)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -52,14 +52,17 @@ becomes a live player.
 
 ## Decisions and gotchas
 
-- **An untouched starter tab counts as empty.** The "Gameday Run of Show"
-  tab is seeded with five rows (Kickoff, two TBDs, Open house wraps,
-  Finale). When the sheet returns exactly those, `parseGamedayContent`
-  treats the section as unfilled and keeps the example schedule, instead of
-  the page flashing the example and then swapping to a grid of TBDs a
-  second later (which is what happened on 2026-10-13). Change a single row
-  in the sheet and it takes over. `RUN_OF_SHOW_SEED` in `gamedayContent.ts`
-  must match the seed in `Code.gs`.
+- **The run of show has no shipped copy; the sheet is the only source.**
+  Whatever the `Gameday Run of Show` tab holds is what renders, starter
+  rows ("TBD") included. An empty tab, or a read that hasn't landed, shows
+  a dashed "The run of show is coming soon" card in the grid's place
+  ("Loading the schedule…" until the first fetch settles, via the hook's
+  `settled` flag). Until 2026-10-15 the page carried the printed 2025
+  schedule as an example and treated the untouched seed rows as unfilled
+  so the example stayed up; the owner asked to drop the sample and show
+  live data, so both the example rows and the seed check are gone.
+  Streams and incentives still keep their shipped copy when their tab is
+  empty.
 
 - **The schedule is laid out like the printed 2025 run of show**, not a
   list: a navy Time / Event header, red hourly pills, lanes of sky-blue
@@ -99,15 +102,12 @@ becomes a live player.
   Saturday's 2:15 PM will), labelled as a preview, so the page can be
   checked any day. During the event it's minutes since the marathon's
   `calendar.start`, so it reads the same in every timezone.
-- The shipped fallback run of show is **the 2025 schedule as an example**
-  (from the printed Canva run of show), not the 2026 plan. The sheet
-  replaces it row for row.
-
 - **Nothing here can leave the page blank.** Every failure path — endpoint not
   yet redeployed, network down, a tab emptied out, a half-typed row — falls
-  back to `FALLBACK_CONTENT` in `gamedayContent.ts`. A stale run of show beats
-  an empty page in the middle of the event. A failed poll keeps the last good
-  content on screen rather than swapping in an error state.
+  back to `FALLBACK_CONTENT` in `gamedayContent.ts` (the schedule to its
+  "coming soon" card). A failed poll keeps the last good content on screen
+  rather than swapping in an error state, so a stale run of show beats an
+  empty one in the middle of the event.
 - **Editing the fallback in the repo does not change what the sheet serves.**
   During the event, edit the sheet.
 - Rows whose first cell is blank are skipped, so gaps and half-typed rows in

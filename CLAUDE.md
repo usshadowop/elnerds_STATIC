@@ -46,7 +46,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
-| 2026-10-13 | Owner | Fill the `Gameday Run of Show` tab with the real 2026 schedule. Until any row changes, `/gameday` shows the **2025** schedule as an example (the untouched starter rows are treated as empty). Time cells may be ranges like `9:30a - 12:30p`; rows mentioning a meal turn green. Also confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. |
+| 2026-10-13 | Owner | Fill the `Gameday Run of Show` tab with the real 2026 schedule. **`/gameday` now shows the tab verbatim**, so until it's filled visitors see the starter rows (Kickoff, two TBDs, Open house wraps, Finale); on 2026-10-15 that's still what it held. Time cells may be ranges like `9:30a - 12:30p`; rows mentioning a meal turn green. Also confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
 | 2026-10-09 | Owner | Review and send the October "Sign Up Today" email (`email/elnerds-signup-today.html`, live preview at https://elnerds.com/email/current/). Unverified facts in it that came from Mike's draft or the hero pills, not the repo: food for anyone who raises $50+, "tourneys", and "Gorilla butler". The Game Week drawing details came from Grant Gray's Oct 2 email. The `$50+` food line and the drawing are now also on `/incentives` and the home page; if either is wrong, fix the site too. Once sent: archive per `email/archive/README.md`, replace `public/email/current/index.html` (and the `signup-today/` stub) per `email/archive/README.md`, and drop this line. |
 
@@ -66,34 +66,23 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Sessions of 2026-10-13 → 15 (PRs #71–#83: `/incentives`, the Command
-Center demo, the events section, and small fixes):*
+*Session of 2026-10-15 (live schedule on `/gameday`):*
 
-- **`/incentives` is new** (`src/pages/Incentives.tsx`), every Game Day
-  donation incentive on one page for texting out, reached from the hero's
-  pulsing "Donation incentives live" chip. The leadership-team cards also
-  sit on the home page after Events (`TeamIncentives.tsx`). Chip and home
-  section hide after Game Day; the page stays with a "wrapped" banner.
-- **Events section** (`Schedule.tsx`): upcoming events are split into
-  "Extra Life Nerds Events" and "Partner Events" (gold, as before); the
-  marathon card wears a gradient header band with RSVP, Directions and a
-  live "N days away" count; Past Events start collapsed. A Super Smash
-  Bros. tournament (Nov 14 · 2:30 PM) is a sub-event in the marathon's
-  Details. Grey partner cards and two other main-event looks were mocked
-  up and turned down.
-- **`/gameday` was rebuilt as a demo for leadership**: "Game Day is Live"
-  heading, Come visit card with directions, sample stills in the stream
-  slots, the run of show as a stacked lane grid styled after the printed
-  2025 schedule (2025 events as the example), sponsor logo cards. The grid
-  re-packs itself from the sheet rows; rules in the gameday-content card.
-- **Two gotchas found and fixed**: the page flashed the example schedule
-  then swapped to the sheet's "TBD" starter rows (the parser now treats
-  the exact seed as unfilled; `RUN_OF_SHOW_SEED` must match `Code.gs`),
-  and the now-line drew ~10 minutes late (its row is now centred on the
-  time).
-- Home page also: 2025 sponsors band moved under Active Roster; the donor
-  wall gained a Venue Donation card for Improving. Nothing in the nav
-  points at `/incentives`, `#incentives` or `/gameday`.
+- **The 2025 example schedule is gone from `/gameday`.** The owner asked
+  to drop the sample and use the spreadsheet live. `FALLBACK_CONTENT.runOfShow`
+  is now empty and the seed-detection (`RUN_OF_SHOW_SEED`, `isUntouchedSeed`)
+  was removed, so the `Gameday Run of Show` tab renders verbatim — today
+  that is the five starter rows, two of them "TBD".
+- An empty or unreachable tab shows a dashed "The run of show is coming
+  soon" card instead of the grid; "Loading the schedule…" until the first
+  fetch settles (`settled` on `useGamedayContent`).
+- Verified in Chromium against the preview build with the real sheet JSON
+  routed in, plus empty and offline responses. Streams still show the
+  sample stills until an Embed URL is filled in; nothing else on the page
+  changed.
+- Previous sessions (2026-10-13 → 15, PRs #71–#83) built `/incentives`,
+  the Command Center demo and the events section; see the feature cards
+  and `git log` for those.
 
 ## Ship-live workflow
 
@@ -210,9 +199,10 @@ already there.
   contents are **edited live in the RSVP spreadsheet's "Gameday *" tabs**,
   served by `doGet(?action=gameday)` in `Code.gs` and re-read once a
   minute, so the run of show can change mid-marathon without a deploy.
-  `src/lib/gamedayContent.ts` holds the shipped fallback copy, used
-  whenever that read fails **or when the tab still holds its untouched
-  starter rows**. The run of show renders as a stacked lane grid
+  `src/lib/gamedayContent.ts` holds the shipped fallback copy for streams,
+  incentives and the notice, used whenever that read fails. **The run of
+  show has no fallback**: the sheet's rows render verbatim, and an empty
+  or unreadable tab shows a "coming soon" card. The run of show renders as a stacked lane grid
   (`src/components/site/GamedaySchedule.tsx`): time ranges, automatic
   lane packing, green meal rows, a now-line. The rules are in the
   gameday-content card; the sheet's columns never changed.
