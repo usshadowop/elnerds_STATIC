@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-14 (end-of-session review; PRs #75–#78)
+- **Last reviewed:** 2026-10-15 (now-line centring fix, PR #83)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -90,6 +90,10 @@ becomes a live player.
   - **Current blocks** (the ones the now-line crosses) glow with a magenta
     pulse that fades fully in and out (`now-pulse` in `styles.css`); with
     reduced motion they get a static ring instead.
+  - **The now-line row is centred on its time** (`-translate-y-1/2`). With
+    its top edge there it drew about ten minutes late, below a block that
+    hadn't ended yet (reported from the live site 2026-10-15, PR #83).
+    Check line position with the clock forced, not by eye.
 - **The "now" line is real only during Game Day.** Outside it the line
   previews with the visitor's own clock (today's 2:15 PM sits where
   Saturday's 2:15 PM will), labelled as a preview, so the page can be
