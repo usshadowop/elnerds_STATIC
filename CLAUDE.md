@@ -66,7 +66,14 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-10-23 (mobile fix to the Active Roster stats card):*
+*Session of 2026-10-23 (two mobile layout fixes, PRs #85 and #86):*
+
+- **The marathon card's header band no longer scrunches on phones.** In
+  `Schedule.tsx` the band now stacks below `sm` (title + days-away pill,
+  then RSVP and Directions), and the "Details" badge is positioned
+  relative to the card body instead of a fixed 3.75rem from the card top,
+  so it no longer sits on the Directions button when the band wraps.
+  Desktop measured identical before and after.
 
 - **Team-summary figures no longer collide on phones.** The "$17,380 /
   $60,000 / 35" row in `ActiveRoster.tsx` used a fixed `text-2xl`, which
