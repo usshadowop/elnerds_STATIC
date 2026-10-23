@@ -158,9 +158,9 @@ export function ActiveRoster() {
         {/* team summary stats */}
         {!isLoading && team && (
           <div className="mx-auto mb-12 max-w-2xl rounded-3xl border border-line bg-cream p-6 sm:p-8">
-            <div className="grid grid-cols-3 gap-4 text-center">
+            <div className="grid grid-cols-3 gap-2 text-center sm:gap-4">
               <div>
-                <div className="font-display text-2xl font-extrabold text-teal sm:text-3xl">
+                <div className="min-w-0 whitespace-nowrap font-display text-[clamp(1.125rem,5.5vw,1.875rem)] font-extrabold tabular-nums text-teal">
                   {money(team.sumDonations)}
                 </div>
                 <div className="mt-1 text-[10px] font-bold uppercase tracking-wider text-ink-soft">
@@ -168,7 +168,7 @@ export function ActiveRoster() {
                 </div>
               </div>
               <div>
-                <div className="font-display text-2xl font-extrabold text-magenta sm:text-3xl">
+                <div className="min-w-0 whitespace-nowrap font-display text-[clamp(1.125rem,5.5vw,1.875rem)] font-extrabold tabular-nums text-magenta">
                   {money(team.fundraisingGoal)}
                 </div>
                 <div className="mt-1 text-[10px] font-bold uppercase tracking-wider text-ink-soft">
@@ -176,7 +176,7 @@ export function ActiveRoster() {
                 </div>
               </div>
               <div>
-                <div className="font-display text-2xl font-extrabold text-orange sm:text-3xl">
+                <div className="min-w-0 whitespace-nowrap font-display text-[clamp(1.125rem,5.5vw,1.875rem)] font-extrabold tabular-nums text-orange">
                   {team.numParticipants}
                 </div>
                 <div className="mt-1 text-[10px] font-bold uppercase tracking-wider text-ink-soft">
