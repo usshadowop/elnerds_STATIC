@@ -1,7 +1,7 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-13 (Donors.tsx: Venue Donation block added, subtitle dropped)
+- **Last reviewed:** 2026-10-23 (ActiveRoster.tsx: team-summary figures scale with the viewport on phones)
 - **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`
 
 ## Purpose
@@ -21,7 +21,11 @@ someone donates.
 - `src/components/site/DonationTicker.tsx` — the scrolling "Latest" strip
   under the hero countdown (keyframes in `src/styles.css`).
 - `src/components/site/ActiveRoster.tsx` — the roster section, with skeleton
-  placeholders while loading.
+  placeholders while loading. The team-summary card's three figures (total,
+  goal, participants) size with `clamp(1.125rem, 5.5vw, 1.875rem)` and
+  `whitespace-nowrap`; a fixed `text-2xl` made "$17,380" and "$60,000" run
+  into each other in the ~85px columns of a 360–412px phone (2026-10-23).
+  The clamp tops out at `text-3xl`, so desktop is unchanged.
 - `src/components/site/Donors.tsx` — the "2026 Donors" section: the live
   donor wall takes two-thirds, and the right column is two hand-maintained
   cards, **Venue Donation** (Improving, the Game Day venue, as one large

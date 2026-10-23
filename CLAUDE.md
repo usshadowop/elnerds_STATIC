@@ -66,34 +66,18 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Sessions of 2026-10-13 → 15 (PRs #71–#83: `/incentives`, the Command
-Center demo, the events section, and small fixes):*
+*Session of 2026-10-23 (mobile fix to the Active Roster stats card):*
 
-- **`/incentives` is new** (`src/pages/Incentives.tsx`), every Game Day
-  donation incentive on one page for texting out, reached from the hero's
-  pulsing "Donation incentives live" chip. The leadership-team cards also
-  sit on the home page after Events (`TeamIncentives.tsx`). Chip and home
-  section hide after Game Day; the page stays with a "wrapped" banner.
-- **Events section** (`Schedule.tsx`): upcoming events are split into
-  "Extra Life Nerds Events" and "Partner Events" (gold, as before); the
-  marathon card wears a gradient header band with RSVP, Directions and a
-  live "N days away" count; Past Events start collapsed. A Super Smash
-  Bros. tournament (Nov 14 · 2:30 PM) is a sub-event in the marathon's
-  Details. Grey partner cards and two other main-event looks were mocked
-  up and turned down.
-- **`/gameday` was rebuilt as a demo for leadership**: "Game Day is Live"
-  heading, Come visit card with directions, sample stills in the stream
-  slots, the run of show as a stacked lane grid styled after the printed
-  2025 schedule (2025 events as the example), sponsor logo cards. The grid
-  re-packs itself from the sheet rows; rules in the gameday-content card.
-- **Two gotchas found and fixed**: the page flashed the example schedule
-  then swapped to the sheet's "TBD" starter rows (the parser now treats
-  the exact seed as unfilled; `RUN_OF_SHOW_SEED` must match `Code.gs`),
-  and the now-line drew ~10 minutes late (its row is now centred on the
-  time).
-- Home page also: 2025 sponsors band moved under Active Roster; the donor
-  wall gained a Venue Donation card for Improving. Nothing in the nav
-  points at `/incentives`, `#incentives` or `/gameday`.
+- **Team-summary figures no longer collide on phones.** The "$17,380 /
+  $60,000 / 35" row in `ActiveRoster.tsx` used a fixed `text-2xl`, which
+  overflowed its three ~85px columns at 360–412px. The figures now scale
+  with `clamp(1.125rem, 5.5vw, 1.875rem)`, nowrap, tabular digits, and a
+  tighter mobile gap; desktop is unchanged. Verified with headless Chromium
+  at 360 and 412px against a stubbed DonorDrive response.
+- The previous run of sessions (2026-10-13 → 15, PRs #71–#83) added
+  `/incentives`, rebuilt `/gameday` as a leadership demo, split the events
+  section into team and partner events, and moved the sponsors band under
+  Active Roster. See `git log` and the feature cards for detail.
 
 ## Ship-live workflow
 
