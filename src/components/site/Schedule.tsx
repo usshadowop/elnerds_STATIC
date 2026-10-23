@@ -34,11 +34,11 @@ function EventCard({
       } ${band ? "overflow-hidden border-l-0 ring-2 ring-magenta/40" : ""}`}
     >
       {band && (
-        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 bg-gradient-to-r from-magenta via-purple to-teal px-5 py-2.5 text-white sm:px-6">
-          <span className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.25em]">
+        <div className="flex flex-col items-start gap-y-2 bg-gradient-to-r from-magenta via-purple to-teal px-5 py-2.5 text-white sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-4 sm:px-6">
+          <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-extrabold uppercase tracking-[0.18em] sm:tracking-[0.25em]">
             <Trophy className="size-4" /> The Big One · Game Day 2026
             {daysAway !== null && (
-              <span className="ml-1 rounded-full bg-white/20 px-2.5 py-0.5 tracking-wider">{daysAway} days away</span>
+              <span className="whitespace-nowrap rounded-full bg-white/20 px-2.5 py-0.5 tracking-wider sm:ml-1">{daysAway} days away</span>
             )}
           </span>
           <span className="flex flex-wrap items-center gap-2">
@@ -91,9 +91,11 @@ function EventCard({
         </div>
       )}
 
-      {/* Top-right corner: expand indicator */}
+      {/* Top-right corner: expand indicator. It and the body share a wrapper so
+          on band cards it sits just under the band however tall the band wraps. */}
+      <div className="relative">
       <span
-        className={`pointer-events-none absolute right-4 z-10 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 sm:right-5 ${band ? "top-[3.75rem]" : "top-4 sm:top-5"} ${
+        className={`pointer-events-none absolute right-4 z-10 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 sm:right-5 ${band ? "top-3" : "top-4 sm:top-5"} ${
           isOpen ? "bg-ink/10 text-ink-soft" : "bg-teal-soft text-teal"
         }`}
       >
@@ -147,6 +149,7 @@ function EventCard({
           </div>
         </div>
       </button>
+      </div>
 
       {/* Expandable details */}
       <div

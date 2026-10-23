@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-14 (Smash tournament sub-event added to the marathon)
+- **Last reviewed:** 2026-10-23 (header band stacks on phones; Details badge follows the band height)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -49,7 +49,13 @@ submissions).
   Directions buttons. Other cards keep those buttons floating top-left;
   moving them into the band is what keeps the main card's body tight. The
   title is gradient text. Glow-ring and full-gradient looks were mocked up
-  and turned down.
+  and turned down. Below `sm` the band stacks (title line, then the
+  buttons) with slightly tighter letter-spacing and a nowrap pill; from
+  `sm` up it is the single row seen on desktop. The "Details" badge and
+  the card body share a `relative` wrapper so the badge sits a fixed
+  distance under the band however tall it wraps — it used to be pinned
+  3.75rem from the card top and landed on the Directions button on phones
+  (2026-10-23).
 
 - **Past Events start collapsed.** The section is one button ("Click to see
   N past events", with the derived year label above it) that toggles the
