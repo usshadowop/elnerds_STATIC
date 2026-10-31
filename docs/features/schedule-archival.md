@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-31 (home grid hides the now-line)
+- **Last reviewed:** 2026-10-31 (min-w-0 so the grid cannot widen the page on phones)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -99,3 +99,10 @@ shipped fallback. It passes `showNowLine={false}`, so the home page grid has
 no now-line, legend or current-block pulse (2026-10-31). There is deliberately no link to the Command Center and
 no "example" note (both removed the same day at the owner's request). The
 mechanics of the grid stay documented in the gameday-content card.
+
+The panel and the per-event wrapper carry `min-w-0`. Without it the grid's
+`minWidth` (72px + 118px per lane) made the grid column grow past the
+viewport on phones — at 360px the document was 392px wide and the nav sat
+short of the right edge (owner screenshot, 2026-10-31). Grid items default
+to `min-width:auto`, so an `overflow-x-auto` child cannot clip unless its
+parent is allowed to shrink.

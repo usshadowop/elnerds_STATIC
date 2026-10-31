@@ -17,7 +17,7 @@ function MainEventSchedule({ item }: { item: EventItem }) {
   const calendar = item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.calendar : undefined;
   if (!calendar) return null;
   return (
-    <div id="gameday-schedule" className="scroll-mt-24 rounded-2xl border border-line bg-paper p-5 shadow-[var(--shadow-soft)] sm:p-6">
+    <div id="gameday-schedule" className="min-w-0 scroll-mt-24 rounded-2xl border border-line bg-paper p-5 shadow-[var(--shadow-soft)] sm:p-6">
       <div className="mb-4">
         <p className="mb-1 inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">
           <CalendarClock className="size-3.5" /> What&rsquo;s on
@@ -296,7 +296,7 @@ export function Schedule() {
         {hosted.length > 0 ? (
           <div className="grid gap-4">
             {hosted.map((item) => (
-              <div key={item.title} className="grid gap-4">
+              <div key={item.title} className="grid min-w-0 gap-4">
                 <EventCard
                   item={item}
                   index={item.title}
