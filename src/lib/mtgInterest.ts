@@ -9,13 +9,15 @@ const ENDPOINT = import.meta.env.VITE_RSVP_ENDPOINT as string | undefined;
 
 export const isMtgInterestConfigured = Boolean(ENDPOINT);
 
-export const MTG_FORMATS = ["Commander", "Standard", "Modern", "Pioneer", "Pauper", "Legacy"] as const;
+export const MTG_FORMATS = ["Commander", "Draft", "Other"] as const;
 export const MTG_INTEREST_LEVELS = ["Competitive", "Casual"] as const;
 
 export type MtgInterestSignup = {
   email: string;
   /** Formats the visitor plays, from MTG_FORMATS. */
   formats: string[];
+  /** Free text when "Other" is ticked; stored as "Other: …" in the sheet. */
+  formatOther: string;
   /** Competitive and/or Casual, from MTG_INTEREST_LEVELS. */
   interest: string[];
   /** Opted in to news and emails about EL Nerds MTG events. */

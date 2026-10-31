@@ -13,7 +13,7 @@
  *   - Receives newsletter signups (POST { type: "newsletter", email, referral })
  *     from /newsletter into a "Newsletter" tab, and notifies the captain
  *   - Receives Magic: The Gathering interest (POST { type: "mtg", email,
- *     formats[], interest[], emailOptIn }) from /mtginterest into a *separate*
+ *     formats[], formatOther, interest[], emailOptIn }) from /mtginterest into a *separate*
  *     spreadsheet, "elnerds_mtginterest", and notifies the captain
  *
  * Setup: see apps-script/README.md in the repo.
@@ -36,7 +36,7 @@ const SPREADSHEET_NAME = "elnerds RSVPs";
 // first /mtginterest submission; its ID is kept in the MTG_SPREADSHEET_ID
 // script property, so deleting the sheet makes the next post start a new one).
 const MTG_SPREADSHEET_NAME = "elnerds_mtginterest";
-const MTG_FORMATS = ["Commander", "Standard", "Modern", "Pioneer", "Pauper", "Legacy"];
+const MTG_FORMATS = ["Commander", "Draft", "Other"];
 const MTG_INTEREST_LEVELS = ["Competitive", "Casual"];
 
 // Per-event details for the Add-to-Calendar button, keyed by slug. Keys must
@@ -408,7 +408,10 @@ function handleMtgInterest_(data) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return json_({ ok: false, error: "Please enter a valid email address." });
   }
-  const formats = pickAllowed_(data.formats, MTG_FORMATS);
+  let formats = pickAllowed_(data.formats, MTG_FORMATS);
+  // "Other" carries free text; it goes into the same cell as "Other: …".
+  const other = String(data.formatOther || "").trim().slice(0, 200);
+  if (formats.indexOf("Other") !== -1 && other) formats = formats.replace("Other", "Other: " + other);
   const interest = pickAllowed_(data.interest, MTG_INTEREST_LEVELS);
   const optIn = data.emailOptIn === true ? "Yes" : "No";
   if (!formats || !interest) {

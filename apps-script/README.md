@@ -148,12 +148,12 @@ again. To send a newsletter, export the tab and import it into Brevo.
 
 ## MTG interest
 
-`/mtginterest` posts `{ type: "mtg", email, formats, interest, emailOptIn }` to this same
+`/mtginterest` posts `{ type: "mtg", email, formats, formatOther, interest, emailOptIn }` to this same
 endpoint. It lands in its **own spreadsheet, "elnerds_mtginterest"**, in this
 account's Drive, on an `Interest` tab (Timestamp, Email, Formats, Interest
 level, MTG emails). One row per email: a repeat submission updates that row. Only the
-site's option values are kept (Commander, Standard, Modern, Pioneer, Pauper,
-Legacy; Competitive, Casual).
+site's option values are kept (Commander, Draft, Other; Competitive,
+Casual); "Other" carries up to 200 characters of free text in the same cell.
 
 To create the sheet before anyone submits, run **`setupMtg`** once from the
 editor (same as `setup`); the log prints its URL. Otherwise the first

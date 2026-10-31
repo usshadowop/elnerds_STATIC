@@ -13,8 +13,8 @@ play. The Halloween email's hero section points here.
 ## Where it lives
 
 - `src/pages/MtgInterest.tsx`: `/mtginterest`, laid out like `/newsletter`.
-  Three sections: Email (with an opt-in checkbox for MTG news and emails under it), Format interest (checkboxes: Commander, Standard,
-  Modern, Pioneer, Pauper, Legacy), Type of interest (checkboxes:
+  Three sections: Email (with an opt-in checkbox for MTG news and emails under it), Format interest (checkboxes: Commander, Draft,
+  Other; ticking Other reveals a text field that is then required), Type of interest (checkboxes:
   Competitive, Casual). At least one box in each group is required.
 - `src/lib/mtgInterest.ts`: the POST client and the two option lists.
 - The Magic: The Gathering wordmark, shown in place of the page's `<h1>`
@@ -32,7 +32,7 @@ play. The Halloween email's hero section points here.
 
 ## How it works
 
-The form posts `{ type: "mtg", email, formats[], interest[], emailOptIn, website }` to
+The form posts `{ type: "mtg", email, formats[], formatOther, interest[], emailOptIn, website }` to
 the same Apps Script endpoint as the RSVP and newsletter forms
 (`VITE_RSVP_ENDPOINT`). `type: "mtg"` sends it to `handleMtgInterest_`,
 which:
@@ -43,7 +43,8 @@ which:
   RSVPs";
 - keeps an `Interest` tab with columns Timestamp, Email, Formats, Interest
   level, MTG emails (Yes/No from the opt-in box). Formats and Interest level are comma-separated strings in the
-  site's order ("Commander, Modern" / "Casual");
+  site's order ("Commander, Other: Pauper" / "Casual"); the Other text is
+  folded into the Formats cell, trimmed to 200 characters;
 - writes one row per email: a repeat submission overwrites that address's
   Formats, Interest level and Timestamp rather than adding a row;
 - emails the captain for each *new* address only.
