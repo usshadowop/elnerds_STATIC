@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-31 (fillRunOfShow2026 helper)
+- **Last reviewed:** 2026-10-31 (rider blocks no longer overflow the grid)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -84,8 +84,10 @@ becomes a live player.
     hours or less may ride on top of a block at least twice as long in the
     same lane (never the all-day block), provided the one underneath keeps
     about 100 minutes clear for its own label; the label moves into that
-    gap. Riders are shifted 12px right at full width so they overhang the
-    block beneath. The thresholds (`MAX_OVERLAY_MIN`, `MIN_LABEL_MIN`,
+    gap. Riders are shifted 12px right and narrowed by the same 12px, so
+    they read as sitting on the block beneath while their right edge stays
+    flush with the lane (at full width the last lane's rider overflowed the
+    grid by 12px and forced a horizontal scrollbar; fixed 2026-10-31). The thresholds (`MAX_OVERLAY_MIN`, `MIN_LABEL_MIN`,
     `RIDE_PX`) are constants at the top of `GamedaySchedule.tsx`.
   - **Meals.** A row whose title or detail mentions breakfast, lunch,
     dinner, waffles, snacks, food or pizza becomes a green banner in the

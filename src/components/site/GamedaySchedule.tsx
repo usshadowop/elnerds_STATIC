@@ -191,11 +191,14 @@ export function GamedaySchedule({
     return spec.top + into * spec.px;
   };
 
-  // Riders are shifted right by RIDE_PX, keeping their full width, so they
+  // Riders are shifted right by RIDE_PX (and narrowed by the same), so they
   // hang past the right edge of the block underneath like a card on a card.
   const RIDE_PX = 12;
   const laneLeft = (lane: number, lanes: number, shift = 0) => `calc(${(lane / lanes) * 100}% + ${3 + shift}px)`;
-  const laneWidth = (lanes: number) => `calc(${100 / lanes}% - 6px)`;
+  // Riders give back the same RIDE_PX on the right, so their right edge stays
+  // flush with the lane; otherwise the last lane's rider pokes past the grid
+  // and the whole thing grows a horizontal scrollbar for 12px.
+  const laneWidth = (lanes: number, shrink = 0) => `calc(${100 / lanes}% - ${6 + shrink}px)`;
   // Meal banners live in the first lane only (the all-day block's), split
   // between meals that start together, leaving the other lanes free.
   const foodLeft = (f: Block) => `calc(${(100 / laneCount) * (f.lane / f.lanes)}% + 3px)`;
@@ -286,7 +289,7 @@ export function GamedaySchedule({
                       top,
                       height,
                       left: laneLeft(b.lane, laneCount, b.overlay ? RIDE_PX : 0),
-                      width: laneWidth(laneCount),
+                      width: laneWidth(laneCount, b.overlay ? RIDE_PX : 0),
                     }}
                   >
                     <div
