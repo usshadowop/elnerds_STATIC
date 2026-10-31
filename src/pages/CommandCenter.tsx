@@ -20,7 +20,7 @@ import stillVr from "@/assets/carousel/event-4.jpg";
 // as a demo rather than a row of empty boxes. A real Embed URL replaces one.
 const SAMPLE_STILLS = [stillPc, stillCrowd, stillVr];
 
-import { GamedaySchedule } from "@/components/site/GamedaySchedule";
+import { ResponsiveGamedaySchedule } from "@/components/site/GamedayAgenda";
 import { useGameday } from "@/hooks/use-countdown";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
@@ -225,7 +225,7 @@ export function CommandCenter() {
                 Loading the schedule&hellip;
               </div>
             ) : (
-              <GamedaySchedule
+              <ResponsiveGamedaySchedule
                 rows={runOfShow}
                 startMs={Date.parse(GAME_DAY_START)}
                 endMs={Date.parse(GAME_DAY_END)}

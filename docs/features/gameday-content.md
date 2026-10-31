@@ -1,8 +1,8 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-31 (showNowLine prop; home page hides the now-line)
-- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
+- **Last reviewed:** 2026-10-31 (phone agenda list + full-timeline overlay)
+- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`
 
 ## Purpose
 
@@ -27,6 +27,11 @@ a spreadsheet during the event.
 - `src/hooks/use-gameday-content.ts` — the polling hook.
 - `src/components/site/GamedaySchedule.tsx` — the "Schedule" section: the
   run-of-show rows laid out as a lane grid with a "now" line (rules below).
+- `src/components/site/GamedayAgenda.tsx` — `ResponsiveGamedaySchedule`,
+  which both pages render: below `md` a top-to-bottom **agenda list**
+  (`GamedayAgenda`) with a "See the full timeline" button that opens the
+  grid in a full-screen overlay; from `md` up the grid itself. Added
+  2026-10-31 after the grid proved unreadable on phones.
   Since 2026-10-31 the home page's Schedule section renders the same grid
   under the main-event card (`MainEventSchedule` in `Schedule.tsx`, owned
   by schedule-archival), fed by the same hook.
@@ -105,6 +110,16 @@ becomes a live player.
     its top edge there it drew about ten minutes late, below a block that
     hadn't ended yet (reported from the live site 2026-10-15, PR #83).
     Check line position with the clock forced, not by eye.
+- **Phones get a list, not the grid** (`ResponsiveGamedaySchedule`, below
+  `md`). The all-day row (24 h or longer) becomes a banner; the rest are
+  "time pill | card" rows sorted by start, meals green via the same `FOOD`
+  regex, untimed rows listed underneath in plain text. During Game Day the
+  current row gets a "NOW" tag and a magenta ring (off on the home page via
+  `showNow`). The overlay is a fixed full-screen panel (Escape closes, body
+  scroll locked) holding the ordinary grid with its own sideways scroll.
+  `FOOD`, `clockLabel`, `DAY_MINUTES` and `START_HOUR` live in
+  `gamedayContent.ts` and feed both views, so they can never disagree on
+  what a meal or a time is.
 - **The home page hides the now-line** (`showNowLine={false}` from
   `MainEventSchedule`): no line, no "Preview" legend, no pulse on current
   blocks. Before Game Day a line following the visitor's clock read as if
