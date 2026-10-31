@@ -1,7 +1,7 @@
 # Newsletter signup
 
 - **Status:** Live (backend verified 2026-09-25)
-- **Last reviewed:** 2026-09-25
+- **Last reviewed:** 2026-10-31 (still accurate; test row confirmed gone)
 - **Covers:** `src/pages/Newsletter.tsx`, `src/lib/newsletter.ts`
 
 ## Purpose
@@ -60,8 +60,8 @@ own link.
 ## Manual steps and open questions
 
 - **Verified live on 2026-09-25**, by posts straight to the endpoint:
-  - a test signup, `newsletter-test@example.com`, returned ok. That row can be
-    deleted from the sheet;
+  - a test signup, `newsletter-test@example.com`, returned ok. (That row was
+    deleted; confirmed gone 2026-10-31 by reading the sheet.)
   - the same address with different capitals returned ok without adding a
     row;
   - a bad address was refused.

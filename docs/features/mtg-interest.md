@@ -8,7 +8,8 @@
 
 Gauge interest in Magic: The Gathering before planning MTG events: who is
 in, which formats they play, and whether they want competitive or casual
-play. The Halloween email's hero section points here.
+play. The Halloween email (sent 2026-10-31, archived as
+`email/archive/2026-10-halloween/`) points here from its hero and a chip.
 
 ## Where it lives
 
@@ -78,5 +79,7 @@ which:
   field → `ok` with nothing saved.
 - **Not yet done:** a real submission, so the `Interest` tab has only its
   header row. Share the sheet from the captain's Drive.
-- Nothing links to `/mtginterest` from the site itself. Decide whether it
-  should appear in the nav or footer once the email has gone out.
+- Nothing links to `/mtginterest` from the site itself; the sent email is
+  the only way in. Decide whether it should appear in the nav or footer.
+- The sheet is not shared with the Drive connector's account, so a session
+  cannot check whether rows have landed; ask the owner or the captain inbox.

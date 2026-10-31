@@ -39,16 +39,16 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (embed URLs still empty), `Gameday Incentives` (still "$—" starter rows) and `Gameday Notice` (banner cell empty). `Gameday Run of Show` was filled 2026-10-31 via `fillRunOfShow2026`. Check with `curl "$ENDPOINT?action=gameday"`. |
+| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (embed URLs empty), `Gameday Incentives` ("$—" starter rows) and `Gameday Notice` (banner cell empty); all three re-checked at the live endpoint 2026-10-31 evening, still starter. `Gameday Run of Show` is done (8 rows, filled via `fillRunOfShow2026`). Check with `curl "$ENDPOINT?action=gameday"`. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
-| 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
+| 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) and `src/lib/router.tsx` be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. `router.tsx` grew `useHashScroll` on 2026-10-31 (anchor links land on first load), which is the first real mechanism in there; still no card. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
 | 2026-10-13 | Owner | Confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. (The run-of-show half of this thread closed 2026-10-31: the 2026 rows are in the sheet and live.) |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
-| 2026-10-31 | Owner | `elnerds_mtginterest` exists (captain's Drive, created by `setupMtg` 2026-10-31) but nobody has submitted the form yet, so the `Interest` tab holds only its header. Share the sheet with whoever needs it, and send one real `/mtginterest` submission to confirm a row lands. |
+| 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it, and confirm rows are landing now that the Halloween email is out — the captain inbox gets a "New MTG interest" email per new address. The sheet is not visible to the Drive connector's account, so a session cannot check this. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 
 Rules that keep this honest:
@@ -67,30 +67,31 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-10-31 (Halloween email, archive, sheet write-up, MTG form):*
+*Session of 2026-10-31 (Halloween email sent, MTG form, home-page schedule;
+PRs #87–#114):*
 
-- Home page: the Game Day run-of-show grid sits under the marathon card
-  with a blue hero chip linking to it; the sheet's rows are shown as-is
-  and the 2026 rows are live. Phones get an agenda list with a
-  full-timeline overlay (`GamedayAgenda.tsx`). `#anchor` links now land on
-  first load (`useHashScroll` in `router.tsx`).
-- Wrote and **sent** the Halloween email (PRs #87-#107): dark theme, moon
-  banner, MTG interest hero, "Schedule is live!" callout, three summary
-  chips. Sent via Brevo 2026-10-31; archived as
-  `email/archive/2026-10-halloween/`. `/email/current/` redirects there.
-- Built `/mtginterest` (`MtgInterest.tsx`, `mtgInterest.ts`) and
-  `handleMtgInterest_` in `Code.gs`, which writes to a new, separate
-  spreadsheet `elnerds_mtginterest`. The owner pasted `Code.gs`, ran
-  `setupMtg` and `fillRunOfShow2026`, and redeployed the same day; verified
-  live (bad-email probe refused with the new message). Card:
-  `docs/features/mtg-interest.md`.
-- Archived the Oct "Sign Up Today" email as `email/archive/2026-10-signup-today/`
-  on the owner's word it was sent.
-- Wrote `docs/features/rsvp-sheet.md`: every tab of the RSVP sheet, its
-  creator, writer and reader. Claude has never edited a cell; the Drive
-  connector reads but cannot write; the writers are `Code.gs` and people.
-- The Gmail/Drive connectors in this session are signed in as
-  `stevenlarker1982@gmail.com`, not the shadow-op or captain account.
+- **Halloween email written, reviewed live and sent** via Brevo; archived as
+  `email/archive/2026-10-halloween/` with `/email/current/` redirecting
+  there. Dark theme, moon-and-bats banner, MTG hero with the wordmark,
+  "Schedule is live!" callout, three summary chips, dark CMN badge, no Step
+  labels. The Oct "Sign Up Today" email was archived the same day.
+- **`/mtginterest` built and live**: email + MTG-news opt-in, Commander /
+  Draft / Other (free text), Competitive / Casual. `Code.gs` writes it to a
+  separate captain-owned sheet `elnerds_mtginterest`; the owner pasted the
+  file, ran `setupMtg` and `fillRunOfShow2026`, and redeployed; verified by
+  probes. Cards: `mtg-interest`, `rsvp-sheet` (new: the whole sheet mapped).
+- **Home page schedule**: the run-of-show grid sits under the marathon card
+  (blue hero chip links to `#gameday-schedule`), shows the sheet's rows
+  as-is, no now-line on the home page. Phones get an agenda list with a
+  full-timeline overlay (`GamedayAgenda.tsx`, also on `/gameday`). The
+  marathon card's details are always open, no chip, no gold sub-cards.
+- **Fixes along the way**: rider blocks overhang without a scrollbar;
+  meal banners grow to fit; the grid can't widen the page on phones;
+  `#anchor` links land on first load (`useHashScroll` in `router.tsx`).
+- Finding worth keeping: Claude has never edited a sheet cell. The Drive
+  connector (signed in as `stevenlarker1982@gmail.com`, not shadow-op or
+  captain) reads but cannot write; the only writers are `Code.gs` (now
+  including the editor-run `fillRunOfShow2026`) and people.
 
 ## Ship-live workflow
 
@@ -176,6 +177,11 @@ already there.
   event. Omit `chip` to keep an event out of the hero. The class strings
   are spelled out in full because Tailwind can't see class names
   assembled at runtime.
+- `src/lib/router.tsx` — `usePath`/`navigate` (the client-side router) and
+  `useHashScroll`, which makes `#anchor` links land on first load by
+  scrolling to the hash once the element exists and again while the page
+  settles (the served HTML is empty until React renders, so the browser
+  alone finds nothing). Called once from `App.tsx`.
 - `src/hooks/use-now.ts` — the shared ticking clock (default one minute)
   behind all of the above, so a page left open across an event's end
   updates without a reload.
