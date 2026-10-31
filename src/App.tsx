@@ -9,10 +9,12 @@ import { GilletteChildrensHospital } from "@/pages/GilletteChildrensHospital";
 import { PatientProfiles } from "@/pages/PatientProfiles";
 import { Registration } from "@/pages/Registration";
 import { Rsvp } from "@/pages/Rsvp";
-import { usePath } from "@/lib/router";
+import { useHashScroll, usePath } from "@/lib/router";
 
 export default function App() {
   const path = usePath();
+  // `#anchor` links from emails and chips land on the right spot on first load.
+  useHashScroll([path]);
 
   let page = <Home />;
   if (path === "gameday") page = <CommandCenter />;
