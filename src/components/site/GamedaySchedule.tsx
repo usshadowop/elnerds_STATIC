@@ -227,7 +227,9 @@ export function GamedaySchedule({
       </div>
 
       <div className="overflow-x-auto">
-        <div style={{ minWidth: 72 + laneCount * 118 }}>
+        {/* 150px a lane: enough that a meal banner's text wraps to two or three
+              lines, not five, in the phone overlay (it was 118). */}
+          <div style={{ minWidth: 72 + laneCount * 150 }}>
           {/* Header bars */}
           <div className="mb-2 flex gap-2">
             <div className="w-16 shrink-0 rounded-md bg-[#1f3b5c] py-1.5 text-center text-xs font-extrabold text-white">
@@ -316,12 +318,16 @@ export function GamedaySchedule({
               })}
 
               {foods.map((f) => {
-                const height = Math.max(y(f.end) - y(f.start) - 6, 40);
+                // The time span sets a minimum, not a fixed height: in a narrow
+                // lane (the phone overlay) the text wraps to four lines and a
+                // fixed one-hour box clipped it. A banner may run a little past
+                // its hour rather than lose its words.
+                const minHeight = Math.max(y(f.end) - y(f.start) - 6, 40);
                 return (
                   <div
                     key={`${f.row.time}-${f.row.title}`}
-                    className="absolute z-10 flex items-center justify-center rounded-lg border-2 border-ink bg-[#c7f36b] px-3 py-1 text-center shadow-[var(--shadow-soft)]"
-                    style={{ top: y(f.start) + 3, height, left: foodLeft(f), width: foodWidth(f) }}
+                    className="absolute z-10 flex items-center justify-center rounded-lg border-2 border-ink bg-[#c7f36b] px-2 py-1.5 text-center shadow-[var(--shadow-soft)] sm:px-3"
+                    style={{ top: y(f.start) + 3, minHeight, left: foodLeft(f), width: foodWidth(f) }}
                   >
                     <p className="text-xs leading-tight text-ink">
                       <span className="font-extrabold">{f.row.title}</span>
