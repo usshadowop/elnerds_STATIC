@@ -49,7 +49,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-10-13 | Owner | Confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. (The run-of-show half of this thread closed 2026-10-31: the 2026 rows are in the sheet and live.) |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
 | 2026-10-31 | Owner | `elnerds_mtginterest` exists (captain's Drive, created by `setupMtg` 2026-10-31) but nobody has submitted the form yet, so the `Interest` tab holds only its header. Share the sheet with whoever needs it, and send one real `/mtginterest` submission to confirm a row lands. |
-| 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. Also: review the Halloween variant (`email/elnerds-halloween.html`, previewed at /email/current/) before any send. |
+| 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 
 Rules that keep this honest:
 
@@ -69,13 +69,15 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 
 *Session of 2026-10-31 (Halloween email, archive, sheet write-up, MTG form):*
 
-- Home page: the Game Day run-of-show grid now sits under the marathon
-  card, with a blue hero chip linking to it; the sheet's rows are shown
-  as-is (the 2025 example is only a fallback now). The 2026 rows are live.
-- Added a Halloween email (`email/elnerds-halloween.html`, PRs #87-#89):
-  dark theme, orange accents, a banner with the logo on a harvest moon and
-  bats. Its hero now asks "Interested in Magic: The Gathering?" with a
-  button to `/mtginterest`. Current campaign at `/email/current/`. Not sent.
+- Home page: the Game Day run-of-show grid sits under the marathon card
+  with a blue hero chip linking to it; the sheet's rows are shown as-is
+  and the 2026 rows are live. Phones get an agenda list with a
+  full-timeline overlay (`GamedayAgenda.tsx`). `#anchor` links now land on
+  first load (`useHashScroll` in `router.tsx`).
+- Wrote and **sent** the Halloween email (PRs #87-#107): dark theme, moon
+  banner, MTG interest hero, "Schedule is live!" callout, three summary
+  chips. Sent via Brevo 2026-10-31; archived as
+  `email/archive/2026-10-halloween/`. `/email/current/` redirects there.
 - Built `/mtginterest` (`MtgInterest.tsx`, `mtgInterest.ts`) and
   `handleMtgInterest_` in `Code.gs`, which writes to a new, separate
   spreadsheet `elnerds_mtginterest`. The owner pasted `Code.gs`, ran

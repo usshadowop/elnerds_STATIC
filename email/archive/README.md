@@ -14,6 +14,7 @@ Each archived email also stays viewable on the site at
 | Aug 2026 | [`2026-08-announcement`](2026-08-announcement/) | New Website, New Venue, Bingo Night & Game Day 2026 | General, VIP | [/email/archive/2026-08-announcement/](https://elnerds.com/email/archive/2026-08-announcement/) |
 | Sep 2026 | [`2026-09-signup-recruit`](2026-09-signup-recruit/) | Sign Up for Game Day 2026 (sign up, recruit, earn donations) | General | [/email/archive/2026-09-signup-recruit/](https://elnerds.com/email/archive/2026-09-signup-recruit/) |
 | Oct 2026 | [`2026-10-signup-today`](2026-10-signup-today/) | Sign Up Today (join the team, leadership donations, Game Week drawing) | General | [/email/archive/2026-10-signup-today/](https://elnerds.com/email/archive/2026-10-signup-today/) |
+| Oct 31, 2026 | [`2026-10-halloween`](2026-10-halloween/) | Happy Halloween from Extra Life Nerds (MTG interest form, Game Day schedule is live, still time to join) | General | [/email/archive/2026-10-halloween/](https://elnerds.com/email/archive/2026-10-halloween/) |
 
 ## Archiving a campaign
 

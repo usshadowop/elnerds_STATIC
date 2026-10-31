@@ -3,14 +3,12 @@
 This folder holds the campaign currently being written or sent. Sent
 campaigns move to [`archive/`](archive/), one folder per send.
 
-**Current campaign:** [`elnerds-halloween.html`](elnerds-halloween.html)
-— the Sep sign-up/recruit email recolored for Halloween (purple, pumpkin
-orange, a moon-and-bats banner). The hero asks "Interested in Magic: The
-Gathering?" with a button to `/mtginterest`; the rest is the Sep copy. Not sent;
-preview at [elnerds.com/email/current/](https://elnerds.com/email/current/).
-The most recent send is the Oct 2026 "Sign Up Today" email, in
-[`archive/2026-10-signup-today/`](archive/2026-10-signup-today/), viewable at
-[elnerds.com/email/archive/2026-10-signup-today/](https://elnerds.com/email/archive/2026-10-signup-today/).
+**Current campaign:** none. The most recent send is the Oct 31, 2026
+Halloween email (MTG interest form, Game Day schedule, still time to join),
+in [`archive/2026-10-halloween/`](archive/2026-10-halloween/), viewable at
+[elnerds.com/email/archive/2026-10-halloween/](https://elnerds.com/email/archive/2026-10-halloween/).
+`public/email/current/index.html` is a redirect to it until the next draft
+lands.
 
 Event details mirror [`src/lib/rsvpEvents.ts`](../src/lib/rsvpEvents.ts) and
 [`src/lib/scheduleEvents.ts`](../src/lib/scheduleEvents.ts) — check dates,
