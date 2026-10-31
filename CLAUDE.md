@@ -39,7 +39,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | Owner | Fill in the four `Gameday *` tabs in the RSVP sheet before Nov 14. They exist, but on 2026-10-03 they still held only the starter rows ("TBD", empty stream embeds); check with `curl "$ENDPOINT?action=gameday"`. Also delete the test row `newsletter-test@example.com` from the `Newsletter` tab. That can't be checked from here, so ask. |
+| 2026-08-12 | Owner | Fill in the four `Gameday *` tabs in the RSVP sheet before Nov 14. They exist, but on 2026-10-03 they still held only the starter rows ("TBD", empty stream embeds); check with `curl "$ENDPOINT?action=gameday"`. (Re-checked 2026-10-31 by reading the sheet through the Drive connector: still starter rows. The `newsletter-test@example.com` row is gone.) |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
@@ -66,16 +66,23 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-10-31 (email housekeeping):*
+*Session of 2026-10-31 (Halloween email, archive, sheet write-up):*
 
-- Added a Halloween-themed recolor of the Sep sign-up/recruit email
-  (`email/elnerds-halloween.html`); it is now the current campaign at
-  `/email/current/`. Not sent.
+- Added a Halloween email (`email/elnerds-halloween.html`, PRs #87-#89):
+  dark theme, orange accents, a banner image with the logo on a harvest
+  moon and bats (`public/email/assets/halloween-header.png`). It is the
+  current campaign at `/email/current/`. Not sent.
 - Archived the Oct "Sign Up Today" email as `email/archive/2026-10-signup-today/`
-  (on the owner's word it was sent) and updated the archive index, `/email/`
-  and the `/email/signup-today/` redirect.
+  on the owner's word it was sent; the archive index, `/email/` and the
+  `/email/signup-today/` redirect point to it.
+- Wrote `docs/features/rsvp-sheet.md` after the owner asked how the sheet
+  gets edited: every tab, its creator, writer and reader. Finding: Claude
+  has never edited a cell; the Drive connector can read the sheet but not
+  write to it, and the only writers are `Code.gs` and people.
+- The Gmail/Drive connectors in this session are signed in as
+  `stevenlarker1982@gmail.com`, not the shadow-op or captain account.
 - The previous session (2026-10-23, PRs #85-#86) fixed two mobile layout
-  issues in `Schedule.tsx` and `ActiveRoster.tsx`; see `git log`.
+  issues in `Schedule.tsx` and `ActiveRoster.tsx`.
 
 ## Ship-live workflow
 
@@ -201,6 +208,11 @@ already there.
   Editing the fallback in the repo does **not** change what the sheet
   serves; during the event, edit the sheet. The sponsor links and the
   "Come visit" card at the top are hand-maintained in `CommandCenter.tsx`.
+- **The "elnerds RSVPs" spreadsheet** is owned by the captain account and
+  written only by `Code.gs` (RSVP rows, newsletter rows, cancel status) and
+  by people typing in Sheets (the `Gameday *` tabs, `RSVP Stats`). No tool
+  in a Claude session can edit its cells; the Drive connector reads it. The
+  full tab map is `docs/features/rsvp-sheet.md`.
 - `apps-script/Code.gs` — the Google Apps Script RSVP backend mirrors the
   slugs and field labels from `rsvpEvents.ts`; keep them in sync when
   events change (see `apps-script/README.md`).
