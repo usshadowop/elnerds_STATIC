@@ -17,6 +17,11 @@ play. The Halloween email's hero section points here.
   Modern, Pioneer, Pauper, Legacy), Type of interest (checkboxes:
   Competitive, Casual). At least one box in each group is required.
 - `src/lib/mtgInterest.ts`: the POST client and the two option lists.
+- `src/assets/logos/mtg-logo.jpg` (and `public/email/assets/mtg-logo.jpg`
+  for the email): the Magic: The Gathering wordmark on a dark ground,
+  shown in place of the page's `<h1>` text and the email hero's headline.
+  It is Wizards of the Coast's mark, 764×401, from a Google image
+  thumbnail; replace with a higher-resolution copy if one turns up.
 - `handleMtgInterest_` in `apps-script/Code.gs` (owned by
   [rsvp-backend](rsvp-backend.md)) writes the row.
 - The route is one line in `src/App.tsx`. Nothing in the nav or footer
