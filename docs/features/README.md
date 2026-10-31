@@ -11,12 +11,12 @@ from the code.
 | --- | --- | --- |
 | [schedule-archival](schedule-archival.md) | Event cards that move themselves Future → Past | Live |
 | [gameday-hero-states](gameday-hero-states.md) | Hero countdown across Game Day, and the total after | Live |
-| [gameday-content](gameday-content.md) | Command Center: sheet-driven contents and the stacked Schedule grid | Live |
+| [gameday-content](gameday-content.md) | Command Center: sheet-driven contents, the Schedule grid, and the phone agenda (also on the home page) | Live |
 | [rsvp-backend](rsvp-backend.md) | RSVP form → sheet → confirmation + cancel emails | Live |
 | [rsvp-sheet](rsvp-sheet.md) | The "elnerds RSVPs" spreadsheet: every tab, what writes it, what reads it | Live |
 | [extra-life-api](extra-life-api.md) | Live team, roster and donor data from DonorDrive | Live |
 | [newsletter-signup](newsletter-signup.md) | `/newsletter` signup → sheet, with a referral field | Live |
-| [mtg-interest](mtg-interest.md) | `/mtginterest` form → its own `elnerds_mtginterest` sheet | Built, backend awaiting redeploy |
+| [mtg-interest](mtg-interest.md) | `/mtginterest` form → its own `elnerds_mtginterest` sheet | Live |
 | [deploy-pipeline](deploy-pipeline.md) | Push to `main` → GitHub Pages | Live |
 | [branding-docs](branding-docs.md) | The email template, block library and design brief | Live |
 
