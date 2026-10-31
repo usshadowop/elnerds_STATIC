@@ -71,10 +71,10 @@ before any RSVP validation.
   editor: paste the file in, then **Deploy → Manage deployments → ✏️ → New
   version**. The URL stays the same and no secret changes. A repo edit alone
   changes nothing live.
-- **The live deployment is behind the repo as of 2026-10-31:** the MTG
-  interest handler (`type: "mtg"`) is in `Code.gs` but not deployed. Until
-  the redeploy, `/mtginterest` gets "Invalid submission.".
-- **The live deployment matched the repo** as of 2026-09-25 (Version 4).
+- **The live deployment matches the repo** as of 2026-10-31 (redeployed
+  after the MTG handler, `setupMtg` and `fillRunOfShow2026` were added;
+  bad-email MTG probe returns the new message). Previously Version 4,
+  2026-09-25.
   Checked then:
   - `?action=gameday` returns display-value times ("8:00 AM");
   - an RSVP for the already-finished Bingo event is refused;
