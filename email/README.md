@@ -12,6 +12,8 @@ Sep 2026 sign-up/recruit email, in
 [`archive/2026-09-signup-recruit/`](archive/2026-09-signup-recruit/); it is
 viewable at [elnerds.com/email/archive/2026-09-signup-recruit/](https://elnerds.com/email/archive/2026-09-signup-recruit/).
 
+**Halloween variant:** [`elnerds-halloween.html`](elnerds-halloween.html) is the Sep sign-up/recruit email recolored for Halloween (purple, pumpkin orange, slime green; same copy plus a "Happy Halloween" pill). Preview: [elnerds.com/email/halloween/](https://elnerds.com/email/halloween/). Not sent.
+
 Event details mirror [`src/lib/rsvpEvents.ts`](../src/lib/rsvpEvents.ts) and
 [`src/lib/scheduleEvents.ts`](../src/lib/scheduleEvents.ts) — check dates,
 times and addresses against those before sending.
