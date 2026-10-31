@@ -192,7 +192,7 @@ already there.
   `?ref=Name` pre-filling "Referred by". It posts to the RSVP endpoint with
   `type: "newsletter"`, and `Code.gs` writes it to a `Newsletter` sheet tab.
 - `src/pages/MtgInterest.tsx` (`/mtginterest`): Magic: The Gathering
-  interest form (email, formats, competitive/casual). Posts `type: "mtg"`;
+  interest form (email, Commander/Draft/Other + free text, competitive/casual). Posts `type: "mtg"`;
   `Code.gs` writes it to a **separate** sheet, `elnerds_mtginterest`, one row
   per email. The option lists live in `src/lib/mtgInterest.ts` and again in
   `Code.gs`; keep them the same. Linked only from the Halloween email.

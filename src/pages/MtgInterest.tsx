@@ -16,13 +16,19 @@ const checkClass =
   "flex cursor-pointer items-center gap-3 rounded-xl border border-line bg-paper px-4 py-3 text-sm font-bold text-ink shadow-sm transition has-[:checked]:border-teal has-[:checked]:bg-teal-soft sm:text-base";
 const boxClass = "size-4 shrink-0 accent-teal";
 
-const schema = z.object({
-  email: z.string().trim().min(1, "Please enter your email.").email("That doesn't look like an email address."),
-  emailOptIn: z.boolean(),
-  formats: z.array(z.string()).min(1, "Pick at least one format."),
-  interest: z.array(z.string()).min(1, "Pick at least one."),
-  website: z.string(),
-});
+const schema = z
+  .object({
+    email: z.string().trim().min(1, "Please enter your email.").email("That doesn't look like an email address."),
+    emailOptIn: z.boolean(),
+    formats: z.array(z.string()).min(1, "Pick at least one format."),
+    formatOther: z.string().trim().max(200, "Please keep this under 200 characters."),
+    interest: z.array(z.string()).min(1, "Pick at least one."),
+    website: z.string(),
+  })
+  .refine((v) => !v.formats.includes("Other") || v.formatOther.length > 0, {
+    message: "Tell us which format.",
+    path: ["formatOther"],
+  });
 
 type Values = z.infer<typeof schema>;
 
@@ -34,18 +40,20 @@ export function MtgInterest() {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<Values>({
     resolver: zodResolver(schema),
-    defaultValues: { email: "", emailOptIn: false, formats: [], interest: [], website: "" },
+    defaultValues: { email: "", emailOptIn: false, formats: [], formatOther: "", interest: [], website: "" },
   });
+  const otherChecked = (watch("formats") ?? []).includes("Other");
 
   async function onSubmit(values: Values) {
     setServerError(null);
     try {
       await submitMtgInterest(values);
       setSubmitted(true);
-      reset({ email: "", emailOptIn: false, formats: [], interest: [], website: "" });
+      reset({ email: "", emailOptIn: false, formats: [], formatOther: "", interest: [], website: "" });
     } catch (err) {
       setServerError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     }
@@ -127,7 +135,7 @@ export function MtgInterest() {
                   <legend className={labelClass}>
                     Format interest <span className="font-semibold text-ink-soft">(pick any)</span>
                   </legend>
-                  <div className="grid gap-2.5 sm:grid-cols-2">
+                  <div className="grid gap-2.5 sm:grid-cols-3">
                     {MTG_FORMATS.map((format) => (
                       <label key={format} className={checkClass}>
                         <input type="checkbox" value={format} className={boxClass} {...register("formats")} />
@@ -136,6 +144,21 @@ export function MtgInterest() {
                     ))}
                   </div>
                   {errors.formats && <p className={errorClass}>{errors.formats.message}</p>}
+                  {otherChecked && (
+                    <div className="mt-3">
+                      <label className="sr-only" htmlFor="formatOther">
+                        Which format?
+                      </label>
+                      <input
+                        id="formatOther"
+                        type="text"
+                        placeholder="Which format? (Standard, Modern, Pauper, cube…)"
+                        className={fieldClass}
+                        {...register("formatOther")}
+                      />
+                      {errors.formatOther && <p className={errorClass}>{errors.formatOther.message}</p>}
+                    </div>
+                  )}
                 </fieldset>
 
                 <fieldset>
