@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-31 (min-w-0 so the grid cannot widen the page on phones)
+- **Last reviewed:** 2026-10-31 (home panel renders ResponsiveGamedaySchedule)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -87,8 +87,9 @@ None. This feature is fully self-driving.
 
 ## Game Day schedule under the main card (added 2026-10-31)
 
-`MainEventSchedule` in `Schedule.tsx` renders the run-of-show grid
-(`GamedaySchedule`, the same component `/gameday` uses) directly beneath
+`MainEventSchedule` in `Schedule.tsx` renders the run of show through
+`ResponsiveGamedaySchedule` (agenda list on phones, lane grid from `md` up;
+the same component `/gameday` uses) directly beneath
 the main-event card, outside its Details fold, with `id="gameday-schedule"`
 (the hero's blue chip links to it). It reads the same sheet-driven content
 through `useGamedayContent`, so the home page polls `?action=gameday` once

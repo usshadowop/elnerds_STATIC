@@ -19,13 +19,17 @@
 // 2:15 PM will — so the page can be checked without waiting for November.
 
 import { useNow } from "@/hooks/use-now";
-import { parseShowTime, type GamedayShowRow } from "@/lib/gamedayContent";
+import {
+  DAY_MINUTES,
+  FOOD,
+  START_HOUR,
+  clockLabel,
+  parseShowTime,
+  type GamedayShowRow,
+} from "@/lib/gamedayContent";
 
-const DAY_MINUTES = 24 * 60;
-const START_HOUR = 8; // Game Day runs 8:00 AM Saturday to 8:00 AM Sunday.
 const ROW_PX = 60; // one hour
 const FOLD_PX = 34; // a folded run of quiet hours
-const FOOD = /breakfast|lunch|dinner|waffle|snack|food|pizza/i;
 // A short block may sit on top of a long one in the same lane (Smash on top
 // of Warhammer open play), which keeps the grid narrow. Limits: the rider is
 // at most three hours, the block underneath at least twice as long and not
@@ -39,12 +43,6 @@ function pillLabel(h: number): string {
   return `${hour % 12 === 0 ? 12 : hour % 12}${hour >= 12 ? "pm" : "am"}`;
 }
 
-function clockLabel(minutes: number): string {
-  const total = (START_HOUR * 60 + minutes) % DAY_MINUTES;
-  const h = Math.floor(total / 60);
-  const m = total % 60;
-  return `${h % 12 === 0 ? 12 : h % 12}:${String(m).padStart(2, "0")} ${h >= 12 ? "PM" : "AM"}`;
-}
 
 interface Block {
   row: GamedayShowRow;

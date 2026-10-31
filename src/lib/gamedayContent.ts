@@ -85,6 +85,22 @@ function clock(h: number, m: number, mer: string | undefined, fallback: string |
   return hour * 60 + m;
 }
 
+export const DAY_MINUTES = 24 * 60;
+export const START_HOUR = 8; // Game Day runs 8:00 AM Saturday to 8:00 AM Sunday.
+
+/** Rows whose title or detail mention a meal turn green, in both the grid
+ *  and the phone agenda. */
+export const FOOD = /breakfast|lunch|dinner|waffle|snack|food|pizza/i;
+
+/** Minutes from kickoff → "2:15 PM". Shared by the grid's now-line and the
+ *  agenda's "Now:" line so they can never disagree. */
+export function clockLabel(minutes: number): string {
+  const total = (START_HOUR * 60 + minutes) % DAY_MINUTES;
+  const h = Math.floor(total / 60);
+  const m = total % 60;
+  return `${h % 12 === 0 ? 12 : h % 12}:${String(m).padStart(2, "0")} ${h >= 12 ? "PM" : "AM"}`;
+}
+
 /** A sheet Time cell → minutes from kickoff. Ranges ("9:30a - 12:30p",
  *  "11 - 1p", "8am Saturday - 8am Sunday") give start and end; a single time
  *  ("8am Sunday") gets one hour. Times before 8 AM, or marked Sunday, are the
