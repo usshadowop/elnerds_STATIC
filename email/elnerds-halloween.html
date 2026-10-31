@@ -114,11 +114,13 @@
                       Hi {{ contact.FULL_NAME|default:"there" }} &mdash;
                     </p>
 
-                    <!-- Badge pill: 2–4 words per segment, separated by bullets -->
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 22px auto; border:none;">
+                    <!-- Summary chips: one per thing in this email (icon + label; wrap on phones) -->
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="margin:0 auto 16px auto; border:none;">
                       <tr>
-                        <td style="background-color:#1e1230; border:none; border-radius:100px; padding:8px 16px;" align="center">
-                          <span style="font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#ff8a2b;"><span style="color:#ff7a1a;">&#127875;</span>&nbsp; HAPPY HALLOWEEN &bull; MTG &bull; GAME DAY NOV 14</span>
+                        <td align="center" style="padding:0;">
+                          <span style="display:inline-block; margin:0 4px 8px 4px; background-color:#1e1230; border:1px solid #4a2d6b; border-radius:100px; padding:8px 14px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#ff8a2b; text-decoration:none; white-space:nowrap;"><span style="font-size:14px; line-height:1;">&#127875;</span>&nbsp; Happy Halloween</span>
+                          <a href="https://elnerds.com/mtginterest" style="display:inline-block; margin:0 4px 8px 4px; background-color:#1e1230; border:1px solid #4a2d6b; border-radius:100px; padding:8px 14px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#ff8a2b; text-decoration:none; white-space:nowrap;"><span style="font-size:14px; line-height:1;">&#129415;</span>&nbsp; MTG interest form</a>
+                          <a href="https://elnerds.com/#gameday-schedule" style="display:inline-block; margin:0 4px 8px 4px; background-color:#1e1230; border:1px solid #4a2d6b; border-radius:100px; padding:8px 14px; font-family:'Nunito',Helvetica,Arial,sans-serif; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#ff8a2b; text-decoration:none; white-space:nowrap;"><span style="font-size:14px; line-height:1;">&#128123;</span>&nbsp; Game Day schedule info</a>
                         </td>
                       </tr>
                     </table>
