@@ -1,7 +1,7 @@
 # The "elnerds RSVPs" spreadsheet
 
 - **Status:** Live. Owned by `captainextralifenerds@gmail.com`; nine tabs as of 2026-10-31
-- **Last reviewed:** 2026-10-31 (first write-up, from `Code.gs` and the live sheet)
+- **Last reviewed:** 2026-10-31 (first write-up; second spreadsheet added the same day)
 - **Covers:** `apps-script/Code.gs`, `apps-script/README.md`
 
 ## Purpose
@@ -26,6 +26,12 @@ assuming a tool can edit it.
   `stevenlarker1982@gmail.com` as an editor.
 - **Nothing in this repo holds a copy of the data.** The repo holds only the
   script that writes it and the site code that reads one part of it.
+- **A second spreadsheet, `elnerds_mtginterest`**, is created by the same
+  script on the first `/mtginterest` submission (ID in the
+  `MTG_SPREADSHEET_ID` script property). It has one `Interest` tab:
+  Timestamp, Email, Formats, Interest level; one row per email, updated in
+  place on a repeat. See [mtg-interest](mtg-interest.md). It does not
+  exist until `Code.gs` is redeployed and someone submits the form.
 
 ## How it works
 

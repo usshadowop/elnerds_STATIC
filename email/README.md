@@ -5,7 +5,8 @@ campaigns move to [`archive/`](archive/), one folder per send.
 
 **Current campaign:** [`elnerds-halloween.html`](elnerds-halloween.html)
 — the Sep sign-up/recruit email recolored for Halloween (purple, pumpkin
-orange, slime green; same copy plus a "Happy Halloween" pill). Not sent;
+orange, a moon-and-bats banner). The hero asks "Interested in Magic: The
+Gathering?" with a button to `/mtginterest`; the rest is the Sep copy. Not sent;
 preview at [elnerds.com/email/current/](https://elnerds.com/email/current/).
 The most recent send is the Oct 2026 "Sign Up Today" email, in
 [`archive/2026-10-signup-today/`](archive/2026-10-signup-today/), viewable at

@@ -16,6 +16,7 @@ from the code.
 | [rsvp-sheet](rsvp-sheet.md) | The "elnerds RSVPs" spreadsheet: every tab, what writes it, what reads it | Live |
 | [extra-life-api](extra-life-api.md) | Live team, roster and donor data from DonorDrive | Live |
 | [newsletter-signup](newsletter-signup.md) | `/newsletter` signup → sheet, with a referral field | Live |
+| [mtg-interest](mtg-interest.md) | `/mtginterest` form → its own `elnerds_mtginterest` sheet | Built, backend awaiting redeploy |
 | [deploy-pipeline](deploy-pipeline.md) | Push to `main` → GitHub Pages | Live |
 | [branding-docs](branding-docs.md) | The email template, block library and design brief | Live |
 

@@ -48,6 +48,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
 | 2026-10-13 | Owner | Fill the `Gameday Run of Show` tab with the real 2026 schedule. Until any row changes, `/gameday` shows the **2025** schedule as an example (the untouched starter rows are treated as empty). Time cells may be ranges like `9:30a - 12:30p`; rows mentioning a meal turn green. Also confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
+| 2026-10-31 | **Owner** | **Paste `Code.gs`, run `setupMtg` once, then redeploy** (Deploy → Manage deployments → ✏️ → New version) so `/mtginterest` can save. `setupMtg` creates `elnerds_mtginterest` in the captain account's Drive, owned by it. The handler is in the repo; until the redeploy the form shows "Invalid submission.". Check with a bad-email POST of `{"type":"mtg","email":"x"}` — a current deployment says "Please enter a valid email address.", a stale one says "Invalid submission.". Share the new sheet from the captain's Drive. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. Also: review the Halloween variant (`email/elnerds-halloween.html`, previewed at /email/current/) before any send. |
 
 Rules that keep this honest:
@@ -66,23 +67,23 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-10-31 (Halloween email, archive, sheet write-up):*
+*Session of 2026-10-31 (Halloween email, archive, sheet write-up, MTG form):*
 
 - Added a Halloween email (`email/elnerds-halloween.html`, PRs #87-#89):
-  dark theme, orange accents, a banner image with the logo on a harvest
-  moon and bats (`public/email/assets/halloween-header.png`). It is the
-  current campaign at `/email/current/`. Not sent.
+  dark theme, orange accents, a banner with the logo on a harvest moon and
+  bats. Its hero now asks "Interested in Magic: The Gathering?" with a
+  button to `/mtginterest`. Current campaign at `/email/current/`. Not sent.
+- Built `/mtginterest` (`MtgInterest.tsx`, `mtgInterest.ts`) and
+  `handleMtgInterest_` in `Code.gs`, which writes to a new, separate
+  spreadsheet `elnerds_mtginterest`. **Needs the `Code.gs` redeploy** in
+  Open threads. Card: `docs/features/mtg-interest.md`.
 - Archived the Oct "Sign Up Today" email as `email/archive/2026-10-signup-today/`
-  on the owner's word it was sent; the archive index, `/email/` and the
-  `/email/signup-today/` redirect point to it.
-- Wrote `docs/features/rsvp-sheet.md` after the owner asked how the sheet
-  gets edited: every tab, its creator, writer and reader. Finding: Claude
-  has never edited a cell; the Drive connector can read the sheet but not
-  write to it, and the only writers are `Code.gs` and people.
+  on the owner's word it was sent.
+- Wrote `docs/features/rsvp-sheet.md`: every tab of the RSVP sheet, its
+  creator, writer and reader. Claude has never edited a cell; the Drive
+  connector reads but cannot write; the writers are `Code.gs` and people.
 - The Gmail/Drive connectors in this session are signed in as
   `stevenlarker1982@gmail.com`, not the shadow-op or captain account.
-- The previous session (2026-10-23, PRs #85-#86) fixed two mobile layout
-  issues in `Schedule.tsx` and `ActiveRoster.tsx`.
 
 ## Ship-live workflow
 
@@ -190,6 +191,11 @@ already there.
 - `src/pages/Newsletter.tsx` (`/newsletter`): newsletter signup, with
   `?ref=Name` pre-filling "Referred by". It posts to the RSVP endpoint with
   `type: "newsletter"`, and `Code.gs` writes it to a `Newsletter` sheet tab.
+- `src/pages/MtgInterest.tsx` (`/mtginterest`): Magic: The Gathering
+  interest form (email, formats, competitive/casual). Posts `type: "mtg"`;
+  `Code.gs` writes it to a **separate** sheet, `elnerds_mtginterest`, one row
+  per email. The option lists live in `src/lib/mtgInterest.ts` and again in
+  `Code.gs`; keep them the same. Linked only from the Halloween email.
 - `src/hooks/use-countdown.ts` (`useGameday`) — drives the hero card's
   three states off the marathon's `calendar.start`/`calendar.end`:
   counting down to kickoff, a "Gameday is LIVE!" 24-hour countdown plus

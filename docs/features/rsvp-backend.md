@@ -1,7 +1,7 @@
 # RSVP backend
 
 - **Status:** Live, including the close-on-end rejection (redeployed 2026-09-25, verified)
-- **Last reviewed:** 2026-09-25 (newsletter handler added, redeploy verified)
+- **Last reviewed:** 2026-10-31 (MTG interest handler added; redeploy pending)
 - **Covers:** `apps-script/Code.gs`, `src/lib/rsvp.ts`, `src/lib/rsvpEvents.ts`, `src/pages/Rsvp.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -37,10 +37,12 @@ card drops its RSVP chip, `/rsvp/<slug>` replaces the form with an "RSVPs are
 closed" panel (and `/rsvp` moves the event to an "Already happened" group), and
 `hasEnded_(slug)` in `doPost` rejects late submissions.
 
-The same `doPost` also receives newsletter signups. A body with
-`type: "newsletter"` goes to `handleNewsletter_` before any RSVP
-validation, and is saved to a "Newsletter" tab. See
-[newsletter-signup](newsletter-signup.md).
+The same `doPost` also receives newsletter signups and MTG interest. A
+body with `type: "newsletter"` goes to `handleNewsletter_` and lands in a
+"Newsletter" tab ([newsletter-signup](newsletter-signup.md)); `type: "mtg"`
+goes to `handleMtgInterest_` and lands in a **separate** spreadsheet,
+`elnerds_mtginterest` ([mtg-interest](mtg-interest.md)). Both are routed
+before any RSVP validation.
 
 ## Decisions and gotchas
 
@@ -69,7 +71,10 @@ validation, and is saved to a "Newsletter" tab. See
   editor: paste the file in, then **Deploy → Manage deployments → ✏️ → New
   version**. The URL stays the same and no secret changes. A repo edit alone
   changes nothing live.
-- **The live deployment matches the repo** as of 2026-09-25 (Version 4).
+- **The live deployment is behind the repo as of 2026-10-31:** the MTG
+  interest handler (`type: "mtg"`) is in `Code.gs` but not deployed. Until
+  the redeploy, `/mtginterest` gets "Invalid submission.".
+- **The live deployment matched the repo** as of 2026-09-25 (Version 4).
   Checked then:
   - `?action=gameday` returns display-value times ("8:00 AM");
   - an RSVP for the already-finished Bingo event is refused;

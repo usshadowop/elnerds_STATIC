@@ -9,6 +9,7 @@ that:
 3. Emails the **captain account** a "new RSVP" notification
 4. Handles **cancel** links (marks the row `Cancelled`, notifies the captain)
 5. Receives **newsletter signups** from `elnerds.com/newsletter` into a `Newsletter` tab (Email, Referred by) and notifies the captain
+6. Receives **Magic: The Gathering interest** from `elnerds.com/mtginterest` into a *separate* spreadsheet, **"elnerds_mtginterest"**, and notifies the captain
 
 Nothing about this is visible to the visitor — they stay on the styled site the
 whole time. The Google Sheet is your private back-office view.
@@ -144,6 +145,20 @@ endpoint. Each new address becomes a row in a **`Newsletter`** tab (Timestamp,
 Email, Referred by), created on the first signup, and the captain gets an
 email. A repeat signup from the same address is accepted but not saved
 again. To send a newsletter, export the tab and import it into Brevo.
+
+## MTG interest
+
+`/mtginterest` posts `{ type: "mtg", email, formats, interest }` to this same
+endpoint. It lands in its **own spreadsheet, "elnerds_mtginterest"**, in this
+account's Drive, on an `Interest` tab (Timestamp, Email, Formats, Interest
+level). One row per email: a repeat submission updates that row. Only the
+site's option values are kept (Commander, Standard, Modern, Pioneer, Pauper,
+Legacy; Competitive, Casual).
+
+To create the sheet before anyone submits, run **`setupMtg`** once from the
+editor (same as `setup`); the log prints its URL. Otherwise the first
+submission creates it. Either way it is owned by the account that owns the
+script.
 
 ## Limits & notes
 

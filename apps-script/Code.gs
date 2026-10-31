@@ -12,6 +12,9 @@
  *     "Cancelled" and notifies the captain
  *   - Receives newsletter signups (POST { type: "newsletter", email, referral })
  *     from /newsletter into a "Newsletter" tab, and notifies the captain
+ *   - Receives Magic: The Gathering interest (POST { type: "mtg", email,
+ *     formats[], interest[] }) from /mtginterest into a *separate*
+ *     spreadsheet, "elnerds_mtginterest", and notifies the captain
  *
  * Setup: see apps-script/README.md in the repo.
  */
@@ -28,6 +31,13 @@ const SENDER_NAME = "Extra Life Nerds";
 
 // Spreadsheet that stores RSVPs (created automatically on first submission).
 const SPREADSHEET_NAME = "elnerds RSVPs";
+
+// Separate spreadsheet for Magic: The Gathering interest (created on the
+// first /mtginterest submission; its ID is kept in the MTG_SPREADSHEET_ID
+// script property, so deleting the sheet makes the next post start a new one).
+const MTG_SPREADSHEET_NAME = "elnerds_mtginterest";
+const MTG_FORMATS = ["Commander", "Standard", "Modern", "Pioneer", "Pauper", "Legacy"];
+const MTG_INTEREST_LEVELS = ["Competitive", "Casual"];
 
 // Per-event details for the Add-to-Calendar button, keyed by slug. Keys must
 // match the slugs in src/lib/rsvpEvents.ts. Times are ISO 8601 with a UTC
@@ -227,6 +237,7 @@ function doPost(e) {
     const data = JSON.parse(e.postData.contents);
 
     if (data.type === "newsletter") return handleNewsletter_(data);
+    if (data.type === "mtg") return handleMtgInterest_(data);
 
     const slug = String(data.slug || "").trim().slice(0, 60);
     const title = String(data.title || "").trim().slice(0, 120);
@@ -338,6 +349,102 @@ function handleNewsletter_(data) {
       htmlBody: page_("New newsletter signup",
         "<strong>" + esc_(email) + "</strong> signed up for the newsletter." +
         (referral ? "<br>Referred by: <strong>" + esc_(referral) + "</strong>" : "")),
+    });
+  }
+
+  return json_({ ok: true });
+}
+
+// ---------------------------------------------------------------------------
+// POST — Magic: The Gathering interest (/mtginterest)
+// ---------------------------------------------------------------------------
+
+function getMtgSpreadsheet_() {
+  const props = PropertiesService.getScriptProperties();
+  let id = props.getProperty("MTG_SPREADSHEET_ID");
+  if (id) {
+    try {
+      return SpreadsheetApp.openById(id);
+    } catch (e) {
+      // was deleted — fall through and recreate
+    }
+  }
+  const ss = SpreadsheetApp.create(MTG_SPREADSHEET_NAME);
+  props.setProperty("MTG_SPREADSHEET_ID", ss.getId());
+  return ss;
+}
+
+// The "Interest" tab with its header row, created on first use. The blank
+// default "Sheet1" is renamed rather than left beside a new tab.
+function getMtgSheet_(ss) {
+  let sheet = ss.getSheetByName("Interest");
+  if (sheet) return sheet;
+  const first = ss.getSheets()[0];
+  sheet = ss.getSheets().length === 1 && first.getLastRow() === 0 ? first.setName("Interest") : ss.insertSheet("Interest");
+  sheet.appendRow(["Timestamp", "Email", "Formats", "Interest level"]);
+  sheet.getRange(1, 1, 1, 4).setFontWeight("bold");
+  sheet.setFrozenRows(1);
+  return sheet;
+}
+
+// Keeps only the values the site offers, in the site's order, so the sheet
+// never fills with free text. Returns a comma-separated string.
+function pickAllowed_(input, allowed) {
+  const got = Array.isArray(input) ? input.map(function (v) { return String(v).trim(); }) : [];
+  return allowed.filter(function (a) { return got.indexOf(a) !== -1; }).join(", ");
+}
+
+// Writes { email, formats, interest } to the "Interest" tab of the MTG sheet.
+// One row per email: a repeat submission updates that row's Formats and
+// Interest level (people change their mind), stamps it again, and is a quiet
+// success. No row is added for a repeat, and nothing tells a stranger whether
+// an address is already on the list.
+function handleMtgInterest_(data) {
+  // Hidden "website" field on the form: people never see it, bots fill it in.
+  if (String(data.website || "").trim()) return json_({ ok: true });
+
+  const email = String(data.email || "").trim().slice(0, 200);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return json_({ ok: false, error: "Please enter a valid email address." });
+  }
+  const formats = pickAllowed_(data.formats, MTG_FORMATS);
+  const interest = pickAllowed_(data.interest, MTG_INTEREST_LEVELS);
+  if (!formats || !interest) {
+    return json_({ ok: false, error: "Pick at least one format and one type of interest." });
+  }
+
+  let isNew = false;
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const sheet = getMtgSheet_(getMtgSpreadsheet_());
+    const last = sheet.getLastRow();
+    const existing = last > 1 ? sheet.getRange(2, 2, last - 1, 1).getValues() : [];
+    const needle = email.toLowerCase();
+    let rowIndex = -1;
+    for (let i = 0; i < existing.length; i++) {
+      if (String(existing[i][0]).trim().toLowerCase() === needle) { rowIndex = i + 2; break; }
+    }
+    if (rowIndex === -1) {
+      sheet.appendRow([new Date(), email, formats, interest]);
+      isNew = true;
+    } else {
+      sheet.getRange(rowIndex, 1, 1, 4).setValues([[new Date(), email, formats, interest]]);
+    }
+  } finally {
+    lock.releaseLock();
+  }
+
+  if (isNew) {
+    MailApp.sendEmail({
+      to: CAPTAIN_EMAIL,
+      name: SENDER_NAME,
+      subject: "New MTG interest: " + email,
+      htmlBody: page_("New MTG interest",
+        "<strong>" + esc_(email) + "</strong> is interested in Magic: The Gathering." +
+        "<br>Formats: <strong>" + esc_(formats) + "</strong>" +
+        "<br>Interest: <strong>" + esc_(interest) + "</strong>" +
+        '<br><br>Full list: open "' + MTG_SPREADSHEET_NAME + '" in Google Drive.'),
     });
   }
 
@@ -551,4 +658,16 @@ function setup() {
   const ss = getSpreadsheet_();
   Logger.log("Spreadsheet ready: " + ss.getUrl());
   Logger.log("Notifications will go to: " + CAPTAIN_EMAIL);
+}
+
+/**
+ * Run this once from the editor (Run > setupMtg) to create the
+ * "elnerds_mtginterest" spreadsheet, with its header row, in this account's
+ * Drive before the first /mtginterest submission. Safe to run again: it
+ * reuses the existing sheet.
+ */
+function setupMtg() {
+  const ss = getMtgSpreadsheet_();
+  getMtgSheet_(ss);
+  Logger.log("MTG interest spreadsheet ready: " + ss.getUrl());
 }
