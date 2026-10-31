@@ -13,7 +13,7 @@
  *   - Receives newsletter signups (POST { type: "newsletter", email, referral })
  *     from /newsletter into a "Newsletter" tab, and notifies the captain
  *   - Receives Magic: The Gathering interest (POST { type: "mtg", email,
- *     formats[], interest[] }) from /mtginterest into a *separate*
+ *     formats[], interest[], emailOptIn }) from /mtginterest into a *separate*
  *     spreadsheet, "elnerds_mtginterest", and notifies the captain
  *
  * Setup: see apps-script/README.md in the repo.
@@ -381,8 +381,8 @@ function getMtgSheet_(ss) {
   if (sheet) return sheet;
   const first = ss.getSheets()[0];
   sheet = ss.getSheets().length === 1 && first.getLastRow() === 0 ? first.setName("Interest") : ss.insertSheet("Interest");
-  sheet.appendRow(["Timestamp", "Email", "Formats", "Interest level"]);
-  sheet.getRange(1, 1, 1, 4).setFontWeight("bold");
+  sheet.appendRow(["Timestamp", "Email", "Formats", "Interest level", "MTG emails"]);
+  sheet.getRange(1, 1, 1, 5).setFontWeight("bold");
   sheet.setFrozenRows(1);
   return sheet;
 }
@@ -394,7 +394,8 @@ function pickAllowed_(input, allowed) {
   return allowed.filter(function (a) { return got.indexOf(a) !== -1; }).join(", ");
 }
 
-// Writes { email, formats, interest } to the "Interest" tab of the MTG sheet.
+// Writes { email, formats, interest, emailOptIn } to the "Interest" tab of the
+// MTG sheet. "MTG emails" is Yes/No: whether they ticked the opt-in box.
 // One row per email: a repeat submission updates that row's Formats and
 // Interest level (people change their mind), stamps it again, and is a quiet
 // success. No row is added for a repeat, and nothing tells a stranger whether
@@ -409,6 +410,7 @@ function handleMtgInterest_(data) {
   }
   const formats = pickAllowed_(data.formats, MTG_FORMATS);
   const interest = pickAllowed_(data.interest, MTG_INTEREST_LEVELS);
+  const optIn = data.emailOptIn === true ? "Yes" : "No";
   if (!formats || !interest) {
     return json_({ ok: false, error: "Pick at least one format and one type of interest." });
   }
@@ -426,10 +428,10 @@ function handleMtgInterest_(data) {
       if (String(existing[i][0]).trim().toLowerCase() === needle) { rowIndex = i + 2; break; }
     }
     if (rowIndex === -1) {
-      sheet.appendRow([new Date(), email, formats, interest]);
+      sheet.appendRow([new Date(), email, formats, interest, optIn]);
       isNew = true;
     } else {
-      sheet.getRange(rowIndex, 1, 1, 4).setValues([[new Date(), email, formats, interest]]);
+      sheet.getRange(rowIndex, 1, 1, 5).setValues([[new Date(), email, formats, interest, optIn]]);
     }
   } finally {
     lock.releaseLock();
@@ -444,6 +446,7 @@ function handleMtgInterest_(data) {
         "<strong>" + esc_(email) + "</strong> is interested in Magic: The Gathering." +
         "<br>Formats: <strong>" + esc_(formats) + "</strong>" +
         "<br>Interest: <strong>" + esc_(interest) + "</strong>" +
+        "<br>Wants MTG emails: <strong>" + optIn + "</strong>" +
         '<br><br>Full list: open "' + MTG_SPREADSHEET_NAME + '" in Google Drive.'),
     });
   }
