@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-31 (phone agenda list + full-timeline overlay)
+- **Last reviewed:** 2026-10-31 (meal banners grow to fit; 150px lanes)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`
 
 ## Purpose
@@ -99,7 +99,10 @@ becomes a live player.
   - **Meals.** A row whose title or detail mentions breakfast, lunch,
     dinner, waffles, snacks, food or pizza becomes a green banner in the
     first lane only (the all-day block's), so the other lanes stay free;
-    banners that start together share that lane's width.
+    banners that start together share that lane's width. The banner's
+    time span is a *minimum* height: in a narrow lane the text wraps and
+    the banner grows past its hour rather than clipping (phone overlay,
+    2026-10-31). Lanes are at least 150px wide for the same reason.
   - **Quiet hours fold.** Two or more consecutive hours with nothing
     starting or ending collapse to one "…" row, so the overnight stretch
     doesn't dominate.
