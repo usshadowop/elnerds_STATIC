@@ -39,16 +39,16 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | Owner | Fill in the four `Gameday *` tabs in the RSVP sheet before Nov 14. They exist, but on 2026-10-03 they still held only the starter rows ("TBD", empty stream embeds); check with `curl "$ENDPOINT?action=gameday"`. (Re-checked 2026-10-31 by reading the sheet through the Drive connector: still starter rows. The `newsletter-test@example.com` row is gone.) |
+| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (embed URLs still empty), `Gameday Incentives` (still "$—" starter rows) and `Gameday Notice` (banner cell empty). `Gameday Run of Show` was filled 2026-10-31 via `fillRunOfShow2026`. Check with `curl "$ENDPOINT?action=gameday"`. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
-| 2026-10-13 | Owner | Fill the `Gameday Run of Show` tab with the real 2026 schedule — **either run `fillRunOfShow2026` from the Apps Script editor** (the owner's 2026 rows are in `Code.gs`; no redeploy needed) or type the rows. The site shows the tab **as it is**, starter rows and "TBD" blocks included, on both `/gameday` and the home page under the marathon card (decided 2026-10-31). Time cells may be ranges like `9:30a - 12:30p`; rows mentioning a meal turn green. Also confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. |
+| 2026-10-13 | Owner | Confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. (The run-of-show half of this thread closed 2026-10-31: the 2026 rows are in the sheet and live.) |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
-| 2026-10-31 | **Owner** | **Paste `Code.gs`, run `setupMtg` once, then redeploy** (Deploy → Manage deployments → ✏️ → New version) so `/mtginterest` can save. `setupMtg` creates `elnerds_mtginterest` in the captain account's Drive, owned by it. The handler is in the repo; until the redeploy the form shows "Invalid submission.". Check with a bad-email POST of `{"type":"mtg","email":"x"}` — a current deployment says "Please enter a valid email address.", a stale one says "Invalid submission.". Share the new sheet from the captain's Drive. |
+| 2026-10-31 | Owner | `elnerds_mtginterest` exists (captain's Drive, created by `setupMtg` 2026-10-31) but nobody has submitted the form yet, so the `Interest` tab holds only its header. Share the sheet with whoever needs it, and send one real `/mtginterest` submission to confirm a row lands. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. Also: review the Halloween variant (`email/elnerds-halloween.html`, previewed at /email/current/) before any send. |
 
 Rules that keep this honest:
@@ -69,14 +69,19 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 
 *Session of 2026-10-31 (Halloween email, archive, sheet write-up, MTG form):*
 
+- Home page: the Game Day run-of-show grid now sits under the marathon
+  card, with a blue hero chip linking to it; the sheet's rows are shown
+  as-is (the 2025 example is only a fallback now). The 2026 rows are live.
 - Added a Halloween email (`email/elnerds-halloween.html`, PRs #87-#89):
   dark theme, orange accents, a banner with the logo on a harvest moon and
   bats. Its hero now asks "Interested in Magic: The Gathering?" with a
   button to `/mtginterest`. Current campaign at `/email/current/`. Not sent.
 - Built `/mtginterest` (`MtgInterest.tsx`, `mtgInterest.ts`) and
   `handleMtgInterest_` in `Code.gs`, which writes to a new, separate
-  spreadsheet `elnerds_mtginterest`. **Needs the `Code.gs` redeploy** in
-  Open threads. Card: `docs/features/mtg-interest.md`.
+  spreadsheet `elnerds_mtginterest`. The owner pasted `Code.gs`, ran
+  `setupMtg` and `fillRunOfShow2026`, and redeployed the same day; verified
+  live (bad-email probe refused with the new message). Card:
+  `docs/features/mtg-interest.md`.
 - Archived the Oct "Sign Up Today" email as `email/archive/2026-10-signup-today/`
   on the owner's word it was sent.
 - Wrote `docs/features/rsvp-sheet.md`: every tab of the RSVP sheet, its

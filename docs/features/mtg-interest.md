@@ -1,6 +1,6 @@
 # MTG interest form
 
-- **Status:** Built 2026-10-31; **backend not yet live** — `Code.gs` needs a redeploy before `/mtginterest` can save anything
+- **Status:** Live. `Code.gs` redeployed 2026-10-31; probes refused a bad email and empty lists with the new messages. No real submission yet
 - **Last reviewed:** 2026-10-31
 - **Covers:** `src/pages/MtgInterest.tsx`, `src/lib/mtgInterest.ts`
 
@@ -71,13 +71,12 @@ which:
 
 ## Manual steps and open questions
 
-- **Paste `Code.gs` into the Apps Script editor, run `setupMtg` once**
-  (Run → setupMtg; the log prints the new sheet's URL), **then redeploy**
-  (Deploy → Manage deployments → ✏️ → New version). `setupMtg` creates
-  `elnerds_mtginterest` with its header row in the captain account's Drive,
-  owned by that account, so it exists before the first submission; share
-  it from there. Skipping `setupMtg` is fine: the first submission creates
-  the same sheet. Verify with a bad-email post (refused, no write) and
-  then a real one.
+- **Done 2026-10-31:** `Code.gs` pasted, `setupMtg` run (sheet created in
+  the captain's Drive), deployment republished. Verified with posts straight
+  at the endpoint: bad email → "Please enter a valid email address.", empty
+  lists → "Pick at least one format and one type of interest.", bot-trap
+  field → `ok` with nothing saved.
+- **Not yet done:** a real submission, so the `Interest` tab has only its
+  header row. Share the sheet from the captain's Drive.
 - Nothing links to `/mtginterest` from the site itself. Decide whether it
   should appear in the nav or footer once the email has gone out.
