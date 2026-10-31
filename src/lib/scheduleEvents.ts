@@ -137,29 +137,6 @@ export const EVENTS: EventItem[] = [
       className: "border-teal/20 text-teal hover:bg-teal-soft",
       dotClassName: "bg-magenta",
     },
-    subEvents: [
-      {
-        time: "Nov 14 · 8:00 AM – 5:00 PM",
-        title: "Open House Family Gaming",
-        blurb: "Drop in, meet the team, and play with us. Open to all ages — bring the whole family.",
-        color: "border-teal",
-        accent: "text-teal",
-      },
-      {
-        time: "Nov 14 · 2:30 PM",
-        title: "Super Smash Bros. Tournament",
-        blurb: "Bracket play for bragging rights. Sign up at the front table when you arrive.",
-        color: "border-purple",
-        accent: "text-purple",
-      },
-      {
-        time: "Nov 15 · 8:00 AM",
-        title: "Finale & Grand Total",
-        blurb: "Cross the finish line together and reveal what we raised — for the kids.",
-        color: "border-orange",
-        accent: "text-orange",
-      },
-    ],
   },
 ];
 
