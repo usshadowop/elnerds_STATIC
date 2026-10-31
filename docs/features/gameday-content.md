@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-31 (starter rows now shown as real content; loading placeholder)
+- **Last reviewed:** 2026-10-31 (fillRunOfShow2026 helper)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -145,3 +145,7 @@ becomes a live player.
   supplied.
 - **Open:** should `/gameday` go in the top nav for Game Day? It's link-only
   today, reachable from the hero button while the marathon runs.
+
+- **The 2026 rows can be written by `fillRunOfShow2026` in `Code.gs`**
+  (editor-run, 2026-10-31) instead of typed. Either way the sheet is what
+  the site shows.

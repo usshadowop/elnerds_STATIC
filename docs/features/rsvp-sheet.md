@@ -1,7 +1,7 @@
 # The "elnerds RSVPs" spreadsheet
 
 - **Status:** Live. Owned by `captainextralifenerds@gmail.com`; nine tabs as of 2026-10-31
-- **Last reviewed:** 2026-10-31 (first write-up; second spreadsheet added the same day)
+- **Last reviewed:** 2026-10-31 (fillRunOfShow2026 helper)
 - **Covers:** `apps-script/Code.gs`, `apps-script/README.md`
 
 ## Purpose
@@ -121,3 +121,9 @@ How the three script-made shapes come about:
 - Open: should `Code.gs` gain a guarded write action so the Gameday tabs
   can be filled from a chat session? Trade-off is a secret in Script
   Properties on a public endpoint versus five minutes of typing.
+
+- **One scripted write path into the Gameday tabs exists since
+  2026-10-31:** `fillRunOfShow2026` in `Code.gs`, run by hand from the
+  Apps Script editor, replaces the Run of Show rows with the list in the
+  file. It is not an endpoint; a visitor cannot trigger it. The "Humans
+  only" entries in the table above still hold for the web app.

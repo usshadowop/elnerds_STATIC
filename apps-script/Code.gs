@@ -677,3 +677,39 @@ function setupMtg() {
   getMtgSheet_(ss);
   Logger.log("MTG interest spreadsheet ready: " + ss.getUrl());
 }
+
+// ---------------------------------------------------------------------------
+// One-off: write the 2026 run of show into the sheet
+// ---------------------------------------------------------------------------
+//
+// Run this from the editor (Run > fillRunOfShow2026) and the site picks the
+// rows up within a minute — no redeploy, because the site reads the sheet,
+// not this file. It REPLACES every row below the header in "Gameday Run of
+// Show" with RUN_OF_SHOW_2026. Edit the list and run again to change the
+// schedule; or just type in the sheet, which is the normal way during the
+// event. Rows are [Time, Title, Detail]; times are ranges the site parses
+// ("11a - 2p", "8am Saturday - 8am Sunday").
+
+const RUN_OF_SHOW_2026 = [
+  ["8am Saturday - 8am Sunday", "24-hour gaming for fundraisers", ""],
+  ["8:30a - 9:30a", "Waffles", "provided by Butchy for donations!"],
+  ["10a - 8p", "Warhammer 40k Open Play", ""],
+  ["11a - 2p", "MTG Cube Event", ""],
+  ["12p - 1p", "Lunch", "Provided by EL NERDS $50+ FUNDRAISERS"],
+  ["2:30p - 4:30p", "Super Smash Brothers Tournament", ""],
+  ["6p - 7p", "Dinner", "Provided by EL NERDS $50+ FUNDRAISERS"],
+  ["8am Sunday", "Cleanup", ""],
+];
+
+function fillRunOfShow2026() {
+  const section = GAMEDAY_SECTIONS.filter(function (s) { return s.key === "runOfShow"; })[0];
+  const ss = getSpreadsheet_();
+  const sheet = getGamedaySheet_(ss, section.tab, section.headers, section.seed);
+  const last = sheet.getLastRow();
+  if (last > 1) sheet.getRange(2, 1, last - 1, sheet.getMaxColumns()).clearContent();
+  const range = sheet.getRange(2, 1, RUN_OF_SHOW_2026.length, 3);
+  // Plain text, so Sheets doesn't turn "12p - 1p" into a time value.
+  range.setNumberFormat("@");
+  range.setValues(RUN_OF_SHOW_2026);
+  Logger.log("Wrote " + RUN_OF_SHOW_2026.length + " rows to \"" + section.tab + "\": " + ss.getUrl());
+}
