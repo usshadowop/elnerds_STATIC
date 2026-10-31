@@ -46,7 +46,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
-| 2026-10-13 | Owner | Fill the `Gameday Run of Show` tab with the real 2026 schedule. Until any row changes, `/gameday` shows the **2025** schedule as an example (the untouched starter rows are treated as empty). Time cells may be ranges like `9:30a - 12:30p`; rows mentioning a meal turn green. Also confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. |
+| 2026-10-13 | Owner | Fill the `Gameday Run of Show` tab with the real 2026 schedule. The site shows the tab **as it is**, starter rows and "TBD" blocks included, on both `/gameday` and the home page under the marathon card (decided 2026-10-31). Time cells may be ranges like `9:30a - 12:30p`; rows mentioning a meal turn green. Also confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
 | 2026-10-31 | **Owner** | **Paste `Code.gs`, run `setupMtg` once, then redeploy** (Deploy → Manage deployments → ✏️ → New version) so `/mtginterest` can save. `setupMtg` creates `elnerds_mtginterest` in the captain account's Drive, owned by it. The handler is in the repo; until the redeploy the form shows "Invalid submission.". Check with a bad-email POST of `{"type":"mtg","email":"x"}` — a current deployment says "Please enter a valid email address.", a stale one says "Invalid submission.". Share the new sheet from the captain's Drive. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. Also: review the Halloween variant (`email/elnerds-halloween.html`, previewed at /email/current/) before any send. |
@@ -205,9 +205,12 @@ already there.
   contents are **edited live in the RSVP spreadsheet's "Gameday *" tabs**,
   served by `doGet(?action=gameday)` in `Code.gs` and re-read once a
   minute, so the run of show can change mid-marathon without a deploy.
-  `src/lib/gamedayContent.ts` holds the shipped fallback copy, used
-  whenever that read fails **or when the tab still holds its untouched
-  starter rows**. The run of show renders as a stacked lane grid
+  `src/lib/gamedayContent.ts` holds the shipped fallback copy, used only
+  when that read fails or a tab is empty; the untouched starter rows are
+  shown as real content (decided 2026-10-31). The same grid also renders
+  on the home page under the marathon card (`MainEventSchedule` in
+  `Schedule.tsx`), and both hold a "Loading…" placeholder until the first
+  read settles. The run of show renders as a stacked lane grid
   (`src/components/site/GamedaySchedule.tsx`): time ranges, automatic
   lane packing, green meal rows, a now-line. The rules are in the
   gameday-content card; the sheet's columns never changed.

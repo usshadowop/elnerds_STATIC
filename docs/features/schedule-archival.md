@@ -90,11 +90,11 @@ None. This feature is fully self-driving.
 `MainEventSchedule` in `Schedule.tsx` renders the run-of-show grid
 (`GamedaySchedule`, the same component `/gameday` uses) directly beneath
 the main-event card, outside its Details fold, with `id="gameday-schedule"`
-(the hero's blue chip links to it). It reads the same
-sheet-driven content through `useGamedayContent`, so the home page polls
-`?action=gameday` once a minute while open, exactly like the Command
-Center, and shows the 2025 example (with a line saying so) until the sheet
-is filled. The "example" line is keyed on the rows being the very
-`FALLBACK_CONTENT.runOfShow` array, which is what `parseGamedayContent`
-returns for an unfilled tab. The mechanics of the grid stay documented in
-the gameday-content card.
+(the hero's blue chip links to it). It reads the same sheet-driven content
+through `useGamedayContent`, so the home page polls `?action=gameday` once
+a minute while open, exactly like the Command Center, and shows the
+sheet's rows as they are (starter rows included). Until the first read
+settles it shows a "Loading the schedule…" placeholder rather than the
+shipped fallback. There is deliberately no link to the Command Center and
+no "example" note (both removed the same day at the owner's request). The
+mechanics of the grid stay documented in the gameday-content card.

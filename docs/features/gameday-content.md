@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-31 (grid now also on the home page)
+- **Last reviewed:** 2026-10-31 (starter rows now shown as real content; loading placeholder)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -55,14 +55,18 @@ becomes a live player.
 
 ## Decisions and gotchas
 
-- **An untouched starter tab counts as empty.** The "Gameday Run of Show"
-  tab is seeded with five rows (Kickoff, two TBDs, Open house wraps,
-  Finale). When the sheet returns exactly those, `parseGamedayContent`
-  treats the section as unfilled and keeps the example schedule, instead of
-  the page flashing the example and then swapping to a grid of TBDs a
-  second later (which is what happened on 2026-10-13). Change a single row
-  in the sheet and it takes over. `RUN_OF_SHOW_SEED` in `gamedayContent.ts`
-  must match the seed in `Code.gs`.
+- **The sheet's rows are the schedule, starter rows included** (decided
+  2026-10-31, reversing PR #76). From 2026-10-13 to 10-31 an untouched
+  "Gameday Run of Show" tab was treated as empty and the 2025 example
+  shown instead; the owner, having seen the example, asked for the live
+  rows. So until someone edits the tab, both `/gameday` and the home page
+  show Kickoff / TBD / TBD / Open house wraps / Finale. The shipped
+  `FALLBACK_CONTENT.runOfShow` (the 2025 day) now appears only when the
+  read fails or the tab is genuinely empty.
+- **No flash of the example.** `useGamedayContent` reports `settled` once
+  the first read has finished either way; both pages show a "Loading the
+  schedule…" placeholder until then, rather than drawing the fallback and
+  swapping it a second later (the flash PR #76 was written to stop).
 
 - **The schedule is laid out like the printed 2025 run of show**, not a
   list: a navy Time / Event header, red hourly pills, lanes of sky-blue
@@ -102,9 +106,9 @@ becomes a live player.
   Saturday's 2:15 PM will), labelled as a preview, so the page can be
   checked any day. During the event it's minutes since the marathon's
   `calendar.start`, so it reads the same in every timezone.
-- The shipped fallback run of show is **the 2025 schedule as an example**
-  (from the printed Canva run of show), not the 2026 plan. The sheet
-  replaces it row for row.
+- The shipped fallback run of show is **the 2025 schedule** (from the
+  printed Canva run of show), not the 2026 plan. It shows only when the
+  sheet can't be read or its tab is empty.
 
 - **Nothing here can leave the page blank.** Every failure path — endpoint not
   yet redeployed, network down, a tab emptied out, a half-typed row — falls
@@ -132,8 +136,9 @@ becomes a live player.
 
 ## Manual steps and open questions
 
-- The four `Gameday *` tabs exist now, with starter rows. They need real
-  content before Nov 14. For the run of show, Time cells may be ranges
+- The four `Gameday *` tabs exist now, with starter rows, and **those
+  starter rows are what the site shows** (two "TBD" blocks included). They
+  need real content before Nov 14. For the run of show, Time cells may be ranges
   ("9:30a - 12:30p"); meal rows just need the meal word in the title.
 - The sponsor list is hand-maintained in `CommandCenter.tsx`. Papa Johns
   links to papajohns.com; the Eden Prairie store page URL was never

@@ -11,6 +11,10 @@ export interface UseGamedayContent {
   /** True once a live read has landed — i.e. what's on screen came from the
    *  sheet rather than the copy baked into the site. */
   isLive: boolean;
+  /** True once the first read has finished, either way. Until then a page can
+   *  show a placeholder instead of the shipped copy, so the real rows don't
+   *  replace an example a second after it appears. */
+  settled: boolean;
 }
 
 /**
@@ -25,6 +29,7 @@ export interface UseGamedayContent {
 export function useGamedayContent(intervalMs = 60_000): UseGamedayContent {
   const [content, setContent] = useState<GamedayContent>(FALLBACK_CONTENT);
   const [isLive, setIsLive] = useState(false);
+  const [settled, setSettled] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -38,6 +43,8 @@ export function useGamedayContent(intervalMs = 60_000): UseGamedayContent {
         setIsLive(true);
       } catch {
         // Keep whatever is already on screen.
+      } finally {
+        if (!cancelled) setSettled(true);
       }
     }
 
@@ -51,5 +58,5 @@ export function useGamedayContent(intervalMs = 60_000): UseGamedayContent {
     };
   }, [intervalMs]);
 
-  return { content, isLive };
+  return { content, isLive, settled };
 }
