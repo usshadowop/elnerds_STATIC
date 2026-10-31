@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ArrowLeft, Check, Loader2, Sparkles, WandSparkles } from "lucide-react";
 import { MTG_FORMATS, MTG_INTEREST_LEVELS, submitMtgInterest } from "@/lib/mtgInterest";
+import mtgLogo from "@/assets/logos/mtg-logo.jpg";
 
 const HOME = import.meta.env.BASE_URL;
 
@@ -64,8 +65,14 @@ export function MtgInterest() {
             <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">
               Tap your mana
             </p>
-            <h1 className="font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl md:text-5xl">
-              Interested in Magic: The Gathering?
+            <h1 className="mx-auto max-w-sm">
+              <img
+                src={mtgLogo}
+                alt="Interested in Magic: The Gathering?"
+                width={764}
+                height={401}
+                className="h-auto w-full rounded-2xl shadow-[var(--shadow-soft)]"
+              />
             </h1>
             <p className="mt-3 text-sm text-ink-soft sm:text-base">
               We&rsquo;re gauging interest and working up ideas and events around Magic. Tell us
