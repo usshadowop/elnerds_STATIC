@@ -1,7 +1,7 @@
 # RSVP backend
 
 - **Status:** Live, including the close-on-end rejection (redeployed 2026-09-25, verified)
-- **Last reviewed:** 2026-10-31 (MTG interest handler added; redeploy pending)
+- **Last reviewed:** 2026-10-31 (fillRunOfShow2026 helper)
 - **Covers:** `apps-script/Code.gs`, `src/lib/rsvp.ts`, `src/lib/rsvpEvents.ts`, `src/pages/Rsvp.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -81,3 +81,9 @@ before any RSVP validation.
   - newsletter signups save and de-duplicate.
 - Adding an RSVP event means an entry in `rsvpEvents.ts` **and** a matching
   entry in `Code.gs`'s `EVENTS`, then a redeploy.
+
+- **`fillRunOfShow2026`** (added 2026-10-31) is an editor-run helper that
+  overwrites the "Gameday Run of Show" tab with the `RUN_OF_SHOW_2026`
+  list in `Code.gs`. It is the one place the script *writes* a Gameday
+  tab, and only when a person runs it; it is not reachable from the web
+  app. No redeploy is needed for it to work.

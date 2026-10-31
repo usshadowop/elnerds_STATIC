@@ -146,6 +146,15 @@ Email, Referred by), created on the first signup, and the captain gets an
 email. A repeat signup from the same address is accepted but not saved
 again. To send a newsletter, export the tab and import it into Brevo.
 
+## Filling the Game Day run of show from the editor
+
+`fillRunOfShow2026` (bottom of `Code.gs`) writes the rows in
+`RUN_OF_SHOW_2026` into the **Gameday Run of Show** tab, replacing whatever
+is below the header. Run it from the editor (Run → fillRunOfShow2026); the
+site shows the new rows within a minute, with no redeploy, because the
+pages read the sheet. Edit the list and run again, or just type in the
+sheet — both work; the sheet is what the site shows.
+
 ## MTG interest
 
 `/mtginterest` posts `{ type: "mtg", email, formats, formatOther, interest, emailOptIn }` to this same
