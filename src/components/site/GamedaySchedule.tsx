@@ -191,18 +191,21 @@ export function GamedaySchedule({
     return spec.top + into * spec.px;
   };
 
-  // Riders are shifted right by RIDE_PX (and narrowed by the same), so they
+  // Riders are shifted right by RIDE_PX, keeping their full width, so they
   // hang past the right edge of the block underneath like a card on a card.
+  // The lanes themselves span (100% - RIDE_PX), leaving exactly that much
+  // room at the right edge for the last lane's rider to overhang into;
+  // without it the overhang pokes past the grid and forces a horizontal
+  // scrollbar. (Padding on the lane box doesn't do this: absolutely placed
+  // children measure their % against the padding box.)
   const RIDE_PX = 12;
-  const laneLeft = (lane: number, lanes: number, shift = 0) => `calc(${(lane / lanes) * 100}% + ${3 + shift}px)`;
-  // Riders give back the same RIDE_PX on the right, so their right edge stays
-  // flush with the lane; otherwise the last lane's rider pokes past the grid
-  // and the whole thing grows a horizontal scrollbar for 12px.
-  const laneWidth = (lanes: number, shrink = 0) => `calc(${100 / lanes}% - ${6 + shrink}px)`;
+  const span = `(100% - ${RIDE_PX}px)`;
+  const laneLeft = (lane: number, lanes: number, shift = 0) => `calc(${span} * ${lane / lanes} + ${3 + shift}px)`;
+  const laneWidth = (lanes: number) => `calc(${span} / ${lanes} - 6px)`;
   // Meal banners live in the first lane only (the all-day block's), split
   // between meals that start together, leaving the other lanes free.
-  const foodLeft = (f: Block) => `calc(${(100 / laneCount) * (f.lane / f.lanes)}% + 3px)`;
-  const foodWidth = (f: Block) => `calc(${100 / laneCount / f.lanes}% - 6px)`;
+  const foodLeft = (f: Block) => `calc(${span} * ${(1 / laneCount) * (f.lane / f.lanes)} + 3px)`;
+  const foodWidth = (f: Block) => `calc(${span} / ${laneCount * f.lanes} - 6px)`;
 
   return (
     <div className="rounded-2xl border border-line bg-paper p-3 shadow-[var(--shadow-soft)] sm:p-5">
@@ -249,8 +252,8 @@ export function GamedaySchedule({
               ))}
             </div>
 
-            {/* Lanes (right padding so a rider in the last lane can overhang) */}
-            <div className="relative flex-1 pr-4">
+            {/* Lanes; the lane math leaves RIDE_PX free on the right for a rider to overhang into */}
+            <div className="relative flex-1">
               {rowSpecs.map((r) => (
                 <div
                   key={r.h}
@@ -289,7 +292,7 @@ export function GamedaySchedule({
                       top,
                       height,
                       left: laneLeft(b.lane, laneCount, b.overlay ? RIDE_PX : 0),
-                      width: laneWidth(laneCount, b.overlay ? RIDE_PX : 0),
+                      width: laneWidth(laneCount),
                     }}
                   >
                     <div
