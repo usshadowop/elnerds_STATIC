@@ -29,7 +29,7 @@ assuming a tool can edit it.
 - **A second spreadsheet, `elnerds_mtginterest`**, is created by the same
   script on the first `/mtginterest` submission (ID in the
   `MTG_SPREADSHEET_ID` script property). It has one `Interest` tab:
-  Timestamp, Email, Formats, Interest level; one row per email, updated in
+  Timestamp, Email, Formats, Interest level, MTG emails; one row per email, updated in
   place on a repeat. See [mtg-interest](mtg-interest.md). It does not
   exist until `Code.gs` is redeployed and someone submits the form.
 

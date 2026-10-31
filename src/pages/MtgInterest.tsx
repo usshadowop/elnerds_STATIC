@@ -18,6 +18,7 @@ const boxClass = "size-4 shrink-0 accent-teal";
 
 const schema = z.object({
   email: z.string().trim().min(1, "Please enter your email.").email("That doesn't look like an email address."),
+  emailOptIn: z.boolean(),
   formats: z.array(z.string()).min(1, "Pick at least one format."),
   interest: z.array(z.string()).min(1, "Pick at least one."),
   website: z.string(),
@@ -36,7 +37,7 @@ export function MtgInterest() {
     formState: { errors, isSubmitting },
   } = useForm<Values>({
     resolver: zodResolver(schema),
-    defaultValues: { email: "", formats: [], interest: [], website: "" },
+    defaultValues: { email: "", emailOptIn: false, formats: [], interest: [], website: "" },
   });
 
   async function onSubmit(values: Values) {
@@ -44,7 +45,7 @@ export function MtgInterest() {
     try {
       await submitMtgInterest(values);
       setSubmitted(true);
-      reset({ email: "", formats: [], interest: [], website: "" });
+      reset({ email: "", emailOptIn: false, formats: [], interest: [], website: "" });
     } catch (err) {
       setServerError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     }
@@ -116,6 +117,10 @@ export function MtgInterest() {
                     {...register("email")}
                   />
                   {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+                  <label className={`${checkClass} mt-3 items-start`}>
+                    <input type="checkbox" className={`${boxClass} mt-1`} {...register("emailOptIn")} />
+                    <span>I&rsquo;d like to receive news and emails about EL Nerds MTG events</span>
+                  </label>
                 </div>
 
                 <fieldset>

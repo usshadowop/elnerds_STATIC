@@ -18,6 +18,8 @@ export type MtgInterestSignup = {
   formats: string[];
   /** Competitive and/or Casual, from MTG_INTEREST_LEVELS. */
   interest: string[];
+  /** Opted in to news and emails about EL Nerds MTG events. */
+  emailOptIn: boolean;
   /** Honeypot — a hidden field only bots fill in. The backend drops those. */
   website: string;
 };

@@ -13,7 +13,7 @@ play. The Halloween email's hero section points here.
 ## Where it lives
 
 - `src/pages/MtgInterest.tsx`: `/mtginterest`, laid out like `/newsletter`.
-  Three sections: Email, Format interest (checkboxes: Commander, Standard,
+  Three sections: Email (with an opt-in checkbox for MTG news and emails under it), Format interest (checkboxes: Commander, Standard,
   Modern, Pioneer, Pauper, Legacy), Type of interest (checkboxes:
   Competitive, Casual). At least one box in each group is required.
 - `src/lib/mtgInterest.ts`: the POST client and the two option lists.
@@ -29,7 +29,7 @@ play. The Halloween email's hero section points here.
 
 ## How it works
 
-The form posts `{ type: "mtg", email, formats[], interest[], website }` to
+The form posts `{ type: "mtg", email, formats[], interest[], emailOptIn, website }` to
 the same Apps Script endpoint as the RSVP and newsletter forms
 (`VITE_RSVP_ENDPOINT`). `type: "mtg"` sends it to `handleMtgInterest_`,
 which:
@@ -39,7 +39,7 @@ which:
   the `MTG_SPREADSHEET_ID` script property. It is *not* a tab in "elnerds
   RSVPs";
 - keeps an `Interest` tab with columns Timestamp, Email, Formats, Interest
-  level. Formats and Interest level are comma-separated strings in the
+  level, MTG emails (Yes/No from the opt-in box). Formats and Interest level are comma-separated strings in the
   site's order ("Commander, Modern" / "Casual");
 - writes one row per email: a repeat submission overwrites that address's
   Formats, Interest level and Timestamp rather than adding a row;
