@@ -60,14 +60,20 @@ export function GamedaySchedule({
   rows,
   startMs,
   endMs,
+  showNowLine = true,
 }: {
   rows: GamedayShowRow[];
   /** Game Day's bounds as epoch ms; the "now" line is real inside them. */
   startMs: number;
   endMs: number;
+  /** Draw the magenta "now" line, its legend and the pulse on current blocks.
+   *  The home page turns this off: before Game Day a line following the
+   *  visitor's clock read as if something were happening right now. */
+  showNowLine?: boolean;
 }) {
   const now = useNow();
   const live = now >= startMs && now < endMs;
+  const nowLine = showNowLine;
   let nowMinutes: number;
   if (live) {
     nowMinutes = Math.floor((now - startMs) / 60_000);
@@ -211,13 +217,15 @@ export function GamedaySchedule({
     <div className="rounded-2xl border border-line bg-paper p-3 shadow-[var(--shadow-soft)] sm:p-5">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2 px-1">
         <p className="text-xs font-bold text-ink-soft">Saturday 8 AM to Sunday 8 AM, Central time</p>
-        <p className="inline-flex items-center gap-2 text-xs font-bold text-magenta">
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-magenta opacity-75" />
-            <span className="relative inline-flex size-2 rounded-full bg-magenta" />
-          </span>
-          {live ? "Now" : "Preview: the line follows your clock until Game Day"}
-        </p>
+        {nowLine && (
+          <p className="inline-flex items-center gap-2 text-xs font-bold text-magenta">
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-magenta opacity-75" />
+              <span className="relative inline-flex size-2 rounded-full bg-magenta" />
+            </span>
+            {live ? "Now" : "Preview: the line follows your clock until Game Day"}
+          </p>
+        )}
       </div>
 
       <div className="overflow-x-auto">
@@ -265,7 +273,7 @@ export function GamedaySchedule({
               {blocks.map((b) => {
                 const top = y(b.start) + 3;
                 const height = Math.max(y(b.end) - y(b.start) - 6, 26);
-                const current = nowMinutes >= b.start && nowMinutes < b.end;
+                const current = nowLine && nowMinutes >= b.start && nowMinutes < b.end;
                 // Banners lie across the lanes and riders sit on top of long
                 // blocks, so the text goes in the tallest uncovered stretch.
                 const covered = [
@@ -328,17 +336,19 @@ export function GamedaySchedule({
               {/* Now line */}
               {/* The row is centred on the time (-translate-y-1/2); with its top
                   edge there instead, the line drew ~10 minutes late. */}
-              <div
-                className="pointer-events-none absolute -left-2 right-0 z-20 flex -translate-y-1/2 items-center"
-                style={{ top: y(nowMinutes) }}
-                aria-label={`Current time: ${clockLabel(nowMinutes)}`}
-              >
-                <span className="size-3 shrink-0 rounded-full border-2 border-white bg-magenta shadow" />
-                <span className="h-[3px] flex-1 bg-magenta" />
-                <span className="shrink-0 rounded-full bg-magenta px-2 py-0.5 text-[10px] font-extrabold tabular-nums text-white shadow">
-                  {clockLabel(nowMinutes)}
-                </span>
-              </div>
+              {nowLine && (
+                <div
+                  className="pointer-events-none absolute -left-2 right-0 z-20 flex -translate-y-1/2 items-center"
+                  style={{ top: y(nowMinutes) }}
+                  aria-label={`Current time: ${clockLabel(nowMinutes)}`}
+                >
+                  <span className="size-3 shrink-0 rounded-full border-2 border-white bg-magenta shadow" />
+                  <span className="h-[3px] flex-1 bg-magenta" />
+                  <span className="shrink-0 rounded-full bg-magenta px-2 py-0.5 text-[10px] font-extrabold tabular-nums text-white shadow">
+                    {clockLabel(nowMinutes)}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>

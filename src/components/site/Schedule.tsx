@@ -33,6 +33,7 @@ function MainEventSchedule({ item }: { item: EventItem }) {
           rows={content.runOfShow}
           startMs={Date.parse(calendar.start)}
           endMs={Date.parse(calendar.end)}
+          showNowLine={false}
         />
       )}
     </div>

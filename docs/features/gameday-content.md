@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-31 (riders overhang again; lanes span 100% − 12px)
+- **Last reviewed:** 2026-10-31 (showNowLine prop; home page hides the now-line)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -105,6 +105,10 @@ becomes a live player.
     its top edge there it drew about ten minutes late, below a block that
     hadn't ended yet (reported from the live site 2026-10-15, PR #83).
     Check line position with the clock forced, not by eye.
+- **The home page hides the now-line** (`showNowLine={false}` from
+  `MainEventSchedule`): no line, no "Preview" legend, no pulse on current
+  blocks. Before Game Day a line following the visitor's clock read as if
+  something were on right now (owner, 2026-10-31). `/gameday` keeps it.
 - **The "now" line is real only during Game Day.** Outside it the line
   previews with the visitor's own clock (today's 2:15 PM sits where
   Saturday's 2:15 PM will), labelled as a preview, so the page can be
