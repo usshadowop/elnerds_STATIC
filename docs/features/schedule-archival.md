@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-31 (home panel renders ResponsiveGamedaySchedule)
+- **Last reviewed:** 2026-10-31 (main card: details always shown, no fold, no sub-event cards)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -107,3 +107,13 @@ viewport on phones — at 360px the document was 392px wide and the nav sat
 short of the right edge (owner screenshot, 2026-10-31). Grid items default
 to `min-width:auto`, so an `overflow-x-auto` child cannot clip unless its
 parent is allowed to shrink.
+
+## The main-event card does not fold (2026-10-31)
+
+The marathon card shows its `details` paragraph under the blurb at all
+times and has no "Details" chip or expandable section; its body is a plain
+`div`, not a button. Its hand-written `subEvents` (the gold sub-cards:
+Open House, Smash, Finale) were removed from `scheduleEvents.ts`, since the
+live run of show in the panel beneath the card now carries that
+information from the sheet. Other cards keep the fold and chip. The
+`subEvents` field stays on the type for any future card that wants it.

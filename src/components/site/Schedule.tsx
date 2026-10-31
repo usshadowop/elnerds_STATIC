@@ -58,6 +58,7 @@ function EventCard({
   // The main event (the marathon) gets a gradient header band with the RSVP
   // and Directions buttons and a countdown in it, so the body stays tight.
   const band = Boolean(item.main && !past);
+  const Body = band ? "div" : "button";
   const start = item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.calendar.start : undefined;
   const daysAway = start ? Math.max(0, Math.ceil((Date.parse(start) - Date.now()) / 86_400_000)) : null;
   const mapUrl = item.mapUrl ?? (item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.mapUrl : undefined);
@@ -130,21 +131,26 @@ function EventCard({
       {/* Top-right corner: expand indicator. It and the body share a wrapper so
           on band cards it sits just under the band however tall the band wraps. */}
       <div className="relative">
-      <span
-        className={`pointer-events-none absolute right-4 z-10 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 sm:right-5 ${band ? "top-3" : "top-4 sm:top-5"} ${
-          isOpen ? "bg-ink/10 text-ink-soft" : "bg-teal-soft text-teal"
-        }`}
-      >
-        {isOpen ? "Close" : "Details"}
-      </span>
+      {!band && (
+        <span
+          className={`pointer-events-none absolute right-4 z-10 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 sm:right-5 top-4 sm:top-5 ${
+            isOpen ? "bg-ink/10 text-ink-soft" : "bg-teal-soft text-teal"
+          }`}
+        >
+          {isOpen ? "Close" : "Details"}
+        </span>
+      )}
 
-      <button
-        type="button"
-        onClick={() => toggle(index)}
-        className={`w-full cursor-pointer p-6 text-left ${
-          band ? "pr-24 sm:pr-32" : rsvpSlug ? "pt-28 sm:pt-28" : mapUrl ? "pt-16 sm:pt-16" : "pr-24 sm:pr-32"
+      {/* The main event has nothing folded away (its details sit in the open
+          and its schedule is the grid below), so its body is plain, not a
+          button. */}
+      <Body
+        {...(band
+          ? {}
+          : { type: "button" as const, onClick: () => toggle(index), "aria-expanded": isOpen })}
+        className={`w-full p-6 text-left ${
+          band ? "" : rsvpSlug ? "cursor-pointer pt-28 sm:pt-28" : mapUrl ? "cursor-pointer pt-16 sm:pt-16" : "cursor-pointer pr-24 sm:pr-32"
         }`}
-        aria-expanded={isOpen}
       >
         <div className="grid gap-4 md:grid-cols-12 md:items-center md:gap-6">
           <div className="md:col-span-4">
@@ -182,12 +188,16 @@ function EventCard({
               {item.title}
             </h3>
             <p className="text-sm text-ink-soft sm:text-base">{item.blurb}</p>
+            {band && item.details && (
+              <p className="mt-3 text-sm leading-relaxed text-ink-soft sm:text-base">{item.details}</p>
+            )}
           </div>
         </div>
-      </button>
+      </Body>
       </div>
 
-      {/* Expandable details */}
+      {/* Expandable details (every card but the main event) */}
+      {!band && (
       <div
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
           isOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
@@ -250,6 +260,7 @@ function EventCard({
           )}
         </div>
       </div>
+      )}
     </div>
   );
 }
