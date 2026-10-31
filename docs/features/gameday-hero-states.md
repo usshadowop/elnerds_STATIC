@@ -1,7 +1,7 @@
 # Game Day hero states
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-13 (incentives chip added under the event pills)
+- **Last reviewed:** 2026-10-31 (Gameday schedule chip added beside the incentives chip)
 - **Covers:** `src/hooks/use-countdown.ts`, `src/components/site/Hero.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -92,3 +92,12 @@ otherwise.
 - The final total stays up until a new marathon with future dates is added to
   `EVENTS`, at which point the card returns to counting down. Nothing expires
   on its own in between.
+
+## Gameday schedule chip (added 2026-10-31)
+
+Beside the incentives chip sits a solid blue "Gameday schedule" chip
+(`CalendarDays` icon, `bg-blue`, no pulse) linking to `#gameday-schedule`,
+the run-of-show grid under the main-event card in the Schedule section.
+The two chips share one flex row that wraps on narrow phones. It shows and
+hides with the incentives chip (every phase but "after"). Blue is the
+`--color-blue` token the hero's RSVP button introduced.

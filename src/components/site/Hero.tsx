@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, ChevronLeft, ChevronRight, Heart, Baby, Building2, Gift, X } from "lucide-react";
+import { ArrowRight, CalendarDays, ChevronLeft, ChevronRight, Heart, Baby, Building2, Gift, X } from "lucide-react";
 import heroImg from "@/assets/hero-marathon.jpg";
 import { useGameday } from "@/hooks/use-countdown";
 import { useNow } from "@/hooks/use-now";
@@ -168,7 +168,7 @@ export function Hero() {
             "there's something to earn here" rather than another date. Like the
             pills, it leaves on its own once the marathon is over. */}
         {c.phase !== "after" && (
-          <div className="mb-8 flex justify-center">
+          <div className="mb-8 flex flex-wrap items-center justify-center gap-3">
             <a
               href={`${import.meta.env.BASE_URL}incentives`}
               className="group inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-orange via-magenta to-purple px-4 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] animate-incentive-glow transition-all hover:brightness-110 motion-reduce:animate-none sm:px-5 sm:tracking-widest"
@@ -179,6 +179,17 @@ export function Hero() {
               </span>
               <Gift className="size-4 shrink-0" aria-hidden />
               <span>Donation incentives live</span>
+              <ArrowRight className="hidden size-4 shrink-0 transition-transform group-hover:translate-x-1 sm:block" aria-hidden />
+            </a>
+            {/* Game Day schedule chip: solid blue, no pulse, so the incentives
+                chip keeps the attention and this one reads as a plain link to
+                the run of show under the main-event card. */}
+            <a
+              href={`${import.meta.env.BASE_URL}#gameday-schedule`}
+              className="group inline-flex items-center gap-2.5 rounded-full bg-blue px-4 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110 sm:px-5 sm:tracking-widest"
+            >
+              <CalendarDays className="size-4 shrink-0" aria-hidden />
+              <span>Gameday schedule</span>
               <ArrowRight className="hidden size-4 shrink-0 transition-transform group-hover:translate-x-1 sm:block" aria-hidden />
             </a>
           </div>

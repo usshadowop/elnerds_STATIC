@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-15 (now-line centring fix, PR #83)
+- **Last reviewed:** 2026-10-31 (grid now also on the home page)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`
 
 ## Purpose
@@ -27,6 +27,9 @@ a spreadsheet during the event.
 - `src/hooks/use-gameday-content.ts` — the polling hook.
 - `src/components/site/GamedaySchedule.tsx` — the "Schedule" section: the
   run-of-show rows laid out as a lane grid with a "now" line (rules below).
+  Since 2026-10-31 the home page's Schedule section renders the same grid
+  under the main-event card (`MainEventSchedule` in `Schedule.tsx`, owned
+  by schedule-archival), fed by the same hook.
 - `apps-script/Code.gs` — `doGet(?action=gameday)` and `getGamedayContent_()`.
 
 ## How it works
