@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-23 (header band stacks on phones; Details badge follows the band height)
+- **Last reviewed:** 2026-10-31 (Game Day schedule subsection under the main card)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -84,3 +84,17 @@ submissions).
 ## Manual steps and open questions
 
 None. This feature is fully self-driving.
+
+## Game Day schedule under the main card (added 2026-10-31)
+
+`MainEventSchedule` in `Schedule.tsx` renders the run-of-show grid
+(`GamedaySchedule`, the same component `/gameday` uses) directly beneath
+the main-event card, outside its Details fold, with `id="gameday-schedule"`
+(the hero's blue chip links to it). It reads the same
+sheet-driven content through `useGamedayContent`, so the home page polls
+`?action=gameday` once a minute while open, exactly like the Command
+Center, and shows the 2025 example (with a line saying so) until the sheet
+is filled. The "example" line is keyed on the rows being the very
+`FALLBACK_CONTENT.runOfShow` array, which is what `parseGamedayContent`
+returns for an unfilled tab. The mechanics of the grid stay documented in
+the gameday-content card.

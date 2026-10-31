@@ -1,9 +1,51 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, ChevronDown, ExternalLink, Trophy } from "lucide-react";
+import { ArrowRight, CalendarClock, ChevronDown, ExternalLink, Trophy } from "lucide-react";
 
+import { GamedaySchedule } from "@/components/site/GamedaySchedule";
+import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { useNow } from "@/hooks/use-now";
+import { FALLBACK_CONTENT } from "@/lib/gamedayContent";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
 import { EVENTS, endsAtMs, splitByDate, type EventItem } from "@/lib/scheduleEvents";
+
+/** The Game Day run of show, shown under the main-event card. Same rows and
+ *  grid as /gameday (sheet-driven, re-read once a minute, the 2025 example
+ *  until the sheet is filled), so the home page never shows a different
+ *  schedule from the Command Center. */
+function MainEventSchedule({ item }: { item: EventItem }) {
+  const { content } = useGamedayContent();
+  const calendar = item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.calendar : undefined;
+  if (!calendar) return null;
+  const isExample = content.runOfShow === FALLBACK_CONTENT.runOfShow;
+  return (
+    <div id="gameday-schedule" className="scroll-mt-24 rounded-2xl border border-line bg-paper p-5 shadow-[var(--shadow-soft)] sm:p-6">
+      <div className="mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
+        <div>
+          <p className="mb-1 inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">
+            <CalendarClock className="size-3.5" /> What&rsquo;s on
+          </p>
+          <h3 className="font-display text-xl font-extrabold text-ink sm:text-2xl">Game Day Schedule</h3>
+          {isExample && (
+            <p className="mt-1 text-sm text-ink-soft">
+              Last year&rsquo;s schedule as an example &mdash; the 2026 run of show lands here as soon as it&rsquo;s set.
+            </p>
+          )}
+        </div>
+        <a
+          href={`${import.meta.env.BASE_URL}gameday`}
+          className="inline-flex items-center gap-1.5 text-sm font-extrabold text-teal transition-colors hover:text-teal-bright"
+        >
+          Command Center <ArrowRight className="size-4" />
+        </a>
+      </div>
+      <GamedaySchedule
+        rows={content.runOfShow}
+        startMs={Date.parse(calendar.start)}
+        endMs={Date.parse(calendar.end)}
+      />
+    </div>
+  );
+}
 
 function EventCard({
   item,
@@ -261,13 +303,15 @@ export function Schedule() {
         {hosted.length > 0 ? (
           <div className="grid gap-4">
             {hosted.map((item) => (
-              <EventCard
-                key={item.title}
-                item={item}
-                index={item.title}
-                openIndex={openIndex}
-                toggle={toggle}
-              />
+              <div key={item.title} className="grid gap-4">
+                <EventCard
+                  item={item}
+                  index={item.title}
+                  openIndex={openIndex}
+                  toggle={toggle}
+                />
+                {item.main && <MainEventSchedule item={item} />}
+              </div>
             ))}
           </div>
         ) : (
