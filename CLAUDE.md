@@ -48,7 +48,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
 | 2026-10-13 | Owner | Fill the `Gameday Run of Show` tab with the real 2026 schedule. Until any row changes, `/gameday` shows the **2025** schedule as an example (the untouched starter rows are treated as empty). Time cells may be ranges like `9:30a - 12:30p`; rows mentioning a meal turn green. Also confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
-| 2026-10-09 | Owner | Review and send the October "Sign Up Today" email (`email/elnerds-signup-today.html`, live preview at https://elnerds.com/email/current/). Unverified facts in it that came from Mike's draft or the hero pills, not the repo: food for anyone who raises $50+, "tourneys", and "Gorilla butler". The Game Week drawing details came from Grant Gray's Oct 2 email. The `$50+` food line and the drawing are now also on `/incentives` and the home page; if either is wrong, fix the site too. Once sent: archive per `email/archive/README.md`, replace `public/email/current/index.html` (and the `signup-today/` stub) per `email/archive/README.md`, and drop this line. |
+| 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. Also: review the Halloween variant (`email/elnerds-halloween.html`, previewed at /email/current/) before any send. |
 
 Rules that keep this honest:
 
@@ -66,25 +66,16 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-10-23 (two mobile layout fixes, PRs #85 and #86):*
+*Session of 2026-10-31 (email housekeeping):*
 
-- **The marathon card's header band no longer scrunches on phones.** In
-  `Schedule.tsx` the band now stacks below `sm` (title + days-away pill,
-  then RSVP and Directions), and the "Details" badge is positioned
-  relative to the card body instead of a fixed 3.75rem from the card top,
-  so it no longer sits on the Directions button when the band wraps.
-  Desktop measured identical before and after.
-
-- **Team-summary figures no longer collide on phones.** The "$17,380 /
-  $60,000 / 35" row in `ActiveRoster.tsx` used a fixed `text-2xl`, which
-  overflowed its three ~85px columns at 360–412px. The figures now scale
-  with `clamp(1.125rem, 5.5vw, 1.875rem)`, nowrap, tabular digits, and a
-  tighter mobile gap; desktop is unchanged. Verified with headless Chromium
-  at 360 and 412px against a stubbed DonorDrive response.
-- The previous run of sessions (2026-10-13 → 15, PRs #71–#83) added
-  `/incentives`, rebuilt `/gameday` as a leadership demo, split the events
-  section into team and partner events, and moved the sponsors band under
-  Active Roster. See `git log` and the feature cards for detail.
+- Added a Halloween-themed recolor of the Sep sign-up/recruit email
+  (`email/elnerds-halloween.html`); it is now the current campaign at
+  `/email/current/`. Not sent.
+- Archived the Oct "Sign Up Today" email as `email/archive/2026-10-signup-today/`
+  (on the owner's word it was sent) and updated the archive index, `/email/`
+  and the `/email/signup-today/` redirect.
+- The previous session (2026-10-23, PRs #85-#86) fixed two mobile layout
+  issues in `Schedule.tsx` and `ActiveRoster.tsx`; see `git log`.
 
 ## Ship-live workflow
 
