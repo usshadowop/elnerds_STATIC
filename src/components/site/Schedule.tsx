@@ -141,9 +141,9 @@ function EventCard({
         </span>
       )}
 
-      {/* The main event has nothing folded away (its details sit in the open
-          and its schedule is the grid below), so its body is plain, not a
-          button. */}
+      {/* The main event has nothing folded away (its details section is
+          always open and its schedule is the grid below), so its body is
+          plain, not a button. */}
       <Body
         {...(band
           ? {}
@@ -188,20 +188,21 @@ function EventCard({
               {item.title}
             </h3>
             <p className="text-sm text-ink-soft sm:text-base">{item.blurb}</p>
-            {band && item.details && (
-              <p className="mt-3 text-sm leading-relaxed text-ink-soft sm:text-base">{item.details}</p>
-            )}
           </div>
         </div>
       </Body>
       </div>
 
-      {/* Expandable details (every card but the main event) */}
-      {!band && (
+      {/* Details section: folded on ordinary cards, always open on the main
+          event (same ruled-off block, just never hidden). */}
       <div
-        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
-        }`}
+        className={
+          band
+            ? ""
+            : `overflow-hidden transition-all duration-300 ease-in-out ${
+                isOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+              }`
+        }
       >
         <div className="border-t border-line px-6 pt-4 pb-6">
           {item.details && (
@@ -260,7 +261,6 @@ function EventCard({
           )}
         </div>
       </div>
-      )}
     </div>
   );
 }

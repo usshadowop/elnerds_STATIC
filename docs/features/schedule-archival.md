@@ -110,9 +110,9 @@ parent is allowed to shrink.
 
 ## The main-event card does not fold (2026-10-31)
 
-The marathon card shows its `details` paragraph under the blurb at all
-times and has no "Details" chip or expandable section; its body is a plain
-`div`, not a button. Its hand-written `subEvents` (the gold sub-cards:
+The marathon card's ruled-off details section (the same block other cards
+reveal with the chip) is always open; there is no "Details"/"Close" chip
+and the card body is a plain `div`, not a button. Its hand-written `subEvents` (the gold sub-cards:
 Open House, Smash, Finale) were removed from `scheduleEvents.ts`, since the
 live run of show in the panel beneath the card now carries that
 information from the sheet. Other cards keep the fold and chip. The
