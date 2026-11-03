@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-31 (main card: details always shown, no fold, no sub-event cards)
+- **Last reviewed:** 2026-11-03 (partner heading and chip renamed "External Partner")
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -40,7 +40,7 @@ submissions).
 
 - **Upcoming events are two groups.** "Extra Life Nerds Events" (the
   team's own, the marathon among them) lead; events flagged `partner` sit
-  below under "Partner Events", in their usual colours. The partner group
+  below under "External Partner Events" (chip: "External Partner Event"), in their usual colours. The partner group
   only renders when there is one. (Grey partner cards were mocked up on
   2026-10-14 and turned down.)
 - **The main event card wears a header band**: a magenta→purple→teal strip
