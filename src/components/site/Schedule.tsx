@@ -166,7 +166,7 @@ function EventCard({
                 )}
                 {item.partner && (
                   <span className="shrink-0 rounded-full bg-gold px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">
-                    Partner Event
+                    External Partner Event
                   </span>
                 )}
                 {past && (
@@ -335,7 +335,7 @@ export function Schedule() {
             <div className="my-12 border-t border-line" />
             <div className="mb-8 max-w-2xl">
               <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-ink-soft">
-                {yearPrefix(partners)}Partner Events
+                {yearPrefix(partners)}External Partner Events
               </p>
             </div>
             <div className="grid gap-4">
