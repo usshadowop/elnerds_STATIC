@@ -67,31 +67,13 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-10-31 (Halloween email sent, MTG form, home-page schedule;
-PRs #87–#114):*
+*Session of 2026-11-03 (copy tweak; PR #116):*
 
-- **Halloween email written, reviewed live and sent** via Brevo; archived as
-  `email/archive/2026-10-halloween/` with `/email/current/` redirecting
-  there. Dark theme, moon-and-bats banner, MTG hero with the wordmark,
-  "Schedule is live!" callout, three summary chips, dark CMN badge, no Step
-  labels. The Oct "Sign Up Today" email was archived the same day.
-- **`/mtginterest` built and live**: email + MTG-news opt-in, Commander /
-  Draft / Other (free text), Competitive / Casual. `Code.gs` writes it to a
-  separate captain-owned sheet `elnerds_mtginterest`; the owner pasted the
-  file, ran `setupMtg` and `fillRunOfShow2026`, and redeployed; verified by
-  probes. Cards: `mtg-interest`, `rsvp-sheet` (new: the whole sheet mapped).
-- **Home page schedule**: the run-of-show grid sits under the marathon card
-  (blue hero chip links to `#gameday-schedule`), shows the sheet's rows
-  as-is, no now-line on the home page. Phones get an agenda list with a
-  full-timeline overlay (`GamedayAgenda.tsx`, also on `/gameday`). The
-  marathon card's details are always open, no chip, no gold sub-cards.
-- **Fixes along the way**: rider blocks overhang without a scrollbar;
-  meal banners grow to fit; the grid can't widen the page on phones;
-  `#anchor` links land on first load (`useHashScroll` in `router.tsx`).
-- Finding worth keeping: Claude has never edited a sheet cell. The Drive
-  connector (signed in as `stevenlarker1982@gmail.com`, not shadow-op or
-  captain) reads but cannot write; the only writers are `Code.gs` (now
-  including the editor-run `fillRunOfShow2026`) and people.
+- Schedule's partner group renamed: heading "2026 External Partner Events",
+  card chip "External Partner Event" (`Schedule.tsx`; `schedule-archival`
+  card updated). Verified live in the bundle.
+- No open threads changed; the previous session (2026-10-31, PRs #87–#114:
+  Halloween email, `/mtginterest`, home-page schedule) is in `git log`.
 
 ## Ship-live workflow
 
