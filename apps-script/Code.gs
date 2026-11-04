@@ -29,12 +29,14 @@ const CAPTAIN_EMAIL = "captainextralifenerds@gmail.com";
 // Name shown as the email sender.
 const SENDER_NAME = "Extra Life Nerds";
 
-// Spreadsheet that stores RSVPs (created automatically on first submission).
+// Spreadsheet that stores RSVPs (created automatically on first submission;
+// its ID is kept in the SPREADSHEET_ID script property). See
+// openStoredSpreadsheet_ for what happens when that ID won't open.
 const SPREADSHEET_NAME = "elnerds RSVPs";
 
 // Separate spreadsheet for Magic: The Gathering interest (created on the
 // first /mtginterest submission; its ID is kept in the MTG_SPREADSHEET_ID
-// script property, so deleting the sheet makes the next post start a new one).
+// script property; delete that property to make the next post start a new one).
 const MTG_SPREADSHEET_NAME = "elnerds_mtginterest";
 const MTG_FORMATS = ["Commander", "Draft", "Other"];
 const MTG_INTEREST_LEVELS = ["Competitive", "Casual"];
@@ -190,20 +192,41 @@ function getGamedayContent_() {
 // Spreadsheet helpers
 // ---------------------------------------------------------------------------
 
-function getSpreadsheet_() {
+// Opens the spreadsheet whose ID is stored in a script property, or creates it
+// (and stores the ID) when no ID has been stored yet.
+//
+// A stored ID that fails to open is an ERROR, never a reason to create a new
+// file. openById() can fail for a moment on Google's side, and the old code
+// read any failure as "deleted" and silently replaced the sheet: on 2026-11-02
+// one blip pointed SPREADSHEET_ID at a fresh, empty "elnerds RSVPs" and the
+// site ran on it for two days. Now a failure is retried, then thrown; callers
+// return an error and the next request tries again.
+//
+// To really start over with a new sheet, delete the property in Project
+// Settings > Script Properties; the next request creates one.
+function openStoredSpreadsheet_(property, name) {
   const props = PropertiesService.getScriptProperties();
-  let id = props.getProperty("SPREADSHEET_ID");
-  if (id) {
+  const id = props.getProperty(property);
+  if (!id) {
+    const created = SpreadsheetApp.create(name);
+    props.setProperty(property, created.getId());
+    return created;
+  }
+  let lastError = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
     try {
       return SpreadsheetApp.openById(id);
     } catch (e) {
-      // was deleted — fall through and recreate
+      lastError = e;
+      if (attempt < 2) Utilities.sleep(500 * (attempt + 1));
     }
   }
-  const ss = SpreadsheetApp.create(SPREADSHEET_NAME);
-  props.setProperty("SPREADSHEET_ID", ss.getId());
-  // Drop the default empty "Sheet1" once real event tabs exist (handled lazily).
-  return ss;
+  console.error("Could not open " + property + " = " + id + ": " + (lastError && lastError.message));
+  throw new Error("couldn't open the \"" + name + "\" spreadsheet; please try again in a minute");
+}
+
+function getSpreadsheet_() {
+  return openStoredSpreadsheet_("SPREADSHEET_ID", SPREADSHEET_NAME);
 }
 
 // Returns the tab for an event, creating it (with headers) if needed.
@@ -360,18 +383,7 @@ function handleNewsletter_(data) {
 // ---------------------------------------------------------------------------
 
 function getMtgSpreadsheet_() {
-  const props = PropertiesService.getScriptProperties();
-  let id = props.getProperty("MTG_SPREADSHEET_ID");
-  if (id) {
-    try {
-      return SpreadsheetApp.openById(id);
-    } catch (e) {
-      // was deleted — fall through and recreate
-    }
-  }
-  const ss = SpreadsheetApp.create(MTG_SPREADSHEET_NAME);
-  props.setProperty("MTG_SPREADSHEET_ID", ss.getId());
-  return ss;
+  return openStoredSpreadsheet_("MTG_SPREADSHEET_ID", MTG_SPREADSHEET_NAME);
 }
 
 // The "Interest" tab with its header row, created on first use. The blank
@@ -516,6 +528,12 @@ function handleCancel_(token) {
     }
     return HtmlService.createHtmlOutput(
       page_("Not found", 'We couldn\'t find that RSVP — it may have already been removed. Questions? Email <a href="mailto:info@elnerds.com">info@elnerds.com</a>.'),
+    );
+  } catch (err) {
+    // Usually the spreadsheet failing to open for a moment (see
+    // openStoredSpreadsheet_). Nothing was changed, so the link still works.
+    return HtmlService.createHtmlOutput(
+      page_("Try again in a minute", 'We couldn\'t reach the RSVP list just now, so nothing was changed. Please click the cancel link again in a minute. Questions? Email <a href="mailto:info@elnerds.com">info@elnerds.com</a>.'),
     );
   } finally {
     lock.releaseLock();
