@@ -10,7 +10,13 @@ type NavItem = NavLink | { label: string; children: NavLink[] };
 
 const NAV_LINKS: NavItem[] = [
   { href: `${HOME}#mission`, label: "Our Impact" },
-  { href: `${HOME}#schedule`, label: "Events" },
+  {
+    label: "Events",
+    children: [
+      { href: `${HOME}#schedule`, label: "All Events" },
+      { href: `${HOME}gameday_events`, label: "Game Day Sign-ups" },
+    ],
+  },
   { href: `${HOME}#story`, label: "Our Story" },
   {
     label: "Sponsors",

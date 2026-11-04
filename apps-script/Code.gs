@@ -15,6 +15,9 @@
  *   - Receives Magic: The Gathering interest (POST { type: "mtg", email,
  *     formats[], formatOther, interest[], emailOptIn }) from /mtginterest into a *separate*
  *     spreadsheet, "elnerds_mtginterest", and notifies the captain
+ *   - Receives Game Day event sign-ups (POST { type: "gameday_signup", name,
+ *     email, events[], notes }) from /gameday_events into an "Event Signups"
+ *     tab, one row per email, and notifies the captain
  *
  * Setup: see apps-script/README.md in the repo.
  */
@@ -139,6 +142,65 @@ const GAMEDAY_NOTICE_TAB = "Gameday Notice";
 // the section stays hidden until someone types a row.
 const GAMEDAY_DETAILS_TAB = "Gameday Event Details";
 
+// The events listed on /gameday_events. Event and When show as the heading,
+// Details as the text (links allowed, like Event Details). A row with a
+// Sign-up link gets a "Sign up" button to that address (an Extra Life
+// incentive, a form elsewhere); a row WITHOUT one becomes a checkbox in the
+// site's own sign-up form, and submissions land in the "Event Signups" tab.
+// Created with headers only, so the page says "check back" until filled.
+const GAMEDAY_SIGNUPS_TAB = "Gameday Signups";
+const GAMEDAY_SIGNUPS_HEADERS = ["Event", "When", "Details", "Sign-up link"];
+
+// A rich-text cell as runs: [{ text }, { text, url }]. Null when the cell has
+// no rich text (a number, an empty cell).
+function textRuns_(cell) {
+  if (!cell) return null;
+  const runs = cell.getRuns();
+  const parts = [];
+  for (let i = 0; i < runs.length; i++) {
+    const t = runs[i].getText();
+    if (!t) continue;
+    const url = runs[i].getLinkUrl();
+    parts.push(url ? { text: t, url: url } : { text: t });
+  }
+  return parts.length ? parts : null;
+}
+
+// Rich text for a range, or null if it can't be read (that only costs links).
+function richValues_(range) {
+  try {
+    return range.getRichTextValues();
+  } catch (e) {
+    return null;
+  }
+}
+
+function readSignupEvents_(sheet) {
+  const last = sheet.getLastRow();
+  if (last < 2) return [];
+  const range = sheet.getRange(2, 1, last - 1, 4);
+  const shown = range.getDisplayValues();
+  const rich = richValues_(range);
+  const out = [];
+  for (let r = 0; r < shown.length; r++) {
+    const cell = function (c) { return String(shown[r][c] == null ? "" : shown[r][c]).trim(); };
+    const event = cell(0);
+    if (!event) continue; // no event name — skip the row
+    const row = { event: event, when: cell(1), details: cell(2), link: cell(3) };
+    const parts = textRuns_(rich && rich[r] ? rich[r][2] : null);
+    if (parts) row.parts = parts;
+    // The link cell may hold a URL as text, or words linked with Insert > Link.
+    const linkRuns = textRuns_(rich && rich[r] ? rich[r][3] : null);
+    if (linkRuns) {
+      for (let i = 0; i < linkRuns.length; i++) {
+        if (linkRuns[i].url) { row.link = linkRuns[i].url; break; }
+      }
+    }
+    out.push(row);
+  }
+  return out;
+}
+
 // Reads the Event Details rows. Details come back as runs, so a link added in
 // Sheets keeps its URL ({ text, url }); the site links bare URLs itself. Rich
 // text failing to read only costs the links, never the rows.
@@ -147,12 +209,7 @@ function readEventDetails_(sheet) {
   if (last < 2) return [];
   const range = sheet.getRange(2, 1, last - 1, 2);
   const shown = range.getDisplayValues();
-  let rich = null;
-  try {
-    rich = range.getRichTextValues();
-  } catch (e) {
-    rich = null;
-  }
+  const rich = richValues_(range);
   const out = [];
   for (let r = 0; r < shown.length; r++) {
     const title = String(shown[r][0] == null ? "" : shown[r][0]).trim();
@@ -160,18 +217,8 @@ function readEventDetails_(sheet) {
     if (!title && !details) continue; // blank row — skip
 
     const row = { title: title, details: details };
-    const cell = rich && rich[r] ? rich[r][1] : null;
-    if (cell) {
-      const runs = cell.getRuns();
-      const parts = [];
-      for (let i = 0; i < runs.length; i++) {
-        const t = runs[i].getText();
-        if (!t) continue;
-        const url = runs[i].getLinkUrl();
-        parts.push(url ? { text: t, url: url } : { text: t });
-      }
-      if (parts.length) row.parts = parts;
-    }
+    const parts = textRuns_(rich && rich[r] ? rich[r][1] : null);
+    if (parts) row.parts = parts;
     out.push(row);
   }
   return out;
@@ -227,6 +274,9 @@ function getGamedayContent_() {
 
     const detailsSheet = getGamedaySheet_(ss, GAMEDAY_DETAILS_TAB, ["Title", "Details"], []);
     out.eventDetails = readEventDetails_(detailsSheet);
+
+    const signupsSheet = getGamedaySheet_(ss, GAMEDAY_SIGNUPS_TAB, GAMEDAY_SIGNUPS_HEADERS, []);
+    out.signups = readSignupEvents_(signupsSheet);
 
     return out;
   } catch (err) {
@@ -309,6 +359,7 @@ function doPost(e) {
 
     if (data.type === "newsletter") return handleNewsletter_(data);
     if (data.type === "mtg") return handleMtgInterest_(data);
+    if (data.type === "gameday_signup") return handleGamedaySignup_(data);
 
     const slug = String(data.slug || "").trim().slice(0, 60);
     const title = String(data.title || "").trim().slice(0, 120);
@@ -513,6 +564,92 @@ function handleMtgInterest_(data) {
         '<br><br>Full list: open "' + MTG_SPREADSHEET_NAME + '" in Google Drive.'),
     });
   }
+
+  return json_({ ok: true });
+}
+
+// ---------------------------------------------------------------------------
+// POST — Game Day event sign-ups (/gameday_events)
+// ---------------------------------------------------------------------------
+
+const EVENT_SIGNUPS_TAB = "Event Signups";
+
+// Writes { name, email, events[], notes } to the "Event Signups" tab of the
+// RSVP sheet. Only events listed in "Gameday Signups" WITHOUT a sign-up link
+// are accepted (those are the ones the site's form offers), in the sheet's
+// order. One row per email: signing up again replaces that row's events and
+// notes, so people can change their picks. Every submission emails the
+// captain, marked "updated" for a repeat. Closed once the marathon ends.
+function handleGamedaySignup_(data) {
+  // Hidden "website" field on the form: people never see it, bots fill it in.
+  if (String(data.website || "").trim()) return json_({ ok: true });
+
+  const name = String(data.name || "").trim().slice(0, 200);
+  const email = String(data.email || "").trim().slice(0, 200);
+  const notes = String(data.notes || "").trim().slice(0, 1000);
+  if (!name) return json_({ ok: false, error: "Please enter your name." });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return json_({ ok: false, error: "Please enter a valid email address." });
+  }
+  if (hasEnded_("marathon")) {
+    return json_({ ok: false, error: "Game Day is over — sign-ups are closed." });
+  }
+
+  let isNew = false;
+  let events = "";
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const ss = getSpreadsheet_();
+
+    // What the form may offer right now: listed events with no outside link.
+    const listed = readSignupEvents_(
+      getGamedaySheet_(ss, GAMEDAY_SIGNUPS_TAB, GAMEDAY_SIGNUPS_HEADERS, []),
+    ).filter(function (e) { return !e.link; });
+    const picked = Array.isArray(data.events) ? data.events.map(function (v) { return String(v).trim(); }) : [];
+    events = listed
+      .filter(function (e) { return picked.indexOf(e.event) !== -1; })
+      .map(function (e) { return e.when ? e.event + " (" + e.when + ")" : e.event; })
+      .join(", ");
+    if (!events) {
+      return json_({ ok: false, error: "Pick at least one event. (The list may have changed; reload the page.)" });
+    }
+
+    let sheet = ss.getSheetByName(EVENT_SIGNUPS_TAB);
+    if (!sheet) {
+      sheet = ss.insertSheet(EVENT_SIGNUPS_TAB);
+      sheet.appendRow(["Timestamp", "Name", "Email", "Events", "Notes"]);
+      sheet.getRange(1, 1, 1, 5).setFontWeight("bold");
+      sheet.setFrozenRows(1);
+    }
+    const last = sheet.getLastRow();
+    const existing = last > 1 ? sheet.getRange(2, 3, last - 1, 1).getValues() : [];
+    const needle = email.toLowerCase();
+    let rowIndex = -1;
+    for (let i = 0; i < existing.length; i++) {
+      if (String(existing[i][0]).trim().toLowerCase() === needle) { rowIndex = i + 2; break; }
+    }
+    const row = [new Date(), name, email, events, notes];
+    if (rowIndex === -1) {
+      sheet.appendRow(row);
+      isNew = true;
+    } else {
+      sheet.getRange(rowIndex, 1, 1, 5).setValues([row]);
+    }
+  } finally {
+    lock.releaseLock();
+  }
+
+  MailApp.sendEmail({
+    to: CAPTAIN_EMAIL,
+    name: SENDER_NAME,
+    subject: (isNew ? "Game Day sign-up: " : "Game Day sign-up (updated): ") + name,
+    htmlBody: page_(isNew ? "New Game Day sign-up" : "Updated Game Day sign-up",
+      "<strong>" + esc_(name) + "</strong> (" + esc_(email) + ")" +
+      "<br>Events: <strong>" + esc_(events) + "</strong>" +
+      (notes ? "<br>Notes: " + esc_(notes) : "") +
+      '<br><br>Full list: the "' + EVENT_SIGNUPS_TAB + '" tab of "' + SPREADSHEET_NAME + '".'),
+  });
 
   return json_({ ok: true });
 }

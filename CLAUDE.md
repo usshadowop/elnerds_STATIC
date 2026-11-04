@@ -49,7 +49,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-10-13 | Owner | Confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. (The run-of-show half of this thread closed 2026-10-31: the 2026 rows are in the sheet and live.) |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
-| 2026-11-04 | Owner | Paste the new `apps-script/Code.gs` (Event Details tab) into RSVP Script and redeploy; the first `?action=gameday` read afterwards creates the `Gameday Event Details` tab (Title, Details). Then move the four "$35" sign-up rows out of `Gameday Run of Show` into it. Check: `curl "$ENDPOINT?action=gameday"` returns an `eventDetails` key. |
+| 2026-11-04 | Owner | Paste the new `apps-script/Code.gs` into RSVP Script and redeploy (one redeploy covers both): the first `?action=gameday` read afterwards creates `Gameday Event Details` (Title, Details) and `Gameday Signups` (Event, When, Details, Sign-up link). Then move the four "$35" rows out of `Gameday Run of Show` and fill the new tabs. Check: `curl "$ENDPOINT?action=gameday"` returns `eventDetails` and `signups` keys. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 
 Rules that keep this honest:
@@ -90,6 +90,10 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   `/gameday`): a new `Gameday Event Details` tab, Title in pink + Details
   with clickable links. Site side live; needs the `Code.gs` redeploy (open
   thread) before the tab exists.
+- **`/gameday_events` sign-up page**: event list from a new `Gameday
+  Signups` tab, outside links as buttons, our own form for the rest (`Event
+  Signups` tab). Linked above the home schedule and from a new Events
+  dropdown in the nav. Same `Code.gs` redeploy.
 - The Apps Script project is **RSVP Script** at script.google.com (captain
   account), deployment `…Zg5WQ9xRcK`. The bound "Untitled project" beside it
   is empty and unrelated.
@@ -205,6 +209,12 @@ already there.
 - `src/pages/Newsletter.tsx` (`/newsletter`): newsletter signup, with
   `?ref=Name` pre-filling "Referred by". It posts to the RSVP endpoint with
   `type: "newsletter"`, and `Code.gs` writes it to a `Newsletter` sheet tab.
+- `src/pages/GamedayEvents.tsx` (`/gameday_events`): Game Day event
+  sign-ups, listed from the `Gameday Signups` sheet tab. Rows with a link get
+  a button to it; the rest are offered in the page's own form, which
+  `Code.gs` writes to an `Event Signups` tab (one row per email). Linked from
+  a bar above the home-page schedule and the nav's Events dropdown. See the
+  gameday-signups card.
 - `src/pages/MtgInterest.tsx` (`/mtginterest`): Magic: The Gathering
   interest form (email, Commander/Draft/Other + free text, competitive/casual). Posts `type: "mtg"`;
   `Code.gs` writes it to a **separate** sheet, `elnerds_mtginterest`, one row

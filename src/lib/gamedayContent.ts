@@ -44,6 +44,16 @@ export interface GamedayEventDetail {
   details: GamedayTextPart[];
 }
 
+/** A row of the "Gameday Signups" tab, listed on /gameday_events. With a
+ *  `link` it gets a "Sign up" button to that address; without one it is
+ *  offered in the site's own sign-up form. */
+export interface GamedaySignupEvent {
+  event: string;
+  when: string;
+  details: GamedayTextPart[];
+  link?: string;
+}
+
 export interface GamedayContent {
   streams: GamedayStream[];
   runOfShow: GamedayShowRow[];
@@ -52,6 +62,8 @@ export interface GamedayContent {
    *  no shipped example, so a failed read shows nothing rather than stale
    *  sign-ups. */
   eventDetails: GamedayEventDetail[];
+  /** The /gameday_events list. Empty means "check back"; no shipped copy. */
+  signups: GamedaySignupEvent[];
   /** One-line announcement across the top. Empty hides the banner. */
   notice: string;
 }
@@ -87,6 +99,7 @@ export const FALLBACK_CONTENT: GamedayContent = {
     { amount: "$—", what: "Milestone to be announced" },
   ],
   eventDetails: [],
+  signups: [],
   notice: "",
 };
 
@@ -171,6 +184,15 @@ const SAFE_URL = /^(https?:\/\/|mailto:)/i;
 // punctuation is left out so "sign up at https://x.com." links x.com.
 const BARE_URL = /(https?:\/\/[^\s<>"]+[^\s<>".,;:!?)\]]|www\.[^\s<>"]+[^\s<>".,;:!?)\]])/gi;
 
+/** A sign-up link cell as a URL the page may link to, or undefined.
+ *  "www.…" gains https://; anything that isn't http(s)/mailto is dropped. */
+function safeLink(value: string): string | undefined {
+  const v = value.trim();
+  if (!v) return undefined;
+  if (/^www\./i.test(v)) return `https://${v}`;
+  return SAFE_URL.test(v) ? v : undefined;
+}
+
 /** Split plain text into text and link parts wherever a bare URL appears. */
 function linkify(text: string): GamedayTextPart[] {
   const parts: GamedayTextPart[] = [];
@@ -247,11 +269,22 @@ export function parseGamedayContent(data: unknown): GamedayContent {
         .filter((r) => r.title || r.details.length)
     : [];
 
+  const signups = Array.isArray(raw.signups)
+    ? raw.signups
+        .filter((r): r is Record<string, unknown> => typeof r === "object" && r !== null)
+        .map((r) => {
+          const link = safeLink(text(r.link));
+          return { event: text(r.event), when: text(r.when), details: detailParts(r), ...(link ? { link } : {}) };
+        })
+        .filter((r) => r.event)
+    : [];
+
   return {
     streams: streams.length ? streams : FALLBACK_CONTENT.streams,
     runOfShow: runOfShow.length ? runOfShow : FALLBACK_CONTENT.runOfShow,
     incentives: incentives.length ? incentives : FALLBACK_CONTENT.incentives,
     eventDetails,
+    signups,
     notice: text(raw.notice),
   };
 }

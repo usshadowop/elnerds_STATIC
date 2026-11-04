@@ -3,7 +3,31 @@
 // Details). Rendered on the home page's schedule card and on /gameday,
 // directly under the schedule; hidden while the tab is empty.
 
-import type { GamedayEventDetail } from "@/lib/gamedayContent";
+import type { GamedayEventDetail, GamedayTextPart } from "@/lib/gamedayContent";
+
+/** Sheet text with its links: linked runs become new-tab links, the rest
+ *  plain text. Also used by /gameday_events. */
+export function RichText({ parts }: { parts: GamedayTextPart[] }) {
+  return (
+    <>
+      {parts.map((part, j) =>
+        part.url ? (
+          <a
+            key={j}
+            href={part.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-bold text-teal underline underline-offset-2 hover:text-teal-bright"
+          >
+            {part.text}
+          </a>
+        ) : (
+          <span key={j}>{part.text}</span>
+        ),
+      )}
+    </>
+  );
+}
 
 export function GamedayEventDetails({ items }: { items: GamedayEventDetail[] }) {
   if (items.length === 0) return null;
@@ -16,21 +40,7 @@ export function GamedayEventDetails({ items }: { items: GamedayEventDetail[] }) 
             {item.title && <span className="font-extrabold text-magenta">{item.title}</span>}
             {item.title && item.details.length > 0 && " "}
             <span className="whitespace-pre-line break-words text-ink-soft">
-              {item.details.map((part, j) =>
-                part.url ? (
-                  <a
-                    key={j}
-                    href={part.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-teal underline underline-offset-2 hover:text-teal-bright"
-                  >
-                    {part.text}
-                  </a>
-                ) : (
-                  <span key={j}>{part.text}</span>
-                ),
-              )}
+              <RichText parts={item.details} />
             </span>
           </li>
         ))}
