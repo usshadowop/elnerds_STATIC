@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-04 (Event Details list under the home-page schedule)
+- **Last reviewed:** 2026-11-04 (hero pills link to their own event card)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -123,3 +123,14 @@ Open House, Smash, Finale) were removed from `scheduleEvents.ts`, since the
 live run of show in the panel beneath the card now carries that
 information from the sheet. Other cards keep the fold and chip. The
 `subEvents` field stays on the type for any future card that wants it.
+
+## Event anchors (added 2026-11-04)
+
+Every event card has an id from `eventAnchor(item)` in `scheduleEvents.ts`:
+`event-` plus the title slugified, e.g. `#event-15-hours-of-board-gaming`
+or `#event-24-hour-marathon`. The cards also have `scroll-mt-24`, so they
+land below the sticky nav. The hero pills link to their own card. Before
+this, every pill went to `#schedule`, where the marathon card sits first,
+so the Board Game Day pill appeared to open the marathon (reported by the
+owner). **Renaming an event changes its anchor**, which breaks any link
+that was shared with the old one.

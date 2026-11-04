@@ -180,7 +180,8 @@ already there.
   never archives. Section year labels ("2026 Future Events") are derived
   from the events in each section, not hardcoded.
 - A hero pill is just a `chip: { label, className, dotClassName }` on the
-  event. Omit `chip` to keep an event out of the hero. The class strings
+  event, and it links to that event's own card (`#event-<slugified title>`,
+  from `eventAnchor()`; renaming an event changes the anchor). Omit `chip` to keep an event out of the hero. The class strings
   are spelled out in full because Tailwind can't see class names
   assembled at runtime.
 - `src/lib/router.tsx` — `usePath`/`navigate` (the client-side router) and
