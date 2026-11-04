@@ -77,6 +77,10 @@ becomes a live player.
     the tab hides the section. Stale sign-ups are worse than none.
   - `RichText` in `GamedayEventDetails.tsx` renders those parts and is
     shared with `/gameday_events`.
+  - **Live spots left:** a row whose Details links an Extra Life incentive
+    gets a "3 of 5 left" / "Full" chip after its title (`SpotsChip`; data
+    via `useIncentiveStock`, see extra-life-api). So don't type "5 left"
+    into the cell.
 - **The same payload carries `signups`**, the `Gameday Signups` tab that
   lists events on `/gameday_events`. Parsed in `gamedayContent.ts` (sign-up
   links pass `safeLink`) and described in the

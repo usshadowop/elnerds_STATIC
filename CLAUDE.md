@@ -93,7 +93,8 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 - **`/gameday_events` sign-up page**: event list from a new `Gameday
   Signups` tab, outside links as buttons, our own form for the rest (`Event
   Signups` tab). Linked above the home schedule and from a new Events
-  dropdown in the nav. Same `Code.gs` redeploy.
+  dropdown in the nav. Same `Code.gs` redeploy. Extra Life incentive links
+  in either tab show live "N of M left" / "Full" chips.
 - The Apps Script project is **RSVP Script** at script.google.com (captain
   account), deployment `…Zg5WQ9xRcK`. The bound "Untitled project" beside it
   is empty and unrelated.
@@ -215,6 +216,12 @@ already there.
   `Code.gs` writes to an `Event Signups` tab (one row per email). Linked from
   a bar above the home-page schedule and the nav's Events dropdown. See the
   gameday-signups card.
+- **Extra Life incentive links show live spots left.** Any link in the
+  Event Details or Gameday Signups tabs of the form
+  `…/participants/<id>/donate?incentiveID=<id>` gets a "3 of 5 left" /
+  "Full" chip from DonorDrive (`useExtraLifeIncentives.ts`). Get a link from
+  `GET dd.extra-life.org/api/participants/<id>/incentives` (`links.donate`)
+  or from "Copy link address" on the participant page.
 - `src/pages/MtgInterest.tsx` (`/mtginterest`): Magic: The Gathering
   interest form (email, Commander/Draft/Other + free text, competitive/casual). Posts `type: "mtg"`;
   `Code.gs` writes it to a **separate** sheet, `elnerds_mtginterest`, one row

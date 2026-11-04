@@ -12,9 +12,18 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowLeft, CalendarClock, Check, ExternalLink, Loader2, PartyPopper, Swords } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarClock,
+  Check,
+  ExternalLink,
+  Loader2,
+  PartyPopper,
+  Swords,
+} from "lucide-react";
 
-import { RichText } from "@/components/site/GamedayEventDetails";
+import { RichText, SpotsChip } from "@/components/site/GamedayEventDetails";
+import { incentiveOf, useIncentiveStock } from "@/hooks/useExtraLifeIncentives";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { useNow } from "@/hooks/use-now";
 import { submitGamedaySignup } from "@/lib/gamedaySignup";
@@ -33,7 +42,11 @@ const boxClass = "mt-1 size-4 shrink-0 accent-teal";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Please enter your name.").max(200),
-  email: z.string().trim().min(1, "Please enter your email.").email("That doesn't look like an email address."),
+  email: z
+    .string()
+    .trim()
+    .min(1, "Please enter your email.")
+    .email("That doesn't look like an email address."),
   events: z.array(z.string()).min(1, "Pick at least one event."),
   notes: z.string().trim().max(1000, "Please keep this under 1000 characters."),
   website: z.string(),
@@ -48,6 +61,8 @@ export function GamedayEvents() {
   const ended = MARATHON ? hasEventEnded(MARATHON, now) : false;
   const events = content.signups;
   const formEvents = events.filter((e) => !e.link);
+  // Rows that link an Extra Life incentive show its live spots-left count.
+  const stock = useIncentiveStock(events.flatMap((e) => [e.link, ...e.details.map((p) => p.url)]));
 
   const [done, setDone] = useState<string[] | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -65,7 +80,9 @@ export function GamedayEvents() {
       setDone(values.events);
       reset(EMPTY);
     } catch (err) {
-      setServerError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setServerError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again.",
+      );
     }
   }
 
@@ -81,11 +98,15 @@ export function GamedayEvents() {
           </a>
 
           <div className="mb-10 text-center">
-            <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">Game Day sign-ups</p>
-            <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">Game Day Events</h1>
+            <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">
+              Game Day sign-ups
+            </p>
+            <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
+              Game Day Events
+            </h1>
             <p className="mx-auto mt-3 max-w-xl text-sm text-ink-soft sm:text-base">
-              Grab a seat at the events running during our 24-hour marathon. Some sign up through their own link;
-              for the rest, use the form at the bottom of this page.
+              Grab a seat at the events running during our 24-hour marathon. Some sign up through
+              their own link; for the rest, use the form at the bottom of this page.
             </p>
             <a
               href={`${HOME}#gameday-schedule`}
@@ -114,40 +135,56 @@ export function GamedayEvents() {
             </div>
           ) : (
             <ul className="grid gap-4">
-              {events.map((e, i) => (
-                <li
-                  key={`${e.event}-${i}`}
-                  className="flex flex-col gap-4 rounded-2xl border border-line bg-paper p-5 shadow-[var(--shadow-soft)] sm:flex-row sm:items-center sm:justify-between sm:p-6"
-                >
-                  <div className="min-w-0">
-                    <h2 className="font-display text-lg font-extrabold text-ink sm:text-xl">{e.event}</h2>
-                    {e.when && <p className="mt-0.5 text-sm font-extrabold text-magenta">{e.when}</p>}
-                    {e.details.length > 0 && (
-                      <p className="mt-2 whitespace-pre-line break-words text-sm text-ink-soft">
-                        <RichText parts={e.details} />
-                      </p>
-                    )}
-                  </div>
-                  {!ended &&
-                    (e.link ? (
-                      <a
-                        href={e.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-orange px-5 py-2.5 text-sm font-extrabold text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
-                      >
-                        Sign up <ExternalLink className="size-4" />
-                      </a>
-                    ) : (
-                      <a
-                        href="#signup-form"
-                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border-2 border-teal px-5 py-2 text-sm font-extrabold text-teal transition-all hover:bg-teal hover:text-white"
-                      >
-                        Sign up below
-                      </a>
-                    ))}
-                </li>
-              ))}
+              {events.map((e, i) => {
+                const inc = incentiveOf(e.link, e.details);
+                const spots = inc ? stock.get(inc.incentiveID) : undefined;
+                const full = spots ? spots.left <= 0 : false;
+                return (
+                  <li
+                    key={`${e.event}-${i}`}
+                    className="flex flex-col gap-4 rounded-2xl border border-line bg-paper p-5 shadow-[var(--shadow-soft)] sm:flex-row sm:items-center sm:justify-between sm:p-6"
+                  >
+                    <div className="min-w-0">
+                      <h2 className="font-display text-lg font-extrabold text-ink sm:text-xl">
+                        {e.event}
+                      </h2>
+                      {(e.when || spots) && (
+                        <p className="mt-0.5 flex flex-wrap items-center gap-2 text-sm font-extrabold text-magenta">
+                          {e.when}
+                          <SpotsChip stock={spots} />
+                        </p>
+                      )}
+                      {e.details.length > 0 && (
+                        <p className="mt-2 whitespace-pre-line break-words text-sm text-ink-soft">
+                          <RichText parts={e.details} />
+                        </p>
+                      )}
+                    </div>
+                    {!ended &&
+                      (e.link && full ? (
+                        <span className="inline-flex shrink-0 items-center justify-center rounded-full bg-line px-5 py-2.5 text-sm font-extrabold text-ink-soft">
+                          Full
+                        </span>
+                      ) : e.link ? (
+                        <a
+                          href={e.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-orange px-5 py-2.5 text-sm font-extrabold text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
+                        >
+                          Sign up <ExternalLink className="size-4" />
+                        </a>
+                      ) : (
+                        <a
+                          href="#signup-form"
+                          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border-2 border-teal px-5 py-2 text-sm font-extrabold text-teal transition-all hover:bg-teal hover:text-white"
+                        >
+                          Sign up below
+                        </a>
+                      ))}
+                  </li>
+                );
+              })}
             </ul>
           )}
 
@@ -161,7 +198,9 @@ export function GamedayEvents() {
                   <span className="flex size-14 items-center justify-center rounded-full bg-teal-soft text-teal">
                     <PartyPopper className="size-7" />
                   </span>
-                  <h3 className="mt-5 font-display text-2xl font-extrabold text-ink">You&rsquo;re signed up!</h3>
+                  <h3 className="mt-5 font-display text-2xl font-extrabold text-ink">
+                    You&rsquo;re signed up!
+                  </h3>
                   <p className="mt-2 text-sm text-ink-soft sm:text-base">
                     We&rsquo;ve got you down for {done.join(", ")}. See you on Game Day!
                   </p>
@@ -185,7 +224,13 @@ export function GamedayEvents() {
                         <label className={labelClass} htmlFor="name">
                           Name
                         </label>
-                        <input id="name" type="text" autoComplete="name" className={fieldClass} {...register("name")} />
+                        <input
+                          id="name"
+                          type="text"
+                          autoComplete="name"
+                          className={fieldClass}
+                          {...register("name")}
+                        />
                         {errors.name && <p className={errorClass}>{errors.name.message}</p>}
                       </div>
                       <div>
@@ -211,10 +256,19 @@ export function GamedayEvents() {
                       <div className="grid gap-2.5 sm:grid-cols-2">
                         {formEvents.map((e) => (
                           <label key={e.event} className={checkClass}>
-                            <input type="checkbox" value={e.event} className={boxClass} {...register("events")} />
+                            <input
+                              type="checkbox"
+                              value={e.event}
+                              className={boxClass}
+                              {...register("events")}
+                            />
                             <span>
                               {e.event}
-                              {e.when && <span className="block text-xs font-bold text-magenta">{e.when}</span>}
+                              {e.when && (
+                                <span className="block text-xs font-bold text-magenta">
+                                  {e.when}
+                                </span>
+                              )}
                             </span>
                           </label>
                         ))}
@@ -239,7 +293,13 @@ export function GamedayEvents() {
                     {/* Honeypot: hidden from people and screen readers, filled in by bots. */}
                     <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
                       <label htmlFor="website">Website</label>
-                      <input id="website" type="text" tabIndex={-1} autoComplete="off" {...register("website")} />
+                      <input
+                        id="website"
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        {...register("website")}
+                      />
                     </div>
                   </div>
 

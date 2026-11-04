@@ -1,7 +1,7 @@
 # Game Day event sign-ups (`/gameday_events`)
 
 - **Status:** Site live 2026-11-04. The sheet half needs the `Code.gs` redeploy (CLAUDE.md open thread); until then the page says "Sign-ups open soon".
-- **Last reviewed:** 2026-11-04 (built)
+- **Last reviewed:** 2026-11-04 (built; live spots-left chips)
 - **Covers:** `src/pages/GamedayEvents.tsx`, `src/lib/gamedaySignup.ts`
 
 ## Purpose
@@ -63,6 +63,11 @@ with a hidden honeypot field. `handleGamedaySignup_`:
   note.
 
 ## Decisions and gotchas
+
+- **Live spots left.** A row whose link (or a link in its Details) is an
+  Extra Life incentive shows "3 of 5 left" or "Full" from DonorDrive,
+  refreshed every minute. When it's full, the Sign up button becomes a grey
+  "Full". Mechanism in the [extra-life-api](extra-life-api.md) card.
 
 - **The checkbox value is the Event text.** Renaming an event in the sheet
   while someone has the page open makes their submission fail with the

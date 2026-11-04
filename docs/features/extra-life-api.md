@@ -1,8 +1,8 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-23 (ActiveRoster.tsx: team-summary figures scale with the viewport on phones)
-- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`
+- **Last reviewed:** 2026-11-04 (incentive spots-left counts)
+- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/hooks/useExtraLifeIncentives.ts`
 
 ## Purpose
 
@@ -93,3 +93,28 @@ stops moving and becomes a plain horizontal scroll.
   ("$51K raised in 2025"). Those are historical and not available from the
   current-season API, so they're hand-maintained — a candidate for its own card
   if it ever grows a source.
+
+## Incentive spots left (added 2026-11-04)
+
+`useIncentiveStock` in `src/hooks/useExtraLifeIncentives.ts` shows live
+"3 of 5 left" / "Full" chips for Extra Life donation incentives that the
+Game Day sheet links to:
+
+- **Where the chips appear:** next to the title in "Event Details" under
+  the schedule, and next to When on `/gameday_events`. A full row there
+  swaps its Sign up button for a grey "Full".
+- **How a row is recognised:** a link of the form
+  `…/participants/<id>/donate?incentiveID=<id>` (`parseIncentiveLink`), in
+  the row's Sign-up link or anywhere in its Details text. That's the
+  `links.donate` value the API returns for each incentive, and also what
+  "Copy link address" on a participant page gives.
+- **Data:** `GET dd.extra-life.org/api/participants/<id>/incentives`, one
+  request per participant, re-fetched every minute with
+  `cache: "no-store"` (the API sends a 4-hour max-age).
+  `left = quantity - quantityClaimed`.
+- **When nothing shows:** incentives with no quantity (unlimited) or
+  `isActive: false` get no chip, and neither does a failed fetch. A failed
+  refresh keeps the previous counts.
+- **No sheet change is needed:** whoever fills the sheet should drop
+  hand-typed "5 left" text, since the chip now says it.
+
