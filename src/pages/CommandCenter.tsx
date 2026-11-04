@@ -21,6 +21,7 @@ import stillVr from "@/assets/carousel/event-4.jpg";
 const SAMPLE_STILLS = [stillPc, stillCrowd, stillVr];
 
 import { ResponsiveGamedaySchedule } from "@/components/site/GamedayAgenda";
+import { GamedayEventDetails } from "@/components/site/GamedayEventDetails";
 import { useGameday } from "@/hooks/use-countdown";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
@@ -110,7 +111,7 @@ export function CommandCenter() {
   // Streams, run of show, milestones and the banner all come from the sheet,
   // re-read every minute so mid-marathon edits land without a reload.
   const { content, settled } = useGamedayContent();
-  const { streams, runOfShow, incentives, notice } = content;
+  const { streams, runOfShow, incentives, eventDetails, notice } = content;
 
   return (
     <main>
@@ -225,11 +226,14 @@ export function CommandCenter() {
                 Loading the schedule&hellip;
               </div>
             ) : (
-              <ResponsiveGamedaySchedule
-                rows={runOfShow}
-                startMs={Date.parse(GAME_DAY_START)}
-                endMs={Date.parse(GAME_DAY_END)}
-              />
+              <>
+                <ResponsiveGamedaySchedule
+                  rows={runOfShow}
+                  startMs={Date.parse(GAME_DAY_START)}
+                  endMs={Date.parse(GAME_DAY_END)}
+                />
+                <GamedayEventDetails items={eventDetails} />
+              </>
             )}
           </div>
 

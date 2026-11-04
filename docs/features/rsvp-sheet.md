@@ -1,7 +1,7 @@
 # The "elnerds RSVPs" spreadsheet
 
 - **Status:** Live. Owned by `captainextralifenerds@gmail.com`; nine tabs as of 2026-10-31
-- **Last reviewed:** 2026-11-04 (the 2026-11-02 sheet switch; a stored ID that won't open is now an error)
+- **Last reviewed:** 2026-11-04 (sheet switch fix; Event Details tab)
 - **Covers:** `apps-script/Code.gs`, `apps-script/README.md`
 
 ## Purpose
@@ -52,6 +52,7 @@ touches the sheet; it only POSTs to, or GETs from, the script's `/exec` URL.
 | `Gameday Run of Show` | same | Time, Title, Detail | **Humans only** | `/gameday`, once a minute |
 | `Gameday Incentives` | same | Amount, What | **Humans only** | `/gameday`, once a minute |
 | `Gameday Notice` | same | one header; the banner text goes in **A2** | **Humans only** | `/gameday`, once a minute |
+| `Gameday Event Details` | same, headers only (since 2026-11-04) | Title, Details (links allowed) | **Humans only** | Home page and `/gameday`, once a minute |
 | `RSVP Stats` | **A human** | Merged-cell dashboard: confirmed count, guests, headcount, duration and hardware breakdowns | Humans (or formulas; not checked) | Nothing on the site |
 
 How the three script-made shapes come about:

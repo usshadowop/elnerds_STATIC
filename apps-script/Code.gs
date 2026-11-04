@@ -132,6 +132,51 @@ const GAMEDAY_SECTIONS = [
 // clear it to hide the banner.
 const GAMEDAY_NOTICE_TAB = "Gameday Notice";
 
+// "Event Details" under the schedule on the home page and /gameday: sign-ups,
+// prices, links. Column A (Title) shows in pink, column B (Details) beside it.
+// Links in Details work either way: paste the full URL as text, or select
+// words and use Insert > Link. Created with headers only, no starter rows, so
+// the section stays hidden until someone types a row.
+const GAMEDAY_DETAILS_TAB = "Gameday Event Details";
+
+// Reads the Event Details rows. Details come back as runs, so a link added in
+// Sheets keeps its URL ({ text, url }); the site links bare URLs itself. Rich
+// text failing to read only costs the links, never the rows.
+function readEventDetails_(sheet) {
+  const last = sheet.getLastRow();
+  if (last < 2) return [];
+  const range = sheet.getRange(2, 1, last - 1, 2);
+  const shown = range.getDisplayValues();
+  let rich = null;
+  try {
+    rich = range.getRichTextValues();
+  } catch (e) {
+    rich = null;
+  }
+  const out = [];
+  for (let r = 0; r < shown.length; r++) {
+    const title = String(shown[r][0] == null ? "" : shown[r][0]).trim();
+    const details = String(shown[r][1] == null ? "" : shown[r][1]).trim();
+    if (!title && !details) continue; // blank row — skip
+
+    const row = { title: title, details: details };
+    const cell = rich && rich[r] ? rich[r][1] : null;
+    if (cell) {
+      const runs = cell.getRuns();
+      const parts = [];
+      for (let i = 0; i < runs.length; i++) {
+        const t = runs[i].getText();
+        if (!t) continue;
+        const url = runs[i].getLinkUrl();
+        parts.push(url ? { text: t, url: url } : { text: t });
+      }
+      if (parts.length) row.parts = parts;
+    }
+    out.push(row);
+  }
+  return out;
+}
+
 function getGamedaySheet_(ss, tab, headers, seed) {
   let sheet = ss.getSheetByName(tab);
   if (sheet) return sheet;
@@ -179,6 +224,9 @@ function getGamedayContent_() {
       [[""]],
     );
     out.notice = String(noticeSheet.getRange(2, 1).getDisplayValue() || "").trim();
+
+    const detailsSheet = getGamedaySheet_(ss, GAMEDAY_DETAILS_TAB, ["Title", "Details"], []);
+    out.eventDetails = readEventDetails_(detailsSheet);
 
     return out;
   } catch (err) {

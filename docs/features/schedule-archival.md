@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-03 (partner heading and chip renamed "External Partner")
+- **Last reviewed:** 2026-11-04 (Event Details list under the home-page schedule)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -86,6 +86,9 @@ submissions).
 None. This feature is fully self-driving.
 
 ## Game Day schedule under the main card (added 2026-10-31)
+
+Since 2026-11-04 the sheet's "Event Details" list (`GamedayEventDetails`,
+see gameday-content) renders right under the schedule inside the same card.
 
 `MainEventSchedule` in `Schedule.tsx` renders the run of show through
 `ResponsiveGamedaySchedule` (agenda list on phones, lane grid from `md` up;
