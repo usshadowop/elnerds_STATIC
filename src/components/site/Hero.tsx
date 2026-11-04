@@ -5,7 +5,7 @@ import { useGameday } from "@/hooks/use-countdown";
 import { useNow } from "@/hooks/use-now";
 import { useExtraLifeTeam } from "@/hooks/useExtraLifeTeam";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
-import { EVENTS, splitByDate } from "@/lib/scheduleEvents";
+import { EVENTS, eventAnchor, splitByDate } from "@/lib/scheduleEvents";
 import { StyledButton } from "@/components/site/StyledButton";
 import { DonationTicker } from "@/components/site/DonationTicker";
 
@@ -153,7 +153,7 @@ export function Hero() {
             {chips.map((item) => (
               <a
                 key={item.title}
-                href="#schedule"
+                href={`#${eventAnchor(item)}`}
                 className={`inline-flex items-center gap-2 rounded-full border bg-white px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest transition-all hover:shadow-[var(--shadow-soft)] ${item.chip!.className}`}
               >
                 <span className={`size-2 rounded-full ${item.chip!.dotClassName}`} aria-hidden />

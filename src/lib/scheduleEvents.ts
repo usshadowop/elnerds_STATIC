@@ -56,6 +56,13 @@ export interface EventItem {
   subEvents?: SubEvent[];
 }
 
+/** The id of an event's card in the Events section ("event-board-game-day"),
+ *  so a hero pill or any link can land on that card: `#${eventAnchor(item)}`.
+ *  Derived from the title, so renaming an event changes its anchor. */
+export function eventAnchor(item: Pick<EventItem, "title">): string {
+  return `event-${item.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
+}
+
 export const EVENTS: EventItem[] = [
   {
     time: "Apr 11 · 10:00 AM – 4:30 PM",

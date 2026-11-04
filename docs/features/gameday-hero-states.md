@@ -1,7 +1,7 @@
 # Game Day hero states
 
 - **Status:** Live
-- **Last reviewed:** 2026-10-31 (Gameday schedule chip added beside the incentives chip)
+- **Last reviewed:** 2026-11-04 (hero pills link to their own event card)
 - **Covers:** `src/hooks/use-countdown.ts`, `src/components/site/Hero.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -101,3 +101,8 @@ the run-of-show grid under the main-event card in the Schedule section.
 The two chips share one flex row that wraps on narrow phones. It shows and
 hides with the incentives chip (every phase but "after"). Blue is the
 `--color-blue` token the hero's RSVP button introduced.
+
+## Event pills link to their own card (2026-11-04)
+
+Each hero event pill links to `#${eventAnchor(item)}` (see
+schedule-archival), not to `#schedule`.

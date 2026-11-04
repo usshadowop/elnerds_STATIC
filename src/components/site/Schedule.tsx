@@ -6,7 +6,7 @@ import { GamedayEventDetails } from "@/components/site/GamedayEventDetails";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { useNow } from "@/hooks/use-now";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
-import { EVENTS, endsAtMs, splitByDate, type EventItem } from "@/lib/scheduleEvents";
+import { EVENTS, endsAtMs, eventAnchor, splitByDate, type EventItem } from "@/lib/scheduleEvents";
 
 /** The Game Day run of show, shown under the main-event card. Same rows as
  *  /gameday (the sheet's, re-read once a minute), so the home page never
@@ -92,7 +92,8 @@ function EventCard({
   const rsvpSlug = past ? undefined : item.rsvpSlug;
   return (
     <div
-      className={`group relative rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${item.color} ${
+      id={eventAnchor(item)}
+      className={`group relative scroll-mt-24 rounded-2xl border-l-4 shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 ${item.color} ${
         past ? "bg-ink/[0.03] opacity-60" : "bg-paper"
       } ${band ? "overflow-hidden border-l-0 ring-2 ring-magenta/40" : ""}`}
     >
