@@ -197,19 +197,25 @@ export function GamedaySchedule({
 
   // Riders are shifted right by RIDE_PX, keeping their full width, so they
   // hang past the right edge of the block underneath like a card on a card.
-  // The lanes themselves span (100% - RIDE_PX), leaving exactly that much
-  // room at the right edge for the last lane's rider to overhang into;
-  // without it the overhang pokes past the grid and forces a horizontal
-  // scrollbar. (Padding on the lane box doesn't do this: absolutely placed
-  // children measure their % against the padding box.)
+  // A lane that holds riders gets RIDE_PX of extra room on its right, so the
+  // overhang lands in white space and the usual 6px gap still separates it
+  // from the next lane. Before 2026-11-04 every lane was the same width and
+  // a rider's overhang ran into the next lane's blocks (MTG over a D&D
+  // session). The extra room comes off the lanes' shared width, so the last
+  // lane's overhang also stays inside the grid with no horizontal scrollbar.
+  // (Padding on the lane box can't do this: absolutely placed children
+  // measure their % against the padding box.)
   const RIDE_PX = 12;
-  const span = `(100% - ${RIDE_PX}px)`;
-  const laneLeft = (lane: number, lanes: number, shift = 0) => `calc(${span} * ${lane / lanes} + ${3 + shift}px)`;
-  const laneWidth = (lanes: number) => `calc(${span} / ${lanes} - 6px)`;
+  const extra = Array.from({ length: laneCount }, (_, i) => (lanes[i]?.overlays.length ? RIDE_PX : 0));
+  const extraBefore = (lane: number) => extra.slice(0, lane).reduce((a, n) => a + n, 0);
+  const totalExtra = extraBefore(laneCount);
+  const lanePct = `((100% - ${totalExtra}px) / ${laneCount})`;
+  const laneLeft = (lane: number, shift = 0) => `calc(${lanePct} * ${lane} + ${extraBefore(lane) + 3 + shift}px)`;
+  const laneWidth = `calc(${lanePct} - 6px)`;
   // Meal banners live in the first lane only (the all-day block's), split
   // between meals that start together, leaving the other lanes free.
-  const foodLeft = (f: Block) => `calc(${span} * ${(1 / laneCount) * (f.lane / f.lanes)} + 3px)`;
-  const foodWidth = (f: Block) => `calc(${span} / ${laneCount * f.lanes} - 6px)`;
+  const foodLeft = (f: Block) => `calc(${lanePct} * ${f.lane / f.lanes} + 3px)`;
+  const foodWidth = (f: Block) => `calc(${lanePct} / ${f.lanes} - 6px)`;
 
   return (
     <div className="rounded-2xl border border-line bg-paper p-3 shadow-[var(--shadow-soft)] sm:p-5">
@@ -260,7 +266,7 @@ export function GamedaySchedule({
               ))}
             </div>
 
-            {/* Lanes; the lane math leaves RIDE_PX free on the right for a rider to overhang into */}
+            {/* Lanes; a lane with riders gets RIDE_PX extra on its right for their overhang */}
             <div className="relative flex-1">
               {rowSpecs.map((r) => (
                 <div
@@ -299,8 +305,8 @@ export function GamedaySchedule({
                     style={{
                       top,
                       height,
-                      left: laneLeft(b.lane, laneCount, b.overlay ? RIDE_PX : 0),
-                      width: laneWidth(laneCount),
+                      left: laneLeft(b.lane, b.overlay ? RIDE_PX : 0),
+                      width: laneWidth,
                     }}
                   >
                     <div

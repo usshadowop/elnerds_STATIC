@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-04 (Event Details section under the schedule)
+- **Last reviewed:** 2026-11-04 (Event Details section; rider lanes get room for their overhang)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Purpose
@@ -106,11 +106,15 @@ becomes a live player.
     same lane (never the all-day block), provided the one underneath keeps
     about 100 minutes clear for its own label; the label moves into that
     gap. Riders are shifted 12px right at full lane width so they overhang
-    the block beneath. The lanes span `100% − 12px` so the last lane's
-    overhang lands inside the grid; before that (2026-10-31) it poked past
-    the edge and forced a horizontal scrollbar. Padding on the lane box
-    can't do this because absolutely placed children measure `%` against
-    the padding box. The thresholds (`MAX_OVERLAY_MIN`, `MIN_LABEL_MIN`,
+    the block beneath. **A lane that holds riders is 12px wider on its
+    right** (2026-11-04), so the overhang lands in white space and the usual
+    6px gap still separates it from the next lane; before that every lane
+    was the same width and a rider ran into the next lane's blocks (MTG over
+    a D&D session, reported from the live site). The extra comes off the
+    shared width, so the last lane's overhang also stays inside the grid
+    with no horizontal scrollbar (the 2026-10-31 fix, now a special case).
+    Padding on the lane box can't do this because absolutely placed children
+    measure `%` against the padding box. The thresholds (`MAX_OVERLAY_MIN`, `MIN_LABEL_MIN`,
     `RIDE_PX`) are constants at the top of `GamedaySchedule.tsx`.
   - **Meals.** A row whose title or detail mentions breakfast, lunch,
     dinner, waffles, snacks, food or pizza becomes a green banner in the
