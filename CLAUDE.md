@@ -364,6 +364,13 @@ the full send. Notes that cost time to work out:
 - **Google Sheets converts typed values.** "8:00 AM" becomes a time, and
   `getValues()` returns it as "Sat Dec 30 1899 …". Read anything shown to
   people with `getDisplayValues()`.
+- **A Pages deploy that times out can't be re-run.** `deploy-pages` names
+  the deployment after the commit SHA. When the "Getting Pages deployment
+  status…" step times out after 10 minutes, it cancels that deployment, and
+  every re-run of the same commit (failed jobs or the full workflow, and
+  `workflow_dispatch` on the same `main`) fails within seconds with
+  "Deployment cancelled". The fix is a new commit on `main`. This happened
+  on PR #125 (2026-11-04), with GitHub's status page all green.
 - Restarting the working branch after a merge: the remote branch is
   auto-deleted, which makes `git push --force-with-lease` fail with
   "stale info" against the local tracking ref. Run `git remote prune

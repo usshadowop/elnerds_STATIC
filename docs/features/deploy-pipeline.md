@@ -1,7 +1,7 @@
 # Deploy pipeline
 
 - **Status:** Live
-- **Last reviewed:** 2026-09-18
+- **Last reviewed:** 2026-11-04 (a timed-out Pages deploy can't be re-run)
 - **Covers:** `.github/workflows/deploy.yml`, `package.json`, `vite.config.ts`, `public/CNAME`
 
 ## Purpose
@@ -53,3 +53,15 @@ copy is what makes SPA deep links work on Pages.
   `public/` assets like `/email/`, poll the URL with a cache-busting query.
 - A docs-only change produces an identical bundle hash, so there's nothing to
   verify beyond the merge.
+
+## A timed-out deploy needs a new commit (2026-11-04)
+
+On PR #125 the build passed, but `actions/deploy-pages` polled "Getting
+Pages deployment status…" with an empty status for 10 minutes, then
+timed out and **cancelled the deployment**. Pages names the deployment after
+the commit SHA, so re-running the failed job, re-running the whole
+workflow, or dispatching it again on the same commit all fail in about 5
+seconds with "Deployment cancelled". githubstatus.com showed Pages and
+Actions operational the whole time. Only a new commit on `main` gets
+through. A real change is best; the next docs commit works.
+
