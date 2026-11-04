@@ -31,10 +31,27 @@ export interface GamedayIncentive {
   what: string;
 }
 
+/** One run of a Details cell: plain text, or text that links somewhere. */
+export interface GamedayTextPart {
+  text: string;
+  url?: string;
+}
+
+/** A row of the "Gameday Event Details" tab: a pink title ("$35") and a
+ *  details line that can carry links, shown under the schedule. */
+export interface GamedayEventDetail {
+  title: string;
+  details: GamedayTextPart[];
+}
+
 export interface GamedayContent {
   streams: GamedayStream[];
   runOfShow: GamedayShowRow[];
   incentives: GamedayIncentive[];
+  /** "Event Details" under the schedule. Empty hides the section; there is
+   *  no shipped example, so a failed read shows nothing rather than stale
+   *  sign-ups. */
+  eventDetails: GamedayEventDetail[];
   /** One-line announcement across the top. Empty hides the banner. */
   notice: string;
 }
@@ -69,6 +86,7 @@ export const FALLBACK_CONTENT: GamedayContent = {
     { amount: "$—", what: "Milestone to be announced" },
     { amount: "$—", what: "Milestone to be announced" },
   ],
+  eventDetails: [],
   notice: "",
 };
 
@@ -147,6 +165,49 @@ function rows<T>(value: unknown, map: (row: Record<string, unknown>) => T, keyOf
     .filter((row) => keyOf(row).length > 0);
 }
 
+// Only these schemes become links: a cell can't smuggle in javascript: URLs.
+const SAFE_URL = /^(https?:\/\/|mailto:)/i;
+// Bare addresses typed into a cell ("https://…", "www.…"). Trailing
+// punctuation is left out so "sign up at https://x.com." links x.com.
+const BARE_URL = /(https?:\/\/[^\s<>"]+[^\s<>".,;:!?)\]]|www\.[^\s<>"]+[^\s<>".,;:!?)\]])/gi;
+
+/** Split plain text into text and link parts wherever a bare URL appears. */
+function linkify(text: string): GamedayTextPart[] {
+  const parts: GamedayTextPart[] = [];
+  let last = 0;
+  for (const m of text.matchAll(BARE_URL)) {
+    const at = m.index ?? 0;
+    if (at > last) parts.push({ text: text.slice(last, at) });
+    const shown = m[0];
+    parts.push({ text: shown, url: shown.toLowerCase().startsWith("www.") ? `https://${shown}` : shown });
+    last = at + shown.length;
+  }
+  if (last < text.length) parts.push({ text: text.slice(last) });
+  return parts;
+}
+
+/** The Details cell as parts. The script sends the cell's runs, so a link
+ *  added in Sheets (Insert → Link) keeps its URL; anything left as plain
+ *  text still gets its bare URLs linked. Unsafe URLs drop to plain text. */
+function detailParts(raw: Record<string, unknown>): GamedayTextPart[] {
+  const runs = Array.isArray(raw.parts) ? raw.parts : [{ text: raw.details }];
+  const out: GamedayTextPart[] = [];
+  for (const run of runs) {
+    if (typeof run !== "object" || run === null) continue;
+    const r = run as Record<string, unknown>;
+    const t = typeof r.text === "string" ? r.text : "";
+    if (!t) continue;
+    const url = typeof r.url === "string" ? r.url.trim() : "";
+    if (url && SAFE_URL.test(url)) out.push({ text: t, url });
+    else out.push(...linkify(t));
+  }
+  // Trim the cell's outer whitespace without touching links inside it.
+  if (out.length && !out[0].url) out[0] = { text: out[0].text.replace(/^\s+/, "") };
+  const end = out.length - 1;
+  if (end >= 0 && !out[end].url) out[end] = { text: out[end].text.replace(/\s+$/, "") };
+  return out.filter((p) => p.text.length > 0);
+}
+
 /** Shape whatever the sheet returned into something the page can render.
  *  A section that comes back empty or unparseable keeps its shipped copy, so a
  *  cleared tab can't silently blank out part of the page. */
@@ -177,10 +238,20 @@ export function parseGamedayContent(data: unknown): GamedayContent {
     (r) => r.amount,
   );
 
+  // No fallback here: an empty or missing tab (including a backend that
+  // predates the tab) simply hides the section.
+  const eventDetails = Array.isArray(raw.eventDetails)
+    ? raw.eventDetails
+        .filter((r): r is Record<string, unknown> => typeof r === "object" && r !== null)
+        .map((r) => ({ title: text(r.title), details: detailParts(r) }))
+        .filter((r) => r.title || r.details.length)
+    : [];
+
   return {
     streams: streams.length ? streams : FALLBACK_CONTENT.streams,
     runOfShow: runOfShow.length ? runOfShow : FALLBACK_CONTENT.runOfShow,
     incentives: incentives.length ? incentives : FALLBACK_CONTENT.incentives,
+    eventDetails,
     notice: text(raw.notice),
   };
 }

@@ -49,6 +49,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-10-13 | Owner | Confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. (The run-of-show half of this thread closed 2026-10-31: the 2026 rows are in the sheet and live.) |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
+| 2026-11-04 | Owner | Paste the new `apps-script/Code.gs` (Event Details tab) into RSVP Script and redeploy; the first `?action=gameday` read afterwards creates the `Gameday Event Details` tab (Title, Details). Then move the four "$35" sign-up rows out of `Gameday Run of Show` into it. Check: `curl "$ENDPOINT?action=gameday"` returns an `eventDetails` key. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 
 Rules that keep this honest:
@@ -85,6 +86,10 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   real sheet, a bad newsletter POST was refused, and a fake cancel token got
   "Not found". The stray sheet is in the captain's Drive trash.
   `rsvp-sheet` card has the details.
+- **"Event Details" section** under the Game Day schedule (home page and
+  `/gameday`): a new `Gameday Event Details` tab, Title in pink + Details
+  with clickable links. Site side live; needs the `Code.gs` redeploy (open
+  thread) before the tab exists.
 - The Apps Script project is **RSVP Script** at script.google.com (captain
   account), deployment `…Zg5WQ9xRcK`. The bound "Untitled project" beside it
   is empty and unrelated.
@@ -219,7 +224,10 @@ already there.
   shown as real content (decided 2026-10-31). The same grid also renders
   on the home page under the marathon card (`MainEventSchedule` in
   `Schedule.tsx`), and both hold a "Loading…" placeholder until the first
-  read settles. The run of show renders as a stacked lane grid
+  read settles. The `Gameday Event Details` tab (Title, Details; links
+  allowed) renders as an "Event Details" list right under the schedule on
+  both pages (`GamedayEventDetails.tsx`); an empty tab shows nothing.
+  The run of show renders as a stacked lane grid
   (`src/components/site/GamedaySchedule.tsx`): time ranges, automatic
   lane packing, green meal rows, a now-line. The rules are in the
   gameday-content card; the sheet's columns never changed.

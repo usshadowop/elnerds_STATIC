@@ -1,8 +1,8 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-10-31 (meal banners grow to fit; 150px lanes)
-- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`
+- **Last reviewed:** 2026-11-04 (Event Details section under the schedule)
+- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Purpose
 
@@ -47,9 +47,10 @@ Four tabs in the RSVP spreadsheet drive the page:
 | `Gameday Run of Show` | Time, Title, Detail |
 | `Gameday Incentives` | Amount, What |
 | `Gameday Notice` | one banner message in cell **A2** |
+| `Gameday Event Details` | Title, Details (since 2026-11-04) |
 
 The tabs are created with headers and starter rows the first time the page
-asks for them, so setup is opening the sheet and typing. The page fetches
+asks for them (Event Details gets headers only, no starter rows), so setup is opening the sheet and typing. The page fetches
 `?action=gameday` and re-reads once a minute, so an edit reaches every open
 browser within about a minute — nobody refreshes.
 
@@ -59,6 +60,21 @@ play button, so the demo reads as a stream wall; fill it in and the tile
 becomes a live player.
 
 ## Decisions and gotchas
+
+- **"Event Details" under the schedule** (2026-11-04,
+  `GamedayEventDetails.tsx`): the rows of the `Gameday Event Details` tab,
+  under a small pink "EVENT DETAILS" label, directly below the schedule on
+  both the home page and `/gameday`, phones included. Title shows in pink
+  bold, Details beside it; owner asked for exactly these two columns. It
+  replaces a workaround: sign-ups typed into Run of Show with "$35" in the
+  Time column, which landed in the untimed list under the grid.
+  - **Links in Details:** `readEventDetails_` in `Code.gs` sends the cell's
+    rich-text runs, so words linked in Sheets (Insert → Link) keep their URL;
+    `detailParts` in `gamedayContent.ts` also links bare `https://…` and
+    `www.…` text. Only `http(s)` and `mailto` URLs become links; anything
+    else renders as text. Links open in a new tab.
+  - **No fallback copy.** An empty tab, a failed read, or a backend without
+    the tab hides the section. Stale sign-ups are worse than none.
 
 - **The sheet's rows are the schedule, starter rows included** (decided
   2026-10-31, reversing PR #76). From 2026-10-13 to 10-31 an untouched

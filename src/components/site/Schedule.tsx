@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { ArrowRight, CalendarClock, ChevronDown, ExternalLink, Trophy } from "lucide-react";
 
 import { ResponsiveGamedaySchedule } from "@/components/site/GamedayAgenda";
+import { GamedayEventDetails } from "@/components/site/GamedayEventDetails";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { useNow } from "@/hooks/use-now";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
@@ -10,7 +11,8 @@ import { EVENTS, endsAtMs, splitByDate, type EventItem } from "@/lib/scheduleEve
 /** The Game Day run of show, shown under the main-event card. Same rows as
  *  /gameday (the sheet's, re-read once a minute), so the home page never
  *  shows a different schedule from the Command Center. Phones get the agenda
- *  list with a full-timeline overlay; wider screens get the lane grid. Until the
+ *  list with a full-timeline overlay; wider screens get the lane grid. The
+ *  sheet's "Event Details" list follows the schedule. Until the
  *  first read lands it shows a placeholder, not the shipped fallback, so the
  *  real rows don't replace an example a second after it appears. */
 function MainEventSchedule({ item }: { item: EventItem }) {
@@ -30,12 +32,15 @@ function MainEventSchedule({ item }: { item: EventItem }) {
           Loading the schedule&hellip;
         </div>
       ) : (
-        <ResponsiveGamedaySchedule
-          rows={content.runOfShow}
-          startMs={Date.parse(calendar.start)}
-          endMs={Date.parse(calendar.end)}
-          showNowLine={false}
-        />
+        <>
+          <ResponsiveGamedaySchedule
+            rows={content.runOfShow}
+            startMs={Date.parse(calendar.start)}
+            endMs={Date.parse(calendar.end)}
+            showNowLine={false}
+          />
+          <GamedayEventDetails items={content.eventDetails} />
+        </>
       )}
     </div>
   );
