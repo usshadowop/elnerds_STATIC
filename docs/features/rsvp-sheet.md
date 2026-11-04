@@ -1,7 +1,7 @@
 # The "elnerds RSVPs" spreadsheet
 
 - **Status:** Live. Owned by `captainextralifenerds@gmail.com`; nine tabs as of 2026-10-31
-- **Last reviewed:** 2026-10-31 (fillRunOfShow2026 helper)
+- **Last reviewed:** 2026-11-04 (the 2026-11-02 sheet switch; a stored ID that won't open is now an error)
 - **Covers:** `apps-script/Code.gs`, `apps-script/README.md`
 
 ## Purpose
@@ -19,9 +19,13 @@ assuming a tool can edit it.
 
 - The sheet is in the **captain account's Drive**
   (`captainextralifenerds@gmail.com`), because that account owns the Apps
-  Script project that created it. `getSpreadsheet_()` in `Code.gs` stores its
-  ID in the script property `SPREADSHEET_ID`; if the sheet is ever deleted the
-  next request silently creates a fresh, empty one under the same name.
+  Script project that created it: the standalone **"RSVP Script"** project
+  at script.google.com, *not* anything under a sheet's Extensions menu (an
+  empty bound "Untitled project" from 2026-11-02 also exists there and does
+  nothing). `getSpreadsheet_()` in `Code.gs` reads the sheet's ID from the
+  script property `SPREADSHEET_ID` (Project Settings → Script Properties).
+  The real sheet is `1p6yHegtvKIkLXt6o86564w18GPdBGRnzCop5LMUR5Ds`, created
+  2026-07-23. `elnerds_mtginterest` is `1P-EqDw9qXhMsJ4GmdjPVNSiooHyZH578zr5czvGz2cw`.
 - It is shared to `us.shadow.op@gmail.com` and, since 2026-10-31, to
   `stevenlarker1982@gmail.com` as an editor.
 - **Nothing in this repo holds a copy of the data.** The repo holds only the
@@ -66,9 +70,10 @@ How the three script-made shapes come about:
   event tab (as happened with `(past) Extra Life Bingo`) does not break old
   cancel links.
 - **Gameday tabs are seeded with starter rows** (`GAMEDAY_SECTIONS` in
-  `Code.gs`) so the sheet shows the expected shape. The site treats the
-  untouched Run of Show seed as "unfilled" and keeps its built-in example
-  (see gameday-content). The script only ever *reads* these tabs after
+  `Code.gs`) so the sheet shows the expected shape. Since 2026-10-31 the site
+  shows the seed rows as they are (Kickoff / TBD …), so seeing them on the
+  live site means the tab really holds them, or the script is reading a
+  different sheet (see the 2026-11-02 note below). The script only ever *reads* these tabs after
   creating them.
 
 ## Decisions and gotchas
@@ -104,9 +109,31 @@ How the three script-made shapes come about:
 - **Reads of RSVP data from the site are impossible by design.** The
   endpoint's only GET actions are `cancel` and `gameday`, so the public
   `/exec` URL cannot be used to pull the attendee list.
-- A deleted sheet is silently replaced by an empty one. The old data is in
-  the captain account's Drive trash for 30 days; after that only the
-  captain's notification emails hold it.
+- **A stored ID that won't open is an error, never a new sheet** (since
+  2026-11-04, `openStoredSpreadsheet_` in `Code.gs`, which both
+  `getSpreadsheet_` and `getMtgSpreadsheet_` use). It retries `openById`
+  three times over about 1.5 s, then throws; `doPost` and `?action=gameday`
+  return `{ok:false}`, a cancel link shows "try again in a minute", and the
+  next request tries again. Only a *missing* property creates a sheet. To
+  really start over, delete the property and the next request makes one.
+- **Why: on 2026-11-02 at 9:56 AM Central the old code switched sheets on
+  its own.** It treated any `openById` failure as "the sheet was deleted",
+  created a new empty "elnerds RSVPs" (`1G1_k217…pjlvSk`) and overwrote
+  `SPREADSHEET_ID` with it. The home-page schedule showed the new sheet's
+  starter rows (Kickoff / TBD) until `fillRunOfShow2026` was run into it,
+  which hid the switch. Spotted 2026-11-04 because a hand edit in the real
+  sheet ("Provided by EL NERDS **for** $50+") never reached the site. No
+  RSVP or newsletter rows landed in the stray, so nothing was lost; cancel
+  links clicked in that window would have said "not found". The owner set
+  the property back the same day, verified at the live endpoint. The MTG
+  sheet was not affected.
+- **How to tell which sheet the site is reading:** change one word in a
+  `Gameday Run of Show` cell in the sheet you expect, then
+  `curl "$ENDPOINT?action=gameday"`; the word should appear within seconds.
+  The Drive connector only sees files shared with its account, so a stray
+  sheet is invisible to a session until the owner shares it.
+- A deleted sheet's data is in the captain account's Drive trash for 30
+  days; after that only the captain's notification emails hold it.
 
 ## Manual steps and open questions
 
