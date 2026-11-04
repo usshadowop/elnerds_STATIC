@@ -49,8 +49,6 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-10-13 | Owner | Confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. (The run-of-show half of this thread closed 2026-10-31: the 2026 rows are in the sheet and live.) |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
-| 2026-11-04 | Owner | Paste the new `apps-script/Code.gs` into the **RSVP Script** project and redeploy (Deploy → Manage deployments → ✏️ → New version). Until then the live script can still swap in a new sheet on a blip, as it did on 2026-11-02. No probe tells the old and new script apart; check that Manage deployments shows a version newer than Version 5 (Oct 31). |
-| 2026-11-04 | Owner | Rename the stray `elnerds RSVPs` (`1G1_k217…pjlvSk`, created 2026-11-02) to "stray copy, do not use", and delete it when comfortable. It holds no RSVP or newsletter rows. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 
 Rules that keep this honest:
@@ -82,8 +80,11 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   sheets were compared: the stray had no RSVP or newsletter rows, so nothing
   needed merging. The MTG sheet was unaffected.
 - **Code fix in the repo** (`openStoredSpreadsheet_`): a stored ID that won't
-  open is retried, then an error, never a new sheet. **Not live until the
-  owner redeploys `Code.gs`** (open thread). `rsvp-sheet` card has the details.
+  open is retried, then an error, never a new sheet. Owner pasted and
+  redeployed it the same day (PR #118); afterwards the live endpoint read the
+  real sheet, a bad newsletter POST was refused, and a fake cancel token got
+  "Not found". The stray sheet is in the captain's Drive trash.
+  `rsvp-sheet` card has the details.
 - The Apps Script project is **RSVP Script** at script.google.com (captain
   account), deployment `…Zg5WQ9xRcK`. The bound "Untitled project" beside it
   is empty and unrelated.
