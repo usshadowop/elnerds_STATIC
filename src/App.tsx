@@ -1,6 +1,7 @@
 import { SiteNav } from "@/components/site/SiteNav";
 import { Footer } from "@/components/site/Footer";
 import { CommandCenter } from "@/pages/CommandCenter";
+import { GamedayEvents } from "@/pages/GamedayEvents";
 import { Home } from "@/pages/Home";
 import { Incentives } from "@/pages/Incentives";
 import { MtgInterest } from "@/pages/MtgInterest";
@@ -18,6 +19,7 @@ export default function App() {
 
   let page = <Home />;
   if (path === "gameday") page = <CommandCenter />;
+  if (path === "gameday_events") page = <GamedayEvents />;
   if (path === "gillette-childrens-hospital") page = <GilletteChildrensHospital />;
   if (path === "incentives") page = <Incentives />;
   if (path === "mtginterest") page = <MtgInterest />;

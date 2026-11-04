@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-04 (Event Details section; rider lanes get room for their overhang)
+- **Last reviewed:** 2026-11-04 (Event Details; rider lanes; `signups` for /gameday_events)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Purpose
@@ -75,6 +75,12 @@ becomes a live player.
     else renders as text. Links open in a new tab.
   - **No fallback copy.** An empty tab, a failed read, or a backend without
     the tab hides the section. Stale sign-ups are worse than none.
+  - `RichText` in `GamedayEventDetails.tsx` renders those parts and is
+    shared with `/gameday_events`.
+- **The same payload carries `signups`**, the `Gameday Signups` tab that
+  lists events on `/gameday_events`. Parsed in `gamedayContent.ts` (sign-up
+  links pass `safeLink`) and described in the
+  [gameday-signups](gameday-signups.md) card.
 
 - **The sheet's rows are the schedule, starter rows included** (decided
   2026-10-31, reversing PR #76). From 2026-10-13 to 10-31 an untouched

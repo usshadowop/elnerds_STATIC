@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, CalendarClock, ChevronDown, ExternalLink, Trophy } from "lucide-react";
+import { ArrowRight, CalendarClock, ChevronDown, ExternalLink, Swords, Trophy } from "lucide-react";
 
 import { ResponsiveGamedaySchedule } from "@/components/site/GamedayAgenda";
 import { GamedayEventDetails } from "@/components/site/GamedayEventDetails";
@@ -12,7 +12,8 @@ import { EVENTS, endsAtMs, splitByDate, type EventItem } from "@/lib/scheduleEve
  *  /gameday (the sheet's, re-read once a minute), so the home page never
  *  shows a different schedule from the Command Center. Phones get the agenda
  *  list with a full-timeline overlay; wider screens get the lane grid. The
- *  sheet's "Event Details" list follows the schedule. Until the
+ *  sheet's "Event Details" list follows the schedule, and a link to the
+ *  /gameday_events sign-up page sits above it. Until the
  *  first read lands it shows a placeholder, not the shipped fallback, so the
  *  real rows don't replace an example a second after it appears. */
 function MainEventSchedule({ item }: { item: EventItem }) {
@@ -20,29 +21,49 @@ function MainEventSchedule({ item }: { item: EventItem }) {
   const calendar = item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.calendar : undefined;
   if (!calendar) return null;
   return (
-    <div id="gameday-schedule" className="min-w-0 scroll-mt-24 rounded-2xl border border-line bg-paper p-5 shadow-[var(--shadow-soft)] sm:p-6">
-      <div className="mb-4">
-        <p className="mb-1 inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">
-          <CalendarClock className="size-3.5" /> What&rsquo;s on
-        </p>
-        <h3 className="font-display text-xl font-extrabold text-ink sm:text-2xl">Game Day Schedule</h3>
-      </div>
-      {!settled ? (
-        <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-line text-sm font-semibold text-ink-soft">
-          Loading the schedule&hellip;
+    <>
+      {/* Sign-ups for specific Game Day events (/gameday_events). */}
+      <a
+        href={`${import.meta.env.BASE_URL}gameday_events`}
+        className="group flex min-w-0 items-center gap-3 rounded-2xl border-2 border-teal bg-teal-soft px-5 py-4 shadow-[var(--shadow-soft)] transition-colors hover:bg-teal sm:px-6"
+      >
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-teal text-white transition-colors group-hover:bg-white group-hover:text-teal">
+          <Swords className="size-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-display text-lg font-extrabold text-ink transition-colors group-hover:text-white">
+            Sign up for Game Day events
+          </span>
+          <span className="block text-sm text-ink-soft transition-colors group-hover:text-white/90">
+            Grab a seat at a session or tournament during the marathon.
+          </span>
+        </span>
+        <ArrowRight className="size-5 shrink-0 text-teal transition-all group-hover:translate-x-0.5 group-hover:text-white" />
+      </a>
+      <div id="gameday-schedule" className="min-w-0 scroll-mt-24 rounded-2xl border border-line bg-paper p-5 shadow-[var(--shadow-soft)] sm:p-6">
+        <div className="mb-4">
+          <p className="mb-1 inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">
+            <CalendarClock className="size-3.5" /> What&rsquo;s on
+          </p>
+          <h3 className="font-display text-xl font-extrabold text-ink sm:text-2xl">Game Day Schedule</h3>
         </div>
-      ) : (
-        <>
-          <ResponsiveGamedaySchedule
-            rows={content.runOfShow}
-            startMs={Date.parse(calendar.start)}
-            endMs={Date.parse(calendar.end)}
-            showNowLine={false}
-          />
-          <GamedayEventDetails items={content.eventDetails} />
-        </>
-      )}
-    </div>
+        {!settled ? (
+          <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-line text-sm font-semibold text-ink-soft">
+            Loading the schedule&hellip;
+          </div>
+        ) : (
+          <>
+            <ResponsiveGamedaySchedule
+              rows={content.runOfShow}
+              startMs={Date.parse(calendar.start)}
+              endMs={Date.parse(calendar.end)}
+              showNowLine={false}
+            />
+            <GamedayEventDetails items={content.eventDetails} />
+          </>
+        )}
+      </div>
+    </>
   );
 }
 

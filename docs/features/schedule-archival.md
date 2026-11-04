@@ -89,6 +89,9 @@ None. This feature is fully self-driving.
 
 Since 2026-11-04 the sheet's "Event Details" list (`GamedayEventDetails`,
 see gameday-content) renders right under the schedule inside the same card.
+A teal "Sign up for Game Day events" bar links to `/gameday_events` right
+above the schedule card (see gameday-signups). It's part of
+`MainEventSchedule`, so it shows only with the main event's schedule.
 
 `MainEventSchedule` in `Schedule.tsx` renders the run of show through
 `ResponsiveGamedaySchedule` (agenda list on phones, lane grid from `md` up;
