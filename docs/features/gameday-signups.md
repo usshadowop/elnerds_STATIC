@@ -1,6 +1,6 @@
 # Game Day event sign-ups (`/gameday_events`)
 
-- **Status:** Site live 2026-11-04. The sheet half needs the `Code.gs` redeploy (CLAUDE.md open thread); until then the page says "Sign-ups open soon".
+- **Status:** Live 2026-11-04 (site and `Code.gs`). The `Gameday Signups` tab exists and is empty, so the page says "Sign-ups open soon" until rows are typed.
 - **Last reviewed:** 2026-11-04 (built; live spots-left chips)
 - **Covers:** `src/pages/GamedayEvents.tsx`, `src/lib/gamedaySignup.ts`
 
@@ -79,7 +79,5 @@ with a hidden honeypot field. `handleGamedaySignup_`:
 
 ## Manual steps and open questions
 
-- `Code.gs` must be redeployed before the tab exists or the form works
-  (open thread in CLAUDE.md). Until then a submission gets a generic
-  failure from the old script. That's harmless, but the page shows "open
-  soon", so nobody should reach the form before the redeploy.
+- Filling the `Gameday Signups` tab is the owner's job. The form only
+  appears once at least one row has no Sign-up link.
