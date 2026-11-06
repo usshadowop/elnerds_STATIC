@@ -66,7 +66,7 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-06 (Food Donation card; food vendors corrected):*
+*Session of 2026-11-06 (Food Donation card; food vendors corrected; live):*
 
 - **New "Food Donation" card** in the 2026 Donors section (`Donors.tsx`),
   between Venue Donation and In-Kind Donors: the two Game Day food vendors
@@ -80,10 +80,14 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 - Q’s Cue's logo (`qs-cue.jpg`) is the Facebook page's profile picture,
   fetched from the page's `og:image` and resized to 480px. The owner's
   business-card photo has the same badge; the email on it was left off the
-  site on purpose.
-- Built and linted; screenshotted home and `/gameday` at 1280px and the
-  home page at 390px, APIs stubbed. Not yet merged or deployed when this was
-  written — branch `claude/intelligent-maxwell-cmsed3`.
+  site on purpose. The page's title says "Saint Paul MN"; the card says
+  Woodbury, and the site follows the card.
+- **Merged and live as PR #128** (squash, 2026-11-06 17:44 UTC). Verified:
+  bundle `index-KHGPdiRy.js` has "Food Donation", "Q’s Cue" and "Papa Johns
+  Roseville", no "tacobell"; the logo asset serves. The `deploy-pages` step
+  took 6½ minutes instead of the usual ~20s and still succeeded, so a slow
+  deploy is not by itself the #125 timeout; the run's conclusion is what
+  tells them apart.
 
 ## Ship-live workflow
 
