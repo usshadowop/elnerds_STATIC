@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-04 (hero pills link to their own event card)
+- **Last reviewed:** 2026-11-06 (schedule heading carries the marathon date)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -37,6 +37,12 @@ A past event greys out, gains a "Completed" badge, and **drops its RSVP chip**
 submissions).
 
 ## Decisions and gotchas
+
+- **The "Game Day Schedule" heading carries the date** ("Game Day Schedule –
+  November 14th 2026", asked for 2026-11-06). `ordinalDate()` in
+  `Schedule.tsx` formats it from the marathon's `calendar.start` in Central
+  time, so a date change in `rsvpEvents.ts` changes the heading too; nothing
+  is typed twice.
 
 - **Upcoming events are two groups.** "Extra Life Nerds Events" (the
   team's own, the marathon among them) lead; events flagged `partner` sit

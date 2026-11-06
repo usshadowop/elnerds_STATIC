@@ -16,6 +16,16 @@ import { EVENTS, endsAtMs, eventAnchor, splitByDate, type EventItem } from "@/li
  *  /gameday_events sign-up page sits above it. Until the
  *  first read lands it shows a placeholder, not the shipped fallback, so the
  *  real rows don't replace an example a second after it appears. */
+// "November 14th 2026", from the marathon's calendar start, in Central time.
+function ordinalDate(iso: string) {
+  const d = new Date(iso);
+  const month = d.toLocaleDateString("en-US", { month: "long", timeZone: "America/Chicago" });
+  const year = d.toLocaleDateString("en-US", { year: "numeric", timeZone: "America/Chicago" });
+  const day = Number(d.toLocaleDateString("en-US", { day: "numeric", timeZone: "America/Chicago" }));
+  const suffix = day % 10 === 1 && day !== 11 ? "st" : day % 10 === 2 && day !== 12 ? "nd" : day % 10 === 3 && day !== 13 ? "rd" : "th";
+  return `${month} ${day}${suffix} ${year}`;
+}
+
 function MainEventSchedule({ item }: { item: EventItem }) {
   const { content, settled } = useGamedayContent();
   const calendar = item.rsvpSlug ? getRsvpEvent(item.rsvpSlug)?.calendar : undefined;
@@ -45,7 +55,10 @@ function MainEventSchedule({ item }: { item: EventItem }) {
           <p className="mb-1 inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">
             <CalendarClock className="size-3.5" /> What&rsquo;s on
           </p>
-          <h3 className="font-display text-xl font-extrabold text-ink sm:text-2xl">Game Day Schedule</h3>
+          <h3 className="font-display text-xl font-extrabold text-ink sm:text-2xl">
+            Game Day Schedule &ndash;{" "}
+            <span className="whitespace-nowrap">{ordinalDate(calendar.start)}</span>
+          </h3>
         </div>
         {!settled ? (
           <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-line text-sm font-semibold text-ink-soft">

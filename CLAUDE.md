@@ -82,6 +82,9 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   business-card photo has the same badge; the email on it was left off the
   site on purpose. The page's title says "Saint Paul MN"; the card says
   Woodbury, and the site follows the card.
+- **Home schedule heading now reads "Game Day Schedule – November 14th
+  2026"**, the date derived from the marathon's `calendar.start`
+  (`ordinalDate()` in `Schedule.tsx`), not typed.
 - **Placemaker Hospitality added as a third food donor** (later still),
   on the Food Donation card and the `/gameday` sponsor grid, which went to
   five tiles across. Logo is the site's share image with white made
