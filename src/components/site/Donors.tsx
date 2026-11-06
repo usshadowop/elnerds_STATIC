@@ -1,5 +1,7 @@
-import { ArrowUpRight, Building2 } from "lucide-react";
+import { ArrowUpRight, Building2, UtensilsCrossed } from "lucide-react";
 import { useExtraLifeDonors } from "@/hooks/useExtraLifeDonors";
+import papaJohnsLogo from "@/assets/logos/sponsors/papa-johns.svg";
+import qsCueLogo from "@/assets/logos/sponsors/qs-cue.jpg";
 
 // The Game Day venue is a donation too, and a big one: it gets its own block
 // above the in-kind list rather than a line in it.
@@ -8,6 +10,25 @@ const VENUE = {
   href: "https://www.improving.com/",
   blurb: "The home of Game Day 2026 — their Minneapolis office, donated for the whole 24 hours.",
 };
+
+// The restaurants feeding the room on Game Day. Same two as the sponsor links
+// on /gameday (`SPONSOR_LINKS` in CommandCenter.tsx); keep them in step.
+const FOOD_DONORS: { name: string; note: string; href: string; logo: string; logoClass: string }[] = [
+  {
+    name: "Papa Johns Roseville",
+    note: "Pizza · Roseville",
+    href: "https://locations.papajohns.com/united-states/mn/55113/roseville/1133-larpenteur-ave-w",
+    logo: papaJohnsLogo,
+    logoClass: "h-7 w-auto",
+  },
+  {
+    name: "Q’s Cue",
+    note: "BBQ catering · Woodbury · Veteran-owned",
+    href: "https://www.facebook.com/profile.php?id=61563508501022",
+    logo: qsCueLogo,
+    logoClass: "size-11 rounded-full",
+  },
+];
 
 const inKindDonors: { name: string; href?: string }[] = [
   { name: "Mike Hochscheidt - Miniatures" },
@@ -132,6 +153,43 @@ export function Donors() {
                 <ArrowUpRight className="size-6 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </a>
               <p className="mt-4 text-sm text-ink-soft">{VENUE.blurb}</p>
+            </div>
+
+            <div className="rounded-3xl border border-line bg-cream p-8 shadow-[var(--shadow-soft)]">
+              <div className="mb-6 flex items-center gap-3">
+                <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gold text-white">
+                  <UtensilsCrossed className="size-5" />
+                </span>
+                <div>
+                  <h3 className="font-display text-xl font-extrabold text-ink">Food Donation</h3>
+                  <p className="text-xs font-bold uppercase tracking-widest text-ink-soft">
+                    Feeding Game Day
+                  </p>
+                </div>
+              </div>
+              <ul className="space-y-3">
+                {FOOD_DONORS.map((donor) => (
+                  <li key={donor.name} className="flex items-center gap-3 border-l-2 border-gold/50 pl-3">
+                    <span className="grid size-12 shrink-0 place-items-center">
+                      <img src={donor.logo} alt="" className={`object-contain ${donor.logoClass}`} />
+                    </span>
+                    <span className="min-w-0">
+                    <a
+                      href={donor.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group inline-flex items-center gap-1 text-sm font-bold text-ink underline decoration-gold/40 decoration-2 underline-offset-4 transition-colors hover:text-gold"
+                    >
+                      {donor.name}
+                      <ArrowUpRight className="size-3.5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </a>
+                    <span className="block text-xs font-bold uppercase tracking-widest text-ink-soft">
+                      {donor.note}
+                    </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <div className="flex-1 rounded-3xl border border-line bg-cream p-8 shadow-[var(--shadow-soft)]">

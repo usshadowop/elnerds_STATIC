@@ -46,7 +46,6 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) and `src/lib/router.tsx` be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. `router.tsx` grew `useHashScroll` on 2026-10-31 (anchor links land on first load), which is the first real mechanism in there; still no card. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
-| 2026-10-13 | Owner | Confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. (The run-of-show half of this thread closed 2026-10-31: the 2026 rows are in the sheet and live.) |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
@@ -67,39 +66,24 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-04 (the home-page schedule showed "TBD"; sheet switch found and fixed):*
+*Session of 2026-11-06 (Food Donation card; food vendors corrected):*
 
-- **Cause:** on 2026-11-02 at 9:56 AM Central, `getSpreadsheet_()` in
-  `Code.gs` failed once to open the RSVP sheet, read that as "deleted",
-  created a new empty "elnerds RSVPs" and pointed `SPREADSHEET_ID` at it.
-  The schedule showed its starter rows (Kickoff / TBD) until
-  `fillRunOfShow2026` was run into it. Found because the real sheet's
-  "Provided by EL NERDS **for** $50+" edit never reached the live endpoint.
-- **Fixed live by the owner:** `SPREADSHEET_ID` in RSVP Script's Script
-  Properties set back to `1p6y…R5Ds`; verified at the endpoint. The two
-  sheets were compared: the stray had no RSVP or newsletter rows, so nothing
-  needed merging. The MTG sheet was unaffected.
-- **Code fix in the repo** (`openStoredSpreadsheet_`): a stored ID that won't
-  open is retried, then an error, never a new sheet. Owner pasted and
-  redeployed it the same day (PR #118); afterwards the live endpoint read the
-  real sheet, a bad newsletter POST was refused, and a fake cancel token got
-  "Not found". The stray sheet is in the captain's Drive trash.
-  `rsvp-sheet` card has the details.
-- **"Event Details" section** under the Game Day schedule (home page and
-  `/gameday`): a new `Gameday Event Details` tab, Title in pink + Details
-  with clickable links.
-- **`/gameday_events` sign-up page**: event list from a new `Gameday
-  Signups` tab, outside links as buttons, our own form for the rest (`Event
-  Signups` tab). Linked above the home schedule and from a new Events
-  dropdown in the nav. Extra Life incentive links
-  in either tab show live "N of M left" / "Full" chips.
-- **`Code.gs` redeployed 2026-11-04 with both tabs.** Checked live:
-  `?action=gameday` returns `eventDetails` (four D&D rows) and `signups`
-  (empty, tab created), and `gameday_signup` POSTs get the new handler's
-  refusals for bad input. Probes that are refused write nothing.
-- The Apps Script project is **RSVP Script** at script.google.com (captain
-  account), deployment `…Zg5WQ9xRcK`. The bound "Untitled project" beside it
-  is empty and unrelated.
+- **New "Food Donation" card** in the 2026 Donors section (`Donors.tsx`),
+  between Venue Donation and In-Kind Donors: the two Game Day food vendors
+  with small logos, gold accent and a `UtensilsCrossed` icon.
+- **Food vendors corrected from the owner's message**, in that card and in
+  the `/gameday` sponsor grid: Papa Johns is the **Roseville** store (1133
+  Larpenteur Ave W, store page on locations.papajohns.com), and the BBQ is
+  **Q’s Cue** (Joshua Quast, Woodbury, veteran-owned; Facebook page is the
+  link). "Random Taco Company" and the Taco Bell logo are gone. That closed
+  the 2026-10-13 sponsor-list thread.
+- Q’s Cue's logo (`qs-cue.jpg`) is the Facebook page's profile picture,
+  fetched from the page's `og:image` and resized to 480px. The owner's
+  business-card photo has the same badge; the email on it was left off the
+  site on purpose.
+- Built and linted; screenshotted home and `/gameday` at 1280px and the
+  home page at 390px, APIs stubbed. Not yet merged or deployed when this was
+  written — branch `claude/intelligent-maxwell-cmsed3`.
 
 ## Ship-live workflow
 

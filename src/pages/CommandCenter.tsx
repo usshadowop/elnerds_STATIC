@@ -10,7 +10,7 @@ import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink, Handshake,
 
 import improvingLogo from "@/assets/logos/sponsors/improving.svg";
 import papaJohnsLogo from "@/assets/logos/sponsors/papa-johns.svg";
-import tacoBellLogo from "@/assets/logos/sponsors/taco-bell.svg";
+import qsCueLogo from "@/assets/logos/sponsors/qs-cue.jpg";
 import gilletteLogo from "@/assets/logos/sponsors/gillette-childrens.svg";
 import stillPc from "@/assets/carousel/event-5.jpg";
 import stillCrowd from "@/assets/carousel/event-3.jpg";
@@ -43,10 +43,12 @@ const HOME = import.meta.env.BASE_URL;
 const DONATE_URL = "https://www.extra-life.org/team/73600";
 
 // The sponsors who make Game Day happen. Each goes to the sponsor's own site.
+// The two food vendors are repeated in the home page's Food Donation card
+// (`FOOD_DONORS` in Donors.tsx); change both together.
 const SPONSOR_LINKS: { label: string; note: string; href: string; logo: string; logoClass: string }[] = [
   { label: "Improving", note: "Our Game Day venue", href: "https://www.improving.com/", logo: improvingLogo, logoClass: "h-10" },
-  { label: "Papa Johns Eden Prairie", note: "Pizza", href: "https://www.papajohns.com/", logo: papaJohnsLogo, logoClass: "h-12" },
-  { label: "Random Taco Company", note: "Tacos", href: "https://www.tacobell.com/", logo: tacoBellLogo, logoClass: "h-14" },
+  { label: "Papa Johns Roseville", note: "Pizza · 1133 Larpenteur Ave W", href: "https://locations.papajohns.com/united-states/mn/55113/roseville/1133-larpenteur-ave-w", logo: papaJohnsLogo, logoClass: "h-12" },
+  { label: "Q’s Cue", note: "BBQ catering · Veteran-owned", href: "https://www.facebook.com/profile.php?id=61563508501022", logo: qsCueLogo, logoClass: "h-20 rounded-full" },
   { label: "Gillette Children’s", note: "Where every dollar goes", href: "https://www.gillettechildrens.org/", logo: gilletteLogo, logoClass: "h-12" },
 ];
 
