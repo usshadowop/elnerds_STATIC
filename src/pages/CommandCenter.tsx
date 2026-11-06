@@ -11,6 +11,7 @@ import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink, Handshake,
 import improvingLogo from "@/assets/logos/sponsors/improving.svg";
 import papaJohnsLogo from "@/assets/logos/sponsors/papa-johns.svg";
 import qsCueLogo from "@/assets/logos/sponsors/qs-cue.jpg";
+import placemakerLogo from "@/assets/logos/sponsors/placemaker.png";
 import gilletteLogo from "@/assets/logos/sponsors/gillette-childrens.svg";
 import stillPc from "@/assets/carousel/event-5.jpg";
 import stillCrowd from "@/assets/carousel/event-3.jpg";
@@ -49,6 +50,7 @@ const SPONSOR_LINKS: { label: string; note: string; href: string; logo: string; 
   { label: "Improving", note: "Our Game Day venue", href: "https://www.improving.com/", logo: improvingLogo, logoClass: "h-10" },
   { label: "Papa Johns Roseville", note: "Pizza · 1133 Larpenteur Ave W", href: "https://locations.papajohns.com/united-states/mn/55113/roseville/1133-larpenteur-ave-w", logo: papaJohnsLogo, logoClass: "h-12" },
   { label: "Q’s Cue", note: "BBQ catering · Veteran-owned", href: "https://www.facebook.com/profile.php?id=61563508501022", logo: qsCueLogo, logoClass: "h-20 rounded-full" },
+  { label: "Placemaker Hospitality", note: "Minneapolis restaurants", href: "https://placemakerhospitality.com/", logo: placemakerLogo, logoClass: "h-20" },
   { label: "Gillette Children’s", note: "Where every dollar goes", href: "https://www.gillettechildrens.org/", logo: gilletteLogo, logoClass: "h-12" },
 ];
 
@@ -266,7 +268,7 @@ export function CommandCenter() {
           {/* Sponsor links -------------------------------------------------- */}
           <div>
             <SectionHeading icon={Handshake} label="Thank you" title="Links to our sponsors!" />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
               {SPONSOR_LINKS.map((link) => (
                 <a
                   key={link.label}
