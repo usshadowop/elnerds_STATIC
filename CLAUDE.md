@@ -84,7 +84,8 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   Woodbury, and the site follows the card.
 - **Venue Donation card reworked** (same session, later): Improving's logo
   is now the link, arrow kept, blurb removed, "Our home for 24 hours"
-  subheader added to match the Food Donation card.
+  subheader added to match the Food Donation card. **Live as PR #130**
+  (bundle `index-CYvgLpd2.js` has the subheader and no blurb).
 - **Merged and live as PR #128** (squash, 2026-11-06 17:44 UTC). Verified:
   bundle `index-KHGPdiRy.js` has "Food Donation", "Q’s Cue" and "Papa Johns
   Roseville", no "tacobell"; the logo asset serves. The `deploy-pages` step
