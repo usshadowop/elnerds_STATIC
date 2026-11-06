@@ -1,7 +1,7 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-06 (Food Donation card)
+- **Last reviewed:** 2026-11-06 (Food Donation card; venue logo link)
 - **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/hooks/useExtraLifeIncentives.ts`
 
 ## Purpose
@@ -28,8 +28,10 @@ someone donates.
   The clamp tops out at `text-3xl`, so desktop is unchanged.
 - `src/components/site/Donors.tsx` — the "2026 Donors" section: the live
   donor wall takes two-thirds, and the right column is three hand-maintained
-  cards, **Venue Donation** (Improving, the Game Day venue, as one large
-  link — it is the biggest in-kind gift and reads that way), then **Food
+  cards, **Venue Donation** (Improving, the Game Day venue: their logo
+  from `src/assets/logos/sponsors/` is the link, with the arrow beside it,
+  under an "Our home for 24 hours" subheader; the old text link and blurb
+  went 2026-11-06 at the owner's request), then **Food
   Donation** (`FOOD_DONORS`: Papa Johns Roseville and Q’s Cue, each a
   small logo plus a link with a one-line note, gold accent; added
   2026-11-06), then **In-Kind Donors** (a plain list). The food list is the
