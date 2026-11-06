@@ -56,7 +56,8 @@ function MainEventSchedule({ item }: { item: EventItem }) {
             <CalendarClock className="size-3.5" /> What&rsquo;s on
           </p>
           <h3 className="font-display text-xl font-extrabold text-ink sm:text-2xl">
-            Game Day Schedule &ndash; {ordinalDate(calendar.start)}
+            Game Day Schedule &ndash;{" "}
+            <span className="whitespace-nowrap">{ordinalDate(calendar.start)}</span>
           </h3>
         </div>
         {!settled ? (
