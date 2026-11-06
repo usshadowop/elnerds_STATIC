@@ -1,14 +1,15 @@
 import { ArrowUpRight, Building2, UtensilsCrossed } from "lucide-react";
 import { useExtraLifeDonors } from "@/hooks/useExtraLifeDonors";
+import improvingLogo from "@/assets/logos/sponsors/improving.svg";
 import papaJohnsLogo from "@/assets/logos/sponsors/papa-johns.svg";
 import qsCueLogo from "@/assets/logos/sponsors/qs-cue.jpg";
 
 // The Game Day venue is a donation too, and a big one: it gets its own block
-// above the in-kind list rather than a line in it.
+// above the in-kind list rather than a line in it. The logo is the link.
 const VENUE = {
   name: "Improving",
   href: "https://www.improving.com/",
-  blurb: "The home of Game Day 2026 — their Minneapolis office, donated for the whole 24 hours.",
+  logo: improvingLogo,
 };
 
 // The restaurants feeding the room on Game Day. Same two as the sponsor links
@@ -141,18 +142,23 @@ export function Donors() {
                 <span className="grid size-10 shrink-0 place-items-center rounded-full bg-purple text-white">
                   <Building2 className="size-5" />
                 </span>
-                <h3 className="font-display text-xl font-extrabold text-ink">Venue Donation</h3>
+                <div>
+                  <h3 className="font-display text-xl font-extrabold text-ink">Venue Donation</h3>
+                  <p className="text-xs font-bold uppercase tracking-widest text-ink-soft">
+                    Our home for 24 hours
+                  </p>
+                </div>
               </div>
               <a
                 href={VENUE.href}
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 font-display text-3xl font-extrabold tracking-tight text-purple underline decoration-purple/30 decoration-4 underline-offset-8 transition-colors hover:text-magenta hover:decoration-magenta/40 sm:text-4xl"
+                aria-label={`${VENUE.name} (opens their site)`}
+                className="group inline-flex items-center gap-3 text-purple transition-colors hover:text-magenta"
               >
-                {VENUE.name}
+                <img src={VENUE.logo} alt={VENUE.name} className="h-12 w-auto object-contain sm:h-14" />
                 <ArrowUpRight className="size-6 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </a>
-              <p className="mt-4 text-sm text-ink-soft">{VENUE.blurb}</p>
             </div>
 
             <div className="rounded-3xl border border-line bg-cream p-8 shadow-[var(--shadow-soft)]">

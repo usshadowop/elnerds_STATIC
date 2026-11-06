@@ -46,7 +46,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) and `src/lib/router.tsx` be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. `router.tsx` grew `useHashScroll` on 2026-10-31 (anchor links land on first load), which is the first real mechanism in there; still no card. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
-| 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
+| 2026-10-13 | Owner | Check one line of site copy that came from a session, not the repo: the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). (The other half, the Venue Donation blurb, was removed 2026-11-06.) |
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 
@@ -82,6 +82,9 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   business-card photo has the same badge; the email on it was left off the
   site on purpose. The page's title says "Saint Paul MN"; the card says
   Woodbury, and the site follows the card.
+- **Venue Donation card reworked** (same session, later): Improving's logo
+  is now the link, arrow kept, blurb removed, "Our home for 24 hours"
+  subheader added to match the Food Donation card.
 - **Merged and live as PR #128** (squash, 2026-11-06 17:44 UTC). Verified:
   bundle `index-KHGPdiRy.js` has "Food Donation", "Q’s Cue" and "Papa Johns
   Roseville", no "tacobell"; the logo asset serves. The `deploy-pages` step
