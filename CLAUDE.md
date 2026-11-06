@@ -85,7 +85,8 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 - **Placemaker Hospitality added as a third food donor** (later still),
   on the Food Donation card and the `/gameday` sponsor grid, which went to
   five tiles across. Logo is the site's share image with white made
-  transparent (`placemaker.png`, 17 KB).
+  transparent (`placemaker.png`, 17 KB). **Live as PR #132** (bundle
+  `index-DUbP99n3.js` names it twice; the PNG serves).
 - **Venue Donation card reworked** (same session, later): Improving's logo
   is now the link, arrow kept, blurb removed, "Our home for 24 hours"
   subheader added to match the Food Donation card. **Live as PR #130**
