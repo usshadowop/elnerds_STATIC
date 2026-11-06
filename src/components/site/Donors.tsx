@@ -1,5 +1,7 @@
 import { ArrowUpRight, Building2, UtensilsCrossed } from "lucide-react";
 import { useExtraLifeDonors } from "@/hooks/useExtraLifeDonors";
+import papaJohnsLogo from "@/assets/logos/sponsors/papa-johns.svg";
+import qsCueLogo from "@/assets/logos/sponsors/qs-cue.jpg";
 
 // The Game Day venue is a donation too, and a big one: it gets its own block
 // above the in-kind list rather than a line in it.
@@ -11,9 +13,21 @@ const VENUE = {
 
 // The restaurants feeding the room on Game Day. Same two as the sponsor links
 // on /gameday (`SPONSOR_LINKS` in CommandCenter.tsx); keep them in step.
-const FOOD_DONORS: { name: string; note: string; href: string }[] = [
-  { name: "Papa Johns Eden Prairie", note: "Pizza", href: "https://www.papajohns.com/" },
-  { name: "Random Taco Company", note: "Tacos", href: "https://www.tacobell.com/" },
+const FOOD_DONORS: { name: string; note: string; href: string; logo: string; logoClass: string }[] = [
+  {
+    name: "Papa Johns Roseville",
+    note: "Pizza · Roseville",
+    href: "https://locations.papajohns.com/united-states/mn/55113/roseville/1133-larpenteur-ave-w",
+    logo: papaJohnsLogo,
+    logoClass: "h-7 w-auto",
+  },
+  {
+    name: "Q’s Cue",
+    note: "BBQ catering · Woodbury · Veteran-owned",
+    href: "https://www.facebook.com/profile.php?id=61563508501022",
+    logo: qsCueLogo,
+    logoClass: "size-11 rounded-full",
+  },
 ];
 
 const inKindDonors: { name: string; href?: string }[] = [
@@ -155,7 +169,11 @@ export function Donors() {
               </div>
               <ul className="space-y-3">
                 {FOOD_DONORS.map((donor) => (
-                  <li key={donor.name} className="border-l-2 border-gold/50 pl-3">
+                  <li key={donor.name} className="flex items-center gap-3 border-l-2 border-gold/50 pl-3">
+                    <span className="grid size-12 shrink-0 place-items-center">
+                      <img src={donor.logo} alt="" className={`object-contain ${donor.logoClass}`} />
+                    </span>
+                    <span className="min-w-0">
                     <a
                       href={donor.href}
                       target="_blank"
@@ -167,6 +185,7 @@ export function Donors() {
                     </a>
                     <span className="block text-xs font-bold uppercase tracking-widest text-ink-soft">
                       {donor.note}
+                    </span>
                     </span>
                   </li>
                 ))}

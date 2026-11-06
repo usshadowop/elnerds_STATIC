@@ -30,12 +30,13 @@ someone donates.
   donor wall takes two-thirds, and the right column is three hand-maintained
   cards, **Venue Donation** (Improving, the Game Day venue, as one large
   link — it is the biggest in-kind gift and reads that way), then **Food
-  Donation** (`FOOD_DONORS`: Papa Johns Eden Prairie and Random Taco
-  Company, each a link with a Pizza/Tacos note, gold accent; added
+  Donation** (`FOOD_DONORS`: Papa Johns Roseville and Q’s Cue, each a
+  small logo plus a link with a one-line note, gold accent; added
   2026-11-06), then **In-Kind Donors** (a plain list). The food list is the
-  same two restaurants as `SPONSOR_LINKS` on `/gameday`
-  (`CommandCenter.tsx`), copied by hand — change both when a food sponsor
-  changes. Nothing in the right column comes from the API.
+  same two vendors as `SPONSOR_LINKS` on `/gameday` (`CommandCenter.tsx`),
+  copied by hand, logos from `src/assets/logos/sponsors/` — change both
+  when a food sponsor changes. Nothing in the right column comes from the
+  API.
 - `src/components/site/Hero.tsx` — the post-Game-Day grand total (see
   [gameday-hero-states](gameday-hero-states.md)).
 

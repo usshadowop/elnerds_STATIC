@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-04 (Event Details; rider lanes; `signups` for /gameday_events)
+- **Last reviewed:** 2026-11-06 (sponsor list: Q’s Cue and the Roseville Papa Johns)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Purpose
@@ -16,10 +16,13 @@ a spreadsheet during the event.
 
 - `src/pages/CommandCenter.tsx` — the page (route `/gameday`, wired in
   `App.tsx`). Presentation only. The closing "Links to our sponsors!" grid
-  is a hand-maintained list in the file (Improving, Papa Johns Eden Prairie,
-  Random Taco Company, Gillette Children's), not sheet content, with each
+  is a hand-maintained list in the file (Improving, Papa Johns Roseville,
+  Q’s Cue, Gillette Children's), not sheet content, with each
   sponsor's logo from `src/assets/logos/sponsors/` (Improving's and
-  Gillette's from their sites, Papa John's and Taco Bell from Wikimedia).
+  Gillette's from their sites, Papa John's from Wikimedia, Q’s Cue's is the
+  profile picture of their Facebook page, `qs-cue.jpg`, 480px on black,
+  shown `rounded-full`). The two food vendors are repeated in the home
+  page's Food Donation card (`Donors.tsx`); change both together.
   Above the streams, a "Come visit" card shows the marathon's venue from
   `rsvpEvents.ts` with a directions button in the `maps/dir/` form.
 - `src/lib/gamedayContent.ts` — types, the shipped fallback copy, `fetch` and
@@ -196,9 +199,13 @@ becomes a live player.
   starter rows are what the site shows** (two "TBD" blocks included). They
   need real content before Nov 14. For the run of show, Time cells may be ranges
   ("9:30a - 12:30p"); meal rows just need the meal word in the title.
-- The sponsor list is hand-maintained in `CommandCenter.tsx`. Papa Johns
-  links to papajohns.com; the Eden Prairie store page URL was never
-  supplied.
+- The sponsor list is hand-maintained in `CommandCenter.tsx`. Papa Johns is
+  the Roseville store (1133 Larpenteur Ave W) and links to its page on
+  locations.papajohns.com; Q’s Cue (BBQ catering, Woodbury, veteran-owned,
+  Joshua Quast) links to its Facebook page, which is the only web presence
+  on their business card. Both supplied by the owner 2026-11-06, replacing
+  "Papa Johns Eden Prairie" and "Random Taco Company" (the Taco Bell logo
+  was deleted with it).
 - **Open:** should `/gameday` go in the top nav for Game Day? It's link-only
   today, reachable from the hero button while the marathon runs.
 

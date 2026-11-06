@@ -46,7 +46,6 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) and `src/lib/router.tsx` be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. `router.tsx` grew `useHashScroll` on 2026-10-31 (anchor links land on first load), which is the first real mechanism in there; still no card. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
-| 2026-10-13 | Owner | Confirm the sponsor list on `/gameday` (Improving, Papa Johns Eden Prairie, Random Taco Company → tacobell.com, Gillette Children's) and send the Eden Prairie Papa Johns URL if a store page is wanted; it links to papajohns.com today. Since 2026-11-06 the same two restaurants and URLs are also in the home page's **Food Donation** card (`Donors.tsx`), so a correction goes in both places. (The run-of-show half of this thread closed 2026-10-31: the 2026 rows are in the sheet and live.) |
 | 2026-10-13 | Owner | Check two lines of site copy that came from this session, not the repo: the venue blurb on the home page's Venue Donation card ("their Minneapolis office, donated for the whole 24 hours") and the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). |
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
@@ -67,19 +66,24 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-06 (Food Donation card on the home page):*
+*Session of 2026-11-06 (Food Donation card; food vendors corrected):*
 
 - **New "Food Donation" card** in the 2026 Donors section (`Donors.tsx`),
-  between Venue Donation and In-Kind Donors: Papa Johns Eden Prairie (Pizza)
-  and Random Taco Company (Tacos) as outbound links with a gold accent and
-  a `UtensilsCrossed` icon. The names and URLs were copied from the
-  `/gameday` sponsor list; nothing new was confirmed with the owner.
-- Built and linted; screenshotted at 1280px and 390px with the Extra Life
-  API stubbed. Not yet merged or deployed when this was written — the
-  branch is `claude/intelligent-maxwell-cmsed3`.
-- Previous session (2026-11-04) is in `git log` and the `rsvp-sheet` card:
-  the sheet-switch fix in `Code.gs`, Event Details, and `/gameday_events`
-  are all live.
+  between Venue Donation and In-Kind Donors: the two Game Day food vendors
+  with small logos, gold accent and a `UtensilsCrossed` icon.
+- **Food vendors corrected from the owner's message**, in that card and in
+  the `/gameday` sponsor grid: Papa Johns is the **Roseville** store (1133
+  Larpenteur Ave W, store page on locations.papajohns.com), and the BBQ is
+  **Q’s Cue** (Joshua Quast, Woodbury, veteran-owned; Facebook page is the
+  link). "Random Taco Company" and the Taco Bell logo are gone. That closed
+  the 2026-10-13 sponsor-list thread.
+- Q’s Cue's logo (`qs-cue.jpg`) is the Facebook page's profile picture,
+  fetched from the page's `og:image` and resized to 480px. The owner's
+  business-card photo has the same badge; the email on it was left off the
+  site on purpose.
+- Built and linted; screenshotted home and `/gameday` at 1280px and the
+  home page at 390px, APIs stubbed. Not yet merged or deployed when this was
+  written — branch `claude/intelligent-maxwell-cmsed3`.
 
 ## Ship-live workflow
 
