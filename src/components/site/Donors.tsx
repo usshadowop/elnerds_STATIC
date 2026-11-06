@@ -3,6 +3,7 @@ import { useExtraLifeDonors } from "@/hooks/useExtraLifeDonors";
 import improvingLogo from "@/assets/logos/sponsors/improving.svg";
 import papaJohnsLogo from "@/assets/logos/sponsors/papa-johns.svg";
 import qsCueLogo from "@/assets/logos/sponsors/qs-cue.jpg";
+import placemakerLogo from "@/assets/logos/sponsors/placemaker.png";
 
 // The Game Day venue is a donation too, and a big one: it gets its own block
 // above the in-kind list rather than a line in it. The logo is the link.
@@ -28,6 +29,13 @@ const FOOD_DONORS: { name: string; note: string; href: string; logo: string; log
     href: "https://www.facebook.com/profile.php?id=61563508501022",
     logo: qsCueLogo,
     logoClass: "size-11 rounded-full",
+  },
+  {
+    name: "Placemaker Hospitality",
+    note: "Minneapolis restaurants",
+    href: "https://placemakerhospitality.com/",
+    logo: placemakerLogo,
+    logoClass: "h-12 w-auto",
   },
 ];
 

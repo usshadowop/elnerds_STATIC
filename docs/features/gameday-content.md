@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-06 (sponsor list: Q’s Cue and the Roseville Papa Johns)
+- **Last reviewed:** 2026-11-06 (sponsor list: Q’s Cue, the Roseville Papa Johns, Placemaker)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Purpose
@@ -17,12 +17,15 @@ a spreadsheet during the event.
 - `src/pages/CommandCenter.tsx` — the page (route `/gameday`, wired in
   `App.tsx`). Presentation only. The closing "Links to our sponsors!" grid
   is a hand-maintained list in the file (Improving, Papa Johns Roseville,
-  Q’s Cue, Gillette Children's), not sheet content, with each
+  Q’s Cue, Placemaker Hospitality, Gillette Children's; five tiles across
+  at `lg`), not sheet content, with each
   sponsor's logo from `src/assets/logos/sponsors/` (Improving's and
   Gillette's from their sites, Papa John's from Wikimedia, Q’s Cue's is the
   profile picture of their Facebook page, `qs-cue.jpg`, 480px on black,
-  shown `rounded-full`). The two food vendors are repeated in the home
-  page's Food Donation card (`Donors.tsx`); change both together.
+  shown `rounded-full`; Placemaker's is their site's share image with the
+  white background made transparent, `placemaker.png`). The three food
+  vendors are repeated in the home page's Food Donation card
+  (`Donors.tsx`); change both together.
   Above the streams, a "Come visit" card shows the marathon's venue from
   `rsvpEvents.ts` with a directions button in the `maps/dir/` form.
 - `src/lib/gamedayContent.ts` — types, the shipped fallback copy, `fetch` and
@@ -205,7 +208,9 @@ becomes a live player.
   Joshua Quast) links to its Facebook page, which is the only web presence
   on their business card. Both supplied by the owner 2026-11-06, replacing
   "Papa Johns Eden Prairie" and "Random Taco Company" (the Taco Bell logo
-  was deleted with it).
+  was deleted with it). Placemaker Hospitality (Kim Bartmann's Minneapolis
+  restaurant group, placemakerhospitality.com) was added as a third food
+  donor the same day.
 - **Open:** should `/gameday` go in the top nav for Game Day? It's link-only
   today, reachable from the hero button while the marathon runs.
 

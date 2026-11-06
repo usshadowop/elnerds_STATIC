@@ -1,7 +1,7 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-06 (Food Donation card; venue logo link)
+- **Last reviewed:** 2026-11-06 (Food Donation card; venue logo link; Placemaker)
 - **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/hooks/useExtraLifeIncentives.ts`
 
 ## Purpose
@@ -32,10 +32,10 @@ someone donates.
   from `src/assets/logos/sponsors/` is the link, with the arrow beside it,
   under an "Our home for 24 hours" subheader; the old text link and blurb
   went 2026-11-06 at the owner's request), then **Food
-  Donation** (`FOOD_DONORS`: Papa Johns Roseville and Q’s Cue, each a
-  small logo plus a link with a one-line note, gold accent; added
-  2026-11-06), then **In-Kind Donors** (a plain list). The food list is the
-  same two vendors as `SPONSOR_LINKS` on `/gameday` (`CommandCenter.tsx`),
+  Donation** (`FOOD_DONORS`: Papa Johns Roseville, Q’s Cue and Placemaker
+  Hospitality, each a small logo plus a link with a one-line note, gold
+  accent; added 2026-11-06), then **In-Kind Donors** (a plain list). The
+  food list is the same vendors as `SPONSOR_LINKS` on `/gameday` (`CommandCenter.tsx`),
   copied by hand, logos from `src/assets/logos/sponsors/` — change both
   when a food sponsor changes. Nothing in the right column comes from the
   API.
