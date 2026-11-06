@@ -84,7 +84,9 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   Woodbury, and the site follows the card.
 - **Home schedule heading now reads "Game Day Schedule – November 14th
   2026"**, the date derived from the marathon's `calendar.start`
-  (`ordinalDate()` in `Schedule.tsx`), not typed.
+  (`ordinalDate()` in `Schedule.tsx`), not typed. **Live as PR #134**
+  (bundle `index-DOIOMzXb.js`; the date is computed in the browser, so the
+  bundle check is the three `America/Chicago` formatter calls).
 - **Placemaker Hospitality added as a third food donor** (later still),
   on the Food Donation card and the `/gameday` sponsor grid, which went to
   five tiles across. Logo is the site's share image with white made
