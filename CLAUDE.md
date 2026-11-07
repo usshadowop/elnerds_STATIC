@@ -48,6 +48,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
 | 2026-10-13 | Owner | Check one line of site copy that came from a session, not the repo: the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). (The other half, the Venue Donation blurb, was removed 2026-11-06.) |
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
+| 2026-11-07 | Owner | Paste the new `apps-script/Code.gs` into RSVP Script and redeploy: `/gameday_events` sign-ups append a new row instead of overwriting an earlier one from the same email. Until then the live script still overwrites. Rows already overwritten can be rebuilt from the captain's "Game Day sign-up" emails (one per submission). |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 
 Rules that keep this honest:
@@ -227,7 +228,8 @@ already there.
 - `src/pages/GamedayEvents.tsx` (`/gameday_events`): Game Day event
   sign-ups, listed from the `Gameday Signups` sheet tab. Rows with a link get
   a button to it; the rest are offered in the page's own form, which
-  `Code.gs` writes to an `Event Signups` tab (one row per email). Linked from
+  `Code.gs` appends to an `Event Signups` tab (a new row per submission, so
+  later sign-ups never overwrite earlier ones). Linked from
   a bar above the home-page schedule and the nav's Events dropdown. See the
   gameday-signups card.
 - **Extra Life incentive links show live spots left.** Any link in the

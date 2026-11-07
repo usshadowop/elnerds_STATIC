@@ -1,7 +1,7 @@
 # Game Day event sign-ups (`/gameday_events`)
 
 - **Status:** Live 2026-11-04 (site and `Code.gs`). The `Gameday Signups` tab exists and is empty, so the page says "Sign-ups open soon" until rows are typed.
-- **Last reviewed:** 2026-11-07 (Extra Life links say "Sign up on Extra Life")
+- **Last reviewed:** 2026-11-07 (every sign-up is a new row; no more overwrite)
 - **Covers:** `src/pages/GamedayEvents.tsx`, `src/lib/gamedaySignup.ts`
 
 ## Purpose
@@ -55,9 +55,12 @@ with a hidden honeypot field. `handleGamedaySignup_`:
 - Writes to an **`Event Signups`** tab (Timestamp, Name, Email, Events,
   Notes), created on the first submission. Events are stored as
   "Event (When)".
-- Keeps **one row per email**: signing up again replaces that person's
-  picks and notes.
-- Emails the captain on every submission, marking repeats as "updated". No
+- Adds **a new row for every submission**, even from an email already in
+  the tab, so someone who signs up for MTG now and Smash later keeps both.
+  Until 2026-11-07 a repeat email overwrote its earlier row and lost the
+  first picks; the owner hit that and asked for one row per sign-up. To see
+  everything one person picked, filter the tab by Email.
+- Emails the captain on every submission ("Game Day sign-up: <name>"). No
   confirmation email goes to the participant; the page shows the events
   they picked.
 - Refuses everything once the marathon's `calendar.end` has passed. The

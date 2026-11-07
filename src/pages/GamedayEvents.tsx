@@ -339,7 +339,7 @@ export function GamedayEvents() {
 
                   <p className="mt-4 text-center text-xs text-ink-soft">
                     <Check className="mr-1 inline size-3.5 align-[-2px] text-teal" aria-hidden />
-                    Signing up again with the same email updates your picks.
+                    Want another event later? Just sign up again; your earlier picks stay.
                   </p>
                 </form>
               )}
