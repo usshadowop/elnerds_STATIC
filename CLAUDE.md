@@ -73,7 +73,9 @@ hero progress card; all live):*
   size, and a white "Team fundraising" card (total, goal, participants,
   bar) under the countdown. `TeamProgress.tsx` is that block, extracted from
   `ActiveRoster.tsx` and used by both. Mock-up approved by the owner from
-  screenshots with stubbed team data.
+  screenshots with stubbed team data. Live 2026-11-07 00:13 UTC, bundle
+  `index-Barte0wv.js` ("Team fundraising", `lg:text-[4rem]`, no
+  `lg:text-8xl`).
 - **2026 Donors column (PRs #128, #130, #132):** Venue Donation shows
   Improving's logo as the link under "Our home for 24 hours"; a new Food
   Donation card lists Papa Johns Roseville (store page link), Q’s Cue (BBQ
