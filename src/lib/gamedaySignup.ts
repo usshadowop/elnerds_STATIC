@@ -2,7 +2,7 @@
 //
 // Posts to the same Google Apps Script Web App as the RSVP, newsletter and
 // MTG forms; `type: "gameday_signup"` routes it to handleGamedaySignup_ in
-// apps-script/Code.gs, which writes one row per email to the "Event Signups"
+// apps-script/Code.gs, which adds one row per submission to the "Event Signups"
 // tab of the RSVP sheet and emails the captain.
 
 const ENDPOINT = import.meta.env.VITE_RSVP_ENDPOINT as string | undefined;

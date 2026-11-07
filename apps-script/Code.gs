@@ -17,7 +17,7 @@
  *     spreadsheet, "elnerds_mtginterest", and notifies the captain
  *   - Receives Game Day event sign-ups (POST { type: "gameday_signup", name,
  *     email, events[], notes }) from /gameday_events into an "Event Signups"
- *     tab, one row per email, and notifies the captain
+ *     tab, one row per submission, and notifies the captain
  *
  * Setup: see apps-script/README.md in the repo.
  */
@@ -577,9 +577,11 @@ const EVENT_SIGNUPS_TAB = "Event Signups";
 // Writes { name, email, events[], notes } to the "Event Signups" tab of the
 // RSVP sheet. Only events listed in "Gameday Signups" WITHOUT a sign-up link
 // are accepted (those are the ones the site's form offers), in the sheet's
-// order. One row per email: signing up again replaces that row's events and
-// notes, so people can change their picks. Every submission emails the
-// captain, marked "updated" for a repeat. Closed once the marathon ends.
+// order. Every submission is a NEW row, even from an email already in the
+// tab: someone who signs up for one event now and another later keeps both.
+// (Until 2026-11-07 a repeat email overwrote its earlier row and lost the
+// first picks.) Every submission emails the captain. Closed once the
+// marathon ends.
 function handleGamedaySignup_(data) {
   // Hidden "website" field on the form: people never see it, bots fill it in.
   if (String(data.website || "").trim()) return json_({ ok: true });
@@ -595,7 +597,6 @@ function handleGamedaySignup_(data) {
     return json_({ ok: false, error: "Game Day is over — sign-ups are closed." });
   }
 
-  let isNew = false;
   let events = "";
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
@@ -622,20 +623,7 @@ function handleGamedaySignup_(data) {
       sheet.getRange(1, 1, 1, 5).setFontWeight("bold");
       sheet.setFrozenRows(1);
     }
-    const last = sheet.getLastRow();
-    const existing = last > 1 ? sheet.getRange(2, 3, last - 1, 1).getValues() : [];
-    const needle = email.toLowerCase();
-    let rowIndex = -1;
-    for (let i = 0; i < existing.length; i++) {
-      if (String(existing[i][0]).trim().toLowerCase() === needle) { rowIndex = i + 2; break; }
-    }
-    const row = [new Date(), name, email, events, notes];
-    if (rowIndex === -1) {
-      sheet.appendRow(row);
-      isNew = true;
-    } else {
-      sheet.getRange(rowIndex, 1, 1, 5).setValues([row]);
-    }
+    sheet.appendRow([new Date(), name, email, events, notes]);
   } finally {
     lock.releaseLock();
   }
@@ -643,8 +631,8 @@ function handleGamedaySignup_(data) {
   MailApp.sendEmail({
     to: CAPTAIN_EMAIL,
     name: SENDER_NAME,
-    subject: (isNew ? "Game Day sign-up: " : "Game Day sign-up (updated): ") + name,
-    htmlBody: page_(isNew ? "New Game Day sign-up" : "Updated Game Day sign-up",
+    subject: "Game Day sign-up: " + name,
+    htmlBody: page_("New Game Day sign-up",
       "<strong>" + esc_(name) + "</strong> (" + esc_(email) + ")" +
       "<br>Events: <strong>" + esc_(events) + "</strong>" +
       (notes ? "<br>Notes: " + esc_(notes) : "") +

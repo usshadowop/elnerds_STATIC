@@ -54,7 +54,7 @@ touches the sheet; it only POSTs to, or GETs from, the script's `/exec` URL.
 | `Gameday Notice` | same | one header; the banner text goes in **A2** | **Humans only** | `/gameday`, once a minute |
 | `Gameday Event Details` | same, headers only (since 2026-11-04) | Title, Details (links allowed) | **Humans only** | Home page and `/gameday`, once a minute |
 | `Gameday Signups` | same, headers only (since 2026-11-04) | Event, When, Details, Sign-up link | **Humans only** | `/gameday_events`, once a minute; `handleGamedaySignup_` checks picks against it |
-| `Event Signups` | `handleGamedaySignup_` on the first `/gameday_events` submission | Timestamp, Name, Email, Events, Notes | `handleGamedaySignup_`, one row per email (updated in place) | Nothing on the site. Humans, and the captain's "Game Day sign-up" emails |
+| `Event Signups` | `handleGamedaySignup_` on the first `/gameday_events` submission | Timestamp, Name, Email, Events, Notes | `handleGamedaySignup_`, one row per submission (appended; repeats from one email are kept) | Nothing on the site. Humans, and the captain's "Game Day sign-up" emails |
 | `RSVP Stats` | **A human** | Merged-cell dashboard: confirmed count, guests, headcount, duration and hardware breakdowns | Humans (or formulas; not checked) | Nothing on the site |
 
 How the three script-made shapes come about:
