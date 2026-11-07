@@ -1,4 +1,5 @@
 import { useExtraLifeTeam, type ExtraLifeParticipant } from "@/hooks/useExtraLifeTeam";
+import { TeamProgress, TeamProgressSkeleton } from "@/components/site/TeamProgress";
 
 /* ───── currency formatter ───── */
 const money = (n: number) =>
@@ -134,11 +135,6 @@ export function ActiveRoster() {
     );
   }
 
-  const teamPct =
-    team && team.fundraisingGoal > 0
-      ? Math.min((team.sumDonations / team.fundraisingGoal) * 100, 100)
-      : 0;
-
   return (
     <section id="active-roster" className="bg-paper px-4 py-20 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-6xl">
@@ -158,60 +154,14 @@ export function ActiveRoster() {
         {/* team summary stats */}
         {!isLoading && team && (
           <div className="mx-auto mb-12 max-w-2xl rounded-3xl border border-line bg-cream p-6 sm:p-8">
-            <div className="grid grid-cols-3 gap-2 text-center sm:gap-4">
-              <div>
-                <div className="min-w-0 whitespace-nowrap font-display text-[clamp(1.125rem,5.5vw,1.875rem)] font-extrabold tabular-nums text-teal">
-                  {money(team.sumDonations)}
-                </div>
-                <div className="mt-1 text-[10px] font-bold uppercase tracking-wider text-ink-soft">
-                  Team Total
-                </div>
-              </div>
-              <div>
-                <div className="min-w-0 whitespace-nowrap font-display text-[clamp(1.125rem,5.5vw,1.875rem)] font-extrabold tabular-nums text-magenta">
-                  {money(team.fundraisingGoal)}
-                </div>
-                <div className="mt-1 text-[10px] font-bold uppercase tracking-wider text-ink-soft">
-                  Goal
-                </div>
-              </div>
-              <div>
-                <div className="min-w-0 whitespace-nowrap font-display text-[clamp(1.125rem,5.5vw,1.875rem)] font-extrabold tabular-nums text-orange">
-                  {team.numParticipants}
-                </div>
-                <div className="mt-1 text-[10px] font-bold uppercase tracking-wider text-ink-soft">
-                  Participants
-                </div>
-              </div>
-            </div>
-            <div className="mt-5">
-              <div className="h-3 w-full overflow-hidden rounded-full bg-teal-soft">
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-teal to-teal-bright transition-all duration-1000 ease-out"
-                  style={{ width: `${teamPct}%` }}
-                />
-              </div>
-              <p className="mt-2 text-center text-xs font-bold text-ink-soft">
-                {teamPct.toFixed(1)}% of goal reached
-              </p>
-            </div>
+            <TeamProgress team={team} />
           </div>
         )}
 
         {/* loading skeleton */}
         {isLoading && (
-          <div className="mx-auto mb-12 max-w-2xl">
-            <div className="animate-pulse rounded-3xl border border-line bg-cream p-6 sm:p-8">
-              <div className="grid grid-cols-3 gap-4">
-                {[0, 1, 2].map((i) => (
-                  <div key={i} className="flex flex-col items-center gap-2">
-                    <div className="h-8 w-20 rounded bg-line" />
-                    <div className="h-3 w-16 rounded bg-line" />
-                  </div>
-                ))}
-              </div>
-              <div className="mt-5 h-3 w-full rounded-full bg-line" />
-            </div>
+          <div className="mx-auto mb-12 max-w-2xl rounded-3xl border border-line bg-cream p-6 sm:p-8">
+            <TeamProgressSkeleton />
           </div>
         )}
 

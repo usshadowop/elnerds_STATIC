@@ -8,6 +8,7 @@ import { getRsvpEvent } from "@/lib/rsvpEvents";
 import { EVENTS, eventAnchor, splitByDate } from "@/lib/scheduleEvents";
 import { StyledButton } from "@/components/site/StyledButton";
 import { DonationTicker } from "@/components/site/DonationTicker";
+import { TeamProgress, TeamProgressSkeleton } from "@/components/site/TeamProgress";
 
 // Game Day's bounds come from the marathon's RSVP entry, so the date is written
 // down once. The fallbacks only matter if that event is ever renamed away.
@@ -119,6 +120,19 @@ function GrandTotalCard() {
   );
 }
 
+function TeamProgressCard() {
+  const { team, isLoading, error } = useExtraLifeTeam();
+  if (error || (!isLoading && !team)) return null;
+  return (
+    <div className="mx-auto mb-10 max-w-2xl rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-soft)]">
+      <p className="mb-4 text-[10px] font-extrabold uppercase tracking-[0.25em] text-ink-soft">
+        Team fundraising
+      </p>
+      {team ? <TeamProgress team={team} /> : <TeamProgressSkeleton />}
+    </div>
+  );
+}
+
 export function Hero() {
   const c = useGameday(GAME_DAY_START, GAME_DAY_END);
   const now = useNow();
@@ -195,7 +209,7 @@ export function Hero() {
           </div>
         )}
 
-        <h1 className="mb-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-6xl md:text-7xl lg:text-8xl">
+        <h1 className="mb-6 font-display text-2xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-4xl md:text-5xl lg:text-[4rem]">
           Play Games.{" "}
           <span className="bg-gradient-to-r from-teal via-magenta to-orange bg-clip-text text-transparent">
             Heal Kids.
@@ -250,6 +264,13 @@ export function Hero() {
               </div>
             )}
           </div>
+        )}
+
+        {/* The team's fundraising progress — the same block as the Team
+            section's summary card — right under the countdown. Skipped after
+            the marathon, when the grand-total card above already says it. */}
+        {c.phase !== "after" && (
+          <TeamProgressCard />
         )}
 
         {/* Latest donations, live from DonorDrive. Checked every minute while the

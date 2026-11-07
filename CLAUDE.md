@@ -66,42 +66,30 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-06 (Food Donation card; food vendors corrected; live):*
+*Session of 2026-11-06/07 (donor cards, vendors, dated schedule heading,
+hero progress card; all live):*
 
-- **New "Food Donation" card** in the 2026 Donors section (`Donors.tsx`),
-  between Venue Donation and In-Kind Donors: the two Game Day food vendors
-  with small logos, gold accent and a `UtensilsCrossed` icon.
-- **Food vendors corrected from the owner's message**, in that card and in
-  the `/gameday` sponsor grid: Papa Johns is the **Roseville** store (1133
-  Larpenteur Ave W, store page on locations.papajohns.com), and the BBQ is
-  **Q’s Cue** (Joshua Quast, Woodbury, veteran-owned; Facebook page is the
-  link). "Random Taco Company" and the Taco Bell logo are gone. That closed
-  the 2026-10-13 sponsor-list thread.
-- Q’s Cue's logo (`qs-cue.jpg`) is the Facebook page's profile picture,
-  fetched from the page's `og:image` and resized to 480px. The owner's
-  business-card photo has the same badge; the email on it was left off the
-  site on purpose. The page's title says "Saint Paul MN"; the card says
-  Woodbury, and the site follows the card.
-- **Home schedule heading now reads "Game Day Schedule – November 14th
-  2026"**, the date derived from the marathon's `calendar.start`
-  (`ordinalDate()` in `Schedule.tsx`), not typed. **Live as PR #134**
-  (bundle `index-DOIOMzXb.js`; the date is computed in the browser, so the
-  bundle check is the three `America/Chicago` formatter calls).
-- **Placemaker Hospitality added as a third food donor** (later still),
-  on the Food Donation card and the `/gameday` sponsor grid, which went to
-  five tiles across. Logo is the site's share image with white made
-  transparent (`placemaker.png`, 17 KB). **Live as PR #132** (bundle
-  `index-DUbP99n3.js` names it twice; the PNG serves).
-- **Venue Donation card reworked** (same session, later): Improving's logo
-  is now the link, arrow kept, blurb removed, "Our home for 24 hours"
-  subheader added to match the Food Donation card. **Live as PR #130**
-  (bundle `index-CYvgLpd2.js` has the subheader and no blurb).
-- **Merged and live as PR #128** (squash, 2026-11-06 17:44 UTC). Verified:
-  bundle `index-KHGPdiRy.js` has "Food Donation", "Q’s Cue" and "Papa Johns
-  Roseville", no "tacobell"; the logo asset serves. The `deploy-pages` step
-  took 6½ minutes instead of the usual ~20s and still succeeded, so a slow
-  deploy is not by itself the #125 timeout; the run's conclusion is what
-  tells them apart.
+- **Hero (2026-11-07, PR #136):** "Play Games. Heal Kids." at two-thirds
+  size, and a white "Team fundraising" card (total, goal, participants,
+  bar) under the countdown. `TeamProgress.tsx` is that block, extracted from
+  `ActiveRoster.tsx` and used by both. Mock-up approved by the owner from
+  screenshots with stubbed team data.
+- **2026 Donors column (PRs #128, #130, #132):** Venue Donation shows
+  Improving's logo as the link under "Our home for 24 hours"; a new Food
+  Donation card lists Papa Johns Roseville (store page link), Q’s Cue (BBQ
+  catering, Woodbury, veteran-owned; Facebook link) and Placemaker
+  Hospitality; In-Kind Donors unchanged. The `/gameday` sponsor grid has the
+  same vendors, five tiles across. "Random Taco Company" and the Taco Bell
+  logo are gone. Q’s Cue's Facebook title says "Saint Paul MN"; the site
+  says Woodbury, from the business card.
+- **Home schedule heading (PR #134):** "Game Day Schedule – November 14th
+  2026", the date from the marathon's `calendar.start` via `ordinalDate()`
+  in `Schedule.tsx`.
+- Logos: `qs-cue.jpg` (Facebook profile picture), `placemaker.png` (site
+  share image, white made transparent). All verified live by bundle grep.
+- The `deploy-pages` step took 6½ minutes on #128 and still succeeded, so a
+  slow deploy is not by itself the #125 timeout; the run's conclusion is
+  what tells them apart.
 
 ## Ship-live workflow
 
