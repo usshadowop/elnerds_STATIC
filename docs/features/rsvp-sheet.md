@@ -1,7 +1,7 @@
 # The "elnerds RSVPs" spreadsheet
 
 - **Status:** Live. Owned by `captainextralifenerds@gmail.com`; nine tabs as of 2026-10-31
-- **Last reviewed:** 2026-11-04 (sheet switch fix; Event Details tab)
+- **Last reviewed:** 2026-11-07 (a Claude session can now write cells via the Sheets connector)
 - **Covers:** `apps-script/Code.gs`, `apps-script/README.md`
 
 ## Purpose
@@ -81,7 +81,12 @@ How the three script-made shapes come about:
 
 ## Decisions and gotchas
 
-- **There is no API for editing cells from a Claude session.** The Google
+- **Update 2026-11-07: a Claude session can now edit cells.** The Google
+  Sheets connector, signed in as `us.shadow.op@gmail.com` (an editor on the
+  sheet), reads and writes values. Proven with a same-value write to
+  `Gameday Signups!A1`. The note below is about the read-only Drive
+  connector and is still true of it.
+- **There is no API for editing cells from a Claude session** (historical; see above). The Google
   Drive connector available in Claude sessions can read the sheet's
   contents and change its metadata (title, folder, star, lock), but cannot
   write to a cell. Being made an editor on the sheet does not change this.

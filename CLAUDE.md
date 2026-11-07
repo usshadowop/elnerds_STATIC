@@ -92,6 +92,13 @@ hero progress card; all live):*
 - The `deploy-pages` step took 6½ minutes on #128 and still succeeded, so a
   slow deploy is not by itself the #125 timeout; the run's conclusion is
   what tells them apart.
+- **Sheets write access (2026-11-07, a parallel session):** the Google
+  Sheets connector as `us.shadow.op@gmail.com` can write to the RSVP sheet.
+  Proven with a same-value write to `Gameday Signups!A1`. The owner's
+  sign-up tests are in place: two form events, plus a D&D row linked to a
+  test incentive on participant 574684 (qty 4, so "4 of 4 left"). One test
+  sign-up is in `Event Signups`. All rows are marked TEST, for the owner to
+  remove.
 
 ## Ship-live workflow
 
@@ -248,8 +255,13 @@ already there.
   "Come visit" card at the top are hand-maintained in `CommandCenter.tsx`.
 - **The "elnerds RSVPs" spreadsheet** is owned by the captain account and
   written only by `Code.gs` (RSVP rows, newsletter rows, cancel status) and
-  by people typing in Sheets (the `Gameday *` tabs, `RSVP Stats`). No tool
-  in a Claude session can edit its cells; the Drive connector reads it. The
+  by people typing in Sheets (the `Gameday *` tabs, `RSVP Stats`). **Since
+  2026-11-07 a Claude session can edit its cells** through the Google Sheets
+  connector, signed in as `us.shadow.op@gmail.com` (`mcp__Google_Sheets__*`:
+  `get_values`, `update_values`, `append_values`). Write only what the owner
+  asks for. Don't write to tabs `Code.gs` writes (event RSVP tabs,
+  `Newsletter`, `Event Signups`) unless asked. The read-only Drive connector
+  (`stevenlarker1982@gmail.com`) still sees only files shared with it. The
   full tab map is `docs/features/rsvp-sheet.md`.
 - `apps-script/Code.gs` — the Google Apps Script RSVP backend mirrors the
   slugs and field labels from `rsvpEvents.ts`; keep them in sync when
