@@ -99,9 +99,10 @@ hero progress card; all live):*
   Stoddart's four D&D sessions, each linked to its $35 incentive on his page
   (participant 566961, 5 spots each), and the two Smash tournaments with no
   link, so they appear in the form. The test sign-up in `Event Signups` was
-  deleted on request (header kept). Still TEST: row 6 of
-  `Gameday Event Details` (links incentive 574684), which shows under the
-  schedule.
+  deleted on request (header kept), and so was the TEST row in
+  `Gameday Event Details`. No test data is left in the sheet. In Event
+  Details, row 3 ("D&D Session #2") says "Sign up here" with no link
+  attached.
 
 ## Ship-live workflow
 
