@@ -108,6 +108,9 @@ hero progress card; all live):*
   Smash tournaments at $20; both Smash rows in `Gameday Signups` say "$20 to
   enter". On `/gameday_events`, the orange button on Extra Life links now
   reads "Sign up on Extra Life".
+  The MTG Cube Event (Sat 11a – 2p, "Donations accepted for entry", the
+  owner's price) was added to both tabs: a form row in `Gameday Signups`,
+  and a "Donations" line in Event Details linking to `/gameday_events`.
 
 ## Ship-live workflow
 
