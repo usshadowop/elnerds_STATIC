@@ -98,9 +98,10 @@ hero progress card; all live):*
   request the tab's TEST rows were replaced by the six real events: Ben
   Stoddart's four D&D sessions, each linked to its $35 incentive on his page
   (participant 566961, 5 spots each), and the two Smash tournaments with no
-  link, so they appear in the form. Still TEST: row 6 of
-  `Gameday Event Details` (links incentive 574684) and the one sign-up in
-  `Event Signups`.
+  link, so they appear in the form. The test sign-up in `Event Signups` was
+  deleted on request (header kept). Still TEST: row 6 of
+  `Gameday Event Details` (links incentive 574684), which shows under the
+  schedule.
 
 ## Ship-live workflow
 
