@@ -103,7 +103,8 @@ hero progress card; all live):*
   `Gameday Event Details`. No test data is left in the sheet. Event Details
   was then rewritten on request to match: four "$35" D&D lines with times,
   each with "Sign up here" linked to its incentive (live spots chip), and a
-  "$20" Smash line whose link goes to `/gameday_events`. The owner set the
+  "$20" line for each Smash tournament (with its time), linking to
+  `/gameday_events`. The owner set the
   Smash tournaments at $20; both Smash rows in `Gameday Signups` say "$20 to
   enter". On `/gameday_events`, the orange button on Extra Life links now
   reads "Sign up on Extra Life".
