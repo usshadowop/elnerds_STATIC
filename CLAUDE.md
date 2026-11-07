@@ -94,11 +94,13 @@ hero progress card; all live):*
   what tells them apart.
 - **Sheets write access (2026-11-07, a parallel session):** the Google
   Sheets connector as `us.shadow.op@gmail.com` can write to the RSVP sheet.
-  Proven with a same-value write to `Gameday Signups!A1`. The owner's
-  sign-up tests are in place: two form events, plus a D&D row linked to a
-  test incentive on participant 574684 (qty 4, so "4 of 4 left"). One test
-  sign-up is in `Event Signups`. All rows are marked TEST, for the owner to
-  remove.
+  Proven with a same-value write to `Gameday Signups!A1`. On the owner's
+  request the tab's TEST rows were replaced by the six real events: Ben
+  Stoddart's four D&D sessions, each linked to its $35 incentive on his page
+  (participant 566961, 5 spots each), and the two Smash tournaments with no
+  link, so they appear in the form. Still TEST: row 6 of
+  `Gameday Event Details` (links incentive 574684) and the one sign-up in
+  `Event Signups`.
 
 ## Ship-live workflow
 
