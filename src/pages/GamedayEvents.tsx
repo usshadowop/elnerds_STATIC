@@ -30,6 +30,17 @@ import { submitGamedaySignup } from "@/lib/gamedaySignup";
 import { getRsvpEvent, hasEventEnded } from "@/lib/rsvpEvents";
 
 const HOME = import.meta.env.BASE_URL;
+
+/** True for links to Extra Life (extra-life.org or a subdomain such as
+ *  dd.extra-life.org), whose buttons say "Sign up on Extra Life". */
+function isExtraLifeLink(url: string): boolean {
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    return host === "extra-life.org" || host.endsWith(".extra-life.org");
+  } catch {
+    return false;
+  }
+}
 const MARATHON = getRsvpEvent("marathon");
 
 const fieldClass =
@@ -172,7 +183,8 @@ export function GamedayEvents() {
                           rel="noopener noreferrer"
                           className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-orange px-5 py-2.5 text-sm font-extrabold text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
                         >
-                          Sign up <ExternalLink className="size-4" />
+                          {isExtraLifeLink(e.link) ? "Sign up on Extra Life" : "Sign up"}{" "}
+                          <ExternalLink className="size-4" />
                         </a>
                       ) : (
                         <a
