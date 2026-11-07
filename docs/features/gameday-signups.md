@@ -1,7 +1,7 @@
 # Game Day event sign-ups (`/gameday_events`)
 
 - **Status:** Live 2026-11-04 (site and `Code.gs`). The `Gameday Signups` tab exists and is empty, so the page says "Sign-ups open soon" until rows are typed.
-- **Last reviewed:** 2026-11-04 (built; live spots-left chips)
+- **Last reviewed:** 2026-11-07 (Extra Life links say "Sign up on Extra Life")
 - **Covers:** `src/pages/GamedayEvents.tsx`, `src/lib/gamedaySignup.ts`
 
 ## Purpose
@@ -34,8 +34,10 @@ The owner asked for both on one page, fed from its own sheet tab
 | --- | --- | --- | --- |
 | Shown as the card title | Pink line under it; free text | Body text; links allowed, like Event Details | Optional URL |
 
-- **A row with a Sign-up link** gets an orange "Sign up" button that opens
-  the link in a new tab. Paste the URL as text, or link a word with Insert →
+- **A row with a Sign-up link** gets an orange button that opens the link
+  in a new tab. It reads **"Sign up on Extra Life"** when the link is on
+  `extra-life.org` or a subdomain such as `dd.extra-life.org` (owner's
+  wording, 2026-11-07), and plain "Sign up" for any other site. Paste the URL as text, or link a word with Insert →
   Link; either works. Only `http(s)`, `mailto` and `www.` addresses are
   accepted.
 - **A row without one** gets a "Sign up below" button, and its Event appears
