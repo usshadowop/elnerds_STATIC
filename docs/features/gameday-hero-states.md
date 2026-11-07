@@ -1,7 +1,7 @@
 # Game Day hero states
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-04 (hero pills link to their own event card)
+- **Last reviewed:** 2026-11-07 (headline at two-thirds; team progress under the countdown)
 - **Covers:** `src/hooks/use-countdown.ts`, `src/components/site/Hero.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -106,3 +106,17 @@ hides with the incentives chip (every phase but "after"). Blue is the
 
 Each hero event pill links to `#${eventAnchor(item)}` (see
 schedule-archival), not to `#schedule`.
+
+## Headline at two-thirds; team progress under the countdown (2026-11-07)
+
+- The "Play Games. Heal Kids." headline dropped to two-thirds of its old
+  size at every breakpoint (`text-2xl` / `sm:text-4xl` / `md:text-5xl` /
+  `lg:text-[4rem]`, was `text-4xl` / `sm:text-6xl` / `md:text-7xl` /
+  `lg:text-8xl`), at the owner's request.
+- A white "Team fundraising" card sits between the countdown card and the
+  donation ticker: `TeamProgressCard` in `Hero.tsx` renders the shared
+  `TeamProgress` block (total, goal, participants, bar — the same component
+  the Team section uses; see the extra-life-api card). It shows a skeleton
+  while the team fetch is in flight, nothing on a failed fetch, and is
+  skipped in the `after` phase, where the grand-total card already shows
+  the total.

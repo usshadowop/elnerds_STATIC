@@ -1,8 +1,8 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-06 (Food Donation card; venue logo link; Placemaker)
-- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/hooks/useExtraLifeIncentives.ts`
+- **Last reviewed:** 2026-11-07 (TeamProgress shared with the hero)
+- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/hooks/useExtraLifeIncentives.ts`
 
 ## Purpose
 
@@ -20,9 +20,14 @@ someone donates.
   re-fetched on an interval.
 - `src/components/site/DonationTicker.tsx` — the scrolling "Latest" strip
   under the hero countdown (keyframes in `src/styles.css`).
+- `src/components/site/TeamProgress.tsx` — the team-summary block: three
+  figures (total, goal, participants) and the progress bar, plus a
+  skeleton. Rendered inside the roster section's cream card and, since
+  2026-11-07, in a white "Team fundraising" card under the hero countdown
+  (`TeamProgressCard` in `Hero.tsx`, hidden after the marathon when the
+  grand-total card says it, and hidden on a failed fetch).
 - `src/components/site/ActiveRoster.tsx` — the roster section, with skeleton
-  placeholders while loading. The team-summary card's three figures (total,
-  goal, participants) size with `clamp(1.125rem, 5.5vw, 1.875rem)` and
+  placeholders while loading. The team-summary figures size with `clamp(1.125rem, 5.5vw, 1.875rem)` and
   `whitespace-nowrap`; a fixed `text-2xl` made "$17,380" and "$60,000" run
   into each other in the ~85px columns of a 360–412px phone (2026-10-23).
   The clamp tops out at `text-3xl`, so desktop is unchanged.
@@ -86,10 +91,11 @@ stops moving and becomes a plain horizontal scroll.
   instead of printing `$0`.
 - The ticker renders nothing while loading, when the list is empty, or when
   the first fetch fails. A later failed refresh keeps the last good list.
-- `useExtraLifeTeam` is called independently by `ActiveRoster` and (in the
-  `after` phase only) by the hero, so that's two fetches of the same data on
-  one page. Harmless at this size; worth a shared cache if a third consumer
-  appears.
+- `useExtraLifeTeam` is called independently by `ActiveRoster` and by the
+  hero's `TeamProgressCard` (all year since 2026-11-07; before that only the
+  `after`-phase grand-total card), so that's two fetches of the same data
+  on one page. Harmless at this size; worth a shared cache if a third
+  consumer appears.
 - The API is unreachable from the Claude sandbox's browser, so verification
   needs a stubbed route (`page.route`) rather than a live call.
 
