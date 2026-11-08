@@ -115,6 +115,10 @@ hero progress card; all live):*
   appends a row per submission. The owner redeployed `Code.gs`, and it was
   verified live 2026-11-07: two sign-ups from the same email (4:54 PM and
   5:03 PM) are both in `Event Signups`.
+  2026-11-08: Super Smash Brothers Tournament now links to Eric Morris's
+  $20 incentive (participant 566964, "Smash Bros Melee tournament at 2:30
+  PM", 16 spots) in both `Gameday Signups` and Event Details, so it left the
+  site's form. The form now offers MTG Cube Event and Smash Ultimate only.
 
 ## Ship-live workflow
 
