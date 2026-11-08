@@ -48,6 +48,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
 | 2026-10-13 | Owner | Check one line of site copy that came from a session, not the repo: the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). (The other half, the Venue Donation blurb, was removed 2026-11-06.) |
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
+| 2026-11-08 | Owner | Paste the new `apps-script/Code.gs` into RSVP Script and redeploy, so `?action=gameday` sends the Group/Price columns (E–F) of `Gameday Signups`. Until then Event Details shows one card per event with no price label. Check: each `signups` entry has `group` and `price` keys. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 
 Rules that keep this honest:
@@ -266,7 +267,10 @@ already there.
   `Schedule.tsx`), and both hold a "Loading…" placeholder until the first
   read settles. The `Gameday Event Details` tab (Title, Details; links
   allowed) renders as an "Event Details" list right under the schedule on
-  both pages (`GamedayEventDetails.tsx`); an empty tab shows nothing.
+  both pages (`GamedayEventDetails.tsx`). Since 2026-11-08 that section is
+  built mainly from `Gameday Signups`, **grouped by activity**: Group
+  (column E) puts rows on one card, and Price (column F) is the card's pink
+  label. Leftover Event Details rows are listed under the cards.
   The run of show renders as a stacked lane grid
   (`src/components/site/GamedaySchedule.tsx`): time ranges, automatic
   lane packing, green meal rows, a now-line. The rules are in the

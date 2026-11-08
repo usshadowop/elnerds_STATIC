@@ -72,7 +72,7 @@ function MainEventSchedule({ item }: { item: EventItem }) {
               endMs={Date.parse(calendar.end)}
               showNowLine={false}
             />
-            <GamedayEventDetails items={content.eventDetails} />
+            <GamedayEventDetails items={content.eventDetails} signups={content.signups} />
           </>
         )}
       </div>

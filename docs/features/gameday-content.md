@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-06 (sponsor list: Q’s Cue, the Roseville Papa Johns, Placemaker)
+- **Last reviewed:** 2026-11-08 (Event Details grouped by activity from Gameday Signups)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Purpose
@@ -66,6 +66,25 @@ play button, so the demo reads as a stream wall; fill it in and the tile
 becomes a live player.
 
 ## Decisions and gotchas
+
+- **Event Details is grouped by activity** (2026-11-08, option B of three
+  mockups the owner reviewed). The section is built from the
+  `Gameday Signups` tab:
+  - Rows that share a **Group** (column E) become one card, with that
+    group's **Price** (column F) as the pink label on the right.
+  - Each row is a line: its When in blue (`text-blue`), the event name
+    without its " w/ …" suffix, a live spots chip, and a button. The button
+    is orange "Extra Life ↗" for a link, or an outlined "Sign up" to
+    `/gameday_events#signup-form`.
+  - Details shared by every row in a group show once under the card title;
+    otherwise each line carries its own.
+  - A row with no Group gets a card of its own.
+  - Desktop lays the cards out in two balanced CSS columns; phones get one.
+  - Rows still in the `Gameday Event Details` tab render under the cards in
+    the old one-line style, for notes that aren't sign-up events (the 4am
+    challenge).
+  - The old single-line rendering of every event (below) applies to those
+    leftover rows only.
 
 - **"Event Details" under the schedule** (2026-11-04,
   `GamedayEventDetails.tsx`): the rows of the `Gameday Event Details` tab,

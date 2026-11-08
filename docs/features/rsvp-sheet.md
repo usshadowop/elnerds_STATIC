@@ -1,7 +1,7 @@
 # The "elnerds RSVPs" spreadsheet
 
 - **Status:** Live. Owned by `captainextralifenerds@gmail.com`; nine tabs as of 2026-10-31
-- **Last reviewed:** 2026-11-07 (a Claude session can now write cells via the Sheets connector)
+- **Last reviewed:** 2026-11-08 (Gameday Signups gains Group and Price)
 - **Covers:** `apps-script/Code.gs`, `apps-script/README.md`
 
 ## Purpose
@@ -53,7 +53,7 @@ touches the sheet; it only POSTs to, or GETs from, the script's `/exec` URL.
 | `Gameday Incentives` | same | Amount, What | **Humans only** | `/gameday`, once a minute |
 | `Gameday Notice` | same | one header; the banner text goes in **A2** | **Humans only** | `/gameday`, once a minute |
 | `Gameday Event Details` | same, headers only (since 2026-11-04) | Title, Details (links allowed) | **Humans only** | Home page and `/gameday`, once a minute |
-| `Gameday Signups` | same, headers only (since 2026-11-04) | Event, When, Details, Sign-up link | **Humans only** | `/gameday_events`, once a minute; `handleGamedaySignup_` checks picks against it |
+| `Gameday Signups` | same, headers only (since 2026-11-04) | Event, When, Details, Sign-up link, Group, Price (E–F since 2026-11-08) | **Humans only** | `/gameday_events`, once a minute; `handleGamedaySignup_` checks picks against it |
 | `Event Signups` | `handleGamedaySignup_` on the first `/gameday_events` submission | Timestamp, Name, Email, Events, Notes | `handleGamedaySignup_`, one row per submission (appended; repeats from one email are kept) | Nothing on the site. Humans, and the captain's "Game Day sign-up" emails |
 | `RSVP Stats` | **A human** | Merged-cell dashboard: confirmed count, guests, headcount, duration and hardware breakdowns | Humans (or formulas; not checked) | Nothing on the site |
 
