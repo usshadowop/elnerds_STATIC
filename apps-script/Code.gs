@@ -148,8 +148,10 @@ const GAMEDAY_DETAILS_TAB = "Gameday Event Details";
 // incentive, a form elsewhere); a row WITHOUT one becomes a checkbox in the
 // site's own sign-up form, and submissions land in the "Event Signups" tab.
 // Created with headers only, so the page says "check back" until filled.
+// Group (E) and Price (F) drive the grouped "Event Details" cards under the
+// schedule: rows with the same Group share one card, Price is its pink label.
 const GAMEDAY_SIGNUPS_TAB = "Gameday Signups";
-const GAMEDAY_SIGNUPS_HEADERS = ["Event", "When", "Details", "Sign-up link"];
+const GAMEDAY_SIGNUPS_HEADERS = ["Event", "When", "Details", "Sign-up link", "Group", "Price"];
 
 // A rich-text cell as runs: [{ text }, { text, url }]. Null when the cell has
 // no rich text (a number, an empty cell).
@@ -178,7 +180,7 @@ function richValues_(range) {
 function readSignupEvents_(sheet) {
   const last = sheet.getLastRow();
   if (last < 2) return [];
-  const range = sheet.getRange(2, 1, last - 1, 4);
+  const range = sheet.getRange(2, 1, last - 1, 6);
   const shown = range.getDisplayValues();
   const rich = richValues_(range);
   const out = [];
@@ -186,7 +188,7 @@ function readSignupEvents_(sheet) {
     const cell = function (c) { return String(shown[r][c] == null ? "" : shown[r][c]).trim(); };
     const event = cell(0);
     if (!event) continue; // no event name — skip the row
-    const row = { event: event, when: cell(1), details: cell(2), link: cell(3) };
+    const row = { event: event, when: cell(1), details: cell(2), link: cell(3), group: cell(4), price: cell(5) };
     const parts = textRuns_(rich && rich[r] ? rich[r][2] : null);
     if (parts) row.parts = parts;
     // The link cell may hold a URL as text, or words linked with Insert > Link.

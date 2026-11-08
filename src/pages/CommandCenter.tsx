@@ -236,7 +236,7 @@ export function CommandCenter() {
                   startMs={Date.parse(GAME_DAY_START)}
                   endMs={Date.parse(GAME_DAY_END)}
                 />
-                <GamedayEventDetails items={eventDetails} />
+                <GamedayEventDetails items={eventDetails} signups={content.signups} />
               </>
             )}
           </div>

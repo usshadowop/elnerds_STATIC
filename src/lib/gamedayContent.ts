@@ -52,6 +52,11 @@ export interface GamedaySignupEvent {
   when: string;
   details: GamedayTextPart[];
   link?: string;
+  /** Column E. Rows with the same Group share one card in Event Details
+   *  ("D&D with Ben Stoddart"); blank gives the event a card of its own. */
+  group: string;
+  /** Column F, the pink label on the card ("$35 / seat", "Donation"). */
+  price: string;
 }
 
 export interface GamedayContent {
@@ -81,15 +86,31 @@ export const FALLBACK_CONTENT: GamedayContent = {
     { time: "8am Saturday - 8am Sunday", title: "24-hour gaming for fundraisers", detail: "" },
     { time: "8a - 5p", title: "Open house gaming", detail: "Consoles and board games provided!" },
     { time: "8:30a - 9:30a", title: "Waffles", detail: "provided by Butchy for donations!" },
-    { time: "9:30a - 12:30p", title: "Dungeons and Dragons", detail: "with Badwolf Adventure Studios" },
+    {
+      time: "9:30a - 12:30p",
+      title: "Dungeons and Dragons",
+      detail: "with Badwolf Adventure Studios",
+    },
     { time: "10a - 8p", title: "Warhammer 40k Open Play", detail: "" },
     { time: "11a - 4p", title: "Golf Simulator Tournament", detail: "ALL skill levels welcome!" },
     { time: "11 - 1p", title: "Final Fantasy MtG Cube Draft", detail: "" },
-    { time: "12p - 1p", title: "Lunch", detail: "Provided by Eric Morris with Edward Jones for EL NERDS FUNDRAISERS ONLY" },
-    { time: "1:30p - 4:30p", title: "Dungeons and Dragons", detail: "with Badwolf Adventure Studios" },
+    {
+      time: "12p - 1p",
+      title: "Lunch",
+      detail: "Provided by Eric Morris with Edward Jones for EL NERDS FUNDRAISERS ONLY",
+    },
+    {
+      time: "1:30p - 4:30p",
+      title: "Dungeons and Dragons",
+      detail: "with Badwolf Adventure Studios",
+    },
     { time: "2p - 4p", title: "Super Smash Brothers Tournament", detail: "" },
     { time: "5p - 8p", title: "Dungeons and Dragons", detail: "with Badwolf Adventure Studios" },
-    { time: "6p - 7p", title: "Dinner", detail: "Provided by Gillette Children\u2019s Hospital for EL NERDS FUNDRAISERS ONLY" },
+    {
+      time: "6p - 7p",
+      title: "Dinner",
+      detail: "Provided by Gillette Children\u2019s Hospital for EL NERDS FUNDRAISERS ONLY",
+    },
     { time: "6p - 8p", title: "Dark Souls Speedrun Race", detail: "" },
     { time: "8am Sunday", title: "Cleanup", detail: "" },
   ],
@@ -108,7 +129,12 @@ const KICKOFF = 8 * 60;
 
 /** One clock token ("9:30a", "12pm", "8") into minutes since midnight, given a
  *  meridian to fall back on when the token has none. */
-function clock(h: number, m: number, mer: string | undefined, fallback: string | undefined): number | null {
+function clock(
+  h: number,
+  m: number,
+  mer: string | undefined,
+  fallback: string | undefined,
+): number | null {
   const ap = (mer ?? fallback ?? "").toLowerCase();
   if (!ap) return null;
   let hour = h % 12;
@@ -170,7 +196,11 @@ function text(value: unknown): string {
 
 /** Keep only rows that have the field the section is keyed on — a half-typed
  *  row in the sheet shouldn't render as an empty card. */
-function rows<T>(value: unknown, map: (row: Record<string, unknown>) => T, keyOf: (row: T) => string): T[] {
+function rows<T>(
+  value: unknown,
+  map: (row: Record<string, unknown>) => T,
+  keyOf: (row: T) => string,
+): T[] {
   if (!Array.isArray(value)) return [];
   return value
     .filter((row): row is Record<string, unknown> => typeof row === "object" && row !== null)
@@ -201,7 +231,10 @@ function linkify(text: string): GamedayTextPart[] {
     const at = m.index ?? 0;
     if (at > last) parts.push({ text: text.slice(last, at) });
     const shown = m[0];
-    parts.push({ text: shown, url: shown.toLowerCase().startsWith("www.") ? `https://${shown}` : shown });
+    parts.push({
+      text: shown,
+      url: shown.toLowerCase().startsWith("www.") ? `https://${shown}` : shown,
+    });
     last = at + shown.length;
   }
   if (last < text.length) parts.push({ text: text.slice(last) });
@@ -274,7 +307,14 @@ export function parseGamedayContent(data: unknown): GamedayContent {
         .filter((r): r is Record<string, unknown> => typeof r === "object" && r !== null)
         .map((r) => {
           const link = safeLink(text(r.link));
-          return { event: text(r.event), when: text(r.when), details: detailParts(r), ...(link ? { link } : {}) };
+          return {
+            event: text(r.event),
+            when: text(r.when),
+            details: detailParts(r),
+            group: text(r.group),
+            price: text(r.price),
+            ...(link ? { link } : {}),
+          };
         })
         .filter((r) => r.event)
     : [];
@@ -298,7 +338,8 @@ export async function fetchGamedayContent(signal?: AbortSignal): Promise<Gameday
   if (!res.ok) throw new Error(`Gameday content failed (${res.status})`);
 
   const data = await res.json();
-  if (data && data.ok === false) throw new Error(String(data.error || "Gameday content unavailable"));
+  if (data && data.ok === false)
+    throw new Error(String(data.error || "Gameday content unavailable"));
 
   return parseGamedayContent(data);
 }
