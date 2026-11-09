@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-09 (all Event Details buttons say "Sign up")
+- **Last reviewed:** 2026-11-09 (groupSignups shared with /gameday_events)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Purpose
@@ -80,6 +80,8 @@ becomes a live player.
   - Details shared by every row in a group show once under the card title;
     otherwise each line carries its own.
   - A row with no Group gets a card of its own.
+  - The grouping is `groupSignups()` in `gamedayContent.ts`, shared with
+    `/gameday_events`.
   - Desktop lays the cards out in two balanced CSS columns; phones get one.
   - Rows still in the `Gameday Event Details` tab render under the cards in
     the old one-line style, for notes that aren't sign-up events (the 4am

@@ -1,7 +1,7 @@
 # Game Day event sign-ups (`/gameday_events`)
 
 - **Status:** Live 2026-11-04 (site and `Code.gs`). The `Gameday Signups` tab exists and is empty, so the page says "Sign-ups open soon" until rows are typed.
-- **Last reviewed:** 2026-11-08 (Group and Price columns for the grouped Event Details)
+- **Last reviewed:** 2026-11-09 (events sorted into Group sections)
 - **Covers:** `src/pages/GamedayEvents.tsx`, `src/lib/gamedaySignup.ts`
 
 ## Purpose
@@ -42,7 +42,12 @@ Game Day schedule (see gameday-content):
 - **F, Price:** the pink label on the card ("$35 / seat", "$20",
   "Donation"). The first non-blank Price in a group wins.
 
-`/gameday_events` itself doesn't use them.
+`/gameday_events` uses them too (2026-11-09). Events that share a Group
+sit under a section heading with the group name and its Price in pink, in
+the order each group first appears. An event with no Group keeps a
+standalone card, with its Price shown next to the time ("· Donation").
+`groupSignups()` in `gamedayContent.ts` does the grouping for both views,
+so the page and Event Details always agree.
 
 - **A row with a Sign-up link** gets an orange button that opens the link
   in a new tab. It reads **"Sign up on Extra Life"** when the link is on

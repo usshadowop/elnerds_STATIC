@@ -26,6 +26,7 @@ import { RichText, SpotsChip } from "@/components/site/GamedayEventDetails";
 import { incentiveOf, useIncentiveStock } from "@/hooks/useExtraLifeIncentives";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { useNow } from "@/hooks/use-now";
+import { groupSignups } from "@/lib/gamedayContent";
 import { submitGamedaySignup } from "@/lib/gamedaySignup";
 import { getRsvpEvent, hasEventEnded } from "@/lib/rsvpEvents";
 
@@ -83,6 +84,59 @@ export function GamedayEvents() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<Values>({ resolver: zodResolver(schema), defaultValues: EMPTY });
+
+  // One event's card. Inside a group section the price is in the section
+  // heading; a card with no group shows its own price next to the time.
+  const renderCard = (e: (typeof events)[number], i: number, showPrice: boolean) => {
+    const inc = incentiveOf(e.link, e.details);
+    const spots = inc ? stock.get(inc.incentiveID) : undefined;
+    const full = spots ? spots.left <= 0 : false;
+    return (
+      <li
+        key={`${e.event}-${i}`}
+        className="flex flex-col gap-4 rounded-2xl border border-line bg-paper p-5 shadow-[var(--shadow-soft)] sm:flex-row sm:items-center sm:justify-between sm:p-6"
+      >
+        <div className="min-w-0">
+          <h3 className="font-display text-lg font-extrabold text-ink sm:text-xl">{e.event}</h3>
+          {(e.when || spots || (showPrice && e.price)) && (
+            <p className="mt-0.5 flex flex-wrap items-center gap-2 text-sm font-extrabold text-magenta">
+              {e.when}
+              {showPrice && e.price && <span className="text-ink-soft">· {e.price}</span>}
+              <SpotsChip stock={spots} />
+            </p>
+          )}
+          {e.details.length > 0 && (
+            <p className="mt-2 whitespace-pre-line break-words text-sm text-ink-soft">
+              <RichText parts={e.details} />
+            </p>
+          )}
+        </div>
+        {!ended &&
+          (e.link && full ? (
+            <span className="inline-flex shrink-0 items-center justify-center rounded-full bg-line px-5 py-2.5 text-sm font-extrabold text-ink-soft">
+              Full
+            </span>
+          ) : e.link ? (
+            <a
+              href={e.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-orange px-5 py-2.5 text-sm font-extrabold text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
+            >
+              {isExtraLifeLink(e.link) ? "Sign up on Extra Life" : "Sign up"}{" "}
+              <ExternalLink className="size-4" />
+            </a>
+          ) : (
+            <a
+              href="#signup-form"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border-2 border-teal px-5 py-2 text-sm font-extrabold text-teal transition-all hover:bg-teal hover:text-white"
+            >
+              Sign up below
+            </a>
+          ))}
+      </li>
+    );
+  };
 
   async function onSubmit(values: Values) {
     setServerError(null);
@@ -145,59 +199,27 @@ export function GamedayEvents() {
               </p>
             </div>
           ) : (
-            <ul className="grid gap-4">
-              {events.map((e, i) => {
-                const inc = incentiveOf(e.link, e.details);
-                const spots = inc ? stock.get(inc.incentiveID) : undefined;
-                const full = spots ? spots.left <= 0 : false;
-                return (
-                  <li
-                    key={`${e.event}-${i}`}
-                    className="flex flex-col gap-4 rounded-2xl border border-line bg-paper p-5 shadow-[var(--shadow-soft)] sm:flex-row sm:items-center sm:justify-between sm:p-6"
-                  >
-                    <div className="min-w-0">
-                      <h2 className="font-display text-lg font-extrabold text-ink sm:text-xl">
-                        {e.event}
-                      </h2>
-                      {(e.when || spots) && (
-                        <p className="mt-0.5 flex flex-wrap items-center gap-2 text-sm font-extrabold text-magenta">
-                          {e.when}
-                          <SpotsChip stock={spots} />
-                        </p>
-                      )}
-                      {e.details.length > 0 && (
-                        <p className="mt-2 whitespace-pre-line break-words text-sm text-ink-soft">
-                          <RichText parts={e.details} />
-                        </p>
+            <div className="grid gap-10">
+              {groupSignups(events).map((g) =>
+                g.rows[0].group ? (
+                  <section key={g.key}>
+                    <div className="mb-3 flex items-baseline justify-between gap-3 border-b-2 border-line pb-2">
+                      <h2 className="font-display text-2xl font-extrabold text-ink">{g.title}</h2>
+                      {g.price && (
+                        <span className="shrink-0 font-display text-xl font-extrabold text-magenta">
+                          {g.price}
+                        </span>
                       )}
                     </div>
-                    {!ended &&
-                      (e.link && full ? (
-                        <span className="inline-flex shrink-0 items-center justify-center rounded-full bg-line px-5 py-2.5 text-sm font-extrabold text-ink-soft">
-                          Full
-                        </span>
-                      ) : e.link ? (
-                        <a
-                          href={e.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-orange px-5 py-2.5 text-sm font-extrabold text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
-                        >
-                          {isExtraLifeLink(e.link) ? "Sign up on Extra Life" : "Sign up"}{" "}
-                          <ExternalLink className="size-4" />
-                        </a>
-                      ) : (
-                        <a
-                          href="#signup-form"
-                          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border-2 border-teal px-5 py-2 text-sm font-extrabold text-teal transition-all hover:bg-teal hover:text-white"
-                        >
-                          Sign up below
-                        </a>
-                      ))}
-                  </li>
-                );
-              })}
-            </ul>
+                    <ul className="grid gap-4">{g.rows.map((e, i) => renderCard(e, i, false))}</ul>
+                  </section>
+                ) : (
+                  <ul key={g.key} className="grid gap-4">
+                    {g.rows.map((e, i) => renderCard(e, i, true))}
+                  </ul>
+                ),
+              )}
+            </div>
           )}
 
           {settled && formEvents.length > 0 && !ended && (
