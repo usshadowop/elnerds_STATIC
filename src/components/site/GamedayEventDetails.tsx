@@ -87,10 +87,11 @@ const partsText = (parts: GamedayTextPart[]) =>
     .join("")
     .trim();
 
-/** One slot's sign-up button: orange to an outside page (Extra Life), teal
- *  outline to the site's own form. */
+/** One slot's sign-up button. Every button says "Sign up" (owner's call,
+ *  2026-11-09); the color tells them apart: orange for an outside page such
+ *  as an Extra Life incentive (opens in a new tab, with the ↗ arrow), teal
+ *  outline for the site's own form. */
 function SlotButton({ row }: { row: GamedaySignupEvent }) {
-  const extraLife = row.link ? /(^|\.)extra-life\.org$/i.test(safeHost(row.link)) : false;
   return row.link ? (
     <a
       href={row.link}
@@ -98,7 +99,7 @@ function SlotButton({ row }: { row: GamedaySignupEvent }) {
       rel="noopener noreferrer"
       className="inline-flex shrink-0 items-center gap-1 rounded-full bg-orange px-3.5 py-1.5 text-xs font-extrabold whitespace-nowrap text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
     >
-      {extraLife ? "Extra Life" : "Sign up"} <ArrowUpRight className="size-3.5" />
+      Sign up <ArrowUpRight className="size-3.5" />
     </a>
   ) : (
     <a
@@ -108,14 +109,6 @@ function SlotButton({ row }: { row: GamedaySignupEvent }) {
       Sign up
     </a>
   );
-}
-
-function safeHost(url: string): string {
-  try {
-    return new URL(url).hostname;
-  } catch {
-    return "";
-  }
 }
 
 export function GamedayEventDetails({
