@@ -48,7 +48,6 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
 | 2026-10-13 | Owner | Check one line of site copy that came from a session, not the repo: the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). (The other half, the Venue Donation blurb, was removed 2026-11-06.) |
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
-| 2026-11-08 | Owner | Paste the new `apps-script/Code.gs` into RSVP Script and redeploy, so `?action=gameday` sends the Group/Price columns (E–F) of `Gameday Signups`. Until then Event Details shows one card per event with no price label. Check: each `signups` entry has `group` and `price` keys. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 
 Rules that keep this honest:
@@ -120,6 +119,12 @@ hero progress card; all live):*
   $20 incentive (participant 566964, "Smash Bros Melee tournament at 2:30
   PM", 16 spots) in both `Gameday Signups` and Event Details, so it left the
   site's form. The form now offers MTG Cube Event and Smash Ultimate only.
+  **Event Details grouped by activity** (PRs #148, #149): cards per Group
+  (column E of `Gameday Signups`) with Price (column F), and every button
+  says "Sign up" (orange for Extra Life, teal outline for the form).
+  `Code.gs` was redeployed and verified live 2026-11-09: every `signups`
+  entry carries `group` and `price`. `Gameday Event Details` now holds only
+  the owner's 4am "How coordinated are you" line.
 
 ## Ship-live workflow
 
