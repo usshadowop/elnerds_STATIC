@@ -214,6 +214,28 @@ const SAFE_URL = /^(https?:\/\/|mailto:)/i;
 // punctuation is left out so "sign up at https://x.com." links x.com.
 const BARE_URL = /(https?:\/\/[^\s<>"]+[^\s<>".,;:!?)\]]|www\.[^\s<>"]+[^\s<>".,;:!?)\]])/gi;
 
+export type SignupGroup = { key: string; title: string; price: string; rows: GamedaySignupEvent[] };
+
+/** Sign-up rows grouped by column E (shared by Event Details and
+ *  /gameday_events), in the order each group first appears
+ *  (the sheet is kept in time order, so that's the day's order too). */
+export function groupSignups(rows: GamedaySignupEvent[]): SignupGroup[] {
+  const groups: SignupGroup[] = [];
+  const byKey = new Map<string, SignupGroup>();
+  rows.forEach((row, i) => {
+    const key = row.group ? `g:${row.group.toLowerCase()}` : `e:${i}`;
+    let g = byKey.get(key);
+    if (!g) {
+      g = { key, title: row.group || row.event, price: "", rows: [] };
+      byKey.set(key, g);
+      groups.push(g);
+    }
+    if (!g.price && row.price) g.price = row.price;
+    g.rows.push(row);
+  });
+  return groups;
+}
+
 /** A sign-up link cell as a URL the page may link to, or undefined.
  *  "www.…" gains https://; anything that isn't http(s)/mailto is dropped. */
 function safeLink(value: string): string | undefined {

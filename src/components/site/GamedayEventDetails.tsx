@@ -16,7 +16,12 @@ import {
 } from "@/hooks/useExtraLifeIncentives";
 import { ArrowUpRight } from "lucide-react";
 
-import type { GamedayEventDetail, GamedaySignupEvent, GamedayTextPart } from "@/lib/gamedayContent";
+import {
+  groupSignups,
+  type GamedayEventDetail,
+  type GamedaySignupEvent,
+  type GamedayTextPart,
+} from "@/lib/gamedayContent";
 
 /** Live "3 of 5 left" / "Full" chip for an Extra Life incentive; nothing
  *  when the row links no incentive or its count is unknown. */
@@ -59,27 +64,6 @@ export function RichText({ parts }: { parts: GamedayTextPart[] }) {
 }
 
 const SIGNUP_PAGE = `${import.meta.env.BASE_URL}gameday_events`;
-
-type Group = { key: string; title: string; price: string; rows: GamedaySignupEvent[] };
-
-/** Sign-up rows grouped by column E, in the order each group first appears
- *  (the sheet is kept in time order, so that's the day's order too). */
-function groupSignups(rows: GamedaySignupEvent[]): Group[] {
-  const groups: Group[] = [];
-  const byKey = new Map<string, Group>();
-  rows.forEach((row, i) => {
-    const key = row.group ? `g:${row.group.toLowerCase()}` : `e:${i}`;
-    let g = byKey.get(key);
-    if (!g) {
-      g = { key, title: row.group || row.event, price: "", rows: [] };
-      byKey.set(key, g);
-      groups.push(g);
-    }
-    if (!g.price && row.price) g.price = row.price;
-    g.rows.push(row);
-  });
-  return groups;
-}
 
 const partsText = (parts: GamedayTextPart[]) =>
   parts
