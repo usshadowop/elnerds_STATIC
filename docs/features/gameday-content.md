@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-08 (Event Details grouped by activity from Gameday Signups)
+- **Last reviewed:** 2026-11-09 (all Event Details buttons say "Sign up")
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Purpose
@@ -74,8 +74,9 @@ becomes a live player.
     group's **Price** (column F) as the pink label on the right.
   - Each row is a line: its When in blue (`text-blue`), the event name
     without its " w/ …" suffix, a live spots chip, and a button. The button
-    is orange "Extra Life ↗" for a link, or an outlined "Sign up" to
-    `/gameday_events#signup-form`.
+    always says **"Sign up"** (owner's call, 2026-11-09). It's orange with a ↗
+    for a link (Extra Life opens in a new tab), or teal-outlined for the
+    form (`/gameday_events#signup-form`).
   - Details shared by every row in a group show once under the card title;
     otherwise each line carries its own.
   - A row with no Group gets a card of its own.
