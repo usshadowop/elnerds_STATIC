@@ -1,7 +1,7 @@
 # Game Day event sign-ups (`/gameday_events`)
 
 - **Status:** Live 2026-11-04 (site and `Code.gs`). The `Gameday Signups` tab exists and is empty, so the page says "Sign-ups open soon" until rows are typed.
-- **Last reviewed:** 2026-11-10 (watch page message)
+- **Last reviewed:** 2026-11-10 (sections on the page and in the form)
 - **Covers:** `src/pages/GamedayEvents.tsx`, `src/pages/LeadershipDnD.tsx`, `src/lib/gamedaySignup.ts`
 
 ## Purpose
@@ -46,7 +46,10 @@ Game Day schedule (see gameday-content):
 sit under a section heading with the group name and its Price in pink, in
 the order each group first appears. An event with no Group keeps a
 standalone card, with its Price shown next to the time ("· Donation").
-`groupSignups()` in `gamedayContent.ts` does the grouping for both views,
+`groupSignups()` in `gamedayContent.ts` does the grouping for both views, and
+`sectionSignups()` splits it into the four sections (Dungeons & Dragons,
+Magic: The Gathering, Video Games, Other) the page and the form's checkbox
+list are laid out in (2026-11-10; see gameday-content for the rules),
 so the page and Event Details always agree.
 
 - **A row with a Sign-up link** gets an orange button that opens the link

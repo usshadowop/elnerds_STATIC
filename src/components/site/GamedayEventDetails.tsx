@@ -1,7 +1,8 @@
 // "Event Details" under the Game Day schedule (home page and /gameday).
 //
 // Since 2026-11-08 it is built from the "Gameday Signups" tab, grouped by
-// activity: rows that share a Group (column E) become one card with the
+// activity, and since 2026-11-10 those cards sit under section headings
+// (Dungeons & Dragons, Magic, Video Games, Other; see sectionSignups()): rows that share a Group (column E) become one card with the
 // group's Price (column F) in pink, and each row is a line with its time in
 // blue, a live spots chip for Extra Life incentives, and a sign-up button.
 // Rows with no Group get a card of their own. Anything still typed into the
@@ -17,8 +18,8 @@ import {
 import { ArrowUpRight } from "lucide-react";
 
 import {
-  groupSignups,
   ownPagePath,
+  sectionSignups,
   type GamedayEventDetail,
   type GamedaySignupEvent,
   type GamedayTextPart,
@@ -128,17 +129,21 @@ export function GamedayEventDetails({
     ...signups.flatMap((r) => [r.link, ...r.details.map((p) => p.url)]),
     ...items.flatMap((i) => i.details.map((p) => p.url)),
   ]);
-  const groups = groupSignups(signups);
-  if (groups.length === 0 && items.length === 0) return null;
+  const sections = sectionSignups(signups);
+  if (sections.length === 0 && items.length === 0) return null;
   return (
     <div className="mt-4 border-t border-line pt-4">
       <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">
         Event Details
       </p>
 
-      {groups.length > 0 && (
-        <div className="gap-3 md:columns-2">
-          {groups.map((g) => {
+      {sections.map((sec) => (
+        <div key={sec.key} className="mb-5">
+          <h3 className="mb-2.5 border-b-2 border-line pb-1.5 font-display text-lg font-extrabold text-ink">
+            {sec.title}
+          </h3>
+          <div className={`gap-3 ${sec.groups.length > 1 ? "md:columns-2" : ""}`}>
+          {sec.groups.map((g) => {
             // Details shared by every row go under the title once; otherwise
             // each line carries its own.
             const texts = g.rows.map((r) => partsText(r.details));
@@ -207,11 +212,12 @@ export function GamedayEventDetails({
               </div>
             );
           })}
+          </div>
         </div>
-      )}
+      ))}
 
       {items.length > 0 && (
-        <ul className={`space-y-2 ${groups.length > 0 ? "mt-4" : ""}`}>
+        <ul className={`space-y-2 ${sections.length > 0 ? "mt-4" : ""}`}>
           {items.map((item, i) => (
             <li key={`${item.title}-${i}`} className="text-sm leading-snug">
               {item.title && <span className="font-extrabold text-magenta">{item.title}</span>}

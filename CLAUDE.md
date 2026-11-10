@@ -273,7 +273,9 @@ already there.
   read settles. The `Gameday Event Details` tab (Title, Details; links
   allowed) renders as an "Event Details" list right under the schedule on
   both pages (`GamedayEventDetails.tsx`). Since 2026-11-08 that section is
-  built mainly from `Gameday Signups`, **grouped by activity**: Group
+  built mainly from `Gameday Signups`, **in four sections** (Dungeons & Dragons,
+  Magic, Video Games, Other; `sectionOf()` in `gamedayContent.ts` files rows by
+  name, 2026-11-10) and **grouped by activity**: Group
   (column E) puts rows on one card, and Price (column F) is the card's pink
   label. Leftover Event Details rows are listed under the cards.
   The run of show renders as a stacked lane grid

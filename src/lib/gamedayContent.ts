@@ -236,6 +236,37 @@ export function groupSignups(rows: GamedaySignupEvent[]): SignupGroup[] {
   return groups;
 }
 
+export type SignupSection = { key: string; title: string; groups: SignupGroup[] };
+
+// The Game Day events page and Event Details are split into these sections,
+// in this order. A row lands in the first one whose pattern matches its Group
+// and Event text; anything else is "Other". The sheet needs no extra column.
+const SECTIONS: { key: string; title: string; test: RegExp | null }[] = [
+  { key: "dnd", title: "Dungeons & Dragons", test: /d&d|dungeons/i },
+  { key: "magic", title: "Magic: The Gathering", test: /\bmtg\b|magic/i },
+  { key: "video", title: "Video Games", test: /smash|video game/i },
+  { key: "other", title: "Other", test: null },
+];
+
+/** Which section a sign-up row belongs to. The leadership team's D&D one-shot
+ *  is a watch-only event, so it goes under Other with the side events rather
+ *  than with the D&D games you can sign up for. */
+export function sectionOf(row: GamedaySignupEvent): string {
+  const text = `${row.group} ${row.event}`;
+  if (/leadership/i.test(text)) return "other";
+  return SECTIONS.find((sec) => sec.test?.test(text))?.key ?? "other";
+}
+
+/** Sign-up rows split into sections, each holding its group cards. Empty
+ *  sections are left out. Shared by Event Details and /gameday_events. */
+export function sectionSignups(rows: GamedaySignupEvent[]): SignupSection[] {
+  return SECTIONS.map((sec) => ({
+    key: sec.key,
+    title: sec.title,
+    groups: groupSignups(rows.filter((r) => sectionOf(r) === sec.key)),
+  })).filter((sec) => sec.groups.length > 0);
+}
+
 /** The path on this site a sign-up link points at ("leadership_DandD"), or
  *  null for an outside link. A row that links one of our own pages is a
  *  watch-only event: its button says "Watch Here" and its chip says "Full". */

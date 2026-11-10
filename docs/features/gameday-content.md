@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-10 (/gameday is a countdown until kickoff)
+- **Last reviewed:** 2026-11-10 (Event Details split into sections)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Routing (since 2026-11-10)
@@ -70,6 +70,18 @@ play button, so the demo reads as a stream wall; fill it in and the tile
 becomes a live player.
 
 ## Decisions and gotchas
+
+- **Event Details has four sections** (2026-11-10): Dungeons & Dragons,
+  Magic: The Gathering, Video Games, Other, each a heading over its group
+  cards. `sectionSignups()` in `gamedayContent.ts` files each sign-up row by
+  regex on its Group + Event text (`SECTIONS` / `sectionOf()`); anything
+  unmatched, and anything mentioning "leadership", goes to Other. No sheet
+  column and no `Code.gs` change; a new kind of event means a new line in
+  `SECTIONS`. Empty sections are hidden, and a section with one group is full
+  width. `/gameday_events` uses the same sections. The old "leftover rows"
+  list still renders any `Gameday Event Details` rows, but the two that used
+  to live there (dexterity games, Mecha Chameleon) are now sign-up rows under
+  Other.
 
 - **Event Details is grouped by activity** (2026-11-08, option B of three
   mockups the owner reviewed). The section is built from the
