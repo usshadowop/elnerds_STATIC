@@ -15,7 +15,7 @@ import {
   useIncentiveStock,
   type IncentiveStock,
 } from "@/hooks/useExtraLifeIncentives";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Gift } from "lucide-react";
 
 import {
   ownPagePath,
@@ -71,6 +71,27 @@ export function RichText({ parts }: { parts: GamedayTextPart[] }) {
         ),
       )}
     </>
+  );
+}
+
+/** The little box under an event that has a prize ("Grand prize: a moonlight
+ *  greatsword!"), from the Details cell's "Prize:" line. */
+export function PrizeBox({
+  prize,
+  className = "",
+}: {
+  prize: NonNullable<GamedaySignupEvent["prize"]>;
+  className?: string;
+}) {
+  return (
+    <span
+      className={`flex items-start gap-1.5 rounded-lg bg-magenta-soft px-2.5 py-1.5 text-xs font-bold text-ink ${className}`}
+    >
+      <Gift className="mt-0.5 size-3.5 shrink-0 text-magenta" />
+      <span className="min-w-0 break-words">
+        <span className="text-magenta">{prize.label}:</span> <RichText parts={prize.text} />
+      </span>
+    </span>
   );
 }
 
@@ -203,6 +224,7 @@ export function GamedayEventDetails({
                               <RichText parts={r.details} />
                             </span>
                           )}
+                          {r.prize && <PrizeBox prize={r.prize} className="mt-1.5" />}
                         </div>
                         <SlotButton row={r} />
                       </li>

@@ -1,7 +1,7 @@
 # Game Day event sign-ups (`/gameday_events`)
 
 - **Status:** Live 2026-11-04 (site and `Code.gs`). The `Gameday Signups` tab exists and is empty, so the page says "Sign-ups open soon" until rows are typed.
-- **Last reviewed:** 2026-11-10 (sections on the page and in the form)
+- **Last reviewed:** 2026-11-10 (prize boxes)
 - **Covers:** `src/pages/GamedayEvents.tsx`, `src/pages/LeadershipDnD.tsx`, `src/lib/gamedaySignup.ts`
 
 ## Purpose
@@ -67,6 +67,12 @@ so the page and Event Details always agree.
   one-shot: it embeds the `Gameday Streams` row whose name mentions
   "Leadership" or "D&D" (needs an Embed URL; until then it says "Goes live at
   9:30 PM on Game Day. Game starts at 10 PM.").
+- **A prize box** (2026-11-10): a line in the Details cell that starts
+  `Prize:` or `Grand prize:` (any `<words> prize:`) is taken out of the
+  details and shown as a pink gift-icon box under the event, on
+  `/gameday_events` and in Event Details. Put it on its own line after the
+  rest of the text. `splitPrize()` in `gamedayContent.ts` does it; no new
+  column and no `Code.gs` change. No such line, no box.
 - **A row without one** gets a "Sign up below" button, and its Event appears
   as a checkbox in the form at the bottom. With no such rows, the form is
   hidden.

@@ -71,6 +71,10 @@ becomes a live player.
 
 ## Decisions and gotchas
 
+- **Prize boxes under events** (2026-11-10): a "Prize: …" line in a
+  `Gameday Signups` Details cell renders as a pink box under that event (see
+  gameday-signups); `PrizeBox` in `GamedayEventDetails.tsx`.
+
 - **Event Details has four sections** (2026-11-10): Dungeons & Dragons,
   Magic: The Gathering, Video Games, Other, each a heading over its group
   cards. `sectionSignups()` in `gamedayContent.ts` files each sign-up row by
