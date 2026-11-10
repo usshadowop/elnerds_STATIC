@@ -261,7 +261,7 @@ already there.
   counting down to kickoff, a "Gameday is LIVE!" 24-hour countdown plus
   the Command Center button, then the team's Extra Life total as
   "$X Raised". Nothing to switch by hand on the day.
-- `src/pages/CommandCenter.tsx` (`/gameday`) — the Command Center. Its
+- `src/pages/CommandCenter.tsx` (`/gameday_holding` until kickoff, then `/gameday`; before kickoff `/gameday` is the `GamedayCountdown.tsx` countdown page) — the Command Center. Its
   contents are **edited live in the RSVP spreadsheet's "Gameday *" tabs**,
   served by `doGet(?action=gameday)` in `Code.gs` and re-read once a
   minute, so the run of show can change mid-marathon without a deploy.
