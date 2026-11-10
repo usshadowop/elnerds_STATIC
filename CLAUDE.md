@@ -68,7 +68,7 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-10 (Game Day email, `/gameday` countdown, event sections;
+*Session of 2026-11-10 (Game Day email, `/gameday` countdown, event sections, prizes;
 all live):*
 
 - **Email:** now `email/archive/2026-11-gameday-this-saturday/` (sent; archived the same day), built from the
@@ -95,7 +95,8 @@ all live):*
   Mecha Chameleon (`2p - 2:30p`); the leadership row's Details now say
   "...donate to sow chaos through fun incentives!". The leadership game is
   10:00 – 11:30 PM in the sheet and the email.
-- **Prizes in the sheet (2026-11-10, later):** `Gameday Signups` Details now carry `Prize:` lines: Melee tournament (greatsword, "8 or more participants", shows a live 1/8 chip), MTG Cube (Black Lotus Christmas Ornament), Smash Ultimate (Super Mario star light trophy), Late Night Dexterity ($50 donation token). Written by a session on the owner's word.
+- **Prizes in the sheet (2026-11-10, later):** `Gameday Signups` Details now carry `Prize:` lines: Melee tournament (greatsword, "8 or more participants", shows a live 1/8 chip), MTG Cube (Black Lotus Christmas Ornament), Smash Ultimate (Super Mario star light trophy), Late Night Dexterity ($50 donation token). Written by a session on the owner's word. The prize box gained a live "1/8 so far" chip for a prize that says "N or more" (PR #191, reads the incentive's claimed count), and Event Details got a fixed blurb: every entrant gets 1 free prize drawing ticket, the winner 5 more (PR #192; hard-coded in `GamedayEventDetails.tsx`, not on `/gameday_events`).
+- **Email archived (PR #191):** the sent Game Day email is under `email/archive/2026-11-gameday-this-saturday/`; `/email/current/` redirects there.
 - Gotchas learned: a force push is blocked in this sandbox (the branch is
   auto-deleted on merge; `git remote prune origin` then a plain push); a
   parallel session's branch (`claude/elegant-mendel-30bcm0`) was cherry-picked
