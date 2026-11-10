@@ -1,7 +1,7 @@
 # Game Day event sign-ups (`/gameday_events`)
 
 - **Status:** Live 2026-11-04 (site and `Code.gs`). The `Gameday Signups` tab exists and is empty, so the page says "Sign-ups open soon" until rows are typed.
-- **Last reviewed:** 2026-11-09 (events sorted into Group sections)
+- **Last reviewed:** 2026-11-10 (watch page message)
 - **Covers:** `src/pages/GamedayEvents.tsx`, `src/pages/LeadershipDnD.tsx`, `src/lib/gamedaySignup.ts`
 
 ## Purpose
@@ -62,8 +62,8 @@ so the page and Event Details always agree.
   appears in the form. `ownPagePath()` in `gamedayContent.ts` decides.
   `/leadership_DandD` (`LeadershipDnD.tsx`) is the leadership team's D&D
   one-shot: it embeds the `Gameday Streams` row whose name mentions
-  "Leadership" or "D&D" (needs an Embed URL; until then it says the stream
-  goes live at 10 PM).
+  "Leadership" or "D&D" (needs an Embed URL; until then it says "Goes live at
+  9:30 PM on Game Day. Game starts at 10 PM.").
 - **A row without one** gets a "Sign up below" button, and its Event appears
   as a checkbox in the form at the bottom. With no such rows, the form is
   hidden.

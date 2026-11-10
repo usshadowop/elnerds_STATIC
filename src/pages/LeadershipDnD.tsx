@@ -49,7 +49,7 @@ export function LeadershipDnD() {
             ) : (
               <div className="flex aspect-video items-center justify-center border-b border-line bg-ink/[0.03] px-6 text-center">
                 <p className="text-sm font-bold text-ink-soft sm:text-base">
-                  The stream goes live at 10:00 PM on Saturday. Check back here then.
+                  Goes live at 9:30 PM on Game Day. Game starts at 10 PM.
                 </p>
               </div>
             )}
