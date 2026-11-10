@@ -2,7 +2,7 @@
 
 - **Status:** Live 2026-11-04 (site and `Code.gs`). The `Gameday Signups` tab exists and is empty, so the page says "Sign-ups open soon" until rows are typed.
 - **Last reviewed:** 2026-11-09 (events sorted into Group sections)
-- **Covers:** `src/pages/GamedayEvents.tsx`, `src/lib/gamedaySignup.ts`
+- **Covers:** `src/pages/GamedayEvents.tsx`, `src/pages/LeadershipDnD.tsx`, `src/lib/gamedaySignup.ts`
 
 ## Purpose
 
@@ -55,6 +55,15 @@ so the page and Event Details always agree.
   wording, 2026-11-07), and plain "Sign up" for any other site. Paste the URL as text, or link a word with Insert →
   Link; either works. Only `http(s)`, `mailto` and `www.` addresses are
   accepted.
+- **A row linking a page on this site** (host `elnerds.com`, e.g.
+  `https://elnerds.com/leadership_DandD`) is a watch-only event
+  (2026-11-10): a magenta **"Watch Here"** button to that page in the same
+  tab, plus a **"Full"** chip, in both Event Details and this page. It never
+  appears in the form. `ownPagePath()` in `gamedayContent.ts` decides.
+  `/leadership_DandD` (`LeadershipDnD.tsx`) is the leadership team's D&D
+  one-shot: it embeds the `Gameday Streams` row whose name mentions
+  "Leadership" or "D&D" (needs an Embed URL; until then it says the stream
+  goes live at 10 PM).
 - **A row without one** gets a "Sign up below" button, and its Event appears
   as a checkbox in the form at the bottom. With no such rows, the form is
   hidden.

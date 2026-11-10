@@ -5,6 +5,7 @@ import { GamedayCountdown } from "@/pages/GamedayCountdown";
 import { GamedayEvents } from "@/pages/GamedayEvents";
 import { Home } from "@/pages/Home";
 import { Incentives } from "@/pages/Incentives";
+import { LeadershipDnD } from "@/pages/LeadershipDnD";
 import { MtgInterest } from "@/pages/MtgInterest";
 import { Newsletter } from "@/pages/Newsletter";
 import { GilletteChildrensHospital } from "@/pages/GilletteChildrensHospital";
@@ -33,6 +34,7 @@ export default function App() {
   if (path === "gameday_events") page = <GamedayEvents />;
   if (path === "gillette-childrens-hospital") page = <GilletteChildrensHospital />;
   if (path === "incentives") page = <Incentives />;
+  if (path === "leadership_DandD") page = <LeadershipDnD />;
   if (path === "mtginterest") page = <MtgInterest />;
   if (path === "newsletter") page = <Newsletter />;
   if (path === "patient-profiles") page = <PatientProfiles />;
