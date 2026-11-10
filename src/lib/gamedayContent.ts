@@ -51,6 +51,10 @@ export interface GamedaySignupEvent {
   event: string;
   when: string;
   details: GamedayTextPart[];
+  /** A "Prize: …" line typed in the Details cell, taken out of `details` and
+   *  shown as a box under the event. `label` is what came before the colon
+   *  ("Prize", "Grand prize"). Absent when the cell has no such line. */
+  prize?: { label: string; text: GamedayTextPart[] };
   link?: string;
   /** Column E. Rows with the same Group share one card in Event Details
    *  ("D&D with Ben Stoddart"); blank gives the event a card of its own. */
@@ -282,6 +286,34 @@ export function ownPagePath(link: string | undefined): string | null {
   }
 }
 
+// A line of a Details cell that starts "Prize:" or "Grand prize:" (any
+// "<words> prize:"); everything after the colon is the prize.
+const PRIZE_LINE = /(^|\n)[ \t]*([^\n:]*\bprizes?):[ \t]*/i;
+
+/** Pull a "Prize: …" line out of a Details cell. The text before it stays as
+ *  the details; the rest of the cell, links included, becomes the prize. */
+function splitPrize(parts: GamedayTextPart[]): {
+  details: GamedayTextPart[];
+  prize?: { label: string; text: GamedayTextPart[] };
+} {
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i];
+    if (part.url) continue;
+    const m = PRIZE_LINE.exec(part.text);
+    if (!m) continue;
+    const label = m[2].trim().replace(/^./, (c) => c.toUpperCase());
+    const before = part.text.slice(0, m.index).replace(/\s+$/, "");
+    const after = part.text.slice(m.index + m[0].length);
+    const details = [...parts.slice(0, i), ...(before ? [{ text: before }] : [])];
+    const text = [...(after ? [{ text: after }] : []), ...parts.slice(i + 1)].filter(
+      (p) => p.text.length > 0,
+    );
+    if (text.length === 0) return { details: parts };
+    return { details, prize: { label, text } };
+  }
+  return { details: parts };
+}
+
 /** A sign-up link cell as a URL the page may link to, or undefined.
  *  "www.…" gains https://; anything that isn't http(s)/mailto is dropped. */
 function safeLink(value: string): string | undefined {
@@ -375,10 +407,12 @@ export function parseGamedayContent(data: unknown): GamedayContent {
         .filter((r): r is Record<string, unknown> => typeof r === "object" && r !== null)
         .map((r) => {
           const link = safeLink(text(r.link));
+          const { details, prize } = splitPrize(detailParts(r));
           return {
             event: text(r.event),
             when: text(r.when),
-            details: detailParts(r),
+            details,
+            ...(prize ? { prize } : {}),
             group: text(r.group),
             price: text(r.price),
             ...(link ? { link } : {}),

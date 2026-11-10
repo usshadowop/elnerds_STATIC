@@ -22,7 +22,7 @@ import {
   Swords,
 } from "lucide-react";
 
-import { FullChip, RichText, SpotsChip } from "@/components/site/GamedayEventDetails";
+import { FullChip, PrizeBox, RichText, SpotsChip } from "@/components/site/GamedayEventDetails";
 import { incentiveOf, useIncentiveStock } from "@/hooks/useExtraLifeIncentives";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { useNow } from "@/hooks/use-now";
@@ -112,6 +112,7 @@ export function GamedayEvents() {
               <RichText parts={e.details} />
             </p>
           )}
+          {e.prize && <PrizeBox prize={e.prize} className="mt-3 w-fit max-w-full text-sm" />}
         </div>
         {!ended &&
           (own ? (
