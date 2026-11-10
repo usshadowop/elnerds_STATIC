@@ -39,16 +39,19 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (embed URLs empty), `Gameday Incentives` ("$—" starter rows) and `Gameday Notice` (banner cell empty); all three re-checked at the live endpoint 2026-10-31 evening, still starter. `Gameday Run of Show` is done (8 rows, filled via `fillRunOfShow2026`). Check with `curl "$ENDPOINT?action=gameday"`. |
+| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (embed URLs empty), `Gameday Incentives` ("$—" starter rows) and `Gameday Notice` (banner cell empty); all three re-checked at the live endpoint 2026-11-10, still starter. `Gameday Run of Show` is done (16 rows by 2026-11-10, incl. MTG Cube and Mecha Chameleon). Check with `curl "$ENDPOINT?action=gameday"`. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
 | 2026-09-24 | Owner (decision) | Automate the `Covers` audit? Two manual audits this session found two real gaps the commit guard structurally cannot catch — a file missing from a card, and `use-now.ts` owned by no card. The `SessionStart` hook could diff every card's `Covers` against the repo and against what the covered code imports. Offered, not built. |
 | 2026-09-24 | Owner (decision) | Should `src/App.tsx` (the route table) and `src/lib/router.tsx` be covered by a card? Left uncovered deliberately — a routing card for a 20-line table is the "write a card on principle" thing the index warns against. `router.tsx` grew `useHashScroll` on 2026-10-31 (anchor links land on first load), which is the first real mechanism in there; still no card. |
 | 2026-09-24 | **Owner (input)** | The "3 things" message of 2026-09-18 listed only two. The third was never named. |
-| 2026-10-13 | Owner | Check one line of site copy that came from a session, not the repo: the `/gameday` headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). (The other half, the Venue Donation blurb, was removed 2026-11-06.) |
+| 2026-10-13 | Owner | Check one line of site copy that came from a session, not the repo: the Command Center headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). Since 2026-11-10 that page is at `/gameday_holding` until kickoff, so the line only matters once `/gameday` hands over at 8 AM Nov 14. (The other half, the Venue Donation blurb, was removed 2026-11-06.) |
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
+| 2026-11-10 | Owner | Send the Game Day "this Saturday" email from Brevo: the draft is `email/elnerds-gameday-this-saturday.html`, live for review at /email/current/. Then archive it (`email/archive/README.md`: move to `2026-11-gameday-this-saturday/`, copy the page, add the index row) and clear the `email/` pointers in `email/README.md` and below. Its "donation match" line (from the owner's wording) isn't backed by anything in the repo or sheet; confirm it before sending. |
+| 2026-11-10 | Owner | Add `Prize:` lines to events that have prizes: a line starting `Prize:` or `Grand prize:` in a `Gameday Signups` Details cell shows as a pink box under the event. The only known prize, the Melee tournament's moonlight greatsword, is still inline in `C5`; a session write to move it was blocked, so paste it as its own line. |
+| 2026-11-10 | Owner | Type the leadership D&D stream into the `Gameday Streams` tab (name containing "Leadership" or "D&D", plus Embed URL) so `/leadership_DandD` shows the player; until then it says "Goes live at 9:30 PM on Game Day. Game starts at 10 PM." |
 
 Rules that keep this honest:
 
@@ -66,65 +69,38 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-06/07 (donor cards, vendors, dated schedule heading,
-hero progress card; all live):*
+*Session of 2026-11-10 (Game Day email, `/gameday` countdown, event sections;
+all live):*
 
-- **Hero (2026-11-07, PR #136):** "Play Games. Heal Kids." at two-thirds
-  size, and a white "Team fundraising" card (total, goal, participants,
-  bar) under the countdown. `TeamProgress.tsx` is that block, extracted from
-  `ActiveRoster.tsx` and used by both. Mock-up approved by the owner from
-  screenshots with stubbed team data. Live 2026-11-07 00:13 UTC, bundle
-  `index-Barte0wv.js` ("Team fundraising", `lg:text-[4rem]`, no
-  `lg:text-8xl`).
-- **2026 Donors column (PRs #128, #130, #132):** Venue Donation shows
-  Improving's logo as the link under "Our home for 24 hours"; a new Food
-  Donation card lists Papa Johns Roseville (store page link), Q’s Cue (BBQ
-  catering, Woodbury, veteran-owned; Facebook link) and Placemaker
-  Hospitality; In-Kind Donors unchanged. The `/gameday` sponsor grid has the
-  same vendors, five tiles across. "Random Taco Company" and the Taco Bell
-  logo are gone. Q’s Cue's Facebook title says "Saint Paul MN"; the site
-  says Woodbury, from the business card.
-- **Home schedule heading (PR #134):** "Game Day Schedule – November 14th
-  2026", the date from the marathon's `calendar.start` via `ordinalDate()`
-  in `Schedule.tsx`.
-- Logos: `qs-cue.jpg` (Facebook profile picture), `placemaker.png` (site
-  share image, white made transparent). All verified live by bundle grep.
-- The `deploy-pages` step took 6½ minutes on #128 and still succeeded, so a
-  slow deploy is not by itself the #125 timeout; the run's conclusion is
-  what tells them apart.
-- **Sheets write access (2026-11-07, a parallel session):** the Google
-  Sheets connector as `us.shadow.op@gmail.com` can write to the RSVP sheet.
-  Proven with a same-value write to `Gameday Signups!A1`. On the owner's
-  request the tab's TEST rows were replaced by the six real events: Ben
-  Stoddart's four D&D sessions, each linked to its $35 incentive on his page
-  (participant 566961, 5 spots each), and the two Smash tournaments with no
-  link, so they appear in the form. The test sign-up in `Event Signups` was
-  deleted on request (header kept), and so was the TEST row in
-  `Gameday Event Details`. No test data is left in the sheet. Event Details
-  was then rewritten on request to match: four "$35" D&D lines with times,
-  each with "Sign up here" linked to its incentive (live spots chip), and a
-  "$20" line for each Smash tournament (with its time), linking to
-  `/gameday_events`. The owner set the
-  Smash tournaments at $20; both Smash rows in `Gameday Signups` say "$20 to
-  enter". On `/gameday_events`, the orange button on Extra Life links now
-  reads "Sign up on Extra Life".
-  The MTG Cube Event (Sat 11a – 2p, "Donations accepted for entry", the
-  owner's price) was added to both tabs: a form row in `Gameday Signups`,
-  and a "Donations" line in Event Details linking to `/gameday_events`.
-  **Sign-ups no longer overwrite** (PR #145): `handleGamedaySignup_` now
-  appends a row per submission. The owner redeployed `Code.gs`, and it was
-  verified live 2026-11-07: two sign-ups from the same email (4:54 PM and
-  5:03 PM) are both in `Event Signups`.
-  2026-11-08: Super Smash Brothers Tournament now links to Eric Morris's
-  $20 incentive (participant 566964, "Smash Bros Melee tournament at 2:30
-  PM", 16 spots) in both `Gameday Signups` and Event Details, so it left the
-  site's form. The form now offers MTG Cube Event and Smash Ultimate only.
-  **Event Details grouped by activity** (PRs #148, #149): cards per Group
-  (column E of `Gameday Signups`) with Price (column F), and every button
-  says "Sign up" (orange for Extra Life, teal outline for the form).
-  `Code.gs` was redeployed and verified live 2026-11-09: every `signups`
-  entry carries `group` and `price`. `Gameday Event Details` now holds only
-  the owner's 4am "How coordinated are you" line.
+- **Email:** `email/elnerds-gameday-this-saturday.html`, built from the
+  non-holiday template and iterated with the owner into ~12 sections (what's-new
+  pills that jump to sections, RSVP, marathon + Improving logo, packing list,
+  schedule, food with provider logos, event sign-ups, leadership D&D, prize
+  drawings with a photo, can't-make-it, questions). It is **not sent yet**
+  (see Open threads). Every edit went through a squash-merged PR and a poll of
+  /email/current/. Logos and the photo are PNG/JPG copies in
+  `public/email/assets/`. A throwaway generator kept the file consistent but
+  lives only in a session scratchpad: edit the HTML directly next time.
+- **`/gameday` (PR #154):** a "GOES LIVE ON GAME DAY" countdown page until
+  kickoff, then the Command Center on its own; the Command Center is also at
+  `/gameday_holding`. `/leadership_DandD` (from a parallel session's branch) is
+  the leadership one-shot watch page; its sheet row shows Full + Watch Here.
+- **Event sections (PR #177):** Event Details and `/gameday_events` split into
+  Dungeons & Dragons / Magic / Video Games / Other by `sectionOf()` in
+  `gamedayContent.ts` (no sheet column, no `Code.gs` change); the form's
+  checkboxes use the same sections. **Prize boxes (PR #189):** a `Prize:` line
+  in a Details cell becomes a pink box under the event.
+- **Sheet edits made on the owner's word (2026-11-10):** `Gameday Signups`
+  gained leadership D&D (own-site link), Late Night Dexterity Games (Free) and
+  3D Printed Mecha Chameleon ($5, Sat 2:00p – 2:30p); the two leftover
+  `Gameday Event Details` rows were cleared; `Gameday Run of Show` gained
+  Mecha Chameleon (`2p - 2:30p`); the leadership row's Details now say
+  "...donate to sow chaos through fun incentives!". The leadership game is
+  10:00 – 11:30 PM in the sheet and the email.
+- Gotchas learned: a force push is blocked in this sandbox (the branch is
+  auto-deleted on merge; `git remote prune origin` then a plain push); a
+  parallel session's branch (`claude/elegant-mendel-30bcm0`) was cherry-picked
+  rather than merged because its email commit duplicated work here.
 
 ## Ship-live workflow
 
@@ -315,7 +291,7 @@ already there.
   AI model at ("build me an email, follow
   `branding/email/DESIGN_BRIEF.md`"). New campaigns are written into
   `email/`, not `branding/`.
-- `email/` holds the campaign being written (right now `elnerds-gameday-this-saturday.html`, drafted 2026-11-10 and live for review at /email/current/). As soon as a
+- `email/` holds the campaign being written (right now `elnerds-gameday-this-saturday.html`, drafted 2026-11-10, unsent, live for review at /email/current/). As soon as a
   campaign is sent it moves to `email/archive/YYYY-MM-<slug>/` and gets a
   permanent page at `elnerds.com/email/archive/<folder>/`;
   `email/archive/README.md` is the index and has the steps.
