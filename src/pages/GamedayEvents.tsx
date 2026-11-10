@@ -26,7 +26,7 @@ import { FullChip, RichText, SpotsChip } from "@/components/site/GamedayEventDet
 import { incentiveOf, useIncentiveStock } from "@/hooks/useExtraLifeIncentives";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { useNow } from "@/hooks/use-now";
-import { groupSignups, ownPagePath } from "@/lib/gamedayContent";
+import { ownPagePath, sectionSignups } from "@/lib/gamedayContent";
 import { submitGamedaySignup } from "@/lib/gamedaySignup";
 import { getRsvpEvent, hasEventEnded } from "@/lib/rsvpEvents";
 
@@ -208,26 +208,35 @@ export function GamedayEvents() {
               </p>
             </div>
           ) : (
-            <div className="grid gap-10">
-              {groupSignups(events).map((g) =>
-                g.rows[0].group ? (
-                  <section key={g.key}>
-                    <div className="mb-3 flex items-baseline justify-between gap-3 border-b-2 border-line pb-2">
-                      <h2 className="font-display text-2xl font-extrabold text-ink">{g.title}</h2>
-                      {g.price && (
-                        <span className="shrink-0 font-display text-xl font-extrabold text-magenta">
-                          {g.price}
-                        </span>
-                      )}
-                    </div>
-                    <ul className="grid gap-4">{g.rows.map((e, i) => renderCard(e, i, false))}</ul>
-                  </section>
-                ) : (
-                  <ul key={g.key} className="grid gap-4">
-                    {g.rows.map((e, i) => renderCard(e, i, true))}
-                  </ul>
-                ),
-              )}
+            <div className="grid gap-14">
+              {sectionSignups(events).map((sec) => (
+                <section key={sec.key}>
+                  <h2 className="mb-5 border-b-4 border-magenta pb-2 font-display text-3xl font-extrabold text-ink">
+                    {sec.title}
+                  </h2>
+                  <div className="grid gap-8">
+                    {sec.groups.map((g) =>
+                      g.rows[0].group ? (
+                        <div key={g.key}>
+                          <div className="mb-3 flex items-baseline justify-between gap-3 border-b-2 border-line pb-2">
+                            <h3 className="font-display text-xl font-extrabold text-ink">{g.title}</h3>
+                            {g.price && (
+                              <span className="shrink-0 font-display text-lg font-extrabold text-magenta">
+                                {g.price}
+                              </span>
+                            )}
+                          </div>
+                          <ul className="grid gap-4">{g.rows.map((e, i) => renderCard(e, i, false))}</ul>
+                        </div>
+                      ) : (
+                        <ul key={g.key} className="grid gap-4">
+                          {g.rows.map((e, i) => renderCard(e, i, true))}
+                        </ul>
+                      ),
+                    )}
+                  </div>
+                </section>
+              ))}
             </div>
           )}
 
@@ -296,24 +305,33 @@ export function GamedayEvents() {
                       <legend className={labelClass}>
                         Events <span className="font-semibold text-ink-soft">(pick any)</span>
                       </legend>
-                      <div className="grid gap-2.5 sm:grid-cols-2">
-                        {formEvents.map((e) => (
-                          <label key={e.event} className={checkClass}>
-                            <input
-                              type="checkbox"
-                              value={e.event}
-                              className={boxClass}
-                              {...register("events")}
-                            />
-                            <span>
-                              {e.event}
-                              {e.when && (
-                                <span className="block text-xs font-bold text-magenta">
-                                  {e.when}
-                                </span>
-                              )}
-                            </span>
-                          </label>
+                      <div className="grid gap-5">
+                        {sectionSignups(formEvents).map((sec) => (
+                          <div key={sec.key}>
+                            <p className="mb-2 border-b border-line pb-1 text-xs font-extrabold uppercase tracking-widest text-magenta">
+                              {sec.title}
+                            </p>
+                            <div className="grid gap-2.5 sm:grid-cols-2">
+                              {sec.groups.flatMap((g) => g.rows).map((e) => (
+                                <label key={e.event} className={checkClass}>
+                                  <input
+                                    type="checkbox"
+                                    value={e.event}
+                                    className={boxClass}
+                                    {...register("events")}
+                                  />
+                                  <span>
+                                    {e.event}
+                                    {e.when && (
+                                      <span className="block text-xs font-bold text-magenta">
+                                        {e.when}
+                                      </span>
+                                    )}
+                                  </span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
                         ))}
                       </div>
                       {errors.events && <p className={errorClass}>{errors.events.message}</p>}
