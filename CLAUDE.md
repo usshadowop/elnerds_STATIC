@@ -49,7 +49,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-10-13 | Owner | Check one line of site copy that came from a session, not the repo: the Command Center headline "Game Day is Live", which shows before the event too (the status banner underneath says it hasn't started). Since 2026-11-10 that page is at `/gameday_holding` until kickoff, so the line only matters once `/gameday` hands over at 8 AM Nov 14. (The other half, the Venue Donation blurb, was removed 2026-11-06.) |
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
-| 2026-11-10 | Owner | Send the Game Day "this Saturday" email from Brevo: the draft is `email/elnerds-gameday-this-saturday.html`, live for review at /email/current/. Then archive it (`email/archive/README.md`: move to `2026-11-gameday-this-saturday/`, copy the page, add the index row) and clear the `email/` pointers in `email/README.md` and below. Its "donation match" line (from the owner's wording) isn't backed by anything in the repo or sheet; confirm it before sending. |
+| 2026-11-10 | Owner | The Game Day email went out (told to a session 2026-11-10, archived from the repo draft). Confirm what Brevo actually sent matches `email/archive/2026-11-gameday-this-saturday/`; its "donation match" line (from the owner's wording) isn't backed by anything in the repo or sheet. |
 | 2026-11-10 | Owner | Add `Prize:` lines to events that have prizes: a line starting `Prize:` or `Grand prize:` in a `Gameday Signups` Details cell shows as a pink box under the event. The only known prize, the Melee tournament's moonlight greatsword, is still inline in `C5`; a session write to move it was blocked, so paste it as its own line. |
 | 2026-11-10 | Owner | Type the leadership D&D stream into the `Gameday Streams` tab (name containing "Leadership" or "D&D", plus Embed URL) so `/leadership_DandD` shows the player; until then it says "Goes live at 9:30 PM on Game Day. Game starts at 10 PM." |
 
@@ -72,12 +72,11 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 *Session of 2026-11-10 (Game Day email, `/gameday` countdown, event sections;
 all live):*
 
-- **Email:** `email/elnerds-gameday-this-saturday.html`, built from the
+- **Email:** now `email/archive/2026-11-gameday-this-saturday/` (sent; archived the same day), built from the
   non-holiday template and iterated with the owner into ~12 sections (what's-new
   pills that jump to sections, RSVP, marathon + Improving logo, packing list,
   schedule, food with provider logos, event sign-ups, leadership D&D, prize
-  drawings with a photo, can't-make-it, questions). It is **not sent yet**
-  (see Open threads). Every edit went through a squash-merged PR and a poll of
+  drawings with a photo, can't-make-it, questions). It **was sent** (owner's word; see Open threads). Every edit went through a squash-merged PR and a poll of
   /email/current/. Logos and the photo are PNG/JPG copies in
   `public/email/assets/`. A throwaway generator kept the file consistent but
   lives only in a session scratchpad: edit the HTML directly next time.
@@ -291,7 +290,7 @@ already there.
   AI model at ("build me an email, follow
   `branding/email/DESIGN_BRIEF.md`"). New campaigns are written into
   `email/`, not `branding/`.
-- `email/` holds the campaign being written (right now `elnerds-gameday-this-saturday.html`, drafted 2026-11-10, unsent, live for review at /email/current/). As soon as a
+- `email/` holds the campaign being written (none right now; the last send, Nov 2026 "Game Day is this Saturday", is archived). As soon as a
   campaign is sent it moves to `email/archive/YYYY-MM-<slug>/` and gets a
   permanent page at `elnerds.com/email/archive/<folder>/`;
   `email/archive/README.md` is the index and has the steps.
@@ -303,7 +302,8 @@ already there.
   placeholders visible). Don't edit it by hand; re-run
   `./branding/email/build-bundle.sh`, which rebuilds it.
   `public/email/current/index.html` is a plain copy of the draft in `email/`,
-  refreshed on every change so the owner can review it in a browser.
+  refreshed on every change so the owner can review it in a browser; with no
+  draft it is a redirect stub to the latest archive page.
 
 ## Announcement email (Brevo)
 
