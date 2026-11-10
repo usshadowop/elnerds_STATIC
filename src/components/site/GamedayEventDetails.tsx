@@ -18,6 +18,7 @@ import { ArrowUpRight } from "lucide-react";
 
 import {
   groupSignups,
+  ownPagePath,
   type GamedayEventDetail,
   type GamedaySignupEvent,
   type GamedayTextPart,
@@ -35,6 +36,15 @@ export function SpotsChip({ stock }: { stock: IncentiveStock | undefined }) {
       }`}
     >
       {label.text}
+    </span>
+  );
+}
+
+/** The "Full" chip for a watch-only row (one that links a page on this site). */
+export function FullChip() {
+  return (
+    <span className="inline-block whitespace-nowrap rounded-full bg-line px-2 py-0.5 align-[1px] text-[11px] font-extrabold text-ink-soft">
+      Full
     </span>
   );
 }
@@ -76,6 +86,17 @@ const partsText = (parts: GamedayTextPart[]) =>
  *  as an Extra Life incentive (opens in a new tab, with the ↗ arrow), teal
  *  outline for the site's own form. */
 function SlotButton({ row }: { row: GamedaySignupEvent }) {
+  const own = ownPagePath(row.link);
+  if (own) {
+    return (
+      <a
+        href={`${import.meta.env.BASE_URL}${own}`}
+        className="inline-flex shrink-0 items-center rounded-full bg-magenta px-3.5 py-1.5 text-xs font-extrabold whitespace-nowrap text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
+      >
+        Watch Here
+      </a>
+    );
+  }
   return row.link ? (
     <a
       href={row.link}
@@ -159,6 +180,12 @@ export function GamedayEventDetails({
                               {r.when ? " · " : ""}
                               {name}
                             </span>
+                          )}
+                          {ownPagePath(r.link) && (
+                            <>
+                              {" "}
+                              <FullChip />
+                            </>
                           )}
                           {inc && stock.has(inc.incentiveID) && (
                             <>

@@ -22,11 +22,11 @@ import {
   Swords,
 } from "lucide-react";
 
-import { RichText, SpotsChip } from "@/components/site/GamedayEventDetails";
+import { FullChip, RichText, SpotsChip } from "@/components/site/GamedayEventDetails";
 import { incentiveOf, useIncentiveStock } from "@/hooks/useExtraLifeIncentives";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { useNow } from "@/hooks/use-now";
-import { groupSignups } from "@/lib/gamedayContent";
+import { groupSignups, ownPagePath } from "@/lib/gamedayContent";
 import { submitGamedaySignup } from "@/lib/gamedaySignup";
 import { getRsvpEvent, hasEventEnded } from "@/lib/rsvpEvents";
 
@@ -91,6 +91,7 @@ export function GamedayEvents() {
     const inc = incentiveOf(e.link, e.details);
     const spots = inc ? stock.get(inc.incentiveID) : undefined;
     const full = spots ? spots.left <= 0 : false;
+    const own = ownPagePath(e.link); // a watch-only event: Full, with a Watch Here button
     return (
       <li
         key={`${e.event}-${i}`}
@@ -103,6 +104,7 @@ export function GamedayEvents() {
               {e.when}
               {showPrice && e.price && <span className="text-ink-soft">· {e.price}</span>}
               <SpotsChip stock={spots} />
+              {own && <FullChip />}
             </p>
           )}
           {e.details.length > 0 && (
@@ -112,7 +114,14 @@ export function GamedayEvents() {
           )}
         </div>
         {!ended &&
-          (e.link && full ? (
+          (own ? (
+            <a
+              href={`${HOME}${own}`}
+              className="inline-flex shrink-0 items-center justify-center rounded-full bg-magenta px-5 py-2.5 text-sm font-extrabold text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
+            >
+              Watch Here
+            </a>
+          ) : e.link && full ? (
             <span className="inline-flex shrink-0 items-center justify-center rounded-full bg-line px-5 py-2.5 text-sm font-extrabold text-ink-soft">
               Full
             </span>

@@ -84,6 +84,8 @@ becomes a live player.
   - Details shared by every row in a group show once under the card title;
     otherwise each line carries its own.
   - A row with no Group gets a card of its own.
+  - A row whose link is a page on elnerds.com shows a "Full" chip and a
+    "Watch Here" button instead of "Sign up" (see gameday-signups).
   - The grouping is `groupSignups()` in `gamedayContent.ts`, shared with
     `/gameday_events`.
   - Desktop lays the cards out in two balanced CSS columns; phones get one.
