@@ -1,8 +1,12 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-09 (groupSignups shared with /gameday_events)
-- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
+- **Last reviewed:** 2026-11-10 (/gameday is a countdown until kickoff)
+- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
+
+## Routing (since 2026-11-10)
+
+`/gameday` shows `GamedayCountdown.tsx` ("GOES LIVE ON GAME DAY" and a big countdown) while `useGameday` says `before`, and the Command Center (`CommandCenter.tsx`) from kickoff on, with nothing to switch by hand. The Command Center is always reachable at `/gameday_holding` for preview. Both are routed in `App.tsx`.
 
 ## Purpose
 
