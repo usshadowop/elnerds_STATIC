@@ -168,6 +168,10 @@ export function GamedayEventDetails({
       <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-magenta">
         Event Details
       </p>
+      <p className="mb-4 text-sm font-bold text-ink-soft">
+        All entrants into any event get 1 free prize drawing ticket, and the winner gets 5
+        additional tickets.
+      </p>
 
       {sections.map((sec) => (
         <div key={sec.key} className="mb-5">
