@@ -112,7 +112,7 @@ export function GamedayEvents() {
               <RichText parts={e.details} />
             </p>
           )}
-          {e.prize && <PrizeBox prize={e.prize} className="mt-3 w-fit max-w-full text-sm" />}
+          {e.prize && <PrizeBox prize={e.prize} claimed={spots?.claimed} className="mt-3 w-fit max-w-full text-sm" />}
         </div>
         {!ended &&
           (own ? (

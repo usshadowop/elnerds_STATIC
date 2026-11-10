@@ -50,7 +50,6 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-10-31 | Owner | Share `elnerds_mtginterest` (captain's Drive, created by `setupMtg`) with whoever needs it. Rows are landing: 8 sign-ups through Nov 2, read 2026-11-04 once the owner shared it with the Drive connector's account. |
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 | 2026-11-10 | Owner | The Game Day email went out (told to a session 2026-11-10, archived from the repo draft). Confirm what Brevo actually sent matches `email/archive/2026-11-gameday-this-saturday/`; its "donation match" line (from the owner's wording) isn't backed by anything in the repo or sheet. |
-| 2026-11-10 | Owner | Add `Prize:` lines to events that have prizes: a line starting `Prize:` or `Grand prize:` in a `Gameday Signups` Details cell shows as a pink box under the event. The only known prize, the Melee tournament's moonlight greatsword, is still inline in `C5`; a session write to move it was blocked, so paste it as its own line. |
 | 2026-11-10 | Owner | Type the leadership D&D stream into the `Gameday Streams` tab (name containing "Leadership" or "D&D", plus Embed URL) so `/leadership_DandD` shows the player; until then it says "Goes live at 9:30 PM on Game Day. Game starts at 10 PM." |
 
 Rules that keep this honest:
@@ -96,6 +95,7 @@ all live):*
   Mecha Chameleon (`2p - 2:30p`); the leadership row's Details now say
   "...donate to sow chaos through fun incentives!". The leadership game is
   10:00 – 11:30 PM in the sheet and the email.
+- **Prizes in the sheet (2026-11-10, later):** `Gameday Signups` Details now carry `Prize:` lines: Melee tournament (greatsword, "8 or more participants", shows a live 1/8 chip), MTG Cube (Black Lotus Christmas Ornament), Smash Ultimate (Super Mario star light trophy), Late Night Dexterity ($50 donation token). Written by a session on the owner's word.
 - Gotchas learned: a force push is blocked in this sandbox (the branch is
   auto-deleted on merge; `git remote prune origin` then a plain push); a
   parallel session's branch (`claude/elegant-mendel-30bcm0`) was cherry-picked
