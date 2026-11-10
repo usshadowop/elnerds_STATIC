@@ -313,7 +313,7 @@ already there.
   AI model at ("build me an email, follow
   `branding/email/DESIGN_BRIEF.md`"). New campaigns are written into
   `email/`, not `branding/`.
-- `email/` holds the campaign being written (none right now). As soon as a
+- `email/` holds the campaign being written (right now `elnerds-gameday-this-saturday.html`, drafted 2026-11-10 and live for review at /email/current/). As soon as a
   campaign is sent it moves to `email/archive/YYYY-MM-<slug>/` and gets a
   permanent page at `elnerds.com/email/archive/<folder>/`;
   `email/archive/README.md` is the index and has the steps.
