@@ -69,6 +69,8 @@ photo from `src/assets/carousel/`) with a "Live" badge, a "Sample" tag and a
 play button, so the demo reads as a stream wall; fill it in and the tile
 becomes a live player.
 
+- **Drawing-ticket blurb** (2026-11-10): a fixed line under the "Event Details" heading in `GamedayEventDetails.tsx` ("All entrants into any event get 1 free prize drawing ticket, and the winner gets 5 additional tickets."). Hard-coded, not from the sheet.
+
 ## Decisions and gotchas
 
 - **Prize boxes under events** (2026-11-10): a "Prize: …" line in a
