@@ -236,6 +236,21 @@ export function groupSignups(rows: GamedaySignupEvent[]): SignupGroup[] {
   return groups;
 }
 
+/** The path on this site a sign-up link points at ("leadership_DandD"), or
+ *  null for an outside link. A row that links one of our own pages is a
+ *  watch-only event: its button says "Watch Here" and its chip says "Full". */
+export function ownPagePath(link: string | undefined): string | null {
+  if (!link) return null;
+  try {
+    const u = new URL(link);
+    const host = u.hostname.toLowerCase();
+    if (host !== "elnerds.com" && host !== "www.elnerds.com") return null;
+    return u.pathname.replace(/^\/+|\/+$/g, "") || null;
+  } catch {
+    return null;
+  }
+}
+
 /** A sign-up link cell as a URL the page may link to, or undefined.
  *  "www.…" gains https://; anything that isn't http(s)/mailto is dropped. */
 function safeLink(value: string): string | undefined {
