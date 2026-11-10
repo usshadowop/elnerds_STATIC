@@ -1,7 +1,7 @@
 # Game Day event sign-ups (`/gameday_events`)
 
 - **Status:** Live 2026-11-04 (site and `Code.gs`). The `Gameday Signups` tab exists and is empty, so the page says "Sign-ups open soon" until rows are typed.
-- **Last reviewed:** 2026-11-10 (prize boxes)
+- **Last reviewed:** 2026-11-10 (prize progress)
 - **Covers:** `src/pages/GamedayEvents.tsx`, `src/pages/LeadershipDnD.tsx`, `src/lib/gamedaySignup.ts`
 
 ## Purpose
@@ -73,6 +73,12 @@ so the page and Event Details always agree.
   `/gameday_events` and in Event Details. Put it on its own line after the
   rest of the text. `splitPrize()` in `gamedayContent.ts` does it; no new
   column and no `Code.gs` change. No such line, no box.
+  **Minimum-entry prizes** (2026-11-10): if the prize text says "N or more"
+  ("Available with 8 or more participants"), the box adds a live "1/8 so far"
+  chip ("8/8 unlocked!" at the minimum), counting the event's Extra Life
+  incentive `claimed` from `useIncentiveStock`, so it moves with the "15 of 16
+  left" chip. It only works on a row with an incentive link; `PrizeBox` takes
+  the `claimed` prop.
 - **A row without one** gets a "Sign up below" button, and its Event appears
   as a checkbox in the form at the bottom. With no such rows, the form is
   hidden.

@@ -78,11 +78,17 @@ export function RichText({ parts }: { parts: GamedayTextPart[] }) {
  *  greatsword!"), from the Details cell's "Prize:" line. */
 export function PrizeBox({
   prize,
+  claimed,
   className = "",
 }: {
   prize: NonNullable<GamedaySignupEvent["prize"]>;
+  /** Spots claimed so far on the event's Extra Life incentive. With a
+   *  "…8 or more participants" prize, shows "1/8 so far" (live). */
+  claimed?: number;
   className?: string;
 }) {
+  const min = Number(/(\d+)\s+or\s+more/i.exec(prize.text.map((p) => p.text).join(""))?.[1]);
+  const progress = min > 0 && claimed != null ? claimed : null;
   return (
     <span
       className={`flex items-start gap-1.5 rounded-lg bg-magenta-soft px-2.5 py-1.5 text-xs font-bold text-ink ${className}`}
@@ -90,6 +96,11 @@ export function PrizeBox({
       <Gift className="mt-0.5 size-3.5 shrink-0 text-magenta" />
       <span className="min-w-0 break-words">
         <span className="text-magenta">{prize.label}:</span> <RichText parts={prize.text} />
+        {progress != null && (
+          <span className="ml-1.5 inline-block whitespace-nowrap rounded-full bg-magenta px-2 py-0.5 text-[11px] font-extrabold text-white">
+            {progress >= min ? `${progress}/${min} unlocked!` : `${progress}/${min} so far`}
+          </span>
+        )}
       </span>
     </span>
   );
@@ -224,7 +235,7 @@ export function GamedayEventDetails({
                               <RichText parts={r.details} />
                             </span>
                           )}
-                          {r.prize && <PrizeBox prize={r.prize} className="mt-1.5" />}
+                          {r.prize && <PrizeBox prize={r.prize} claimed={stock.get(inc?.incentiveID ?? "")?.claimed} className="mt-1.5" />}
                         </div>
                         <SlotButton row={r} />
                       </li>
