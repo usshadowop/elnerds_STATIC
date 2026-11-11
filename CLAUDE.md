@@ -71,8 +71,9 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 *Session of 2026-11-10/11 (phone schedule redesign; live):*
 
 - **Phone schedule is now a timeline** (`GamedayAgenda.tsx`, both pages below
-  `md`): cards at their start times whose top-right corners turn into thin
-  bars ending at the end time, bars touching in lanes on the right, 4px
+  `md`): cards at their start times whose top-left corners turn into thin
+  bars ending at the end time, bars touching in lanes beside the hour pills
+  (first shipped on the cards' right in #195, moved left the same day), 4px
   outlines, and a now-line with a dot on every bar it crosses. Busy hours
   stretch so every card stays on its start time. It replaced the list and the
   "See the full timeline" overlay. Rules in the gameday-content card.

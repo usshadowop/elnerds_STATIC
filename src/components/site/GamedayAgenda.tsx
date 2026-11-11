@@ -3,11 +3,12 @@
 // The lane grid in GamedaySchedule.tsx needs sideways scrolling on a phone, so
 // below `md` both pages show this instead (owner's design, 2026-11-11, from the
 // "Game Day Timeline Mockup" canvas). Hours run down the left as red pills.
-// Each event is a card at its start time; the card's top-right corner turns
+// Each event is a card at its start time; the card's top-left corner turns
 // down into a thin bar that ends at the event's end time. Bars pack side by
-// side into lanes on the right, longest first and outermost, touching, so
-// neighbours share one outline. The pink now-line runs across, under the cards
-// and over the bars, with a dot on every bar it crosses.
+// side into lanes right beside the hour pills (moved there from the cards'
+// right on 2026-11-11, owner's ask), longest first and outermost, touching,
+// so neighbours share one outline. The pink now-line runs across, under the
+// cards and over the bars, with a dot on every bar it crosses.
 //
 // Every card sits at its own start time. Where cards would crowd, the stretch
 // of time before the next start grows until the card above clears it, so busy
@@ -39,7 +40,7 @@ const PITCH = LANE_W - B; // neighbouring bars overlap by one outline: no white 
 const ARM_H = 16;
 const TOP = 14; // room above the first hour pill
 const GUTTER = 38; // hour pills
-const CARD_LEFT = 46;
+const BARS_LEFT = 44; // the bars sit right beside the hour pills
 const CARD_TO_BARS = 8;
 const EST_CARD_H = 52; // first-layout guess; replaced by the measured height before paint
 const PILL_CLEAR = 27; // an hour pill this close to the now pill is hidden
@@ -73,9 +74,9 @@ function shortTime(minutes: number, sun = false): string {
   return `${h12}${m ? `:${String(m).padStart(2, "0")}` : ""}${h24 < 12 ? "a" : "p"}${tail}`;
 }
 
-/** Bars: longest first, each into the first lane (0 = outermost, at the right
- *  edge) where it overlaps nothing. Long bars sit at the edge, so the short
- *  events' arms stay short. */
+/** Bars: longest first, each into the first lane (0 = outermost, next to the
+ *  hour pills) where it overlaps nothing. Long bars sit farthest from the
+ *  cards, so the short events' arms stay short. */
 function packLanes(entries: Entry[]): number {
   const lanes: Entry[][] = [];
   const byLength = [...entries].sort((a, b) => b.end - b.start - (a.end - a.start) || a.start - b.start);
@@ -214,7 +215,7 @@ export function GamedayAgenda({
   });
   const laneCount = packLanes(entries);
   const railsPx = LANE_W + (laneCount - 1) * PITCH;
-  const cardRight = railsPx + CARD_TO_BARS; // the card's right edge, measured from the track's right
+  const cardLeft = BARS_LEFT + railsPx + CARD_TO_BARS;
   const trackEnd = Math.max(DAY_MINUTES, ...entries.map((e) => e.end));
 
   // Card heights come from the page: the first layout uses a guess, then this
@@ -266,7 +267,7 @@ export function GamedayAgenda({
   return (
     <div>
       <p className="px-1 text-xs font-bold text-ink-soft">Saturday 8 AM to Sunday 8 AM, Central time</p>
-      <p className="mb-3 px-1 text-xs text-ink-soft">The bar on the right of each card runs until that event ends.</p>
+      <p className="mb-3 px-1 text-xs text-ink-soft">The bar to the left of each card runs until that event ends.</p>
       {lineOn && !live && (
         <p className="mb-3 inline-flex items-center gap-2 px-1 text-xs font-bold text-magenta">
           <span className="relative flex size-2">
@@ -332,7 +333,7 @@ export function GamedayAgenda({
               <div key={r.h}>
                 <div
                   className="absolute right-0 rounded-md bg-[#f1ece4]"
-                  style={{ left: CARD_LEFT, top: top + 2, height: bottom - top - 4 }}
+                  style={{ left: BARS_LEFT, top: top + 2, height: bottom - top - 4 }}
                 />
                 {clearOfNow((top + bottom) / 2) && (
                   <span
@@ -348,7 +349,7 @@ export function GamedayAgenda({
           }
           return (
             <div key={r.h}>
-              <div className="absolute right-0 border-t border-dashed border-line" style={{ left: CARD_LEFT, top }} />
+              <div className="absolute right-0 border-t border-dashed border-line" style={{ left: BARS_LEFT, top }} />
               {clearOfNow(top) && (
                 <span
                   className="absolute left-0 flex h-5 items-center justify-center rounded-md bg-[#d0455b] text-[11px] font-extrabold text-white"
@@ -368,24 +369,24 @@ export function GamedayAgenda({
           const top = (cardTop[i] ?? 0) + TOP;
           const barTop = y(e.start) + TOP;
           const barH = Math.max(y(e.end) + TOP - barTop, ARM_H + 4);
-          const laneRight = e.lane * PITCH;
+          const laneLeft = BARS_LEFT + e.lane * PITCH;
           return (
             <div key={`bar-${e.key}`} aria-hidden>
               <div
                 className="absolute"
-                style={{ right: laneRight, top, width: cardRight + B - laneRight, height: ARM_H, background: stroke, borderTopRightRadius: 7 }}
+                style={{ left: laneLeft, top, width: cardLeft + B - laneLeft, height: ARM_H, background: stroke, borderTopLeftRadius: 7 }}
               />
               <div
                 className="absolute rounded-[7px]"
-                style={{ right: laneRight, top: barTop, width: LANE_W, height: barH, background: stroke }}
+                style={{ left: laneLeft, top: barTop, width: LANE_W, height: barH, background: stroke }}
               />
               <div
                 className="absolute"
-                style={{ right: laneRight + B, top: top + B, width: cardRight - laneRight, height: ARM_H - 2 * B, background: fill, borderTopRightRadius: 3 }}
+                style={{ left: laneLeft + B, top: top + B, width: cardLeft - laneLeft, height: ARM_H - 2 * B, background: fill, borderTopLeftRadius: 3 }}
               />
               <div
                 className="absolute rounded-[3px]"
-                style={{ right: laneRight + B, top: barTop + B, width: LANE_W - 2 * B, height: barH - 2 * B, background: fill }}
+                style={{ left: laneLeft + B, top: barTop + B, width: LANE_W - 2 * B, height: barH - 2 * B, background: fill }}
               />
             </div>
           );
@@ -400,7 +401,7 @@ export function GamedayAgenda({
           />
         )}
 
-        {/* Layer 3: the cards. A patch over each card's right edge opens it
+        {/* Layer 3: the cards. A patch over each card's left edge opens it
             into its arm. */}
         {order.map(({ e, i }) => {
           const { current, faded, stroke, fill } = look(e);
@@ -411,8 +412,8 @@ export function GamedayAgenda({
                 ref={(el) => {
                   cardEls.current[i] = el;
                 }}
-                className="absolute rounded-xl rounded-tr-none px-2.5 pb-[7px] pt-1.5"
-                style={{ left: CARD_LEFT, right: cardRight, top, border: `${B}px solid ${stroke}`, background: fill }}
+                className="absolute rounded-xl rounded-tl-none px-2.5 pb-[7px] pt-1.5"
+                style={{ left: cardLeft, right: 0, top, border: `${B}px solid ${stroke}`, background: fill }}
               >
                 <div className={faded ? "opacity-50" : undefined}>
                   <p className={`text-[11px] font-extrabold leading-[14px] text-ink/70 ${current ? "pr-12" : ""}`}>
@@ -429,7 +430,7 @@ export function GamedayAgenda({
               </div>
               <div
                 className="absolute"
-                style={{ right: cardRight, top: top + B, width: B, height: ARM_H - 2 * B, background: fill }}
+                style={{ left: cardLeft, top: top + B, width: B, height: ARM_H - 2 * B, background: fill }}
                 aria-hidden
               />
             </div>
@@ -450,7 +451,7 @@ export function GamedayAgenda({
               <span
                 key={`dot-${e.key}`}
                 className="absolute rounded-full border-[3px] border-magenta bg-white"
-                style={{ right: e.lane * PITCH, top: nowY - LANE_W / 2, width: LANE_W, height: LANE_W }}
+                style={{ left: BARS_LEFT + e.lane * PITCH, top: nowY - LANE_W / 2, width: LANE_W, height: LANE_W }}
                 aria-hidden
               />
             ))}

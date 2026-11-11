@@ -200,11 +200,15 @@ becomes a live player.
   replaced a plain list, which showed no durations and could only tag the
   current row, and the full-screen grid overlay behind it.
   - Red hour pills down the left. Each event is a card at its start time
-    whose top-right corner turns down into a thin bar ending at its end time.
+    whose top-left corner turns down into a thin bar ending at its end time.
+    **The bars sit right beside the hour pills, left of the cards** (moved
+    from the cards' right edge 2026-11-11, owner's ask, so they read against
+    the times).
     The all-day row (24 h or longer) is a banner above; untimed rows are
     listed underneath in plain text.
   - **Bars touch** (owner's ask): lanes are packed longest first, lane 0 the
-    outermost at the right edge, and neighbours overlap by one outline, so
+    outermost (next to the hour pills, farthest from the cards, so short
+    events' arms stay short), and neighbours overlap by one outline, so
     one black line separates them with no white between. Outlines are 4px
     (owner's ask), bars 13px wide so a strip of colour survives the outline.
   - **Every card sits at its own start time.** Where cards would crowd, the
