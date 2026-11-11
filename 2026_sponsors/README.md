@@ -15,7 +15,10 @@ them from this folder.
 A copy of every logo here (Bread & Pickle at its full 1800px) was put in the
 captain's Google Drive on 2026-11-11, in `DONOR LOGOS/2026`, with Placemaker's
 in a `Placemaker Hospitality` subfolder. That copy doesn't update itself: if a
-logo changes here, replace it there too.
+logo changes here, replace it there too. The Drive subfolder also holds a
+print sheet (landscape letter, PDF plus a 300-DPI PNG): Placemaker's logo above
+its five restaurants. It was laid out as an HTML page and printed to PDF with
+Chromium, so if one of those logos changes, rebuild the sheet too.
 
 | File | Sponsor | Role | Where it came from |
 | --- | --- | --- | --- |
