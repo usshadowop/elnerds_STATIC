@@ -268,9 +268,13 @@ already there.
   connector, signed in as `us.shadow.op@gmail.com` (`mcp__Google_Sheets__*`:
   `get_values`, `update_values`, `append_values`). Write only what the owner
   asks for. Don't write to tabs `Code.gs` writes (event RSVP tabs,
-  `Newsletter`, `Event Signups`) unless asked. The read-only Drive connector
-  (`stevenlarker1982@gmail.com`) still sees only files shared with it. The
-  full tab map is `docs/features/rsvp-sheet.md`.
+  `Newsletter`, `Event Signups`) unless asked. **Connector accounts, checked
+  2026-11-11:** Google Drive is also `us.shadow.op@gmail.com`, and it can
+  upload into folders the captain shares with that account as an editor (it
+  did, into `DONOR LOGOS/2026`; uploads are owned by `us.shadow.op`). Gmail
+  is `steven.larker.1982@gmail.com`. None of them is the captain account,
+  `captainextralifenerds@gmail.com`. The full tab map is
+  `docs/features/rsvp-sheet.md`.
 - `apps-script/Code.gs` — the Google Apps Script RSVP backend mirrors the
   slugs and field labels from `rsvpEvents.ts`; keep them in sync when
   events change (see `apps-script/README.md`).

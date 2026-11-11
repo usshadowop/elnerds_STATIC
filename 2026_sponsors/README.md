@@ -12,6 +12,11 @@ The email-sized renditions in `public/email/assets/sponsor-*` are separate,
 hand-made files, because emails need stable public URLs. Nothing generates
 them from this folder.
 
+A copy of every logo here (Bread & Pickle at its full 1800px) was put in the
+captain's Google Drive on 2026-11-11, in `DONOR LOGOS/2026`, with Placemaker's
+in a `Placemaker Hospitality` subfolder. That copy doesn't update itself: if a
+logo changes here, replace it there too.
+
 | File | Sponsor | Role | Where it came from |
 | --- | --- | --- | --- |
 | `improving.svg` | Improving | Game Day venue | Their site |
