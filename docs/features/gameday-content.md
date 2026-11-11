@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-10 (Event Details split into sections)
+- **Last reviewed:** 2026-11-11 (phone schedule is now a timeline with duration bars)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Routing (since 2026-11-10)
@@ -38,10 +38,10 @@ a spreadsheet during the event.
 - `src/components/site/GamedaySchedule.tsx` — the "Schedule" section: the
   run-of-show rows laid out as a lane grid with a "now" line (rules below).
 - `src/components/site/GamedayAgenda.tsx` — `ResponsiveGamedaySchedule`,
-  which both pages render: below `md` a top-to-bottom **agenda list**
-  (`GamedayAgenda`) with a "See the full timeline" button that opens the
-  grid in a full-screen overlay; from `md` up the grid itself. Added
-  2026-10-31 after the grid proved unreadable on phones.
+  which both pages render: below `md` the **phone timeline**
+  (`GamedayAgenda`, rules below); from `md` up the grid itself. Until
+  2026-11-11 phones got a plain list plus a "See the full timeline" button
+  that opened the grid full-screen; the timeline replaced both.
   Since 2026-10-31 the home page's Schedule section renders the same grid
   under the main-event card (`MainEventSchedule` in `Schedule.tsx`, owned
   by schedule-archival), fed by the same hook.
@@ -195,16 +195,41 @@ becomes a live player.
     its top edge there it drew about ten minutes late, below a block that
     hadn't ended yet (reported from the live site 2026-10-15, PR #83).
     Check line position with the clock forced, not by eye.
-- **Phones get a list, not the grid** (`ResponsiveGamedaySchedule`, below
-  `md`). The all-day row (24 h or longer) becomes a banner; the rest are
-  "time pill | card" rows sorted by start, meals green via the same `FOOD`
-  regex, untimed rows listed underneath in plain text. During Game Day the
-  current row gets a "NOW" tag and a magenta ring (off on the home page via
-  `showNow`). The overlay is a fixed full-screen panel (Escape closes, body
-  scroll locked) holding the ordinary grid with its own sideways scroll.
-  `FOOD`, `clockLabel`, `DAY_MINUTES` and `START_HOUR` live in
-  `gamedayContent.ts` and feed both views, so they can never disagree on
-  what a meal or a time is.
+- **Phones get a timeline of cards with duration bars** (`GamedayAgenda`,
+  below `md`; owner's design from a mockup canvas, shipped 2026-11-11). It
+  replaced a plain list, which showed no durations and could only tag the
+  current row, and the full-screen grid overlay behind it.
+  - Red hour pills down the left. Each event is a card at its start time
+    whose top-right corner turns down into a thin bar ending at its end time.
+    The all-day row (24 h or longer) is a banner above; untimed rows are
+    listed underneath in plain text.
+  - **Bars touch** (owner's ask): lanes are packed longest first, lane 0 the
+    outermost at the right edge, and neighbours overlap by one outline, so
+    one black line separates them with no white between. Outlines are 4px
+    (owner's ask), bars 13px wide so a strip of colour survives the outline.
+  - **Every card sits at its own start time.** Where cards would crowd, the
+    stretch of time before the next start grows until the card above clears
+    it, so busy hours are taller than quiet ones. The owner rejected the
+    alternative (every hour the same height), which slid afternoon cards up to
+    an hour below their bars. Bars and the now-line use the same scale, so
+    they stay true. Cards sharing a start stack. Two or more quiet hours fold
+    into a 48px band.
+  - **Card heights are measured from the page** (`useLayoutEffect` plus a
+    `ResizeObserver` on each card), so text never runs into the next card on
+    any phone width or font load. The first layout uses a guess and is
+    corrected before paint.
+  - **The now-line** runs under the cards and over the bars, with a dot on
+    every bar it crosses and a pink time pill in the gutter (the hour pill it
+    would cover is hidden). During Game Day it also tags current cards NOW
+    with a pink outline, fades finished events (solid faded colours, not
+    opacity, so a card and its arm don't darken where they overlap) and adds
+    an "On now" card above with what's running, until when, what's next and
+    a "Jump to now" button. Before and after, the line previews on the
+    visitor's clock like the grid's, labelled "Preview", with none of the
+    live extras. The home page turns it all off (`showNowLine={false}`).
+  - `FOOD`, `clockLabel`, `DAY_MINUTES` and `START_HOUR` live in
+    `gamedayContent.ts` and feed both views, so they can never disagree on
+    what a meal or a time is.
 - **The home page hides the now-line** (`showNowLine={false}` from
   `MainEventSchedule`): no line, no "Preview" legend, no pulse on current
   blocks. Before Game Day a line following the visitor's clock read as if

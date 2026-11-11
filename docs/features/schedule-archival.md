@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-06 (schedule heading carries the marathon date)
+- **Last reviewed:** 2026-11-11 (comment on the phone schedule updated; mechanism unchanged)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
