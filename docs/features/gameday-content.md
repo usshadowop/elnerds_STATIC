@@ -219,9 +219,18 @@ becomes a live player.
     they stay true. Cards sharing a start stack. Two or more quiet hours fold
     into a 48px band.
   - **Card heights are measured from the page** (`useLayoutEffect` plus a
-    `ResizeObserver` on each card), so text never runs into the next card on
-    any phone width or font load. The first layout uses a guess and is
-    corrected before paint.
+    `ResizeObserver` on each card's content), so text never runs into the
+    next card on any phone width or font load. The first layout uses a guess
+    and is corrected before paint.
+  - **Details are folded** (owner's ask, 2026-11-11): a card shows its time
+    and title, plus "Details – click to expand" when the row has a Detail. The
+    whole card is the button (`aria-expanded`); opening it shows the detail
+    and "Hide details", and the cards below move down to make room.
+  - **Cards run the length of their bar where there's room** (owner's ask,
+    2026-11-11): a card stretches down to its event's end time unless the
+    next card starts first, so blank space inside a card is deliberate. The
+    measurement is of the card's *content*, not the card, or the stretch would
+    feed back into the layout and push every later card down.
   - **The now-line** runs under the cards and over the bars, with a dot on
     every bar it crosses and a pink time pill in the gutter (the hour pill it
     would cover is hidden). During Game Day it also tags current cards NOW
