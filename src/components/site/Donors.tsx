@@ -12,9 +12,10 @@ const VENUE = {
 };
 
 // The restaurants feeding the room on Game Day, apart from Placemaker's, which
-// are a carousel of their own (`PlacemakerCarouselRow`, rendered after this
-// list). Same vendors as the sponsor links on /gameday (`SPONSOR_LINKS` in
-// CommandCenter.tsx); keep them in step.
+// are a carousel of their own (`PlacemakerCarouselRow`, listed first, above
+// these). Same vendors, in the same order, as the sponsor links on /gameday
+// (`SPONSOR_LINKS` in CommandCenter.tsx); keep them in step. Every row's logo
+// box is as wide as the carousel's (w-20, sm:w-24), so all the names line up.
 const FOOD_DONORS: { name: string; note: string; href: string; logo: string; logoClass: string }[] = [
   {
     name: "Papa Johns Roseville",
@@ -175,9 +176,12 @@ export function Donors() {
                 </div>
               </div>
               <ul className="space-y-3">
+                <li>
+                  <PlacemakerCarouselRow />
+                </li>
                 {FOOD_DONORS.map((donor) => (
                   <li key={donor.name} className="flex items-center gap-3 border-l-2 border-gold/50 pl-3">
-                    <span className="grid size-12 shrink-0 place-items-center">
+                    <span className="grid h-12 w-20 shrink-0 place-items-center sm:w-24">
                       <img src={donor.logo} alt="" className={`object-contain ${donor.logoClass}`} />
                     </span>
                     <span className="min-w-0">
@@ -196,9 +200,6 @@ export function Donors() {
                     </span>
                   </li>
                 ))}
-                <li>
-                  <PlacemakerCarouselRow />
-                </li>
               </ul>
             </div>
 

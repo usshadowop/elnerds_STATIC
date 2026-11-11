@@ -41,17 +41,17 @@ const HOME = import.meta.env.BASE_URL;
 const DONATE_URL = "https://www.extra-life.org/team/73600";
 
 // The sponsors who make Game Day happen. Each goes to the sponsor's own site.
-// The food vendors are repeated in the home page's Food Donation card
-// (`FOOD_DONORS` in Donors.tsx); change both together. Placemaker is the
-// exception: its slot is a carousel of its restaurants (`PlacemakerCarouselTile`)
-// rather than one logo, marked here by `PLACEMAKER_SLOT`.
+// The food vendors are repeated, in the same order (Placemaker first), in the
+// home page's Food Donation card (`FOOD_DONORS` in Donors.tsx); change both
+// together. Placemaker's slot is a carousel of its restaurants
+// (`PlacemakerCarouselTile`) rather than one logo, marked here by `PLACEMAKER_SLOT`.
 type SponsorLink = { label: string; note: string; href: string; logo: string; logoClass: string };
 const PLACEMAKER_SLOT = "placemaker";
 const SPONSOR_LINKS: (SponsorLink | typeof PLACEMAKER_SLOT)[] = [
   { label: "Improving", note: "Our Game Day venue", href: "https://www.improving.com/", logo: sponsorLogos.improving, logoClass: "h-10" },
+  PLACEMAKER_SLOT,
   { label: "Papa Johns Roseville", note: "Pizza · 1133 Larpenteur Ave W", href: "https://locations.papajohns.com/united-states/mn/55113/roseville/1133-larpenteur-ave-w", logo: sponsorLogos.papaJohns, logoClass: "h-12" },
   { label: "Q’s Cue", note: "BBQ catering · Veteran-owned", href: "https://www.facebook.com/profile.php?id=61563508501022", logo: sponsorLogos.qsCue, logoClass: "h-20 rounded-full" },
-  PLACEMAKER_SLOT,
   { label: "Gillette Children’s", note: "Where every dollar goes", href: "https://www.gillettechildrens.org/", logo: sponsorLogos.gilletteChildrens, logoClass: "h-12" },
 ];
 

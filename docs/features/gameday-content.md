@@ -20,9 +20,10 @@ a spreadsheet during the event.
 
 - `src/pages/CommandCenter.tsx` — the page (route `/gameday`, wired in
   `App.tsx`). Presentation only. The closing "Links to our sponsors!" grid
-  is a hand-maintained list in the file (`SPONSOR_LINKS`: Improving, Papa
-  Johns Roseville, Q’s Cue, Placemaker Hospitality, Gillette Children's;
-  five tiles across at `lg`), not sheet content. Each tile is a
+  is a hand-maintained list in the file (`SPONSOR_LINKS`: Improving,
+  Placemaker Hospitality, Papa Johns Roseville, Q’s Cue, Gillette Children's;
+  five tiles across at `lg`; Placemaker first among the food vendors, as on
+  the home page), not sheet content. Each tile is a
   `SponsorTile`, with the sponsor's logo read from `sponsorLogos`
   (`src/lib/sponsorLogos.ts`, which imports them from `2026_sponsors/`; the
   extra-life-api card explains it and that folder's README says where each

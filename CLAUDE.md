@@ -181,6 +181,11 @@ already there.
   scrolling to the hash once the element exists and again while the page
   settles (the served HTML is empty until React renders, so the browser
   alone finds nothing). Called once from `App.tsx`.
+- `src/pages/SiteMap.tsx` (`/sitemap`, not linked from the nav) lists every
+  page on the site for the team: the routes in `App.tsx`, the home page's jump
+  links, the RSVP pages (read from `rsvpEvents.ts`, so new events appear on
+  their own) and the email pages. A new route in `App.tsx` needs a line here
+  too; a comment above the route table says so.
 - `src/hooks/use-now.ts` — the shared ticking clock (default one minute)
   behind all of the above, so a page left open across an event's end
   updates without a reload.

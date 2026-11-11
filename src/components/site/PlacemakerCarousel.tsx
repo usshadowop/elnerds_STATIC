@@ -6,9 +6,9 @@
 // - The order is fixed (`PLACEMAKER_RESTAURANTS`), but the restaurant it opens
 //   on is picked at random on every page load, so each one is first equally often.
 // - It advances by itself every 4 seconds and loops. Autoplay holds while a mouse
-//   is over it or keyboard focus is inside it, and is off entirely when the
-//   visitor's device asks for reduced motion. The arrows and dots always work,
-//   and any change of slide starts a fresh 4 seconds.
+//   is over it or someone is using the keyboard inside it, and is off entirely
+//   when the visitor's device asks for reduced motion. The arrows and dots always
+//   work, and any change of slide starts a fresh 4 seconds.
 // - Two layouts share one engine: `PlacemakerCarouselRow` is the row in the home
 //   page's Food Donation card, `PlacemakerCarouselTile` the tile in the
 //   /gameday sponsor grid.
@@ -38,9 +38,9 @@ function useCarousel() {
   // A random first restaurant, chosen once per page load.
   const [index, setIndex] = useState(() => Math.floor(Math.random() * COUNT));
   const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
+  const [usingKeyboard, setUsingKeyboard] = useState(false);
   const reducedMotion = useReducedMotion();
-  const autoplaying = !hovered && !focused && !reducedMotion;
+  const autoplaying = !hovered && !usingKeyboard && !reducedMotion;
 
   const go = useCallback((step: number) => setIndex((i) => (i + step + COUNT) % COUNT), []);
 
@@ -59,12 +59,16 @@ function useCarousel() {
       if (e.pointerType === "mouse") setHovered(true);
     },
     onPointerLeave: () => setHovered(false),
-    // Keyboard focus pauses it; a mouse click or a tap on a button does not.
+    // Keyboard use holds it: focus arriving by keyboard, or any key pressed inside
+    // (say, Enter on an arrow that was first clicked with the mouse, which gives
+    // focus but not keyboard focus). A plain mouse click or a tap does not hold it.
+    // Either way it lets go once focus leaves the carousel.
     onFocus: (e: FocusEvent) => {
-      if (e.target.matches(":focus-visible")) setFocused(true);
+      if (e.target.matches(":focus-visible")) setUsingKeyboard(true);
     },
+    onKeyDown: () => setUsingKeyboard(true),
     onBlur: (e: FocusEvent) => {
-      if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false);
+      if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setUsingKeyboard(false);
     },
   };
 
@@ -182,7 +186,7 @@ export function PlacemakerCarouselRow() {
                 {r.name}
                 <ArrowUpRight className="size-3.5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </a>
-              <span className="block text-xs font-bold uppercase tracking-widest text-ink-soft">
+              <span className="block text-[10px] font-bold uppercase tracking-widest text-ink-soft">
                 by {PLACEMAKER_NAME}
               </span>
             </span>
@@ -248,7 +252,7 @@ export function PlacemakerCarouselTile() {
             >
               <span>
                 <span className="block font-display text-base font-extrabold text-ink">{r.name}</span>
-                <span className="block text-xs font-bold uppercase tracking-widest text-ink-soft">
+                <span className="block text-[10px] font-bold uppercase tracking-widest text-ink-soft">
                   by {PLACEMAKER_NAME}
                 </span>
               </span>
