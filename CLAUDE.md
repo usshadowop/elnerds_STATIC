@@ -51,7 +51,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 | 2026-11-10 | Owner | The Game Day email went out (told to a session 2026-11-10, archived from the repo draft). Confirm what Brevo actually sent matches `email/archive/2026-11-gameday-this-saturday/`; its "donation match" line (from the owner's wording) isn't backed by anything in the repo or sheet. |
 | 2026-11-10 | Owner | Type the leadership D&D stream into the `Gameday Streams` tab (name containing "Leadership" or "D&D", plus Embed URL) so `/leadership_DandD` shows the player; until then it says "Goes live at 9:30 PM on Game Day. Game starts at 10 PM." |
-| 2026-11-11 | Owner (decision) | Placemaker wants its five brands shown in place of its own logo (home page Food Donation card, `/gameday` sponsor grid). The logos are in `2026_sponsors/placemaker-hospitality/`; nothing on the site uses them yet. Open: one entry showing all five logos vs five separate entries; keep a small "Placemaker Hospitality" text credit?; link each logo to its own site (four have one, Book Club doesn't)? |
+| 2026-11-11 | Owner (decision) | Placemaker wants its brands shown instead of its own logo. **Spec agreed with the owner, not built yet:** in the home page's Food Donation card the Placemaker row becomes a carousel of its five restaurants (logos already in `2026_sponsors/placemaker-hospitality/`; add them to `sponsorLogos.ts` when used). Each slide looks like the other rows: logo left, the restaurant's name linking to its own site, and the small line "by Placemaker Hospitality". ‹ › buttons, fixed alphabetical order (Barbette, Book Club, Bread & Pickle, gigi's cafe, Pat's Tap), **autoplay every 4 seconds, looping**, and a random starting restaurant on each page load so all five get equal exposure. Still open: should the `/gameday` sponsor tile get the same carousel (recommended: one shared component)? Book Club has no link on Placemaker's page; its own site is bookclubrestaurant.com (live 2026-11-11), OK to link? |
 
 Rules that keep this honest:
 
@@ -69,29 +69,24 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-10/11 (phone schedule redesign; done and live, PRs
-#195–#198):*
+*Session of 2026-11-11 (sponsor logos have one home):*
 
-- **Phones get a timeline, not a list** (`GamedayAgenda.tsx`, below `md` on
-  both the home page and the Command Center). Each event is a card at its
-  start time whose top-left corner turns into a thin bar ending at its end
-  time; bars touch, in lanes beside the hour pills; 4px outlines. Details
-  fold behind "Details – click to expand", and cards stretch to the end of
-  their bars where the next card allows. The old list and its "See the full
-  timeline" overlay are gone. All rules are in the gameday-content card.
-- Designed with the owner on a Design canvas ("Game Day Timeline Mockup",
-  a claude.ai artifact private to the owner). The canvas is out of date
-  (bars on the right, details open); the site is the reference now.
-- Owner decisions: every card stays on its start time, so busy hours
-  stretch (equal-height hours slid cards an hour off their bars);
-  touching bars; 4px outlines; bars beside the times; folded details.
-- Card heights are measured in the browser (content, not card), never
-  estimated: estimating Nunito widths was off by ~25% in the mockup.
-  How to drive it with the live rows and a pinned Game Day clock is now
-  in the verify skill.
-- At 8 AM Nov 14 the live extras switch on by themselves (On now card,
-  NOW tags, faded finished events). Until then `/gameday_holding` shows
-  a "Preview" line on the visitor's clock; the home page shows no line.
+- **Sponsor logos have one home.** `2026_sponsors/` (repo root) holds the
+  only copy of every sponsor logo; `src/lib/sponsorLogos.ts` is the one file
+  that imports from it, and `Donors.tsx` and `CommandCenter.tsx` use its
+  names. `src/assets/logos/sponsors/` is gone. The build emits the same
+  image files as before (checked in a browser on the dev server and on the
+  production build). The email renditions in `public/email/assets/sponsor-*`
+  stay separate, since emails need stable public URLs. The extra-life-api
+  card explains it.
+- **Placemaker's five brand logos** (Barbette, Book Club, Bread & Pickle,
+  gigi's cafe, Pat's Tap) came from a Word file in the owner's Drive, "PH
+  Logos for Gillette Childrens_Extra Life Nerds_24 hr Gaming FUNdraiser
+  2026.docx", and were extracted unchanged (transparent PNGs, cropped tight).
+  They sit in `2026_sponsors/placemaker-hospitality/` with a README on where
+  each came from. No page shows them yet.
+- **Next, agreed with the owner:** the Placemaker carousel. The full spec
+  is in the open thread above.
 
 ## Ship-live workflow
 
