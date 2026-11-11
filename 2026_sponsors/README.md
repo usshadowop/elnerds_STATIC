@@ -3,10 +3,14 @@
 Logos for the sponsors and donors of the 2026 Extra Life Nerds 24-hour gaming
 FUNdraiser (Game Day, November 14), kept in one place so anyone can grab them.
 
-These are **source copies**. Nothing in the build reads this folder: the site
-imports its own copies from `src/assets/logos/sponsors/`, and the email-sized
-renditions live in `public/email/assets/sponsor-*`. Changing a file here does
-not change the site.
+This folder is the **one home for sponsor logos**. The site imports them from
+here, through `src/lib/sponsorLogos.ts` and nowhere else, so there is no second
+copy to drift. Replace a file here (same name) and the site picks it up on the
+next build. To use a new logo, drop it in and add it to `sponsorLogos.ts`.
+
+The email-sized renditions in `public/email/assets/sponsor-*` are separate,
+hand-made files, because emails need stable public URLs. Nothing generates
+them from this folder.
 
 | File | Sponsor | Role | Where it came from |
 | --- | --- | --- | --- |
@@ -16,7 +20,7 @@ not change the site.
 | `gillette-childrens.svg` | Gillette Children’s | Where the money goes | Their site |
 | `placemaker-hospitality/` | Placemaker Hospitality | Food | See below |
 
-The four top-level files were copied from `src/assets/logos/sponsors/` on
+The four top-level files were moved here from `src/assets/logos/sponsors/` on
 2026-11-11.
 
 ## Placemaker Hospitality
@@ -36,5 +40,5 @@ tight to the artwork, with no padding.
 | `pats-tap.png` | Pat’s Tap | 792×294 |
 | `placemaker-hospitality.png` | Placemaker Hospitality, the parent company’s own logo | 500×359 |
 
-`placemaker-hospitality.png` is a copy of `src/assets/logos/sponsors/placemaker.png`
+`placemaker-hospitality.png` was `src/assets/logos/sponsors/placemaker.png`
 (their site’s share image, with the white background made transparent).

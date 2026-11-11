@@ -277,6 +277,15 @@ already there.
   A repo edit alone changes nothing live.
 - Location lines follow the format "VenueName, street, city, ST zip"
   (e.g. "Improving, 3033 Excelsior Blvd #180, Minneapolis, MN 55416").
+- `2026_sponsors/` — the one home for sponsor logos, and
+  `src/lib/sponsorLogos.ts` is the one file that imports from it.
+  `Donors.tsx` and `CommandCenter.tsx` use its names, never an image file,
+  so there is no second copy under `src/assets/`. A brand that belongs to a
+  parent company gets a subfolder (`placemaker-hospitality/`). The folder's
+  README says where each logo came from. The email-sized renditions in
+  `public/email/assets/sponsor-*` are separate, hand-made files, because
+  emails need stable public URLs; nothing generates them from the folder.
+  See the sponsor-logos section of the extra-life-api card.
 - `branding/` — design source of truth for surfaces that can't read the
   site's Tailwind tokens. `branding/email/` holds the email template,
   a twelve-block library, the palette/type/layout values, and

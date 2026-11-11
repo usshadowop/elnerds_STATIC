@@ -1,8 +1,8 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-07 (TeamProgress shared with the hero)
-- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/hooks/useExtraLifeIncentives.ts`
+- **Last reviewed:** 2026-11-11 (sponsor logos now read from `2026_sponsors/`)
+- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/hooks/useExtraLifeIncentives.ts`, `src/lib/sponsorLogos.ts`
 
 ## Purpose
 
@@ -34,16 +34,16 @@ someone donates.
 - `src/components/site/Donors.tsx` — the "2026 Donors" section: the live
   donor wall takes two-thirds, and the right column is three hand-maintained
   cards, **Venue Donation** (Improving, the Game Day venue: their logo
-  from `src/assets/logos/sponsors/` is the link, with the arrow beside it,
+  (see Sponsor logos, below) is the link, with the arrow beside it,
   under an "Our home for 24 hours" subheader; the old text link and blurb
   went 2026-11-06 at the owner's request), then **Food
   Donation** (`FOOD_DONORS`: Papa Johns Roseville, Q’s Cue and Placemaker
   Hospitality, each a small logo plus a link with a one-line note, gold
   accent; added 2026-11-06), then **In-Kind Donors** (a plain list). The
   food list is the same vendors as `SPONSOR_LINKS` on `/gameday` (`CommandCenter.tsx`),
-  copied by hand, logos from `src/assets/logos/sponsors/` — change both
-  when a food sponsor changes. Nothing in the right column comes from the
-  API.
+  copied by hand (names, links and notes only: both pages read the logos
+  from `sponsorLogos`, see below), so change both when a food sponsor
+  changes. Nothing in the right column comes from the API.
 - `src/components/site/Hero.tsx` — the post-Game-Day grand total (see
   [gameday-hero-states](gameday-hero-states.md)).
 
@@ -131,4 +131,29 @@ Game Day sheet links to:
   refresh keeps the previous counts.
 - **No sheet change is needed:** whoever fills the sheet should drop
   hand-typed "5 left" text, since the chip now says it.
+
+## Sponsor logos (added 2026-11-11)
+
+`2026_sponsors/` at the repo root is the one home for sponsor logos, and
+`src/lib/sponsorLogos.ts` is the one file that imports from it. `Donors.tsx`
+and `CommandCenter.tsx` use its names (`sponsorLogos.improving`, …) and never
+an image file, so there is no second copy to drift and no page that needs to
+know where the folder is. The folder's README says where each logo came from.
+
+- **Add a logo:** put the file in `2026_sponsors/` (a brand under a parent
+  company goes in a subfolder, as `placemaker-hospitality/` does), then add it
+  to `sponsorLogos.ts`. Replacing a file in place, under the same name, needs
+  no code change.
+- **Not everything in the folder is imported.** Placemaker's five brand logos
+  are saved but no page shows them yet; import them when one does.
+- **The email renditions are separate on purpose.**
+  `public/email/assets/sponsor-*` are small hand-made copies served at stable
+  public URLs, which an email needs (and sent emails keep pointing at them).
+  Nothing generates them from the folder, so change both by hand if a logo
+  changes.
+- **History:** until 2026-11-11 the site kept its own copies in
+  `src/assets/logos/sponsors/`. That folder is gone. Vite reads
+  `2026_sponsors/` directly, in the dev server and in the production build
+  (both checked in a browser), and the emitted image files are byte-identical
+  to before.
 
