@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-11 (phone schedule is now a timeline with duration bars)
+- **Last reviewed:** 2026-11-11 (phone schedule timeline; sponsor logos now read from `2026_sponsors/`)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Routing (since 2026-11-10)
@@ -23,11 +23,10 @@ a spreadsheet during the event.
   is a hand-maintained list in the file (Improving, Papa Johns Roseville,
   Q’s Cue, Placemaker Hospitality, Gillette Children's; five tiles across
   at `lg`), not sheet content, with each
-  sponsor's logo from `src/assets/logos/sponsors/` (Improving's and
-  Gillette's from their sites, Papa John's from Wikimedia, Q’s Cue's is the
-  profile picture of their Facebook page, `qs-cue.jpg`, 480px on black,
-  shown `rounded-full`; Placemaker's is their site's share image with the
-  white background made transparent, `placemaker.png`). The three food
+  sponsor's logo read from `sponsorLogos` (`src/lib/sponsorLogos.ts`, which
+  imports them from `2026_sponsors/`; the extra-life-api card explains it
+  and that folder's README says where each logo came from). Q’s Cue's logo
+  is a square photo on black, so it is shown `rounded-full`. The three food
   vendors are repeated in the home page's Food Donation card
   (`Donors.tsx`); change both together.
   Above the streams, a "Come visit" card shows the marathon's venue from

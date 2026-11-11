@@ -1,16 +1,13 @@
 import { ArrowUpRight, Building2, UtensilsCrossed } from "lucide-react";
 import { useExtraLifeDonors } from "@/hooks/useExtraLifeDonors";
-import improvingLogo from "@/assets/logos/sponsors/improving.svg";
-import papaJohnsLogo from "@/assets/logos/sponsors/papa-johns.svg";
-import qsCueLogo from "@/assets/logos/sponsors/qs-cue.jpg";
-import placemakerLogo from "@/assets/logos/sponsors/placemaker.png";
+import { sponsorLogos } from "@/lib/sponsorLogos";
 
 // The Game Day venue is a donation too, and a big one: it gets its own block
 // above the in-kind list rather than a line in it. The logo is the link.
 const VENUE = {
   name: "Improving",
   href: "https://www.improving.com/",
-  logo: improvingLogo,
+  logo: sponsorLogos.improving,
 };
 
 // The restaurants feeding the room on Game Day. Same two as the sponsor links
@@ -20,21 +17,21 @@ const FOOD_DONORS: { name: string; note: string; href: string; logo: string; log
     name: "Papa Johns Roseville",
     note: "Pizza · Roseville",
     href: "https://locations.papajohns.com/united-states/mn/55113/roseville/1133-larpenteur-ave-w",
-    logo: papaJohnsLogo,
+    logo: sponsorLogos.papaJohns,
     logoClass: "h-7 w-auto",
   },
   {
     name: "Q’s Cue",
     note: "BBQ catering · Woodbury · Veteran-owned",
     href: "https://www.facebook.com/profile.php?id=61563508501022",
-    logo: qsCueLogo,
+    logo: sponsorLogos.qsCue,
     logoClass: "size-11 rounded-full",
   },
   {
     name: "Placemaker Hospitality",
     note: "Minneapolis restaurants",
     href: "https://placemakerhospitality.com/",
-    logo: placemakerLogo,
+    logo: sponsorLogos.placemakerHospitality,
     logoClass: "h-12 w-auto",
   },
 ];
