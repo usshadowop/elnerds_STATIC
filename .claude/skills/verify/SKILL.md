@@ -65,6 +65,26 @@ half of what it draws depends on the clock, so drive it with both pinned:
   (`require("playwright")` from any directory, `chromium.launch()` with no
   options), as an alternative to `playwright-core` with an `executablePath`.
 
+## Placemaker carousel (home Food Donation card, `/gameday` sponsor grid)
+
+`PlacemakerCarousel.tsx` autoplays every 4 seconds, so test it on a fake clock
+(the rules are in the extra-life-api card):
+
+- `page.clock.install()` and then `page.clock.pauseAt(...)` **before** `goto`.
+  `install()` alone keeps the fake clock ticking in real time, which makes
+  "nothing happens at 3.9s" checks fail at random. Advance with `runFor`.
+- Read the current slide from the dot with `aria-current="true"`, which is
+  state; visibility is mid-fade for 300ms after every change.
+- Worth checking: no change at 3.9s and a change at 4.1s; a real mouse over it
+  holds it; keyboard holds it (focus the element just before it, then Tab in,
+  or press a key inside); a touch tap doesn't hold it; no autoplay with
+  `reducedMotion: "reduce"`; the start is random (80 fresh loads, all five
+  come up first).
+- **Mid-fade regression:** straight after an autoplay change,
+  `document.elementFromPoint` on the visible name link must hit that slide's
+  link, and Tab must not land in the outgoing slide. Inactive slides are
+  `inert`; without it both went wrong.
+
 ## RSVP form (`/rsvp`)
 
 - Needs `VITE_RSVP_ENDPOINT` (a Google Apps Script Web App URL) at dev-server

@@ -19,6 +19,7 @@ const SAMPLE_STILLS = [stillPc, stillCrowd, stillVr];
 
 import { ResponsiveGamedaySchedule } from "@/components/site/GamedayAgenda";
 import { GamedayEventDetails } from "@/components/site/GamedayEventDetails";
+import { PlacemakerCarouselTile } from "@/components/site/PlacemakerCarousel";
 import { useGameday } from "@/hooks/use-countdown";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
@@ -40,15 +41,45 @@ const HOME = import.meta.env.BASE_URL;
 const DONATE_URL = "https://www.extra-life.org/team/73600";
 
 // The sponsors who make Game Day happen. Each goes to the sponsor's own site.
-// The two food vendors are repeated in the home page's Food Donation card
-// (`FOOD_DONORS` in Donors.tsx); change both together.
-const SPONSOR_LINKS: { label: string; note: string; href: string; logo: string; logoClass: string }[] = [
+// The food vendors are repeated, in the same order (Placemaker first), in the
+// home page's Food Donation card (`FOOD_DONORS` in Donors.tsx); change both
+// together. Placemaker's slot is a carousel of its restaurants
+// (`PlacemakerCarouselTile`) rather than one logo, marked here by `PLACEMAKER_SLOT`.
+type SponsorLink = { label: string; note: string; href: string; logo: string; logoClass: string };
+const PLACEMAKER_SLOT = "placemaker";
+const SPONSOR_LINKS: (SponsorLink | typeof PLACEMAKER_SLOT)[] = [
   { label: "Improving", note: "Our Game Day venue", href: "https://www.improving.com/", logo: sponsorLogos.improving, logoClass: "h-10" },
+  PLACEMAKER_SLOT,
   { label: "Papa Johns Roseville", note: "Pizza · 1133 Larpenteur Ave W", href: "https://locations.papajohns.com/united-states/mn/55113/roseville/1133-larpenteur-ave-w", logo: sponsorLogos.papaJohns, logoClass: "h-12" },
   { label: "Q’s Cue", note: "BBQ catering · Veteran-owned", href: "https://www.facebook.com/profile.php?id=61563508501022", logo: sponsorLogos.qsCue, logoClass: "h-20 rounded-full" },
-  { label: "Placemaker Hospitality", note: "Minneapolis restaurants", href: "https://placemakerhospitality.com/", logo: sponsorLogos.placemakerHospitality, logoClass: "h-20" },
   { label: "Gillette Children’s", note: "Where every dollar goes", href: "https://www.gillettechildrens.org/", logo: sponsorLogos.gilletteChildrens, logoClass: "h-12" },
 ];
+
+function SponsorTile({ link }: { link: SponsorLink }) {
+  return (
+    <a
+      href={link.href}
+      target="_blank"
+      rel="noreferrer"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-paper shadow-[var(--shadow-soft)] transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
+    >
+      <div className="flex h-28 items-center justify-center border-b border-line bg-white px-6">
+        <img
+          src={link.logo}
+          alt={`${link.label} logo`}
+          className={`w-auto max-w-full object-contain transition-transform group-hover:scale-105 ${link.logoClass}`}
+        />
+      </div>
+      <div className="flex flex-1 items-center justify-between gap-3 px-5 py-4">
+        <span>
+          <span className="block font-display text-base font-extrabold text-ink">{link.label}</span>
+          <span className="block text-xs font-bold uppercase tracking-widest text-ink-soft">{link.note}</span>
+        </span>
+        <ExternalLink className="size-4 shrink-0 text-teal transition-transform group-hover:translate-x-0.5" />
+      </div>
+    </a>
+  );
+}
 
 function SectionHeading({
   icon: Icon,
@@ -265,30 +296,13 @@ export function CommandCenter() {
           <div>
             <SectionHeading icon={Handshake} label="Thank you" title="Links to our sponsors!" />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-              {SPONSOR_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-paper shadow-[var(--shadow-soft)] transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
-                >
-                  <div className="flex h-28 items-center justify-center border-b border-line bg-white px-6">
-                    <img
-                      src={link.logo}
-                      alt={`${link.label} logo`}
-                      className={`w-auto max-w-full object-contain transition-transform group-hover:scale-105 ${link.logoClass}`}
-                    />
-                  </div>
-                  <div className="flex flex-1 items-center justify-between gap-3 px-5 py-4">
-                    <span>
-                      <span className="block font-display text-base font-extrabold text-ink">{link.label}</span>
-                      <span className="block text-xs font-bold uppercase tracking-widest text-ink-soft">{link.note}</span>
-                    </span>
-                    <ExternalLink className="size-4 shrink-0 text-teal transition-transform group-hover:translate-x-0.5" />
-                  </div>
-                </a>
-              ))}
+              {SPONSOR_LINKS.map((link) =>
+                link === PLACEMAKER_SLOT ? (
+                  <PlacemakerCarouselTile key={PLACEMAKER_SLOT} />
+                ) : (
+                  <SponsorTile key={link.label} link={link} />
+                ),
+              )}
             </div>
           </div>
 

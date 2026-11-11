@@ -1,8 +1,8 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-11 (sponsor logos now read from `2026_sponsors/`)
-- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/hooks/useExtraLifeIncentives.ts`, `src/lib/sponsorLogos.ts`
+- **Last reviewed:** 2026-11-11 (Placemaker carousel, first in Food Donation; sponsor logos from `2026_sponsors/`)
+- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/hooks/useExtraLifeIncentives.ts`, `src/lib/sponsorLogos.ts`, `src/lib/placemakerRestaurants.ts`, `src/components/site/PlacemakerCarousel.tsx`
 
 ## Purpose
 
@@ -37,13 +37,16 @@ someone donates.
   (see Sponsor logos, below) is the link, with the arrow beside it,
   under an "Our home for 24 hours" subheader; the old text link and blurb
   went 2026-11-06 at the owner's request), then **Food
-  Donation** (`FOOD_DONORS`: Papa Johns Roseville, Q’s Cue and Placemaker
-  Hospitality, each a small logo plus a link with a one-line note, gold
-  accent; added 2026-11-06), then **In-Kind Donors** (a plain list). The
-  food list is the same vendors as `SPONSOR_LINKS` on `/gameday` (`CommandCenter.tsx`),
-  copied by hand (names, links and notes only: both pages read the logos
-  from `sponsorLogos`, see below), so change both when a food sponsor
-  changes. Nothing in the right column comes from the API.
+  Donation**: the Placemaker carousel row first (the owner's call; see
+  Placemaker carousel, below), then `FOOD_DONORS` (Papa Johns Roseville and
+  Q’s Cue), each a small logo plus a link with a one-line note, gold accent;
+  added 2026-11-06. Every row's logo box is as wide as the carousel's
+  (`w-20`, `sm:w-24`), so the names line up. Then **In-Kind Donors** (a
+  plain list). The food list is the same vendors, in the same order, as
+  `SPONSOR_LINKS` on `/gameday` (`CommandCenter.tsx`), copied by hand
+  (names, links and notes only: both pages read the logos from
+  `sponsorLogos`, see below), so change both when a food sponsor changes.
+  Nothing in the right column comes from the API.
 - `src/components/site/Hero.tsx` — the post-Game-Day grand total (see
   [gameday-hero-states](gameday-hero-states.md)).
 
@@ -144,8 +147,10 @@ know where the folder is. The folder's README says where each logo came from.
   company goes in a subfolder, as `placemaker-hospitality/` does), then add it
   to `sponsorLogos.ts`. Replacing a file in place, under the same name, needs
   no code change.
-- **Not everything in the folder is imported.** Placemaker's five brand logos
-  are saved but no page shows them yet; import them when one does.
+- **Not everything in the folder is imported.** Placemaker Hospitality's own
+  logo (`placemaker-hospitality/placemaker-hospitality.png`) stays in the
+  folder but is deliberately not imported: the site shows its restaurants
+  instead (see the next section).
 - **The email renditions are separate on purpose.**
   `public/email/assets/sponsor-*` are small hand-made copies served at stable
   public URLs, which an email needs (and sent emails keep pointing at them).
@@ -156,4 +161,63 @@ know where the folder is. The folder's README says where each logo came from.
   `2026_sponsors/` directly, in the dev server and in the production build
   (both checked in a browser), and the emitted image files are byte-identical
   to before.
+
+## Placemaker carousel (added 2026-11-11)
+
+Placemaker Hospitality is the parent company of several restaurants and asked
+to be shown as them, not under its own logo. So its entry, in the home page's
+Food Donation card and in the `/gameday` sponsor grid, is a small carousel of
+its five restaurants. The spec was agreed with the owner on 2026-11-11.
+
+- **Where it lives:** `src/lib/placemakerRestaurants.ts` holds the five
+  restaurants (name, own site, logo from `sponsorLogos`) in display order.
+  `src/components/site/PlacemakerCarousel.tsx` is one engine with two
+  layouts: `PlacemakerCarouselRow` in `Donors.tsx` (controls under the
+  slide) and `PlacemakerCarouselTile` in `CommandCenter.tsx` (arrows over
+  the logo, matching the neighbouring tiles).
+- **What a slide shows:** the restaurant's logo, its name linking to its own
+  site in a new tab, and "by Placemaker Hospitality" where the other rows have
+  their note, a step smaller than those notes (10px, the owner's call). In
+  the tile the whole text block is the link, like its
+  neighbours; the logo is clickable too but hidden from screen readers and the
+  tab order, since it goes to the same place.
+- **Order and start:** the order is fixed and alphabetical (Barbette, Book
+  Club, Bread & Pickle, gigi’s cafe, Pat’s Tap). The starting restaurant is
+  random on each page load (`Math.random` in a `useState` initializer), so
+  each is first equally often. In four test runs of 80 page loads, every
+  restaurant came up first in every run, 9 to 21 times (16 expected).
+- **Autoplay:** every 4 seconds, looping (the owner's call). There is one
+  `setTimeout` per slide, so any change, by hand or by timer, starts a fresh
+  4 seconds. It holds while a real mouse is over it (pointer type `mouse`
+  only: a tap leaves hover stuck on phones, the trap that once froze the
+  donation ticker) or while someone is using the keyboard inside it: focus
+  arriving by keyboard (`:focus-visible`), or any key pressed inside, so Enter
+  on an arrow first clicked with the mouse holds it too. A plain click or tap
+  doesn't hold it, and it lets go once focus leaves. It is off entirely under
+  `prefers-reduced-motion`; the arrows and dots still work.
+- **No special case for scrolling under a still mouse.** Chrome fires
+  `pointerenter` when the page scrolls the carousel under a mouse that hasn't
+  moved, so the hover hold already covers it (checked 2026-11-11). Don't add
+  a `:hover` check for it.
+- **Bread & Pickle's logo is a 400px web copy** (16 KB). The original in the
+  Word file is 1800px and 127 KB, and every slide's image loads up front.
+- **Screen readers:** the region is labelled "Placemaker Hospitality
+  restaurants" with `aria-roledescription="carousel"`, and the slides are
+  groups labelled "n of 5". `aria-live` is `off` while it plays and `polite`
+  while it is held, so a reader announces a new slide only when someone asked
+  for it.
+- **The height never jumps:** all five slides sit in the same grid cell, so
+  the carousel is as tall as its tallest slide, and inactive ones are
+  `invisible`.
+- **Gotcha, caught before it shipped: inactive slides must be `inert`.** The
+  fade also transitions `visibility`, so for 300ms the outgoing slide stayed
+  focusable and clickable. A Tab could land on it and lose focus when the fade
+  ended (and autoplay then resumed under a keyboard user). On the wrap from
+  Pat’s Tap back to Barbette the outgoing slide sits on top, so a click opened
+  the wrong restaurant. `inert={!active}` takes a slide out of focus and
+  clicks the moment it stops being current.
+- **Testing it:** drive it with Playwright's fake clock and call
+  `page.clock.pauseAt(...)` before `goto`. `clock.install()` alone keeps the
+  fake clock ticking in real time, which makes "nothing happens at 3.9s"
+  checks fail at random.
 

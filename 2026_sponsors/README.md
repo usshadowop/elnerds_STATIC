@@ -26,19 +26,20 @@ The four top-level files were moved here from `src/assets/logos/sponsors/` on
 ## Placemaker Hospitality
 
 Placemaker is the parent company of several restaurants. The five brand logos
-were extracted, unchanged, from the Word file *PH Logos for Gillette
+were extracted from the Word file *PH Logos for Gillette
 Childrens_Extra Life Nerds_24 hr Gaming FUNdraiser 2026.docx* (shared in Google
-Drive) on 2026-11-11. All five have transparent backgrounds and are cropped
+Drive) on 2026-11-11, unchanged except that Bread & Pickle was scaled down for
+the web (see the table). All five have transparent backgrounds and are cropped
 tight to the artwork, with no padding.
 
 | File | Brand | Size (px) |
 | --- | --- | --- |
 | `barbette.png` | Barbette | 600×213 |
 | `book-club.png` | Book Club | 794×425 |
-| `bread-and-pickle.png` | Bread & Pickle (Lake Harriet) | 1800×1800, round badge |
+| `bread-and-pickle.png` | Bread & Pickle (Lake Harriet) | 400×400, round badge (scaled down from the 1800×1800, 127 KB original in the Word file) |
 | `gigis-cafe.png` | gigi’s cafe | 893×225 |
 | `pats-tap.png` | Pat’s Tap | 792×294 |
-| `placemaker-hospitality.png` | Placemaker Hospitality, the parent company’s own logo | 500×359 |
+| `placemaker-hospitality.png` | Placemaker Hospitality, the parent company’s own logo (not used on the site, which shows the five restaurants instead) | 500×359 |
 
 `placemaker-hospitality.png` was `src/assets/logos/sponsors/placemaker.png`
 (their site’s share image, with the white background made transparent).

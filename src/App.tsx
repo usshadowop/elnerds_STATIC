@@ -12,6 +12,7 @@ import { GilletteChildrensHospital } from "@/pages/GilletteChildrensHospital";
 import { PatientProfiles } from "@/pages/PatientProfiles";
 import { Registration } from "@/pages/Registration";
 import { Rsvp } from "@/pages/Rsvp";
+import { SiteMap } from "@/pages/SiteMap";
 import { useGameday } from "@/hooks/use-countdown";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
 import { useHashScroll, usePath } from "@/lib/router";
@@ -28,7 +29,9 @@ export default function App() {
     MARATHON?.end ?? "2026-11-15T08:00:00-06:00",
   );
 
+  // Every route here is also listed on /sitemap (src/pages/SiteMap.tsx): add new ones there too.
   let page = <Home />;
+  if (path === "sitemap") page = <SiteMap />;
   if (path === "gameday") page = phase === "before" ? <GamedayCountdown /> : <CommandCenter />;
   if (path === "gameday_holding") page = <CommandCenter />;
   if (path === "gameday_events") page = <GamedayEvents />;
