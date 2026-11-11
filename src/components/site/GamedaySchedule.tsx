@@ -234,7 +234,9 @@ export function GamedaySchedule({
 
       <div className="overflow-x-auto">
         {/* 150px a lane: enough that a meal banner's text wraps to two or three
-              lines, not five, in the phone overlay (it was 118). */}
+              lines, not five, in a narrow lane (it was 118; sized for the
+              phone overlay, removed 2026-11-11 when phones got their own
+              timeline, so this grid now renders from `md` up only). */}
           <div style={{ minWidth: 72 + laneCount * 150 }}>
           {/* Header bars */}
           <div className="mb-2 flex gap-2">
@@ -325,7 +327,7 @@ export function GamedaySchedule({
 
               {foods.map((f) => {
                 // The time span sets a minimum, not a fixed height: in a narrow
-                // lane (the phone overlay) the text wraps to four lines and a
+                // lane (the old phone overlay) the text wrapped to four lines and a
                 // fixed one-hour box clipped it. A banner may run a little past
                 // its hour rather than lose its words.
                 const minHeight = Math.max(y(f.end) - y(f.start) - 6, 40);
