@@ -96,6 +96,7 @@ all live):*
   "...donate to sow chaos through fun incentives!". The leadership game is
   10:00 – 11:30 PM in the sheet and the email.
 - **Prizes in the sheet (2026-11-10, later):** `Gameday Signups` Details now carry `Prize:` lines: Melee tournament (greatsword, "8 or more participants", shows a live 1/8 chip), MTG Cube (Black Lotus Christmas Ornament), Smash Ultimate (Super Mario star light trophy), Late Night Dexterity ($50 donation token). Written by a session on the owner's word. The prize box gained a live "1/8 so far" chip for a prize that says "N or more" (PR #191, reads the incentive's claimed count), and Event Details got a fixed blurb: every entrant gets 1 free prize drawing ticket, the winner 5 more (PR #192; hard-coded in `GamedayEventDetails.tsx`, not on `/gameday_events`).
+- **Prize photo (2026-11-11):** the owner uploaded the greatsword photo via GitHub (`public/prize-greatsword.jpg`); the prize box has a "Click to see prize image" link that expands it (`PRIZE_IMAGES` in `GamedayEventDetails.tsx`).
 - **Email archived (PR #191):** the sent Game Day email is under `email/archive/2026-11-gameday-this-saturday/`; `/email/current/` redirects there.
 - Gotchas learned: a force push is blocked in this sandbox (the branch is
   auto-deleted on merge; `git remote prune origin` then a plain push); a

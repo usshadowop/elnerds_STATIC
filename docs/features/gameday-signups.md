@@ -73,6 +73,7 @@ so the page and Event Details always agree.
   `/gameday_events` and in Event Details. Put it on its own line after the
   rest of the text. `splitPrize()` in `gamedayContent.ts` does it; no new
   column and no `Code.gs` change. No such line, no box.
+  **Prize photos** (2026-11-11): `PRIZE_IMAGES` in `GamedayEventDetails.tsx` maps a regex on the prize text to a file in `public/` (today `greatsword` → `prize-greatsword.jpg`); a match adds a "Click to see prize image" link that expands the photo inside the box. Adding another is one entry there plus the file.
   **Minimum-entry prizes** (2026-11-10): if the prize text says "N or more"
   ("Available with 8 or more participants"), the box adds a live "1/8 so far"
   chip ("8/8 unlocked!" at the minimum), counting the event's Extra Life
