@@ -51,7 +51,6 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 | 2026-11-10 | Owner | The Game Day email went out (told to a session 2026-11-10, archived from the repo draft). Confirm what Brevo actually sent matches `email/archive/2026-11-gameday-this-saturday/`; its "donation match" line (from the owner's wording) isn't backed by anything in the repo or sheet. |
 | 2026-11-10 | Owner | Type the leadership D&D stream into the `Gameday Streams` tab (name containing "Leadership" or "D&D", plus Embed URL) so `/leadership_DandD` shows the player; until then it says "Goes live at 9:30 PM on Game Day. Game starts at 10 PM." |
-| 2026-11-11 | Owner (decision) | The Placemaker carousel (its five restaurants in place of its own logo; how it works is in the extra-life-api card) is built on branch `claude/fervent-bell-6kqzzg` and **not live yet**: waiting for the owner to look and say "push live". Two defaults went in without an explicit yes: the `/gameday` sponsor tile got the same carousel, and Book Club links to its own site, bookclubrestaurant.com (Placemaker's page lists none). |
 
 Rules that keep this honest:
 
@@ -69,27 +68,32 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-11 (sponsor logos have one home; Placemaker carousel):*
+*Session of 2026-11-11 (sponsor logos and the Placemaker carousel; done and
+live, PRs #199–#200):*
 
 - **Sponsor logos have one home.** `2026_sponsors/` (repo root) holds the
-  only copy of every sponsor logo; `src/lib/sponsorLogos.ts` is the one file
-  that imports from it, and `Donors.tsx` and `CommandCenter.tsx` use its
-  names. `src/assets/logos/sponsors/` is gone. The build emits the same
-  image files as before (checked in a browser on the dev server and on the
-  production build). The email renditions in `public/email/assets/sponsor-*`
-  stay separate, since emails need stable public URLs. The extra-life-api
-  card explains it.
-- **Placemaker's five brand logos** (Barbette, Book Club, Bread & Pickle,
-  gigi's cafe, Pat's Tap) came from a Word file in the owner's Drive, "PH
-  Logos for Gillette Childrens_Extra Life Nerds_24 hr Gaming FUNdraiser
-  2026.docx", and were extracted unchanged (transparent PNGs, cropped tight).
-  They sit in `2026_sponsors/placemaker-hospitality/` with a README on where
-  each came from. The carousel below shows them.
-- **The Placemaker carousel is built but not live** (see the open thread
-  above and the extra-life-api card): a row in the home page's Food Donation
-  card and a tile on `/gameday`, with 4-second autoplay and a random start.
-  Testing caught a real bug, now fixed with `inert`: for 300ms after each
-  change the outgoing slide could still take a click or a Tab.
+  only copy of every sponsor logo, and `src/lib/sponsorLogos.ts` is the one
+  file that imports from it. `src/assets/logos/sponsors/` is gone. The email
+  renditions in `public/email/assets/sponsor-*` stay separate, since emails
+  need stable public URLs. The extra-life-api card explains it.
+- **Placemaker is shown as its five restaurants** (Barbette, Book Club,
+  Bread & Pickle, gigi's cafe, Pat's Tap; logos from a Word file in the
+  owner's Drive), in a carousel that is first in the home page's Food
+  Donation card and first among the food vendors on `/gameday`: 4-second
+  autoplay, random start, "by Placemaker Hospitality" at 10px. The owner saw
+  it with the `/gameday` tile and Book Club's own site
+  (bookclubrestaurant.com) linked, and said push live.
+- **Testing caught a real bug**, fixed with `inert`: for 300ms after each
+  change the outgoing slide could still take a click or a Tab, and on the
+  wrap to Barbette a click opened Pat's Tap. How to test the carousel on a
+  fake clock is now in the verify skill.
+- **The owner had the session's work reviewed**, and the fixes landed
+  (keyboard hold, image size, aligned rows). Left as they are: the
+  year-named folder (`2026_sponsors/` will want a rename or a sibling next
+  season) and the food sponsors still listed by hand in both `Donors.tsx`
+  and `CommandCenter.tsx`.
+- **New `/sitemap` page** lists every page; the owner asked for it after
+  forgetting the `/gameday_holding` address. A new route needs a line there.
 
 ## Ship-live workflow
 
