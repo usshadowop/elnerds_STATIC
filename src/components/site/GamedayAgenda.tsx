@@ -15,10 +15,13 @@
 // hours are taller than quiet ones; two or more quiet hours fold into a short
 // band. The bars and the now-line use the same time scale, so they stay true.
 // Card heights are measured from the page, so a card's text never runs into
-// the next card. Same rows, same parser and colours as the grid.
+// the next card. Details are folded behind a "Details – click to expand" line
+// (owner's ask, 2026-11-11), and each card then stretches down to the end of
+// its own bar unless the next card starts first, so a card is as tall as its
+// event where there's room. Same rows, same parser and colours as the grid.
 
 import { useLayoutEffect, useRef, useState } from "react";
-import { CalendarRange } from "lucide-react";
+import { CalendarRange, ChevronDown, ChevronUp } from "lucide-react";
 
 import { GamedaySchedule } from "@/components/site/GamedaySchedule";
 import { useNow } from "@/hooks/use-now";
@@ -166,6 +169,18 @@ function layout(entries: Entry[], heights: number[], trackEnd: number) {
   return { rows, y, cardTop, trackPx };
 }
 
+/** A card's time line and title. */
+function CardHeading({ e, current }: { e: Entry; current: boolean }) {
+  return (
+    <>
+      <span className={`block text-[11px] font-extrabold leading-[14px] text-ink/70 ${current ? "pr-12" : ""}`}>
+        {e.range ? `${shortTime(e.start, true)} – ${shortTime(e.end, true)}` : shortTime(e.start, true)}
+      </span>
+      <span className="block text-[13px] font-extrabold leading-[17px] text-ink">{e.row.title}</span>
+    </>
+  );
+}
+
 export function GamedayAgenda({
   rows,
   startMs,
@@ -219,25 +234,41 @@ export function GamedayAgenda({
   const trackEnd = Math.max(DAY_MINUTES, ...entries.map((e) => e.end));
 
   // Card heights come from the page: the first layout uses a guess, then this
-  // measures every card before paint and again whenever one changes size
-  // (a narrower phone, the web font arriving, an edited row).
-  const cardEls = useRef<(HTMLDivElement | null)[]>([]);
+  // measures every card's content before paint and again whenever it changes
+  // size (a narrower phone, the web font arriving, details opened or closed).
+  // It measures the content, not the card, because the card is then stretched
+  // to its bar; measuring that would feed the stretch back into the layout.
+  const contentEls = useRef<(HTMLDivElement | null)[]>([]);
   const [heights, setHeights] = useState<number[]>([]);
+  const [opened, setOpened] = useState<Record<string, boolean>>({});
   const signature = entries.map((e) => e.key + e.row.detail).join("\n");
   useLayoutEffect(() => {
     const measure = () => {
-      const next = entries.map((_, i) => cardEls.current[i]?.offsetHeight ?? 0);
+      const next = entries.map((_, i) => {
+        const el = contentEls.current[i];
+        return el ? el.offsetHeight + 2 * B : 0;
+      });
       setHeights((prev) => (prev.length === next.length && prev.every((h, i) => h === next[i]) ? prev : next));
     };
     measure();
     if (typeof ResizeObserver === "undefined") return;
     const ro = new ResizeObserver(measure);
-    cardEls.current.forEach((el) => el && ro.observe(el));
+    contentEls.current.forEach((el) => el && ro.observe(el));
     return () => ro.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- re-run when the rows change, not on every poll
   }, [signature]);
 
   const { rows: hourRows, y, cardTop, trackPx } = layout(entries, heights, trackEnd);
+  // Where there's room, a card runs down to the end of its bar: as tall as the
+  // event, stopping short of the next card. Never shorter than its content.
+  const cardHeight = entries.map((e, i) => {
+    const top = cardTop[i] ?? 0;
+    const natural = heights[i] || EST_CARD_H;
+    const nextTop = Math.min(...cardTop.filter((t) => t > top));
+    const room = nextTop - CARD_GAP - top;
+    const toBarEnd = Math.max(y(e.end), y(e.start) + ARM_H + 4) - top;
+    return Math.max(natural, Math.min(toBarEnd, room));
+  });
   const nowY = y(nowMinutes) + TOP;
   const clearOfNow = (centre: number) => !lineOn || Math.abs(centre - nowY) >= PILL_CLEAR;
 
@@ -409,18 +440,39 @@ export function GamedayAgenda({
           return (
             <div key={`card-${e.key}`}>
               <div
-                ref={(el) => {
-                  cardEls.current[i] = el;
-                }}
-                className="absolute rounded-xl rounded-tl-none px-2.5 pb-[7px] pt-1.5"
-                style={{ left: cardLeft, right: 0, top, border: `${B}px solid ${stroke}`, background: fill }}
+                className="absolute rounded-xl rounded-tl-none"
+                style={{ left: cardLeft, right: 0, top, minHeight: cardHeight[i], border: `${B}px solid ${stroke}`, background: fill }}
               >
-                <div className={faded ? "opacity-50" : undefined}>
-                  <p className={`text-[11px] font-extrabold leading-[14px] text-ink/70 ${current ? "pr-12" : ""}`}>
-                    {e.range ? `${shortTime(e.start, true)} – ${shortTime(e.end, true)}` : shortTime(e.start, true)}
-                  </p>
-                  <p className="text-[13px] font-extrabold leading-[17px] text-ink">{e.row.title}</p>
-                  {e.row.detail && <p className="mt-0.5 text-[11.5px] leading-[15px] text-ink/80">{e.row.detail}</p>}
+                <div
+                  ref={(el) => {
+                    contentEls.current[i] = el;
+                  }}
+                  className={`px-2.5 pb-[7px] pt-1.5 ${faded ? "opacity-50" : ""}`}
+                >
+                  {e.row.detail ? (
+                    <button
+                      type="button"
+                      onClick={() => setOpened((o) => ({ ...o, [e.key]: !o[e.key] }))}
+                      aria-expanded={!!opened[e.key]}
+                      className="block w-full text-left"
+                    >
+                      <CardHeading e={e} current={current} />
+                      {opened[e.key] && <span className="mt-0.5 block text-[11.5px] leading-[15px] text-ink/80">{e.row.detail}</span>}
+                      <span className="mt-0.5 inline-flex items-center gap-0.5 text-[10.5px] font-bold leading-[14px] text-ink/60">
+                        {opened[e.key] ? (
+                          <>
+                            Hide details <ChevronUp className="size-3" aria-hidden />
+                          </>
+                        ) : (
+                          <>
+                            Details – click to expand <ChevronDown className="size-3" aria-hidden />
+                          </>
+                        )}
+                      </span>
+                    </button>
+                  ) : (
+                    <CardHeading e={e} current={current} />
+                  )}
                 </div>
                 {current && (
                   <span className="absolute right-2 top-[3px] rounded-full bg-magenta px-[7px] py-0.5 text-[9px] font-extrabold tracking-[0.1em] text-white">

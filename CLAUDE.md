@@ -77,6 +77,9 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   outlines, and a now-line with a dot on every bar it crosses. Busy hours
   stretch so every card stays on its start time. It replaced the list and the
   "See the full timeline" overlay. Rules in the gameday-content card.
+  Follow-ups the same day: bars moved beside the hour pills (#196); details
+  folded behind "Details – click to expand", and cards stretched to the end
+  of their bars where the next card allows.
 - Designed with the owner on a Design canvas ("Game Day Timeline Mockup",
   claude.ai artifact, private to the owner). The owner asked for touching
   bars, 4px outlines, and rejected "every hour the same height" (it slid
