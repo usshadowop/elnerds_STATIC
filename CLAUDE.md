@@ -51,6 +51,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 | 2026-11-10 | Owner | The Game Day email went out (told to a session 2026-11-10, archived from the repo draft). Confirm what Brevo actually sent matches `email/archive/2026-11-gameday-this-saturday/`; its "donation match" line (from the owner's wording) isn't backed by anything in the repo or sheet. |
 | 2026-11-10 | Owner | Type the leadership D&D stream into the `Gameday Streams` tab (name containing "Leadership" or "D&D", plus Embed URL) so `/leadership_DandD` shows the player; until then it says "Goes live at 9:30 PM on Game Day. Game starts at 10 PM." |
+| 2026-11-11 | Owner (decision) | Placemaker wants its five brands shown in place of its own logo (home page Food Donation card, `/gameday` sponsor grid). The logos are in `2026_sponsors/placemaker-hospitality/`; nothing on the site uses them yet. Open: one entry showing all five logos vs five separate entries; keep a small "Placemaker Hospitality" text credit?; link each logo to its own site (four have one, Book Club doesn't)? |
 
 Rules that keep this honest:
 
