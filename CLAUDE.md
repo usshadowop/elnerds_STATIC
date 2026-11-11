@@ -51,7 +51,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 | 2026-11-10 | Owner | The Game Day email went out (told to a session 2026-11-10, archived from the repo draft). Confirm what Brevo actually sent matches `email/archive/2026-11-gameday-this-saturday/`; its "donation match" line (from the owner's wording) isn't backed by anything in the repo or sheet. |
 | 2026-11-10 | Owner | Type the leadership D&D stream into the `Gameday Streams` tab (name containing "Leadership" or "D&D", plus Embed URL) so `/leadership_DandD` shows the player; until then it says "Goes live at 9:30 PM on Game Day. Game starts at 10 PM." |
-| 2026-11-11 | Owner (decision) | Placemaker wants its brands shown instead of its own logo. **Spec agreed with the owner, not built yet:** in the home page's Food Donation card the Placemaker row becomes a carousel of its five restaurants (logos already in `2026_sponsors/placemaker-hospitality/`; add them to `sponsorLogos.ts` when used). Each slide looks like the other rows: logo left, the restaurant's name linking to its own site, and the small line "by Placemaker Hospitality". ‹ › buttons, fixed alphabetical order (Barbette, Book Club, Bread & Pickle, gigi's cafe, Pat's Tap), **autoplay every 4 seconds, looping**, and a random starting restaurant on each page load so all five get equal exposure. Still open: should the `/gameday` sponsor tile get the same carousel (recommended: one shared component)? Book Club has no link on Placemaker's page; its own site is bookclubrestaurant.com (live 2026-11-11), OK to link? |
+| 2026-11-11 | Owner (decision) | The Placemaker carousel (its five restaurants in place of its own logo; how it works is in the extra-life-api card) is built on branch `claude/fervent-bell-6kqzzg` and **not live yet**: waiting for the owner to look and say "push live". Two defaults went in without an explicit yes: the `/gameday` sponsor tile got the same carousel, and Book Club links to its own site, bookclubrestaurant.com (Placemaker's page lists none). |
 
 Rules that keep this honest:
 
@@ -69,7 +69,7 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-11 (sponsor logos have one home):*
+*Session of 2026-11-11 (sponsor logos have one home; Placemaker carousel):*
 
 - **Sponsor logos have one home.** `2026_sponsors/` (repo root) holds the
   only copy of every sponsor logo; `src/lib/sponsorLogos.ts` is the one file
@@ -84,9 +84,12 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   Logos for Gillette Childrens_Extra Life Nerds_24 hr Gaming FUNdraiser
   2026.docx", and were extracted unchanged (transparent PNGs, cropped tight).
   They sit in `2026_sponsors/placemaker-hospitality/` with a README on where
-  each came from. No page shows them yet.
-- **Next, agreed with the owner:** the Placemaker carousel. The full spec
-  is in the open thread above.
+  each came from. The carousel below shows them.
+- **The Placemaker carousel is built but not live** (see the open thread
+  above and the extra-life-api card): a row in the home page's Food Donation
+  card and a tile on `/gameday`, with 4-second autoplay and a random start.
+  Testing caught a real bug, now fixed with `inert`: for 300ms after each
+  change the outgoing slide could still take a click or a Tab.
 
 ## Ship-live workflow
 
@@ -274,9 +277,11 @@ already there.
   (e.g. "Improving, 3033 Excelsior Blvd #180, Minneapolis, MN 55416").
 - `2026_sponsors/` — the one home for sponsor logos, and
   `src/lib/sponsorLogos.ts` is the one file that imports from it.
-  `Donors.tsx` and `CommandCenter.tsx` use its names, never an image file,
-  so there is no second copy under `src/assets/`. A brand that belongs to a
-  parent company gets a subfolder (`placemaker-hospitality/`). The folder's
+  The pages (and `src/lib/placemakerRestaurants.ts`) use its names, never an
+  image file, so there is no second copy under `src/assets/`. A brand that
+  belongs to a parent company gets a subfolder (`placemaker-hospitality/`);
+  Placemaker itself is shown as a carousel of its five restaurants
+  (`PlacemakerCarousel.tsx`), not under its own logo. The folder's
   README says where each logo came from. The email-sized renditions in
   `public/email/assets/sponsor-*` are separate, hand-made files, because
   emails need stable public URLs; nothing generates them from the folder.

@@ -1,5 +1,6 @@
 import { ArrowUpRight, Building2, UtensilsCrossed } from "lucide-react";
 import { useExtraLifeDonors } from "@/hooks/useExtraLifeDonors";
+import { PlacemakerCarouselRow } from "@/components/site/PlacemakerCarousel";
 import { sponsorLogos } from "@/lib/sponsorLogos";
 
 // The Game Day venue is a donation too, and a big one: it gets its own block
@@ -10,8 +11,10 @@ const VENUE = {
   logo: sponsorLogos.improving,
 };
 
-// The restaurants feeding the room on Game Day. Same two as the sponsor links
-// on /gameday (`SPONSOR_LINKS` in CommandCenter.tsx); keep them in step.
+// The restaurants feeding the room on Game Day, apart from Placemaker's, which
+// are a carousel of their own (`PlacemakerCarouselRow`, rendered after this
+// list). Same vendors as the sponsor links on /gameday (`SPONSOR_LINKS` in
+// CommandCenter.tsx); keep them in step.
 const FOOD_DONORS: { name: string; note: string; href: string; logo: string; logoClass: string }[] = [
   {
     name: "Papa Johns Roseville",
@@ -26,13 +29,6 @@ const FOOD_DONORS: { name: string; note: string; href: string; logo: string; log
     href: "https://www.facebook.com/profile.php?id=61563508501022",
     logo: sponsorLogos.qsCue,
     logoClass: "size-11 rounded-full",
-  },
-  {
-    name: "Placemaker Hospitality",
-    note: "Minneapolis restaurants",
-    href: "https://placemakerhospitality.com/",
-    logo: sponsorLogos.placemakerHospitality,
-    logoClass: "h-12 w-auto",
   },
 ];
 
@@ -200,6 +196,9 @@ export function Donors() {
                     </span>
                   </li>
                 ))}
+                <li>
+                  <PlacemakerCarouselRow />
+                </li>
               </ul>
             </div>
 

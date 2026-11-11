@@ -38,7 +38,7 @@ tight to the artwork, with no padding.
 | `bread-and-pickle.png` | Bread & Pickle (Lake Harriet) | 1800×1800, round badge |
 | `gigis-cafe.png` | gigi’s cafe | 893×225 |
 | `pats-tap.png` | Pat’s Tap | 792×294 |
-| `placemaker-hospitality.png` | Placemaker Hospitality, the parent company’s own logo | 500×359 |
+| `placemaker-hospitality.png` | Placemaker Hospitality, the parent company’s own logo (not used on the site, which shows the five restaurants instead) | 500×359 |
 
 `placemaker-hospitality.png` was `src/assets/logos/sponsors/placemaker.png`
 (their site’s share image, with the white background made transparent).
