@@ -150,11 +150,11 @@ export const DAY_MINUTES = 24 * 60;
 export const START_HOUR = 8; // Game Day runs 8:00 AM Saturday to 8:00 AM Sunday.
 
 /** Rows whose title or detail mention a meal turn green, in both the grid
- *  and the phone agenda. */
+ *  and the phone timeline. */
 export const FOOD = /breakfast|lunch|dinner|waffle|snack|food|pizza/i;
 
 /** Minutes from kickoff → "2:15 PM". Shared by the grid's now-line and the
- *  agenda's "Now:" line so they can never disagree. */
+ *  phone timeline's now pill so they can never disagree. */
 export function clockLabel(minutes: number): string {
   const total = (START_HOUR * 60 + minutes) % DAY_MINUTES;
   const h = Math.floor(total / 60);

@@ -10,8 +10,8 @@ import { EVENTS, endsAtMs, eventAnchor, splitByDate, type EventItem } from "@/li
 
 /** The Game Day run of show, shown under the main-event card. Same rows as
  *  /gameday (the sheet's, re-read once a minute), so the home page never
- *  shows a different schedule from the Command Center. Phones get the agenda
- *  list with a full-timeline overlay; wider screens get the lane grid. The
+ *  shows a different schedule from the Command Center. Phones get the
+ *  timeline of cards with duration bars; wider screens get the lane grid. The
  *  sheet's "Event Details" list follows the schedule, and a link to the
  *  /gameday_events sign-up page sits above it. Until the
  *  first read lands it shows a placeholder, not the shipped fallback, so the

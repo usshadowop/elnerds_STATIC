@@ -68,40 +68,27 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-10 (Game Day email, `/gameday` countdown, event sections, prizes;
-all live):*
+*Session of 2026-11-10/11 (phone schedule redesign; live):*
 
-- **Email:** now `email/archive/2026-11-gameday-this-saturday/` (sent; archived the same day), built from the
-  non-holiday template and iterated with the owner into ~12 sections (what's-new
-  pills that jump to sections, RSVP, marathon + Improving logo, packing list,
-  schedule, food with provider logos, event sign-ups, leadership D&D, prize
-  drawings with a photo, can't-make-it, questions). It **was sent** (owner's word; see Open threads). Every edit went through a squash-merged PR and a poll of
-  /email/current/. Logos and the photo are PNG/JPG copies in
-  `public/email/assets/`. A throwaway generator kept the file consistent but
-  lives only in a session scratchpad: edit the HTML directly next time.
-- **`/gameday` (PR #154):** a "GOES LIVE ON GAME DAY" countdown page until
-  kickoff, then the Command Center on its own; the Command Center is also at
-  `/gameday_holding`. `/leadership_DandD` (from a parallel session's branch) is
-  the leadership one-shot watch page; its sheet row shows Full + Watch Here.
-- **Event sections (PR #177):** Event Details and `/gameday_events` split into
-  Dungeons & Dragons / Magic / Video Games / Other by `sectionOf()` in
-  `gamedayContent.ts` (no sheet column, no `Code.gs` change); the form's
-  checkboxes use the same sections. **Prize boxes (PR #189):** a `Prize:` line
-  in a Details cell becomes a pink box under the event.
-- **Sheet edits made on the owner's word (2026-11-10):** `Gameday Signups`
-  gained leadership D&D (own-site link), Late Night Dexterity Games (Free) and
-  3D Printed Mecha Chameleon ($5, Sat 2:00p – 2:30p); the two leftover
-  `Gameday Event Details` rows were cleared; `Gameday Run of Show` gained
-  Mecha Chameleon (`2p - 2:30p`); the leadership row's Details now say
-  "...donate to sow chaos through fun incentives!". The leadership game is
-  10:00 – 11:30 PM in the sheet and the email.
-- **Prizes in the sheet (2026-11-10, later):** `Gameday Signups` Details now carry `Prize:` lines: Melee tournament (greatsword, "8 or more participants", shows a live 1/8 chip), MTG Cube (Black Lotus Christmas Ornament), Smash Ultimate (Super Mario star light trophy), Late Night Dexterity ($50 donation token). Written by a session on the owner's word. The prize box gained a live "1/8 so far" chip for a prize that says "N or more" (PR #191, reads the incentive's claimed count), and Event Details got a fixed blurb: every entrant gets 1 free prize drawing ticket, the winner 5 more (PR #192; hard-coded in `GamedayEventDetails.tsx`, not on `/gameday_events`).
-- **Prize photo (2026-11-11):** the owner uploaded the greatsword photo via GitHub (`public/prize-greatsword.jpg`); the prize box has a "Click to see prize image" link that expands it (`PRIZE_IMAGES` in `GamedayEventDetails.tsx`).
-- **Email archived (PR #191):** the sent Game Day email is under `email/archive/2026-11-gameday-this-saturday/`; `/email/current/` redirects there.
-- Gotchas learned: a force push is blocked in this sandbox (the branch is
-  auto-deleted on merge; `git remote prune origin` then a plain push); a
-  parallel session's branch (`claude/elegant-mendel-30bcm0`) was cherry-picked
-  rather than merged because its email commit duplicated work here.
+- **Phone schedule is now a timeline** (`GamedayAgenda.tsx`, both pages below
+  `md`): cards at their start times whose top-right corners turn into thin
+  bars ending at the end time, bars touching in lanes on the right, 4px
+  outlines, and a now-line with a dot on every bar it crosses. Busy hours
+  stretch so every card stays on its start time. It replaced the list and the
+  "See the full timeline" overlay. Rules in the gameday-content card.
+- Designed with the owner on a Design canvas ("Game Day Timeline Mockup",
+  claude.ai artifact, private to the owner). The owner asked for touching
+  bars, 4px outlines, and rejected "every hour the same height" (it slid
+  cards an hour off their bars).
+- Card heights are measured in the browser, not estimated. The canvas
+  mockup had to estimate text widths; real Nunito turned out ~25% narrower
+  than a phone screenshot suggested. Measure, don't guess.
+- Verified with Playwright at 390px and 320px against the live sheet's rows
+  and a clock fixed at 12:40p / 3:15p on Nov 14: no card overlaps, no
+  sideways scroll, home page shows no line, desktop still gets the grid.
+- The live extras (On now card, NOW tags, faded finished events) switch on at
+  kickoff by themselves; until then `/gameday_holding` shows only a
+  "Preview" line on the visitor's clock.
 
 ## Ship-live workflow
 
@@ -257,7 +244,9 @@ already there.
   label. Leftover Event Details rows are listed under the cards.
   The run of show renders as a stacked lane grid
   (`src/components/site/GamedaySchedule.tsx`): time ranges, automatic
-  lane packing, green meal rows, a now-line. The rules are in the
+  lane packing, green meal rows, a now-line. Below `md` it is instead a
+  timeline of cards whose corners turn into thin duration bars
+  (`GamedayAgenda.tsx`, 2026-11-11). The rules for both are in the
   gameday-content card; the sheet's columns never changed.
   Editing the fallback in the repo does **not** change what the sheet
   serves; during the event, edit the sheet. The sponsor links and the
