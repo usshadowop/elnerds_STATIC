@@ -15,6 +15,7 @@ import {
   useIncentiveStock,
   type IncentiveStock,
 } from "@/hooks/useExtraLifeIncentives";
+import { useState } from "react";
 import { ArrowUpRight, Gift } from "lucide-react";
 
 import {
@@ -74,6 +75,16 @@ export function RichText({ parts }: { parts: GamedayTextPart[] }) {
   );
 }
 
+// Photos of prizes, shown by a "Click to see prize image" link in the box.
+// Matched against the prize text from the sheet; files live in public/.
+const PRIZE_IMAGES: { match: RegExp; src: string; alt: string }[] = [
+  {
+    match: /greatsword/i,
+    src: `${import.meta.env.BASE_URL}prize-greatsword.jpg`,
+    alt: "The moonlight greatsword prize",
+  },
+];
+
 /** The little box under an event that has a prize ("Grand prize: a moonlight
  *  greatsword!"), from the Details cell's "Prize:" line. */
 export function PrizeBox({
@@ -89,6 +100,8 @@ export function PrizeBox({
 }) {
   const min = Number(/(\d+)\s+or\s+more/i.exec(prize.text.map((p) => p.text).join(""))?.[1]);
   const progress = min > 0 && claimed != null ? claimed : null;
+  const [open, setOpen] = useState(false);
+  const image = PRIZE_IMAGES.find((i) => i.match.test(prize.text.map((p) => p.text).join("")));
   return (
     <span
       className={`flex items-start gap-1.5 rounded-lg bg-magenta-soft px-2.5 py-1.5 text-xs font-bold text-ink ${className}`}
@@ -100,6 +113,26 @@ export function PrizeBox({
           <span className="ml-1.5 inline-block whitespace-nowrap rounded-full bg-magenta px-2 py-0.5 text-[11px] font-extrabold text-white">
             {progress >= min ? `${progress}/${min} unlocked!` : `${progress}/${min} so far`}
           </span>
+        )}
+        {image && (
+          <>
+            <button
+              type="button"
+              onClick={() => setOpen((o) => !o)}
+              aria-expanded={open}
+              className="mt-1 block font-extrabold text-teal underline underline-offset-2 hover:text-teal-bright"
+            >
+              {open ? "Hide prize image" : "Click to see prize image"}
+            </button>
+            {open && (
+              <img
+                src={image.src}
+                alt={image.alt}
+                loading="lazy"
+                className="mt-2 block w-full max-w-md rounded-lg border border-line"
+              />
+            )}
+          </>
         )}
       </span>
     </span>
