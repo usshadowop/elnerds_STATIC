@@ -11,7 +11,7 @@ from the code.
 | --- | --- | --- |
 | [schedule-archival](schedule-archival.md) | Event cards that move themselves Future → Past | Live |
 | [gameday-hero-states](gameday-hero-states.md) | Hero countdown across Game Day, and the total after | Live |
-| [gameday-content](gameday-content.md) | Command Center: sheet-driven contents, the Schedule grid, and the phone agenda (also on the home page) | Live |
+| [gameday-content](gameday-content.md) | Command Center: sheet-driven contents, the Schedule grid, and the phone timeline (also on the home page) | Live |
 | [rsvp-backend](rsvp-backend.md) | RSVP form → sheet → confirmation + cancel emails | Live |
 | [rsvp-sheet](rsvp-sheet.md) | The "elnerds RSVPs" spreadsheet: every tab, what writes it, what reads it | Live |
 | [extra-life-api](extra-life-api.md) | Live team, roster and donor data from DonorDrive | Live |

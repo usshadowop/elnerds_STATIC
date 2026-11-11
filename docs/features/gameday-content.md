@@ -184,7 +184,9 @@ becomes a live player.
     banners that start together share that lane's width. The banner's
     time span is a *minimum* height: in a narrow lane the text wraps and
     the banner grows past its hour rather than clipping (phone overlay,
-    2026-10-31). Lanes are at least 150px wide for the same reason.
+    2026-10-31). Lanes are at least 150px wide for the same reason. Both
+    rules date from when phones could open this grid full-screen; since
+    2026-11-11 the grid renders from `md` up only, so they rarely bite now.
   - **Quiet hours fold.** Two or more consecutive hours with nothing
     starting or ending collapse to one "…" row, so the overnight stretch
     doesn't dominate.

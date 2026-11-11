@@ -68,31 +68,29 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-10/11 (phone schedule redesign; live):*
+*Session of 2026-11-10/11 (phone schedule redesign; done and live, PRs
+#195–#198):*
 
-- **Phone schedule is now a timeline** (`GamedayAgenda.tsx`, both pages below
-  `md`): cards at their start times whose top-left corners turn into thin
-  bars ending at the end time, bars touching in lanes beside the hour pills
-  (first shipped on the cards' right in #195, moved left the same day), 4px
-  outlines, and a now-line with a dot on every bar it crosses. Busy hours
-  stretch so every card stays on its start time. It replaced the list and the
-  "See the full timeline" overlay. Rules in the gameday-content card.
-  Follow-ups the same day: bars moved beside the hour pills (#196); details
-  folded behind "Details – click to expand", and cards stretched to the end
-  of their bars where the next card allows.
+- **Phones get a timeline, not a list** (`GamedayAgenda.tsx`, below `md` on
+  both the home page and the Command Center). Each event is a card at its
+  start time whose top-left corner turns into a thin bar ending at its end
+  time; bars touch, in lanes beside the hour pills; 4px outlines. Details
+  fold behind "Details – click to expand", and cards stretch to the end of
+  their bars where the next card allows. The old list and its "See the full
+  timeline" overlay are gone. All rules are in the gameday-content card.
 - Designed with the owner on a Design canvas ("Game Day Timeline Mockup",
-  claude.ai artifact, private to the owner). The owner asked for touching
-  bars, 4px outlines, and rejected "every hour the same height" (it slid
-  cards an hour off their bars).
-- Card heights are measured in the browser, not estimated. The canvas
-  mockup had to estimate text widths; real Nunito turned out ~25% narrower
-  than a phone screenshot suggested. Measure, don't guess.
-- Verified with Playwright at 390px and 320px against the live sheet's rows
-  and a clock fixed at 12:40p / 3:15p on Nov 14: no card overlaps, no
-  sideways scroll, home page shows no line, desktop still gets the grid.
-- The live extras (On now card, NOW tags, faded finished events) switch on at
-  kickoff by themselves; until then `/gameday_holding` shows only a
-  "Preview" line on the visitor's clock.
+  a claude.ai artifact private to the owner). The canvas is out of date
+  (bars on the right, details open); the site is the reference now.
+- Owner decisions: every card stays on its start time, so busy hours
+  stretch (equal-height hours slid cards an hour off their bars);
+  touching bars; 4px outlines; bars beside the times; folded details.
+- Card heights are measured in the browser (content, not card), never
+  estimated: estimating Nunito widths was off by ~25% in the mockup.
+  How to drive it with the live rows and a pinned Game Day clock is now
+  in the verify skill.
+- At 8 AM Nov 14 the live extras switch on by themselves (On now card,
+  NOW tags, faded finished events). Until then `/gameday_holding` shows
+  a "Preview" line on the visitor's clock; the home page shows no line.
 
 ## Ship-live workflow
 

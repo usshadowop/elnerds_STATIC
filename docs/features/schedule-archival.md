@@ -100,7 +100,8 @@ above the schedule card (see gameday-signups). It's part of
 `MainEventSchedule`, so it shows only with the main event's schedule.
 
 `MainEventSchedule` in `Schedule.tsx` renders the run of show through
-`ResponsiveGamedaySchedule` (agenda list on phones, lane grid from `md` up;
+`ResponsiveGamedaySchedule` (timeline of cards with duration bars on phones,
+lane grid from `md` up;
 the same component `/gameday` uses) directly beneath
 the main-event card, outside its Details fold, with `id="gameday-schedule"`
 (the hero's blue chip links to it). It reads the same sheet-driven content
