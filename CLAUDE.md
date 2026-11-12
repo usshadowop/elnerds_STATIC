@@ -99,7 +99,10 @@ donation flyers, in progress outside the repo):*
   headshots. Josh #16 and Mike #61 were the session's reading of the owner's
   "#15"/"#16". The 8.5×11s use wider crops than the lanyards (owner's zoom
   picks: Troy 2, Jon D. 3, Josh 3, Mike 2, Ben 3; lanyards all at zoom 1);
-  old flyer versions are in the owner's Drive trash. The generator was
+  Later: Jon Deckenbach's 8.5×11 uses a family selfie the owner supplied
+  (600 px), and Pam's headshot was padded to a square with a blurred fill so
+  her chin isn't cropped on either item. Old versions are in the owner's
+  Drive trash; each replacement got a new Drive link. The generator was
   **not** saved to the repo.
 
 ## Ship-live workflow
