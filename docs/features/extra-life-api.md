@@ -44,7 +44,7 @@ someone donates.
   (`w-20`, `sm:w-24`), so the names line up. Then **In-Kind Donors**:
   a plain list of names, except that an entry with a `logo` and an `href`
   gets the same logo-box row as the food donors, orange accent (Mirage
-  Makes, poker chips, added 2026-11-12, linking to miragemakes.com; listed
+  Makes, donation tokens, added 2026-11-12, linking to miragemakes.com; listed
   on the home page only, not on `/gameday`). The food list is the same vendors, in the same order, as
   `SPONSOR_LINKS` on `/gameday` (`CommandCenter.tsx`), copied by hand
   (names, links and notes only: both pages read the logos from

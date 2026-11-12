@@ -38,7 +38,7 @@ const FOOD_DONORS: { name: string; note: string; href: string; logo: string; log
 const inKindDonors: { name: string; href?: string; note?: string; logo?: string }[] = [
   {
     name: "Mirage Makes",
-    note: "Poker chips",
+    note: "Donation tokens",
     href: "https://miragemakes.com/",
     logo: sponsorLogos.mirageMakes,
   },

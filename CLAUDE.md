@@ -75,7 +75,7 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   line. Stacked, the two lines needed about 40px in a 26px box, and the
   title was cut off (3D Printed Mecha Chameleon, 2p - 2:30p). Taller blocks
   are unchanged. Rule in the gameday-content card.
-- **Mirage Makes** (poker chips) is the first in-kind donor with a logo and a
+- **Mirage Makes** (donation tokens) is the first in-kind donor with a logo and a
   link (miragemakes.com), in the home page's In-Kind Donors card. Both
   logos, from their site, are in `2026_sponsors/` (wordmark used; the "M"
   mark kept for anyone who needs it). Not added to `/gameday`'s sponsor grid.

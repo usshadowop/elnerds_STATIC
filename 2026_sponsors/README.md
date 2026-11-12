@@ -18,7 +18,7 @@ them from this folder.
 | `papa-johns.svg` | Papa Johns Roseville | Pizza | Wikimedia |
 | `qs-cue.jpg` | Q’s Cue | BBQ catering | Their Facebook profile picture (480×480) |
 | `gillette-childrens.svg` | Gillette Children’s | Where the money goes | Their site |
-| `mirage-makes.png` | Mirage Makes | In-kind: poker chips | Their site’s header logo, cropped to the artwork and scaled to 600×262 (2026-11-12) |
+| `mirage-makes.png` | Mirage Makes | In-kind: donation tokens | Their site’s header logo, cropped to the artwork and scaled to 600×262 (2026-11-12) |
 | `mirage-makes-m.png` | Mirage Makes, the “M” mark on its own (not used on the site) | — | Their site’s favicon artwork, cropped and scaled to 356×400 (2026-11-12) |
 | `placemaker-hospitality/` | Placemaker Hospitality | Food | See below |
 
