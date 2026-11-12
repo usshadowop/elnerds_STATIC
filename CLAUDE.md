@@ -97,7 +97,10 @@ donation flyers, in progress outside the repo):*
   567979. Photos: Troy #65 (group), Jon Deckenbach #14, Josh #16, Mike #61, Ben
   #36 (2025 folder, cropped from originals); Jon Holt and Pam use website
   headshots. Josh #16 and Mike #61 were the session's reading of the owner's
-  "#15"/"#16". The generator was **not** saved to the repo.
+  "#15"/"#16". The 8.5×11s use wider crops than the lanyards (owner's zoom
+  picks: Troy 2, Jon D. 3, Josh 3, Mike 2, Ben 3; lanyards all at zoom 1);
+  old flyer versions are in the owner's Drive trash. The generator was
+  **not** saved to the repo.
 
 ## Ship-live workflow
 
