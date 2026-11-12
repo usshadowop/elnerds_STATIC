@@ -1,7 +1,7 @@
 # Deploy pipeline
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-04 (a timed-out Pages deploy can't be re-run)
+- **Last reviewed:** 2026-11-12 (the `publicFiles()` plugin in `vite.config.ts`)
 - **Covers:** `.github/workflows/deploy.yml`, `package.json`, `vite.config.ts`, `public/CNAME`
 
 ## Purpose
@@ -13,6 +13,8 @@ requests.
 
 - `.github/workflows/deploy.yml` — build + deploy jobs.
 - `package.json` — the `build` script.
+- `vite.config.ts` — plugins and the `@` alias, plus `publicFiles()`, which
+  exports `virtual:public-files` (typed in `src/virtual-modules.d.ts`).
 - `public/CNAME`, `public/.nojekyll` — custom domain and Pages behaviour.
 
 ## How it works
@@ -25,6 +27,12 @@ artifact. The `deploy` job publishes it. Concurrency group `pages` with
 
 The build script is `vite build && cp dist/index.html dist/404.html` — that
 copy is what makes SPA deep links work on Pages.
+
+`publicFiles()` (2026-11-12) walks `public/` when the bundle is built and
+exports the sorted list of paths as `virtual:public-files`. Only `/library`
+imports it, to list every file served as-is without a hand-kept list. It reads
+the folder at build time, so a file added to `public/` shows up on the next
+deploy (or on a dev-server restart).
 
 ## Decisions and gotchas
 
@@ -43,8 +51,9 @@ copy is what makes SPA deep links work on Pages.
 - `bun.lock` tarball URLs must point at `registry.npmjs.org`. The repo was
   exported from a Lovable sandbox whose lockfile pointed at a private npm
   cache, which made `bun install` hang forever outside it (fixed in PR #17).
-- `vite build` does **not** typecheck. `npx tsc --noEmit` has pre-existing
-  failures (uppercase `.PNG` imports in `Team.tsx`); only new errors matter.
+- `vite build` does **not** typecheck. `npx tsc -p tsconfig.json --noEmit` has
+  pre-existing failures (uppercase `.PNG` imports in `Team.tsx`, a `reduce`
+  overload in `GamedaySchedule.tsx`); only new errors matter.
 
 ## Manual steps and open questions
 
