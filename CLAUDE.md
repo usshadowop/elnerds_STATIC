@@ -106,10 +106,9 @@ donation flyers, in progress outside the repo):*
   **2026-11-12 late: lanyard passes resized from A7 to 2.5×4 in**, plus
   print-and-cut sheets (landscape letter, 4×2 grid, crop marks, "print at
   100%") in a "Print and cut sheets" subfolder (`1KZBwNjxkbEVHm_lpGt3v3o_x86sRkylp`):
-  one sheet with all 7 and one 8-up sheet per person. Troy's, Jon
-  Deckenbach's and Josh's 8-up sheets (3.2–3.5 MB) did **not** upload: the
-  Drive connector refuses anything over ~3.1 MB per call. They're in the zip
-  given to the owner. Gradients broke when imposing with pypdf (patterns
+  just one sheet with all 7 (the owner dropped the 8-up per-person sheets;
+  they're in Drive trash). The Drive connector refuses uploads over ~3.1 MB
+  per call. Gradients broke when imposing with pypdf (patterns
   don't move with the page), so sheets are built in Chromium with each pass
   in an iframe loaded from a file:// page. The generator was **not** saved
   to the repo.
