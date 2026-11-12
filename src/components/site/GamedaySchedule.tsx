@@ -298,9 +298,14 @@ export function GamedaySchedule({
                   }
                   cursor = Math.max(cursor, c1);
                 }
+                // A 30-minute block is ~22px inside its border, too short for
+                // time and title stacked (~40px), so it gets them on one line,
+                // cut with "…" if the lane is narrow (the hover shows it all).
+                const compact = gap.height < 40;
                 return (
                   <div
                     key={`${b.row.time}-${b.row.title}`}
+                    title={compact ? `${b.row.time} ${b.row.title}` : undefined}
                     className={`absolute overflow-hidden rounded-lg border-2 border-ink bg-[#56c6f5] ${
                       b.overlay ? "z-[5] shadow-[var(--shadow-soft)]" : ""
                     } ${current ? "animate-now-pulse motion-reduce:animate-none motion-reduce:ring-2 motion-reduce:ring-magenta" : ""}`}
@@ -312,13 +317,23 @@ export function GamedaySchedule({
                     }}
                   >
                     <div
-                      className="absolute left-0 right-0 flex flex-col items-center justify-center px-2 py-1 text-center"
-                      style={{ top: gap.top, height: gap.height }}
+                      className={`absolute left-0 right-0 flex flex-col items-center justify-center px-2 text-center ${compact ? "" : "py-1"}`}
+                      style={{ top: gap.top, height: compact ? height - 4 : gap.height }}
                     >
-                      <p className="font-display text-[13px] font-extrabold leading-tight text-ink">{b.row.time}</p>
-                      <p className="text-[13px] font-semibold leading-tight text-ink">{b.row.title}</p>
-                      {gap.height >= 110 && b.row.detail && (
-                        <p className="mt-1 text-xs leading-tight text-ink/80">{b.row.detail}</p>
+                      {compact ? (
+                        <p className="w-full truncate text-[13px] leading-tight text-ink">
+                          <span className="font-display font-extrabold">{b.row.time}</span>
+                          {" · "}
+                          <span className="font-semibold">{b.row.title}</span>
+                        </p>
+                      ) : (
+                        <>
+                          <p className="font-display text-[13px] font-extrabold leading-tight text-ink">{b.row.time}</p>
+                          <p className="text-[13px] font-semibold leading-tight text-ink">{b.row.title}</p>
+                          {gap.height >= 110 && b.row.detail && (
+                            <p className="mt-1 text-xs leading-tight text-ink/80">{b.row.detail}</p>
+                          )}
+                        </>
                       )}
                     </div>
                   </div>

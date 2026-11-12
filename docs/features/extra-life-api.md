@@ -1,7 +1,7 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-11 (Placemaker carousel, first in Food Donation; sponsor logos from `2026_sponsors/`)
+- **Last reviewed:** 2026-11-12 (Mirage Makes, the first in-kind donor with a logo)
 - **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/hooks/useExtraLifeIncentives.ts`, `src/lib/sponsorLogos.ts`, `src/lib/placemakerRestaurants.ts`, `src/components/site/PlacemakerCarousel.tsx`
 
 ## Purpose
@@ -41,8 +41,11 @@ someone donates.
   Placemaker carousel, below), then `FOOD_DONORS` (Papa Johns Roseville and
   Q’s Cue), each a small logo plus a link with a one-line note, gold accent;
   added 2026-11-06. Every row's logo box is as wide as the carousel's
-  (`w-20`, `sm:w-24`), so the names line up. Then **In-Kind Donors** (a
-  plain list). The food list is the same vendors, in the same order, as
+  (`w-20`, `sm:w-24`), so the names line up. Then **In-Kind Donors**:
+  a plain list of names, except that an entry with a `logo` and an `href`
+  gets the same logo-box row as the food donors, orange accent (Mirage
+  Makes, donation tokens, added 2026-11-12, linking to miragemakes.com; listed
+  on the home page only, not on `/gameday`). The food list is the same vendors, in the same order, as
   `SPONSOR_LINKS` on `/gameday` (`CommandCenter.tsx`), copied by hand
   (names, links and notes only: both pages read the logos from
   `sponsorLogos`, see below), so change both when a food sponsor changes.

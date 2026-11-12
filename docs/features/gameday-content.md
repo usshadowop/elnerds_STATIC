@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-11 (phone schedule timeline; sponsor logos from `2026_sponsors/`; Placemaker carousel tile)
+- **Last reviewed:** 2026-11-12 (30-minute blocks on one line)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
 
 ## Routing (since 2026-11-10)
@@ -181,6 +181,15 @@ becomes a live player.
     Padding on the lane box can't do this because absolutely placed children
     measure `%` against the padding box. The thresholds (`MAX_OVERLAY_MIN`, `MIN_LABEL_MIN`,
     `RIDE_PX`) are constants at the top of `GamedaySchedule.tsx`.
+  - **Short blocks go on one line** (2026-11-12). An hour is 60px, so a
+    30-minute block is 26px tall, about 22px inside its border, and time
+    and title stacked need about 40px. The bottom line was cut off (3D
+    Printed Mecha Chameleon, 2p - 2:30p, reported from the live site). A
+    block whose label space is under 40px now shows "time · title" on one
+    line, ending in "…" when the lane is too narrow, with the whole text as
+    a hover tooltip (`title`). Taller blocks are unchanged. Making short
+    blocks taller was ruled out: it overstates the duration, and a block
+    starting right after (Smash Bros at 2:30p) could be in the same lane.
   - **Meals.** A row whose title or detail mentions breakfast, lunch,
     dinner, waffles, snacks, food or pizza becomes a green banner in the
     first lane only (the all-day block's), so the other lanes stay free;
