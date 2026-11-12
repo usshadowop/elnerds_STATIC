@@ -102,8 +102,17 @@ donation flyers, in progress outside the repo):*
   Later: Jon Deckenbach's 8.5×11 uses a family selfie the owner supplied
   (600 px), and Pam's headshot was padded to a square with a blurred fill so
   her chin isn't cropped on either item. Old versions are in the owner's
-  Drive trash; each replacement got a new Drive link. The generator was
-  **not** saved to the repo.
+  Drive trash; each replacement got a new Drive link.
+  **2026-11-12 late: lanyard passes resized from A7 to 2.5×4 in**, plus
+  print-and-cut sheets (landscape letter, 4×2 grid, crop marks, "print at
+  100%") in a "Print and cut sheets" subfolder (`1KZBwNjxkbEVHm_lpGt3v3o_x86sRkylp`):
+  one sheet with all 7 and one 8-up sheet per person. Troy's, Jon
+  Deckenbach's and Josh's 8-up sheets (3.2–3.5 MB) did **not** upload: the
+  Drive connector refuses anything over ~3.1 MB per call. They're in the zip
+  given to the owner. Gradients broke when imposing with pypdf (patterns
+  don't move with the page), so sheets are built in Chromium with each pass
+  in an iframe loaded from a file:// page. The generator was **not** saved
+  to the repo.
 
 ## Ship-live workflow
 
