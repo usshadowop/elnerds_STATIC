@@ -33,7 +33,15 @@ const FOOD_DONORS: { name: string; note: string; href: string; logo: string; log
   },
 ];
 
-const inKindDonors: { name: string; href?: string }[] = [
+// A business donor can carry a logo and a link to its site; it then gets the
+// same logo-box row as the food donors above.
+const inKindDonors: { name: string; href?: string; note?: string; logo?: string }[] = [
+  {
+    name: "Mirage Makes",
+    note: "Poker chips",
+    href: "https://miragemakes.com/",
+    logo: sponsorLogos.mirageMakes,
+  },
   { name: "Mike Hochscheidt - Miniatures" },
   { name: "Mike Smith - Board Games" },
 ];
@@ -218,7 +226,37 @@ export function Donors() {
                 </div>
               </div>
               <ul className="space-y-3">
-                {inKindDonors.map((donor) => (
+                {inKindDonors.map((donor) =>
+                  donor.logo && donor.href ? (
+                    <li key={donor.name} className="flex items-center gap-3 border-l-2 border-orange/50 pl-3">
+                      <a
+                        href={donor.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        tabIndex={-1}
+                        aria-hidden="true"
+                        className="grid h-12 w-20 shrink-0 place-items-center sm:w-24"
+                      >
+                        <img src={donor.logo} alt="" className="h-9 w-auto object-contain" />
+                      </a>
+                      <span className="min-w-0">
+                        <a
+                          href={donor.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="group inline-flex items-center gap-1 text-sm font-bold text-ink underline decoration-orange/40 decoration-2 underline-offset-4 transition-colors hover:text-orange"
+                        >
+                          {donor.name}
+                          <ArrowUpRight className="size-3.5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                        </a>
+                        {donor.note && (
+                          <span className="block text-xs font-bold uppercase tracking-widest text-ink-soft">
+                            {donor.note}
+                          </span>
+                        )}
+                      </span>
+                    </li>
+                  ) : (
                   <li
                     key={donor.name}
                     className="border-l-2 border-orange/50 pl-3 text-sm font-bold text-ink"
@@ -236,7 +274,8 @@ export function Donors() {
                       donor.name
                     )}
                   </li>
-                ))}
+                  ),
+                )}
               </ul>
             </div>
           </div>

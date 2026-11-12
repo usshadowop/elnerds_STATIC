@@ -51,6 +51,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-10-31 | Owner | Confirm the Oct "Sign Up Today" email archived under `email/archive/2026-10-signup-today/` matches what was actually sent in Brevo (archived from the repo draft on the owner's word that it went out; the repo never recorded the send). The unverified facts in it (`$50+` food, "tourneys", "Gorilla butler", Game Week drawing) are also on `/incentives` and the home page. |
 | 2026-11-10 | Owner | The Game Day email went out (told to a session 2026-11-10, archived from the repo draft). Confirm what Brevo actually sent matches `email/archive/2026-11-gameday-this-saturday/`; its "donation match" line (from the owner's wording) isn't backed by anything in the repo or sheet. |
 | 2026-11-10 | Owner | Type the leadership D&D stream into the `Gameday Streams` tab (name containing "Leadership" or "D&D", plus Embed URL) so `/leadership_DandD` shows the player; until then it says "Goes live at 9:30 PM on Game Day. Game starts at 10 PM." |
+| 2026-11-12 | Owner | Donation flyers (8.5×11, one per leadership-team member, QR code to their Extra Life page; ids in `Team.tsx`, Grant Gray has none): waiting on the owner to say which 2025 photos show whom. Nothing is in the repo yet. |
 
 Rules that keep this honest:
 
@@ -68,24 +69,18 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-12 (a `/library` page; on the branch, not yet live):*
+*Session of 2026-11-12, second (a schedule fix and a new in-kind donor):*
 
-- **New `/library` page** for the team: every page with the file that builds
-  it, every file in `public/`, and a guide to the repo folders. The page list
-  moved out of `SiteMap.tsx` into `src/lib/sitePages.ts`, which both pages
-  read. The owner asked for it "in .gitignore", then chose "live but hidden":
-  nothing on it is private, it just shouldn't be easy to find. So `/sitemap`
-  and `/library` now carry a `noindex` tag and stay out of `robots.txt`.
-- **2025 event photos are reachable.** The owner made the Drive folder
-  "Event Photos" (`Extra Life 2025`, id `1LS1GtCy0ZkSKVmDVbGFkjT3Hjg0Chy4_`)
-  public by link. The Drive connector won't download files over 10 MB, and
-  every photo there is 21–58 MB. But `curl
-  "https://drive.google.com/thumbnail?id=<fileId>&sz=w3000"` returns a
-  3000 px JPEG, which is enough for print. Get the file ids from the
-  connector's `search_files` with `parentId = '<folder id>'`.
-- **In progress:** 8.5×11 donation flyers for each leadership-team member,
-  each with a QR code to their Extra Life page (ids in `Team.tsx`; Grant
-  Gray has none). Waiting on the owner to confirm which photos show whom.
+- **30-minute blocks on the Game Day grid** now show "time · title" on one
+  line. Stacked, the two lines needed about 40px in a 26px box, and the
+  title was cut off (3D Printed Mecha Chameleon, 2p - 2:30p). Taller blocks
+  are unchanged. Rule in the gameday-content card.
+- **Mirage Makes** (poker chips) is the first in-kind donor with a logo and a
+  link (miragemakes.com), in the home page's In-Kind Donors card. Both
+  logos, from their site, are in `2026_sponsors/` (wordmark used; the "M"
+  mark kept for anyone who needs it). Not added to `/gameday`'s sponsor grid.
+- The previous session's `/library` page went live as PR #201. Its donation
+  flyers are not in the repo; that thread is in Open threads above.
 
 ## Ship-live workflow
 
@@ -396,6 +391,13 @@ the full send. Notes that cost time to work out:
   `workflow_dispatch` on the same `main`) fails within seconds with
   "Deployment cancelled". The fix is a new commit on `main`. This happened
   on PR #125 (2026-11-04), with GitHub's status page all green.
+- **Big Drive photos come down as thumbnails.** The Drive connector won't
+  download a file over 10 MB, and the 2025 event photos (folder "Event
+  Photos" / `Extra Life 2025`, id `1LS1GtCy0ZkSKVmDVbGFkjT3Hjg0Chy4_`, public
+  by link since 2026-11-12) are 21–58 MB each. `curl
+  "https://drive.google.com/thumbnail?id=<fileId>&sz=w3000"` returns a
+  3000px JPEG, enough for print. File ids come from the connector's
+  `search_files` with `parentId = '<folder id>'`.
 - Restarting the working branch after a merge: the remote branch is
   auto-deleted, which makes `git push --force-with-lease` fail with
   "stale info" against the local tracking ref. Run `git remote prune
