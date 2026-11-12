@@ -85,15 +85,19 @@ donation flyers, in progress outside the repo):*
   JPEG. List file ids with the connector's `search_files`, `parentId = '<id>'`.
   The website headshots in `src/assets/team/` are tiny (~170 px) and several
   were cropped from the 2025 group photo.
-- **In progress: per-leader donation flyers** (8.5×11 plus an A7 lanyard
-  pass), each with a QR code to `dd.extra-life.org/participants/<id>/donate`.
-  Troy's pair is done and approved in style. The design pulls each
-  leader's goal, year count and Platinum badge live from Extra Life. The year
-  count is only on the participant page (`participant-legacy-year-N` class).
-  DonorDrive 403s a request with no browser User-Agent. Grant is excluded.
-  The generator lives only in that session's scratch folder, **not the repo**.
-  Waiting on the owner to pick photos per person; Pam and Jon Holt have none
-  found yet.
+- **Leadership donation flyers: done.** An 8.5×11 flyer and an A7 (74×105
+  mm) lanyard pass for each of the seven leaders (Grant excluded), each with
+  a QR code to `dd.extra-life.org/participants/<id>/donate`; every code was
+  read back from the printed PDF. All 14 are in Drive at Extra Life Nerds Team
+  Files → Extra Life 2026 → "Leadership donation flyers 2026"
+  (`166HjV54d-DCIwzavLfotO8v9F1MhT1-D`). Each leader's goal, year count and
+  Platinum badge are pulled live from Extra Life at build time. The year count
+  is only on the participant page (`participant-legacy-year-N` class), and
+  DonorDrive 403s requests with no browser User-Agent. Pam's numeric id is
+  567979. Photos: Troy #65 (group), Jon Deckenbach #14, Josh #16, Mike #61, Ben
+  #36 (2025 folder, cropped from originals); Jon Holt and Pam use website
+  headshots. Josh #16 and Mike #61 were the session's reading of the owner's
+  "#15"/"#16". The generator was **not** saved to the repo.
 
 ## Ship-live workflow
 
