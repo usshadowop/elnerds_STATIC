@@ -68,7 +68,8 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-12 (a `/library` page; on the branch, not yet live):*
+*Session of 2026-11-12 (a `/library` page, live as PR #201; leadership
+donation flyers, in progress outside the repo):*
 
 - **New `/library` page** for the team: every page with the file that builds
   it, every file in `public/`, and a guide to the repo folders. The page list
@@ -76,16 +77,23 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   read. The owner asked for it "in .gitignore", then chose "live but hidden":
   nothing on it is private, it just shouldn't be easy to find. So `/sitemap`
   and `/library` now carry a `noindex` tag and stay out of `robots.txt`.
-- **2025 event photos are reachable.** The owner made the Drive folder
-  "Event Photos" (`Extra Life 2025`, id `1LS1GtCy0ZkSKVmDVbGFkjT3Hjg0Chy4_`)
-  public by link. The Drive connector won't download files over 10 MB, and
-  every photo there is 21–58 MB. But `curl
-  "https://drive.google.com/thumbnail?id=<fileId>&sz=w3000"` returns a
-  3000 px JPEG, which is enough for print. Get the file ids from the
-  connector's `search_files` with `parentId = '<folder id>'`.
-- **In progress:** 8.5×11 donation flyers for each leadership-team member,
-  each with a QR code to their Extra Life page (ids in `Team.tsx`; Grant
-  Gray has none). Waiting on the owner to confirm which photos show whom.
+- **Event photos are reachable.** The owner made two Drive folders public by
+  link: 2025 "Event Photos" (`1LS1GtCy0ZkSKVmDVbGFkjT3Hjg0Chy4_`, 65 pro shots
+  at 21–58 MB) and the 2024 folder (`1jYMmNJx5Ip3958aRVJ2HdWsZdUw8ihzj`, 35
+  phone shots). The Drive connector won't download files over 10 MB, but `curl
+  "https://drive.google.com/thumbnail?id=<fileId>&sz=w3000"` returns a 3000 px
+  JPEG. List file ids with the connector's `search_files`, `parentId = '<id>'`.
+  The website headshots in `src/assets/team/` are tiny (~170 px) and several
+  were cropped from the 2025 group photo.
+- **In progress: per-leader donation flyers** (8.5×11 plus an A7 lanyard
+  pass), each with a QR code to `dd.extra-life.org/participants/<id>/donate`.
+  Troy's pair is done and approved in style. The design pulls each
+  leader's goal, year count and Platinum badge live from Extra Life. The year
+  count is only on the participant page (`participant-legacy-year-N` class).
+  DonorDrive 403s a request with no browser User-Agent. Grant is excluded.
+  The generator lives only in that session's scratch folder, **not the repo**.
+  Waiting on the owner to pick photos per person; Pam and Jon Holt have none
+  found yet.
 
 ## Ship-live workflow
 
