@@ -6,6 +6,7 @@ import { GamedayEvents } from "@/pages/GamedayEvents";
 import { Home } from "@/pages/Home";
 import { Incentives } from "@/pages/Incentives";
 import { LeadershipDnD } from "@/pages/LeadershipDnD";
+import { Library } from "@/pages/Library";
 import { MtgInterest } from "@/pages/MtgInterest";
 import { Newsletter } from "@/pages/Newsletter";
 import { GilletteChildrensHospital } from "@/pages/GilletteChildrensHospital";
@@ -29,7 +30,7 @@ export default function App() {
     MARATHON?.end ?? "2026-11-15T08:00:00-06:00",
   );
 
-  // Every route here is also listed on /sitemap (src/pages/SiteMap.tsx): add new ones there too.
+  // Every route here is also listed in src/lib/sitePages.ts (shown on /sitemap and /library): add new ones there too.
   let page = <Home />;
   if (path === "sitemap") page = <SiteMap />;
   if (path === "gameday") page = phase === "before" ? <GamedayCountdown /> : <CommandCenter />;
@@ -37,6 +38,7 @@ export default function App() {
   if (path === "gameday_events") page = <GamedayEvents />;
   if (path === "gillette-childrens-hospital") page = <GilletteChildrensHospital />;
   if (path === "incentives") page = <Incentives />;
+  if (path === "library") page = <Library />;
   if (path === "leadership_DandD") page = <LeadershipDnD />;
   if (path === "mtginterest") page = <MtgInterest />;
   if (path === "newsletter") page = <Newsletter />;

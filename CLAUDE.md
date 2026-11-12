@@ -68,32 +68,24 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-11 (sponsor logos and the Placemaker carousel; done and
-live, PRs #199–#200):*
+*Session of 2026-11-12 (a `/library` page; on the branch, not yet live):*
 
-- **Sponsor logos have one home.** `2026_sponsors/` (repo root) holds the
-  only copy of every sponsor logo, and `src/lib/sponsorLogos.ts` is the one
-  file that imports from it. `src/assets/logos/sponsors/` is gone. The email
-  renditions in `public/email/assets/sponsor-*` stay separate, since emails
-  need stable public URLs. The extra-life-api card explains it.
-- **Placemaker is shown as its five restaurants** (Barbette, Book Club,
-  Bread & Pickle, gigi's cafe, Pat's Tap; logos from a Word file in the
-  owner's Drive), in a carousel that is first in the home page's Food
-  Donation card and first among the food vendors on `/gameday`: 4-second
-  autoplay, random start, "by Placemaker Hospitality" at 10px. The owner saw
-  it with the `/gameday` tile and Book Club's own site
-  (bookclubrestaurant.com) linked, and said push live.
-- **Testing caught a real bug**, fixed with `inert`: for 300ms after each
-  change the outgoing slide could still take a click or a Tab, and on the
-  wrap to Barbette a click opened Pat's Tap. How to test the carousel on a
-  fake clock is now in the verify skill.
-- **The owner had the session's work reviewed**, and the fixes landed
-  (keyboard hold, image size, aligned rows). Left as they are: the
-  year-named folder (`2026_sponsors/` will want a rename or a sibling next
-  season) and the food sponsors still listed by hand in both `Donors.tsx`
-  and `CommandCenter.tsx`.
-- **New `/sitemap` page** lists every page; the owner asked for it after
-  forgetting the `/gameday_holding` address. A new route needs a line there.
+- **New `/library` page** for the team: every page with the file that builds
+  it, every file in `public/`, and a guide to the repo folders. The page list
+  moved out of `SiteMap.tsx` into `src/lib/sitePages.ts`, which both pages
+  read. The owner asked for it "in .gitignore", then chose "live but hidden":
+  nothing on it is private, it just shouldn't be easy to find. So `/sitemap`
+  and `/library` now carry a `noindex` tag and stay out of `robots.txt`.
+- **2025 event photos are reachable.** The owner made the Drive folder
+  "Event Photos" (`Extra Life 2025`, id `1LS1GtCy0ZkSKVmDVbGFkjT3Hjg0Chy4_`)
+  public by link. The Drive connector won't download files over 10 MB, and
+  every photo there is 21–58 MB. But `curl
+  "https://drive.google.com/thumbnail?id=<fileId>&sz=w3000"` returns a
+  3000 px JPEG, which is enough for print. Get the file ids from the
+  connector's `search_files` with `parentId = '<folder id>'`.
+- **In progress:** 8.5×11 donation flyers for each leadership-team member,
+  each with a QR code to their Extra Life page (ids in `Team.tsx`; Grant
+  Gray has none). Waiting on the owner to confirm which photos show whom.
 
 ## Ship-live workflow
 
@@ -185,11 +177,18 @@ already there.
   scrolling to the hash once the element exists and again while the page
   settles (the served HTML is empty until React renders, so the browser
   alone finds nothing). Called once from `App.tsx`.
-- `src/pages/SiteMap.tsx` (`/sitemap`, not linked from the nav) lists every
-  page on the site for the team: the routes in `App.tsx`, the home page's jump
-  links, the RSVP pages (read from `rsvpEvents.ts`, so new events appear on
-  their own) and the email pages. A new route in `App.tsx` needs a line here
-  too; a comment above the route table says so.
+- `src/lib/sitePages.ts` is the one list of every page on the site, each
+  with the file it's built from. Two team pages read it, neither linked from
+  the nav: `/sitemap` (`SiteMap.tsx`, just the addresses) and `/library`
+  (`Library.tsx`, 2026-11-12), which adds where each page lives in the repo,
+  every file in `public/` (listed at build time by the `publicFiles()` plugin
+  in `vite.config.ts`) and a guide to the repo folders. A new route in
+  `App.tsx` needs a line in `sitePages.ts`; a comment above the route table
+  says so. RSVP pages come from `rsvpEvents.ts` on their own. Both pages call
+  `useNoIndex()` (`src/hooks/use-noindex.ts`) so search engines skip them. The
+  owner's call: nothing on them is private, they just shouldn't be easy to
+  find. They are deliberately **not** in `robots.txt`, which is public and
+  would advertise them.
 - `src/hooks/use-now.ts` — the shared ticking clock (default one minute)
   behind all of the above, so a page left open across an event's end
   updates without a reload.
