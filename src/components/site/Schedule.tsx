@@ -3,6 +3,7 @@ import { ArrowRight, CalendarClock, ChevronDown, ExternalLink, Swords, Trophy } 
 
 import { ResponsiveGamedaySchedule } from "@/components/site/GamedayAgenda";
 import { GamedayEventDetails } from "@/components/site/GamedayEventDetails";
+import { LoadingBox } from "@/components/site/LoadingBox";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { useNow } from "@/hooks/use-now";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
@@ -61,9 +62,7 @@ function MainEventSchedule({ item }: { item: EventItem }) {
           </h3>
         </div>
         {!settled ? (
-          <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-line text-sm font-semibold text-ink-soft">
-            Loading the schedule&hellip;
-          </div>
+          <LoadingBox>Loading the schedule&hellip;</LoadingBox>
         ) : (
           <>
             <ResponsiveGamedaySchedule

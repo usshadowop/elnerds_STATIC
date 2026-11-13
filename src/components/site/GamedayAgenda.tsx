@@ -57,6 +57,11 @@ const LIME = "#c7f36b";
 const INK_PAST = "#a7afbb";
 const SKY_PAST = "#c3e8f9";
 const LIME_PAST = "#e7f8c0";
+// A live card ripples a pink ring every 2 seconds, the hero incentives chip's
+// animation (owner's pick from mockups, 2026-11-13). With reduced motion it
+// holds a steady pink halo instead.
+const LIVE_RING =
+  "animate-now-ping motion-reduce:animate-none motion-reduce:shadow-[0_0_0_3px_rgba(200,50,124,0.22),0_0_16px_5px_rgba(200,50,124,0.42)]";
 
 type Entry = {
   key: string;
@@ -440,7 +445,7 @@ export function GamedayAgenda({
           return (
             <div key={`card-${e.key}`}>
               <div
-                className="absolute rounded-xl rounded-tl-none"
+                className={`absolute rounded-xl rounded-tl-none ${current ? LIVE_RING : ""}`}
                 style={{ left: cardLeft, right: 0, top, minHeight: cardHeight[i], border: `${B}px solid ${stroke}`, background: fill }}
               >
                 <div

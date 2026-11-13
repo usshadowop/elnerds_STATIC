@@ -1,8 +1,8 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-12 (30-minute blocks on one line)
-- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`
+- **Last reviewed:** 2026-11-13 (loading spinner; live phone cards ripple)
+- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`, `src/components/site/LoadingBox.tsx`
 
 ## Routing (since 2026-11-10)
 
@@ -153,6 +153,11 @@ becomes a live player.
   the first read has finished either way; both pages show a "Loading the
   schedule…" placeholder until then, rather than drawing the fallback and
   swapping it a second later (the flash PR #76 was written to stop).
+  The placeholder is `LoadingBox.tsx`: the dashed box with a teal spinning
+  arc (lucide `LoaderCircle`) over the words, still for reduced motion.
+  `/gameday_events` uses it too for "Loading the events…". The owner picked
+  it from four mockups on 2026-11-13 (also a team-colour ring, a rolling d20
+  and a ticking clock).
 
 - **The schedule is laid out like the printed 2025 run of show**, not a
   list: a navy Time / Event header, red hourly pills, lanes of sky-blue
@@ -248,7 +253,11 @@ becomes a live player.
   - **The now-line** runs under the cards and over the bars, with a dot on
     every bar it crosses and a pink time pill in the gutter (the hour pill it
     would cover is hidden). During Game Day it also tags current cards NOW
-    with a pink outline, fades finished events (solid faded colours, not
+    with a pink outline and a pink ring that ripples out from the card every
+    2 seconds (`animate-now-ping`, the hero incentives chip's `incentive-glow`
+    keyframes; a steady pink halo with reduced motion; owner's pick from
+    mockups 2026-11-13 over the grid's breathing glow and a plain halo; card
+    only, not its arm or bar), fades finished events (solid faded colours, not
     opacity, so a card and its arm don't darken where they overlap) and adds
     an "On now" card above with what's running, until when, what's next and
     a "Jump to now" button. Before and after, the line previews on the

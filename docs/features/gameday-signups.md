@@ -1,7 +1,7 @@
 # Game Day event sign-ups (`/gameday_events`)
 
 - **Status:** Live 2026-11-04 (site and `Code.gs`). The `Gameday Signups` tab exists and is empty, so the page says "Sign-ups open soon" until rows are typed.
-- **Last reviewed:** 2026-11-10 (prize progress)
+- **Last reviewed:** 2026-11-13 ("Loading the events…" box now has the shared `LoadingBox` spinner; nothing else changed)
 - **Covers:** `src/pages/GamedayEvents.tsx`, `src/pages/LeadershipDnD.tsx`, `src/lib/gamedaySignup.ts`
 
 ## Purpose
