@@ -19,6 +19,7 @@ const SAMPLE_STILLS = [stillPc, stillCrowd, stillVr];
 
 import { ResponsiveGamedaySchedule } from "@/components/site/GamedayAgenda";
 import { GamedayEventDetails } from "@/components/site/GamedayEventDetails";
+import { LoadingBox } from "@/components/site/LoadingBox";
 import { PlacemakerCarouselTile } from "@/components/site/PlacemakerCarousel";
 import { useGameday } from "@/hooks/use-countdown";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
@@ -253,9 +254,7 @@ export function CommandCenter() {
           <div className="mb-16">
             <SectionHeading icon={CalendarClock} label="What's on" title="Schedule" />
             {!settled ? (
-              <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-line text-sm font-semibold text-ink-soft">
-                Loading the schedule&hellip;
-              </div>
+              <LoadingBox>Loading the schedule&hellip;</LoadingBox>
             ) : (
               <>
                 <ResponsiveGamedaySchedule

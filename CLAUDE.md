@@ -69,18 +69,19 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-12, second (a schedule fix and a new in-kind donor):*
+*Session of 2026-11-13 (a loading spinner and a live-card ripple, picked from mockups):*
 
-- **30-minute blocks on the Game Day grid** now show "time · title" on one
-  line. Stacked, the two lines needed about 40px in a 26px box, and the
-  title was cut off (3D Printed Mecha Chameleon, 2p - 2:30p). Taller blocks
-  are unchanged. Rule in the gameday-content card.
-- **Mirage Makes** (donation tokens) is the first in-kind donor with a logo and a
-  link (miragemakes.com), in the home page's In-Kind Donors card. Both
-  logos, from their site, are in `2026_sponsors/` (wordmark used; the "M"
-  mark kept for anyone who needs it). Not added to `/gameday`'s sponsor grid.
-- The previous session's `/library` page went live as PR #201. Its donation
-  flyers are not in the repo; that thread is in Open threads above.
+- The owner picked from an animated mockup page: a private artifact built
+  from the real site's captured DOM plus the built CSS, so it looked exactly
+  like the site and the animations played (screenshots can't show motion).
+- **Loading spinner (option A):** `LoadingBox.tsx`, a teal spinning arc over
+  the words. Home page schedule, Command Center and `/gameday_events` all use
+  it. Rejected: a team-colour ring, a rolling d20, a ticking clock.
+- **Live phone cards ripple (option 3):** on Game Day the current cards in the
+  phone timeline ripple a pink ring every 2 seconds (the hero chip's
+  animation); a steady halo with reduced motion. Before Game Day (preview)
+  nothing turns pink, as before. Rejected: the computer grid's breathing glow
+  and a plain steady halo. Rules in the gameday-content card.
 
 ## Ship-live workflow
 

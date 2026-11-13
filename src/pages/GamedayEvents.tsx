@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 
 import { FullChip, PrizeBox, RichText, SpotsChip } from "@/components/site/GamedayEventDetails";
+import { LoadingBox } from "@/components/site/LoadingBox";
 import { incentiveOf, useIncentiveStock } from "@/hooks/useExtraLifeIncentives";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { useNow } from "@/hooks/use-now";
@@ -198,9 +199,7 @@ export function GamedayEvents() {
           )}
 
           {!settled ? (
-            <div className="flex h-40 items-center justify-center rounded-2xl border border-dashed border-line text-sm font-semibold text-ink-soft">
-              Loading the events&hellip;
-            </div>
+            <LoadingBox className="rounded-2xl">Loading the events&hellip;</LoadingBox>
           ) : events.length === 0 ? (
             <div className="rounded-3xl border border-line bg-paper p-10 text-center shadow-[var(--shadow-soft)]">
               <h2 className="font-display text-2xl font-extrabold text-ink">Sign-ups open soon</h2>

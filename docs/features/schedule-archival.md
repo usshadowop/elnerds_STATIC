@@ -1,7 +1,7 @@
 # Date-driven event archival
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-11 (comment on the phone schedule updated; mechanism unchanged)
+- **Last reviewed:** 2026-11-13 (loading placeholder is now the shared `LoadingBox` spinner; mechanism unchanged)
 - **Covers:** `src/lib/scheduleEvents.ts`, `src/components/site/Schedule.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -108,8 +108,8 @@ the main-event card, outside its Details fold, with `id="gameday-schedule"`
 through `useGamedayContent`, so the home page polls `?action=gameday` once
 a minute while open, exactly like the Command Center, and shows the
 sheet's rows as they are (starter rows included). Until the first read
-settles it shows a "Loading the schedule…" placeholder rather than the
-shipped fallback. It passes `showNowLine={false}`, so the home page grid has
+settles it shows a "Loading the schedule…" placeholder (`LoadingBox`, with
+a spinner) rather than the shipped fallback. It passes `showNowLine={false}`, so the home page grid has
 no now-line, legend or current-block pulse (2026-10-31). There is deliberately no link to the Command Center and
 no "example" note (both removed the same day at the owner's request). The
 mechanics of the grid stay documented in the gameday-content card.
