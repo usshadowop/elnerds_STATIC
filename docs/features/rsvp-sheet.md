@@ -1,7 +1,7 @@
 # The "elnerds RSVPs" spreadsheet
 
 - **Status:** Live. Owned by `captainextralifenerds@gmail.com`; nine tabs as of 2026-10-31
-- **Last reviewed:** 2026-11-08 (Gameday Signups gains Group and Price)
+- **Last reviewed:** 2026-11-14 (Warhammer 40k Open Play row deleted from `Gameday Run of Show` and from `RUN_OF_SHOW_2026`)
 - **Covers:** `apps-script/Code.gs`, `apps-script/README.md`
 
 ## Purpose

@@ -3,7 +3,7 @@
 This folder holds the campaign currently being written or sent. Sent
 campaigns move to [`archive/`](archive/), one folder per send.
 
-**Current campaign:** none. The most recent *sent* email is the Nov 2026 "Game Day is this Saturday" one, in [`archive/2026-11-gameday-this-saturday/`](archive/2026-11-gameday-this-saturday/).
+**Current campaign:** the last-minute Game Day email, [`elnerds-gameday-parking-prizes.html`](elnerds-gameday-parking-prizes.html) (Nov 2026: parking and the way in, prize drawings, silent auctions, donation tokens). The most recent *sent* email is the Nov 2026 "Game Day is this Saturday" one, in [`archive/2026-11-gameday-this-saturday/`](archive/2026-11-gameday-this-saturday/).
 
 Event details mirror [`src/lib/rsvpEvents.ts`](../src/lib/rsvpEvents.ts) and
 [`src/lib/scheduleEvents.ts`](../src/lib/scheduleEvents.ts) — check dates,

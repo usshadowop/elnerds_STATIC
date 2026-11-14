@@ -1,25 +1,10 @@
-import { Hero } from "@/components/site/Hero";
-import { Stats } from "@/components/site/Stats";
-import { Schedule } from "@/components/site/Schedule";
-import { TeamIncentives } from "@/components/site/TeamIncentives";
-import { WhyWePlay } from "@/components/site/WhyWePlay";
-import { Sponsors } from "@/components/site/Sponsors";
-import { Donors } from "@/components/site/Donors";
-import { Team } from "@/components/site/Team";
-import { ActiveRoster } from "@/components/site/ActiveRoster";
+// The homepage is whichever template src/lib/homeTemplates.ts marks live
+// (ACTIVE_HOME_TEMPLATE). The templates themselves are in src/pages/homeTemplates/,
+// and /templates lists and previews them all.
+
+import { ACTIVE_HOME_TEMPLATE } from "@/lib/homeTemplates";
+import { HomeTemplatePage } from "@/pages/homeTemplates/HomeTemplatePage";
 
 export function Home() {
-  return (
-    <main>
-      <Hero />
-      <Stats />
-      <Schedule />
-      <TeamIncentives />
-      <WhyWePlay />
-      <Donors />
-      <ActiveRoster />
-      <Sponsors />
-      <Team />
-    </main>
-  );
+  return <HomeTemplatePage slug={ACTIVE_HOME_TEMPLATE} />;
 }

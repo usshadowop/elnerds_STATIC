@@ -39,7 +39,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (embed URLs empty), `Gameday Incentives` ("$—" starter rows) and `Gameday Notice` (banner cell empty); all three re-checked at the live endpoint 2026-11-10, still starter. `Gameday Run of Show` is done (16 rows by 2026-11-10, incl. MTG Cube and Mecha Chameleon). Check with `curl "$ENDPOINT?action=gameday"`. |
+| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (embed URLs empty), `Gameday Incentives` ("$—" starter rows) and `Gameday Notice` (banner cell empty); all three re-checked at the live endpoint 2026-11-10, still starter. `Gameday Run of Show` is done (15 rows since Warhammer 40k Open Play was deleted 2026-11-14, incl. MTG Cube and Mecha Chameleon). Check with `curl "$ENDPOINT?action=gameday"`. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
@@ -52,6 +52,10 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-11-10 | Owner | The Game Day email went out (told to a session 2026-11-10, archived from the repo draft). Confirm what Brevo actually sent matches `email/archive/2026-11-gameday-this-saturday/`; its "donation match" line (from the owner's wording) isn't backed by anything in the repo or sheet. |
 | 2026-11-10 | Owner | Type the leadership D&D stream into the `Gameday Streams` tab (name containing "Leadership" or "D&D", plus Embed URL) so `/leadership_DandD` shows the player; until then it says "Goes live at 9:30 PM on Game Day. Game starts at 10 PM." |
 | 2026-11-12 | Owner | Donation flyers (8.5×11, one per leadership-team member, QR code to their Extra Life page; ids in `Team.tsx`, Grant Gray has none): waiting on the owner to say which 2025 photos show whom. Nothing is in the repo yet. |
+| 2026-11-14 | Owner | `/parking` doesn't say whether parking is free, or whether the Lakeside Center doors (card reader beside them) are unlocked on Saturday morning. Add both once known. |
+| 2026-11-14 | Owner | Send a photo of all three donation chips. The graphics (`DonationChips.tsx`, `public/email/assets/chip-*.png`) were drawn from the white "10" only; the blue and red colours are guesses. |
+| 2026-11-14 | Owner (decision) | When should the homepage go back from Gameday Week Runup to Standard Display (`ACTIVE_HOME_TEMPLATE` in `src/lib/homeTemplates.ts`)? The owner also has a second round of changes to Gameday Week Runup coming. |
+| 2026-11-14 | Owner | Send the last-minute Game Day email (`email/elnerds-gameday-parking-prizes.html`), then archive it per `email/archive/README.md`. |
 
 Rules that keep this honest:
 
@@ -69,19 +73,18 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-13 (a loading spinner and a live-card ripple, picked from mockups):*
+*Session of 2026-11-14 UTC (Game Day morning):*
 
-- The owner picked from an animated mockup page: a private artifact built
-  from the real site's captured DOM plus the built CSS, so it looked exactly
-  like the site and the animations played (screenshots can't show motion).
-- **Loading spinner (option A):** `LoadingBox.tsx`, a teal spinning arc over
-  the words. Home page schedule, Command Center and `/gameday_events` all use
-  it. Rejected: a team-colour ring, a rolling d20, a ticking clock.
-- **Live phone cards ripple (option 3):** on Game Day the current cards in the
-  phone timeline ripple a pink ring every 2 seconds (the hero chip's
-  animation); a steady halo with reduced motion. Before Game Day (preview)
-  nothing turns pink, as before. Rejected: the computer grid's breathing glow
-  and a plain steady halo. Rules in the gameday-content card.
+- The owner asked to remove Warhammer open play from every schedule. Deleted
+  the "10a - 8p / Warhammer 40k Open Play" row from the live `Gameday Run of
+  Show` tab (Sheets connector), which is what `/gameday` and the homepage
+  grid show, and took it out of the shipped fallback (`gamedayContent.ts`)
+  and `RUN_OF_SHOW_2026` in `Code.gs`. Verified gone from `?action=gameday`.
+- Left alone on purpose: the sent "Game Day is this Saturday" email in
+  `email/archive/` still mentions Warhammer, because it's a record of what
+  went out.
+- Still found, not fixed (from the session before): the email template's
+  fixed footer forces emails to ~430px wide on a 375px phone.
 
 ## Ship-live workflow
 
@@ -204,6 +207,34 @@ already there.
   ends; the page stays up with a "has wrapped" banner. When an email changes
   the incentives, change them here in the same breath — nothing links
   `/incentives` or `#incentives` from the nav.
+- **The homepage is a template** (2026-11-14). `src/lib/homeTemplates.ts`
+  lists them and `ACTIVE_HOME_TEMPLATE` picks the live one; `Home.tsx` only
+  renders it. **Standard Display** is the year-round homepage as it stood on
+  2026-11-14; **Gameday Week Runup** (live since then) drops the "Play Games.
+  Heal Kids." headline, team photo, incentives, Our Impact, the long Why We Play
+  and the 2025 sponsors, and leads with the Game Day email's details and links
+  to `/prizes` and `/parking`. `/templates` lists and previews them
+  (`/templates/<slug>`). The nav and `sitePages.ts` hide links to homepage
+  sections the live template lacks. See the home-templates card.
+- `src/pages/Parking.tsx` (`/parking`, 2026-11-14): where to park for Game
+  Day (the owner's annotated map) and a photo of each step from the lot to
+  Improving, suite 180. `src/pages/Prizes.tsx` (`/prizes`, 2026-11-14): the
+  prize drawings ($1 tickets, 9 drawings every 1½ hours from 10 AM to 10 PM, must be present) and the
+  silent auctions (all event, no need to be present), in the owner's words;
+  the donation tokens (poker chips: white $10, blue $25, red $50, won or handed
+  out all night, donated to any Extra Life page or used to enter an event),
+  drawn as SVG in `src/components/site/DonationChips.tsx`, with PNGs of the
+  same drawing for email in `public/email/assets/chip-{10,25,50}.png`;
+  event prizes read live from the `Gameday Signups` tab (any row with a
+  "Prize:" line); and the prize-table photos. The drawing times, auction items
+  and prize-table list live in `src/lib/prizes.ts`, shared with the homepage. Both are linked from the Command
+  Center's "Come visit" card and the `/gameday` countdown; the free-ticket line
+  above Event Details links to `/prizes`. Their images are 1200px copies in
+  `public/photos/parking/` and `public/photos/prizes/` so emails can use the
+  same files. **Never name a `public/` folder after a route**: GitHub Pages
+  then redirects `/parking` to the folder. The full-size photos are in
+  `2026_photos/` (setup-night photos of the venue, the way in and the prize
+  tables, with a README describing each).
 - `src/pages/Newsletter.tsx` (`/newsletter`): newsletter signup, with
   `?ref=Name` pre-filling "Referred by". It posts to the RSVP endpoint with
   `type: "newsletter"`, and `Code.gs` writes it to a `Newsletter` sheet tab.

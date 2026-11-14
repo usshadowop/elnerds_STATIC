@@ -19,6 +19,8 @@ them from this folder.
 | `qs-cue.jpg` | Q’s Cue | BBQ catering | Their Facebook profile picture (480×480) |
 | `gillette-childrens.svg` | Gillette Children’s | Where the money goes | Their site |
 | `mirage-makes.png` | Mirage Makes | In-kind: donation tokens | Their site’s header logo, cropped to the artwork and scaled to 600×262 (2026-11-12) |
+| `level-up.png` | Level Up Games (Level Up MN, levelupshoponline.com) | In-kind: the signed *Avengers* poster in the silent auction | Their site’s share image (`leveluplogoblk`), trimmed and scaled to 600×290 (2026-11-14) |
+| `source-comics-and-games.png` | Source Comics & Games, Roseville (sourcecomicsandgames.com) | In-kind: $25 gift certificates for the prize tables | Their site’s share image (`SourceLogoColor`), trimmed and scaled to 600×307 (2026-11-14) |
 | `mirage-makes-m.png` | Mirage Makes, the “M” mark on its own (not used on the site) | — | Their site’s favicon artwork, cropped and scaled to 356×400 (2026-11-12) |
 | `placemaker-hospitality/` | Placemaker Hospitality | Food | See below |
 

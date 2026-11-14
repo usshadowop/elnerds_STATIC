@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, CalendarDays, ChevronLeft, ChevronRight, Heart, Baby, Building2, Gift, X } from "lucide-react";
+import { ArrowRight, CalendarDays, ChevronLeft, ChevronRight, Heart, Baby, Building2, Gift, MapPin, X } from "lucide-react";
 import heroImg from "@/assets/hero-marathon.jpg";
 import { useGameday } from "@/hooks/use-countdown";
 import { useNow } from "@/hooks/use-now";
@@ -133,7 +133,22 @@ function TeamProgressCard() {
   );
 }
 
-export function Hero() {
+/** The hero's two layouts. "standard" is the year-round hero (Standard
+ *  Display template); "gameday" is the Gameday Week Runup template's: no
+ *  "Play Games. Heal Kids." headline, no photo, no incentives chip, Prizes and
+ *  Parking chips instead, the countdown gone once the marathon is over, and
+ *  the fundraising progress kept all the way through. */
+export type HeroVariant = "standard" | "gameday";
+
+/** The Gameday Week Runup headline, by phase. */
+const GAMEDAY_HEADLINE = {
+  before: "Game Day is Saturday, Nov 14",
+  live: "Game Day is live!",
+  after: "Thank you for Game Day 2026!",
+} as const;
+
+export function Hero({ variant = "standard" }: { variant?: HeroVariant }) {
+  const gameday = variant === "gameday";
   const c = useGameday(GAME_DAY_START, GAME_DAY_END);
   const now = useNow();
   // Only events that are still ahead of us get a chip — a finished event drops
@@ -181,7 +196,41 @@ export function Hero() {
             not one of them: filled, pulsing, with a live dot, so it reads as
             "there's something to earn here" rather than another date. Like the
             pills, it leaves on its own once the marathon is over. */}
-        {c.phase !== "after" && (
+        {gameday && c.phase !== "after" && (
+          <div className="mb-8 flex flex-wrap items-center justify-center gap-3">
+            {/* Gameday Week Runup: the pulsing chip points at the prizes now. */}
+            <a
+              href={`${import.meta.env.BASE_URL}prizes`}
+              className="group inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-orange via-magenta to-purple px-4 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] animate-incentive-glow transition-all hover:brightness-110 motion-reduce:animate-none sm:px-5 sm:tracking-widest"
+            >
+              <span className="relative flex size-2.5" aria-hidden>
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-white opacity-75 motion-reduce:animate-none" />
+                <span className="relative inline-flex size-2.5 rounded-full bg-white" />
+              </span>
+              <Gift className="size-4 shrink-0" aria-hidden />
+              <span>Prizes &amp; silent auctions</span>
+              <ArrowRight className="hidden size-4 shrink-0 transition-transform group-hover:translate-x-1 sm:block" aria-hidden />
+            </a>
+            <a
+              href={`${import.meta.env.BASE_URL}parking`}
+              className="group inline-flex items-center gap-2.5 rounded-full bg-teal px-4 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110 sm:px-5 sm:tracking-widest"
+            >
+              <MapPin className="size-4 shrink-0" aria-hidden />
+              <span>Parking &amp; way in</span>
+              <ArrowRight className="hidden size-4 shrink-0 transition-transform group-hover:translate-x-1 sm:block" aria-hidden />
+            </a>
+            <a
+              href={`${import.meta.env.BASE_URL}#gameday-schedule`}
+              className="group inline-flex items-center gap-2.5 rounded-full bg-blue px-4 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110 sm:px-5 sm:tracking-widest"
+            >
+              <CalendarDays className="size-4 shrink-0" aria-hidden />
+              <span>Gameday schedule</span>
+              <ArrowRight className="hidden size-4 shrink-0 transition-transform group-hover:translate-x-1 sm:block" aria-hidden />
+            </a>
+          </div>
+        )}
+
+        {!gameday && c.phase !== "after" && (
           <div className="mb-8 flex flex-wrap items-center justify-center gap-3">
             <a
               href={`${import.meta.env.BASE_URL}incentives`}
@@ -209,12 +258,18 @@ export function Hero() {
           </div>
         )}
 
-        <h1 className="mb-6 font-display text-2xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-4xl md:text-5xl lg:text-[4rem]">
-          Play Games.{" "}
-          <span className="bg-gradient-to-r from-teal via-magenta to-orange bg-clip-text text-transparent">
-            Heal Kids.
-          </span>
-        </h1>
+        {gameday ? (
+          <h1 className="mb-6 font-display text-2xl font-extrabold leading-[1.1] tracking-tight text-ink sm:text-4xl md:text-5xl">
+            {GAMEDAY_HEADLINE[c.phase]}
+          </h1>
+        ) : (
+          <h1 className="mb-6 font-display text-2xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-4xl md:text-5xl lg:text-[4rem]">
+            Play Games.{" "}
+            <span className="bg-gradient-to-r from-teal via-magenta to-orange bg-clip-text text-transparent">
+              Heal Kids.
+            </span>
+          </h1>
+        )}
 
         <p className="mx-auto mb-10 max-w-2xl text-base text-ink-soft sm:text-lg md:text-xl">
           We&rsquo;re the Extra Life Nerds — a community of gamers raising funds for
@@ -224,7 +279,9 @@ export function Hero() {
         {/* Countdown card — counts down to Game Day, then counts down the 24
             hours of Game Day itself, then reports what we raised. */}
         {c.phase === "after" ? (
-          <GrandTotalCard />
+          // Gameday Week Runup: the countdown just goes away; the fundraising
+          // card below already shows the total.
+          gameday ? null : <GrandTotalCard />
         ) : (
           <div className="mx-auto mb-10 max-w-2xl rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-soft)]">
             {c.phase === "live" ? (
@@ -269,7 +326,7 @@ export function Hero() {
         {/* The team's fundraising progress — the same block as the Team
             section's summary card — right under the countdown. Skipped after
             the marathon, when the grand-total card above already says it. */}
-        {c.phase !== "after" && (
+        {(gameday || c.phase !== "after") && (
           <TeamProgressCard />
         )}
 
@@ -319,6 +376,8 @@ export function Hero() {
           </a>
         </div>
 
+        {/* The team photo: Standard Display only. */}
+        {!gameday && (
         <div className="relative mx-auto max-w-4xl">
           <div className="relative overflow-hidden rounded-3xl border border-line shadow-[var(--shadow-lift)]">
             <div
@@ -372,8 +431,9 @@ export function Hero() {
             </>
           )}
         </div>
+        )}
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <div className={`${gameday ? "" : "mt-8 "}flex flex-wrap items-center justify-center gap-4`}>
           <StyledButton
             icon={Baby}
             text="Get to know"

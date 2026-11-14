@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-13 (loading spinner; live phone cards ripple)
+- **Last reviewed:** 2026-11-14 (Warhammer 40k Open Play dropped from the sheet and the fallback; mechanism unchanged)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`, `src/components/site/LoadingBox.tsx`
 
 ## Routing (since 2026-11-10)
@@ -34,7 +34,14 @@ a spreadsheet during the event.
   vendors are repeated in the home page's Food Donation card (`Donors.tsx`);
   change both together.
   Above the streams, a "Come visit" card shows the marathon's venue from
-  `rsvpEvents.ts` with a directions button in the `maps/dir/` form.
+  `rsvpEvents.ts` with a directions button in the `maps/dir/` form, and a
+  "Parking & way in" button to `/parking` (`src/pages/Parking.tsx`, 2026-11-14:
+  the owner's parking map and a photo of each step from the lot to suite 180)
+  and a "Prizes & auctions" button to `/prizes` (`src/pages/Prizes.tsx`, the
+  same day: drawing and silent-auction rules, plus every `Gameday Signups` row
+  with a "Prize:" line, shown with this card's `PrizeBox`). The `/gameday`
+  countdown links to both under the date line, and the free-ticket sentence
+  above Event Details (`GamedayEventDetails.tsx`) links to `/prizes`.
 - `src/lib/gamedayContent.ts` — types, the shipped fallback copy, `fetch` and
   the response parser.
 - `src/hooks/use-gameday-content.ts` — the polling hook.

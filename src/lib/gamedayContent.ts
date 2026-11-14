@@ -95,7 +95,6 @@ export const FALLBACK_CONTENT: GamedayContent = {
       title: "Dungeons and Dragons",
       detail: "with Badwolf Adventure Studios",
     },
-    { time: "10a - 8p", title: "Warhammer 40k Open Play", detail: "" },
     { time: "11a - 4p", title: "Golf Simulator Tournament", detail: "ALL skill levels welcome!" },
     { time: "11 - 1p", title: "Final Fantasy MtG Cube Draft", detail: "" },
     {
