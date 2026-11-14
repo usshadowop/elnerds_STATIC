@@ -21,6 +21,7 @@ import { LoadingBox } from "@/components/site/LoadingBox";
 import { useGameday } from "@/hooks/use-countdown";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
+import { sponsorLogos } from "@/lib/sponsorLogos";
 
 const BASE = import.meta.env.BASE_URL;
 const IMG = `${BASE}photos/prizes/`;
@@ -29,7 +30,8 @@ const MARATHON = getRsvpEvent("marathon")?.calendar;
 const GAME_DAY_START = MARATHON?.start ?? "2026-11-14T08:00:00-06:00";
 const GAME_DAY_END = MARATHON?.end ?? "2026-11-15T08:00:00-06:00";
 
-const SOURCE_URL = "https://www.sourcecandg.com";
+const SOURCE_URL = "https://sourcecomicsandgames.com/";
+const LEVEL_UP_URL = "https://www.levelupshoponline.com/";
 
 // Nine drawings, one every 1½ hours from 10 AM to 10 PM on Saturday (the
 // owner, 2026-11-14). The Game Day email lists the same times.
@@ -253,6 +255,33 @@ export function Prizes() {
                   Framed, signed by Robert Downey Jr., Chris Evans, Chris Hemsworth, Mark Ruffalo, Scarlett
                   Johansson and Jeremy Renner, with a certificate of authenticity.
                 </p>
+
+                {/* Thanks to Level Up Games, who donated it */}
+                <div className="mt-4 flex flex-col items-start gap-3 border-t border-line pt-4 sm:flex-row sm:items-center sm:gap-4">
+                  <a
+                    href={LEVEL_UP_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    className="grid h-12 w-24 shrink-0 place-items-start sm:place-items-center"
+                  >
+                    <img src={sponsorLogos.levelUp} alt="" className="max-h-11 w-auto object-contain" />
+                  </a>
+                  <p className="text-sm text-ink-soft">
+                    <span className="font-bold text-ink">Donated by Level Up Games.</span> Thank you! They
+                    sell board games, comics, roleplaying games, trading cards and video games, run events,
+                    and take trade-ins.{" "}
+                    <a
+                      href={LEVEL_UP_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-bold whitespace-nowrap text-teal underline underline-offset-2 hover:text-teal-bright"
+                    >
+                      levelupshoponline.com
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
           </section>
@@ -325,7 +354,7 @@ export function Prizes() {
                 rel="noreferrer"
                 className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-teal underline underline-offset-2 hover:text-teal-bright"
               >
-                sourcecandg.com
+                sourcecomicsandgames.com
               </a>
             </div>
           </div>
