@@ -10,23 +10,30 @@ Minneapolis).
 These copies are scaled to 2400px on the long side (JPEG quality 84), turned
 upright, and stripped of all camera metadata (model, timestamps, location
 fields). That is plenty for the web and email; for print, ask the owner for the
-originals. Nothing on the site uses them yet.
+originals.
 
-Like `2026_sponsors/`, this folder is the source. The site imports what it needs from
-here, and emails need their own copies under `public/email/assets/`, since an
-email can only show an image from a fixed public address.
+Like `2026_sponsors/`, this folder is the source. Anything the site or an email
+shows is a smaller copy made from it, at a fixed public address:
+
+- `public/parking/` holds 1200px copies of `arrival/` (the map unchanged),
+  shown on `/parking` (`src/pages/Parking.tsx`) and usable in emails as
+  `https://elnerds.com/parking/<file>`. Same file names as here, except the map
+  is `parking-map.jpg`. Made with
+  `convert <file> -resize 1200x1200 -strip -quality 80`.
 
 ## arrival/: getting from the car to the room
 
-In the order you walk it.
+In the order you walk it (the files were renumbered on 2026-11-14 to match;
+the directory is just inside the doors, before the hallway).
 
 | File | Shows |
 | --- | --- |
+| `0-parking-map.jpg` | The owner's parking map: a Google Maps aerial view with a red route from the east along W Lake St and blue routes from the west on W Lake St and from the south on Excelsior Blvd, all ending in the lot beside the building |
 | `1-building-entrance.jpg` | Outside, at night: the covered Lakeside Center entrance off the parking lot, with the Improving sign on the building |
 | `2-front-doors.jpg` | The glass double doors under that canopy |
-| `3-lobby-hallway.jpg` | Inside on the ground floor: the long hallway with the orange lattice sculpture |
-| `4-directory-with-arrows.jpg` | The Lakeside Center directory, with two Game Day / Extra Life arrow signs taped on. The directory reads "You are on the ground floor (G). First floor is one level up" |
-| `5-vending-and-stairs.jpg` | The "Vending & Stairs" sign and the staircase up |
+| `3-directory-with-arrows.jpg` | The Lakeside Center directory just inside, with two Game Day / Extra Life arrow signs taped on, pointing at "Improving 180". The directory reads "You are on the ground floor (G). First floor is one level up" |
+| `4-lobby-hallway.jpg` | The long ground-floor hallway with the orange lattice sculpture |
+| `5-vending-and-stairs.jpg` | The "Vending & Stairs" sign and the staircase up. A round sign beside it reads "↖ 1st Floor / ← Elevators / You are on Ground Floor" |
 
 ## venue/: inside Improving
 

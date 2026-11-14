@@ -9,6 +9,7 @@ import { LeadershipDnD } from "@/pages/LeadershipDnD";
 import { Library } from "@/pages/Library";
 import { MtgInterest } from "@/pages/MtgInterest";
 import { Newsletter } from "@/pages/Newsletter";
+import { Parking } from "@/pages/Parking";
 import { GilletteChildrensHospital } from "@/pages/GilletteChildrensHospital";
 import { PatientProfiles } from "@/pages/PatientProfiles";
 import { Registration } from "@/pages/Registration";
@@ -42,6 +43,7 @@ export default function App() {
   if (path === "leadership_DandD") page = <LeadershipDnD />;
   if (path === "mtginterest") page = <MtgInterest />;
   if (path === "newsletter") page = <Newsletter />;
+  if (path === "parking") page = <Parking />;
   if (path === "patient-profiles") page = <PatientProfiles />;
   if (path === "registration") page = <Registration />;
   if (path === "rsvp") page = <Rsvp />;

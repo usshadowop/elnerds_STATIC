@@ -181,15 +181,23 @@ export function CommandCenter() {
                 <p className="text-sm text-ink-soft">{VENUE_ADDRESS}</p>
               </div>
             </div>
-            <a
-              href={DIRECTIONS_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-teal px-5 py-3 text-sm font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
-            >
-              <Navigation className="size-4" />
-              Click for directions
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href={DIRECTIONS_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-teal px-5 py-3 text-sm font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:bg-teal-bright"
+              >
+                <Navigation className="size-4" />
+                Click for directions
+              </a>
+              <a
+                href={`${HOME}parking`}
+                className="inline-flex shrink-0 items-center gap-2 rounded-full border-2 border-teal px-5 py-2.5 text-sm font-extrabold uppercase tracking-wider text-teal transition-all hover:bg-teal-soft"
+              >
+                Parking &amp; way in
+              </a>
+            </div>
           </div>
 
           {/* Watch ---------------------------------------------------------- */}

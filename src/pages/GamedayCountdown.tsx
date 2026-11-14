@@ -48,6 +48,12 @@ export function GamedayCountdown() {
           <p className="mt-10 text-base font-semibold text-ink-soft sm:text-lg">
             Saturday, November 14 · 8 AM at Improving, Minneapolis
           </p>
+          <a
+            href={`${import.meta.env.BASE_URL}parking`}
+            className="mt-5 inline-flex items-center gap-2 rounded-full border-2 border-teal px-5 py-2.5 text-sm font-extrabold uppercase tracking-wider text-teal transition-all hover:bg-teal-soft"
+          >
+            Where to park &amp; how to get in
+          </a>
         </div>
       </section>
     </main>
