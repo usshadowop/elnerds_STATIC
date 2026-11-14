@@ -35,6 +35,27 @@ const SOURCE_URL = "https://www.sourcecandg.com";
 // owner, 2026-11-14). The Game Day email lists the same times.
 const DRAWING_TIMES = ["10 AM", "11:30 AM", "1 PM", "2:30 PM", "4 PM", "5:30 PM", "7 PM", "8:30 PM", "10 PM"];
 
+// Silent-auction items, from the owner's list of 2026-11-14 (no photos except
+// the poster, which is featured on its own below the list). The Game Day email
+// lists the same items.
+const AUCTION_ITEMS: { group: string; items: string[] }[] = [
+  {
+    group: "Squishmallows",
+    items: ["Sussie and Derpy from KPop Demon Hunters", "Grogu from The Mandalorian"],
+  },
+  {
+    group: "Board games",
+    items: [
+      "Hoplomachus: Victorum (Chip Theory Games)",
+      "A Too Many Bones pack (Chip Theory Games)",
+      "Kutná Hora (Czech Games Edition)",
+      "Hexeh, out of print (Hexeh Games)",
+      "Hubworld: Aidalon, signed and unreleased, still crowdfunding (Earthborne Games)",
+    ],
+  },
+  { group: "Jewelry", items: ["Handmade stone jewelry"] },
+];
+
 const TABLE_PHOTOS = [1, 2, 3, 4, 5, 6].map((n) => `table-${n}.jpg`);
 
 // What the setup-night photos show, so people can tell what's up for grabs.
@@ -192,11 +213,26 @@ export function Prizes() {
               <Rule icon={CircleCheck} tone="bg-teal-soft text-teal">
                 <strong>You don&rsquo;t need to be present to win.</strong>
               </Rule>
-              <Rule icon={Gift} tone="bg-teal-soft text-teal">
-                <strong>Up for bid:</strong> high-end Squishmallows, stone jewelry, high-end board games, and
-                the big one below.
-              </Rule>
             </ul>
+
+            <div className="mt-6 rounded-2xl bg-teal-soft p-5">
+              <p className="mb-3 inline-flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.3em] text-teal">
+                <Gift className="size-3.5" /> Up for bid
+              </p>
+              <div className="space-y-4">
+                {AUCTION_ITEMS.map((g) => (
+                  <div key={g.group}>
+                    <p className="font-display text-base font-extrabold text-ink">{g.group}</p>
+                    <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-ink-soft marker:text-teal">
+                      {g.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+                <p className="text-sm font-bold text-ink">&hellip;and the big one below.</p>
+              </div>
+            </div>
 
             {/* The headline auction item (the owner's photos, 2026_photos/auction/) */}
             <div className="mt-7 overflow-hidden rounded-2xl border border-line">

@@ -77,4 +77,4 @@ Added 2026-11-14, sent by the owner during Game Day eve.
 | `avengers-signed-poster.jpg` | A framed *The Avengers* (2012) movie poster signed by the cast |
 | `avengers-poster-certificate.jpg` | Its certificate of authenticity from ChasingStars Collectibles, dated July 29, 2012, listing Chris Evans, Robert Downey Jr., Chris Hemsworth, Mark Ruffalo, Jeremy Renner and Scarlett Johansson. Kept as a record; it shows a serial number, so it isn't meant for the site |
 
-The poster photo has a 1200px copy at `public/photos/prizes/avengers-signed-poster.jpg`, shown on `/prizes` and in the Game Day email. The silent auction also has high-end Squishmallows, stone jewelry and high-end board games (no photos).
+The poster photo has a 1200px copy at `public/photos/prizes/avengers-signed-poster.jpg`, shown on `/prizes` and in the Game Day email. The rest of the silent auction (no photos) is listed on `/prizes` (`AUCTION_ITEMS` in `src/pages/Prizes.tsx`) and in the Game Day email.
