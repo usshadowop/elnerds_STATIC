@@ -83,8 +83,9 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 - **New pages, live:** `/parking` (map + five photo steps to suite 180) and
   `/prizes` (9 drawings every 1½ hours 10 AM–10 PM, $1 tickets, must be
   present; silent auctions all event, no need to be present; every raffle
-  prize comes with a $10 token; donation tokens; prize-table photos; event
-  prizes live from the sheet at the bottom). Linked from the Command Center's
+  prize comes with a $10 token; silent-auction items, headlined by a signed
+  *The Avengers* poster with a certificate of authenticity; donation tokens;
+  prize-table photos; event prizes live from the sheet at the bottom). Linked from the Command Center's
   "Come visit" card and the `/gameday` countdown.
 - **Donation tokens** (poker chips: white $10, blue $25, red $50) are drawn
   as SVG in `DonationChips.tsx`, modelled on the white chip in the photos;

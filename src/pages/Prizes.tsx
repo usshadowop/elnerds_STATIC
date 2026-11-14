@@ -192,7 +192,33 @@ export function Prizes() {
               <Rule icon={CircleCheck} tone="bg-teal-soft text-teal">
                 <strong>You don&rsquo;t need to be present to win.</strong>
               </Rule>
+              <Rule icon={Gift} tone="bg-teal-soft text-teal">
+                <strong>Up for bid:</strong> high-end Squishmallows, stone jewelry, high-end board games, and
+                the big one below.
+              </Rule>
             </ul>
+
+            {/* The headline auction item (the owner's photos, 2026_photos/auction/) */}
+            <div className="mt-7 overflow-hidden rounded-2xl border border-line">
+              <a href={`${IMG}avengers-signed-poster.jpg`} target="_blank" rel="noreferrer" className="block">
+                <img
+                  src={`${IMG}avengers-signed-poster.jpg`}
+                  alt="A framed The Avengers movie poster signed by the cast"
+                  loading="lazy"
+                  className="block aspect-[4/3] w-full object-cover"
+                />
+              </a>
+              <div className="p-5">
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-teal">The big one</p>
+                <p className="mt-1 font-display text-lg font-extrabold leading-snug text-ink">
+                  A signed <em>The Avengers</em> poster
+                </p>
+                <p className="mt-1 text-sm text-ink-soft">
+                  Framed, signed by Robert Downey Jr., Chris Evans, Chris Hemsworth, Mark Ruffalo, Scarlett
+                  Johansson and Jeremy Renner, with a certificate of authenticity.
+                </p>
+              </div>
+            </div>
           </section>
         </div>
 
