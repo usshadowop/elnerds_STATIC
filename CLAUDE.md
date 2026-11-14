@@ -39,7 +39,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (embed URLs empty), `Gameday Incentives` ("$—" starter rows) and `Gameday Notice` (banner cell empty); all three re-checked at the live endpoint 2026-11-10, still starter. `Gameday Run of Show` is done (15 rows since Warhammer 40k Open Play was deleted 2026-11-14, incl. MTG Cube and Mecha Chameleon). Check with `curl "$ENDPOINT?action=gameday"`. |
+| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (Main Stage is Josh Oswald's Twitch, `joshoswald72`, since 2026-11-14; Second Feed and Third Feed are still placeholders), `Gameday Incentives` ("$—" starter rows) and `Gameday Notice` (banner cell empty); all three re-checked at the live endpoint 2026-11-10, still starter. `Gameday Run of Show` is done (15 rows since Warhammer 40k Open Play was deleted 2026-11-14, incl. MTG Cube and Mecha Chameleon). Check with `curl "$ENDPOINT?action=gameday"`. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
@@ -83,6 +83,12 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 - Left alone on purpose: the sent "Game Day is this Saturday" email in
   `email/archive/` still mentions Warhammer, because it's a record of what
   went out.
+- Later the same session: the Main Stage stream tile now plays
+  `twitch.tv/joshoswald72` (Embed URL
+  `https://player.twitch.tv/?channel=joshoswald72&parent=elnerds.com`,
+  typed into `Gameday Streams` row 2). The owner first sent a Discord DM
+  message link (`discord.com/channels/@me/...`); those open only for people
+  in that DM and can't be embedded, so ask for the Twitch/YouTube link.
 - Still found, not fixed (from the session before): the email template's
   fixed footer forces emails to ~430px wide on a 375px phone.
 
