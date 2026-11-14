@@ -83,16 +83,17 @@ log` is the changelog; this is orientation. Five bullets is plenty.
 - Left alone on purpose: the sent "Game Day is this Saturday" email in
   `email/archive/` still mentions Warhammer, because it's a record of what
   went out.
-- Later the same session: the Main Stage stream tile now plays
-  `twitch.tv/joshoswald72` (Embed URL
-  `https://player.twitch.tv/?channel=joshoswald72&parent=elnerds.com`,
-  typed into `Gameday Streams` row 2). The owner first sent a Discord DM
-  message link (`discord.com/channels/@me/...`); those open only for people
-  in that DM and can't be embedded, so ask for the Twitch/YouTube link.
-- Then: stream tiles on `/gameday` and the `/leadership_DandD` player show
-  a "Loading the stream…" spinner until the sheet read settles and while the
-  player loads, instead of flashing a sample still (`StreamPlayer.tsx`; see
-  the gameday-content card).
+- Streams: the Main Stage tile plays `twitch.tv/joshoswald72` (Embed URL
+  `https://player.twitch.tv/?channel=joshoswald72&parent=elnerds.com` in
+  `Gameday Streams` row 2). The owner first sent a Discord DM message link
+  (`discord.com/channels/@me/...`), which only that DM's members can open and
+  nothing can embed; ask for the Twitch/YouTube link. Stream tiles and the
+  `/leadership_DandD` player now show a "Loading the stream…" spinner instead
+  of flashing a sample still (`StreamPlayer.tsx`).
+- `/gameday` gained a "Team total & latest donations" section under the
+  streams (`GamedayDonations.tsx`, live from DonorDrive, refreshed every
+  minute). `useExtraLifeTeam` now skips the browser cache, which also keeps
+  the homepage total current. See the extra-life-api card.
 - Still found, not fixed (from the session before): the email template's
   fixed footer forces emails to ~430px wide on a 375px phone.
 
@@ -203,7 +204,8 @@ already there.
   updates without a reload.
 - `src/components/site/DonationTicker.tsx` — the "Latest" donations strip
   under the countdown. The number shown (6) is set where the ticker calls
-  `useExtraLifeDonations`.
+  `useExtraLifeDonations`. The Command Center's own list of the 10 latest,
+  beside the team total, is `src/components/site/GamedayDonations.tsx`.
 - `src/pages/Incentives.tsx` (`/incentives`) — the Game Day donation
   incentives ($75 / $25 / $5 from the leadership team, the $50 food
   threshold, the Platinum tip), mirrored from the Sep and Oct 2026 emails

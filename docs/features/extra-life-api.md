@@ -1,8 +1,8 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-14 (Level Up Games and Source Comics & Games join the in-kind logo rows)
-- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/hooks/useExtraLifeIncentives.ts`, `src/lib/sponsorLogos.ts`, `src/lib/placemakerRestaurants.ts`, `src/components/site/PlacemakerCarousel.tsx`
+- **Last reviewed:** 2026-11-14 (Command Center gets a live team total and donation list; team fetches now skip the browser cache)
+- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/components/site/GamedayDonations.tsx`, `src/lib/donationFormat.ts`, `src/hooks/useExtraLifeIncentives.ts`, `src/lib/sponsorLogos.ts`, `src/lib/placemakerRestaurants.ts`, `src/components/site/PlacemakerCarousel.tsx`
 
 ## Purpose
 
@@ -20,6 +20,17 @@ someone donates.
   re-fetched on an interval.
 - `src/components/site/DonationTicker.tsx` — the scrolling "Latest" strip
   under the hero countdown (keyframes in `src/styles.css`).
+- `src/components/site/GamedayDonations.tsx` (2026-11-14) — the Command
+  Center's "Team total & latest donations" section, under the streams: a card
+  with `TeamProgress`, a Donate Now button and a link to the team page, beside
+  a list of the 10 latest donations (name, "for" recipient, amount, time ago,
+  message clamped to two lines). Both halves re-fetch every minute. The total
+  card sizes to its content at `lg` (`self-start`) rather than stretching
+  beside the list. Loading shows the skeleton and a `LoadingBox`; a first
+  fetch that fails shows a "See it on Extra Life" link or "No donations to
+  show right now", and a failed refresh keeps what's on screen.
+- `src/lib/donationFormat.ts` — `money()` and `timeAgo()`, shared by the
+  ticker and that list.
 - `src/components/site/TeamProgress.tsx` — the team-summary block: three
   figures (total, goal, participants) and the progress bar, plus a
   skeleton. Rendered inside the roster section's cream card and, since
@@ -99,11 +110,18 @@ stops moving and becomes a plain horizontal scroll.
   instead of printing `$0`.
 - The ticker renders nothing while loading, when the list is empty, or when
   the first fetch fails. A later failed refresh keeps the last good list.
+  `useExtraLifeTeam` does the same since it learned to refresh: it no longer
+  resets to loading on each fetch, and keeps the last good team on a failed
+  one (with `error` set, which the hero's card still treats as "hide").
 - `useExtraLifeTeam` is called independently by `ActiveRoster` and by the
   hero's `TeamProgressCard` (all year since 2026-11-07; before that only the
   `after`-phase grand-total card), so that's two fetches of the same data
-  on one page. Harmless at this size; worth a shared cache if a third
-  consumer appears.
+  on one page. Harmless at this size. The Command Center's
+  `GamedayDonations` is a third caller, on its own page, and passes
+  `refreshMs` (60 s) so its total keeps up; the others fetch once.
+- **The team endpoints also send `max-age=14400`**, so since 2026-11-14
+  `useExtraLifeTeam` fetches with `cache: "no-store"` too. Before that, a
+  visitor returning within four hours saw the total from their first visit.
 - The API is unreachable from the Claude sandbox's browser, so verification
   needs a stubbed route (`page.route`) rather than a live call.
 
