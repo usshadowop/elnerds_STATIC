@@ -1,8 +1,8 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-14 (Warhammer 40k Open Play dropped from the sheet and the fallback; mechanism unchanged)
-- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`, `src/components/site/LoadingBox.tsx`
+- **Last reviewed:** 2026-11-14 (stream tiles show a loading spinner until the sheet read settles and while a player loads)
+- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`, `src/components/site/LoadingBox.tsx`, `src/components/site/StreamPlayer.tsx`
 
 ## Routing (since 2026-11-10)
 
@@ -78,6 +78,18 @@ A stream tile with a blank **Embed URL** shows a sample still (an event
 photo from `src/assets/carousel/`) with a "Live" badge, a "Sample" tag and a
 play button, so the demo reads as a stream wall; fill it in and the tile
 becomes a live player.
+
+**Stream tiles never flash a sample before a real stream** (2026-11-14, the
+owner's ask once Main Stage had a Twitch player). Until the first sheet read
+settles, every tile shows a teal spinner and "Loading the stream…"
+(`StreamLoading` in `StreamPlayer.tsx`, styled like `LoadingBox`) instead of
+the sample still; the shipped fallback has no Embed URLs, so without this the
+Twitch tile showed a sample for the few seconds Apps Script takes. Once a tile
+has an Embed URL, `StreamPlayer` keeps the spinner over the iframe until its
+`load` event, and brings it back if the URL changes. That event means the
+platform's player page has loaded, not that video is playing. A tile with no
+Embed URL still gets its sample still after the read settles, and so does
+every tile if the read fails.
 
 - **Drawing-ticket blurb** (2026-11-10): a fixed line under the "Event Details" heading in `GamedayEventDetails.tsx` ("All entrants into any event get 1 free prize drawing ticket, and the winner gets 5 additional tickets."). Hard-coded, not from the sheet.
 

@@ -89,6 +89,10 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   typed into `Gameday Streams` row 2). The owner first sent a Discord DM
   message link (`discord.com/channels/@me/...`); those open only for people
   in that DM and can't be embedded, so ask for the Twitch/YouTube link.
+- Then: stream tiles on `/gameday` and the `/leadership_DandD` player show
+  a "Loading the stream…" spinner until the sheet read settles and while the
+  player loads, instead of flashing a sample still (`StreamPlayer.tsx`; see
+  the gameday-content card).
 - Still found, not fixed (from the session before): the email template's
   fixed footer forces emails to ~430px wide on a 375px phone.
 
