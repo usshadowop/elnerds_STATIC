@@ -67,3 +67,12 @@ other plush.
 | `table-1.jpg` … `table-6.jpg` | The prize tables, left to right |
 | `source-gift-certificate.jpg` | One of the gift certificates up close: Source Comics & Games, Roseville, $25, "Extra Life Event Donation" |
 | `donation-token.jpg` | One of the white $10 donation tokens (poker chips; blue is $25, red $50) up close. The site draws them as SVG in `src/components/site/DonationChips.tsx` |
+
+## auction/: silent auction items
+
+Added 2026-11-14, sent by the owner during Game Day eve.
+
+| File | Shows |
+| --- | --- |
+| `avengers-signed-poster.jpg` | A framed *The Avengers* (2012) movie poster signed by the cast |
+| `avengers-poster-certificate.jpg` | Its certificate of authenticity from ChasingStars Collectibles, dated July 29, 2012, listing Chris Evans, Robert Downey Jr., Chris Hemsworth, Mark Ruffalo, Jeremy Renner and Scarlett Johansson. Kept as a record; it shows a serial number, so it isn't meant for the site |

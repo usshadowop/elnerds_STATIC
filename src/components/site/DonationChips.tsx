@@ -87,10 +87,10 @@ export function DonationChipsSection() {
         Look out for our donation tokens through the night. Each chip is worth a donation of its value.
       </p>
 
-      <div className="mt-7 flex flex-wrap justify-center gap-6 sm:justify-start sm:gap-10">
+      <div className="mt-7 flex flex-wrap justify-center gap-4 sm:justify-start sm:gap-10">
         {CHIPS.map((c) => (
           <div key={c.value} className="flex flex-col items-center">
-            <DonationChip value={c.value} />
+            <DonationChip value={c.value} size={84} />
             <p className="mt-2 font-display text-xl font-extrabold text-ink">${c.value}</p>
             <p className="text-xs font-bold uppercase tracking-widest text-ink-soft">{c.name}</p>
           </div>
