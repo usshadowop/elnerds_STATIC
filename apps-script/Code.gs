@@ -886,7 +886,6 @@ function setupMtg() {
 const RUN_OF_SHOW_2026 = [
   ["8am Saturday - 8am Sunday", "24-hour gaming for fundraisers", ""],
   ["8:30a - 9:30a", "Waffles", "provided by Butchy for donations!"],
-  ["10a - 8p", "Warhammer 40k Open Play", ""],
   ["11a - 2p", "MTG Cube Event", ""],
   ["12p - 1p", "Lunch", "Provided by EL NERDS $50+ FUNDRAISERS"],
   ["2:30p - 4:30p", "Super Smash Brothers Tournament", ""],

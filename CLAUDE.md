@@ -39,7 +39,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (embed URLs empty), `Gameday Incentives` ("$—" starter rows) and `Gameday Notice` (banner cell empty); all three re-checked at the live endpoint 2026-11-10, still starter. `Gameday Run of Show` is done (16 rows by 2026-11-10, incl. MTG Cube and Mecha Chameleon). Check with `curl "$ENDPOINT?action=gameday"`. |
+| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (embed URLs empty), `Gameday Incentives` ("$—" starter rows) and `Gameday Notice` (banner cell empty); all three re-checked at the live endpoint 2026-11-10, still starter. `Gameday Run of Show` is done (15 rows since Warhammer 40k Open Play was deleted 2026-11-14, incl. MTG Cube and Mecha Chameleon). Check with `curl "$ENDPOINT?action=gameday"`. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
@@ -73,32 +73,18 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-14 UTC (Game Day eve, Nov 13 evening in Minneapolis):*
+*Session of 2026-11-14 UTC (Game Day morning):*
 
-- The owner uploaded 18 setup-night photos and a parking map. They are in
-  `2026_photos/` (`arrival/`, `venue/`, `prizes/`, README per file), 2400px,
-  metadata stripped. The site and emails use 1200px copies in
-  `public/photos/parking/` and `public/photos/prizes/`, **not**
-  `public/parking/`: a `public/` folder named after a route makes Pages
-  redirect the page to the folder.
-- **New pages, live:** `/parking` (map + five photo steps to suite 180) and
-  `/prizes` (9 drawings every 1½ hours 10 AM–10 PM, $1 tickets, must be
-  present; silent auctions all event, no need to be present; every raffle
-  prize comes with a $10 token; silent-auction items, headlined by a signed
-  *The Avengers* poster with a certificate of authenticity; donation tokens;
-  prize-table photos; event prizes live from the sheet at the bottom). Linked from the Command Center's
-  "Come visit" card and the `/gameday` countdown.
-- **Donation tokens** (poker chips: white $10, blue $25, red $50) are drawn
-  as SVG in `DonationChips.tsx`, modelled on the white chip in the photos;
-  `public/email/assets/chip-*.png` are screenshots of the same drawing.
-- **Last-minute Game Day email** drafted at
-  `email/elnerds-gameday-parking-prizes.html` (preview at `/email/current/`).
-- **Homepage templates:** the old homepage is saved as "Standard Display";
-  the live homepage is now "Gameday Week Runup" (the owner's cuts plus the
-  email's details). `/templates` lists both. See the home-templates card.
-- Found, not fixed: the email template's fixed footer (the Instagram /
-  Facebook / Discord / Newsletter row) forces the email to ~430px wide on a
-  375px phone. The sent "Game Day is this Saturday" email does the same.
+- The owner asked to remove Warhammer open play from every schedule. Deleted
+  the "10a - 8p / Warhammer 40k Open Play" row from the live `Gameday Run of
+  Show` tab (Sheets connector), which is what `/gameday` and the homepage
+  grid show, and took it out of the shipped fallback (`gamedayContent.ts`)
+  and `RUN_OF_SHOW_2026` in `Code.gs`. Verified gone from `?action=gameday`.
+- Left alone on purpose: the sent "Game Day is this Saturday" email in
+  `email/archive/` still mentions Warhammer, because it's a record of what
+  went out.
+- Still found, not fixed (from the session before): the email template's
+  fixed footer forces emails to ~430px wide on a 375px phone.
 
 ## Ship-live workflow
 
