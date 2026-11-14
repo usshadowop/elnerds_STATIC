@@ -48,12 +48,20 @@ export function GamedayCountdown() {
           <p className="mt-10 text-base font-semibold text-ink-soft sm:text-lg">
             Saturday, November 14 · 8 AM at Improving, Minneapolis
           </p>
-          <a
-            href={`${import.meta.env.BASE_URL}parking`}
-            className="mt-5 inline-flex items-center gap-2 rounded-full border-2 border-teal px-5 py-2.5 text-sm font-extrabold uppercase tracking-wider text-teal transition-all hover:bg-teal-soft"
-          >
-            Where to park &amp; how to get in
-          </a>
+          <div className="mt-5 flex flex-wrap justify-center gap-3">
+            <a
+              href={`${import.meta.env.BASE_URL}parking`}
+              className="inline-flex items-center gap-2 rounded-full border-2 border-teal px-5 py-2.5 text-sm font-extrabold uppercase tracking-wider text-teal transition-all hover:bg-teal-soft"
+            >
+              Where to park &amp; how to get in
+            </a>
+            <a
+              href={`${import.meta.env.BASE_URL}prizes`}
+              className="inline-flex items-center gap-2 rounded-full border-2 border-magenta px-5 py-2.5 text-sm font-extrabold uppercase tracking-wider text-magenta transition-all hover:bg-magenta-soft"
+            >
+              Prizes &amp; silent auctions
+            </a>
+          </div>
         </div>
       </section>
     </main>

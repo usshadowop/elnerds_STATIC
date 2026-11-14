@@ -203,7 +203,13 @@ export function GamedayEventDetails({
       </p>
       <p className="mb-4 text-sm font-bold text-ink-soft">
         All entrants into any event get 1 free prize drawing ticket, and the winner gets 5
-        additional tickets.
+        additional tickets.{" "}
+        <a
+          href={`${import.meta.env.BASE_URL}prizes`}
+          className="text-teal underline underline-offset-2 hover:text-teal-bright"
+        >
+          How the drawings work
+        </a>
       </p>
 
       {sections.map((sec) => (

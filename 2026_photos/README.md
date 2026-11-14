@@ -15,11 +15,18 @@ originals.
 Like `2026_sponsors/`, this folder is the source. Anything the site or an email
 shows is a smaller copy made from it, at a fixed public address:
 
-- `public/parking/` holds 1200px copies of `arrival/` (the map unchanged),
-  shown on `/parking` (`src/pages/Parking.tsx`) and usable in emails as
-  `https://elnerds.com/parking/<file>`. Same file names as here, except the map
-  is `parking-map.jpg`. Made with
-  `convert <file> -resize 1200x1200 -strip -quality 80`.
+- `public/photos/parking/` holds 1200px copies of `arrival/` (the map
+  unchanged), shown on `/parking` (`src/pages/Parking.tsx`) and usable in
+  emails as `https://elnerds.com/photos/parking/<file>`. Same file names as
+  here, except the map is `parking-map.jpg`.
+- `public/photos/prizes/` holds 1200px copies of `prizes/table-1` to `table-6`
+  and `source-gift-certificate.jpg`, shown on `/prizes` (`src/pages/Prizes.tsx`)
+  and usable in emails as `https://elnerds.com/photos/prizes/<file>`.
+
+Both were made with `convert <file> -resize 1200x1200 -strip -quality 80`.
+They sit under `public/photos/`, not `public/parking/`, because a folder in
+`public/` with the same name as a page (`/parking`) makes GitHub Pages
+redirect the page's address to the folder.
 
 ## arrival/: getting from the car to the room
 

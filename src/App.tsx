@@ -12,6 +12,7 @@ import { Newsletter } from "@/pages/Newsletter";
 import { Parking } from "@/pages/Parking";
 import { GilletteChildrensHospital } from "@/pages/GilletteChildrensHospital";
 import { PatientProfiles } from "@/pages/PatientProfiles";
+import { Prizes } from "@/pages/Prizes";
 import { Registration } from "@/pages/Registration";
 import { Rsvp } from "@/pages/Rsvp";
 import { SiteMap } from "@/pages/SiteMap";
@@ -45,6 +46,7 @@ export default function App() {
   if (path === "newsletter") page = <Newsletter />;
   if (path === "parking") page = <Parking />;
   if (path === "patient-profiles") page = <PatientProfiles />;
+  if (path === "prizes") page = <Prizes />;
   if (path === "registration") page = <Registration />;
   if (path === "rsvp") page = <Rsvp />;
   if (path.startsWith("rsvp/")) page = <Rsvp slug={path.slice("rsvp/".length)} />;

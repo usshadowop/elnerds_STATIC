@@ -197,6 +197,13 @@ export function CommandCenter() {
               >
                 Parking &amp; way in
               </a>
+              <a
+                href={`${HOME}prizes`}
+                className="inline-flex shrink-0 items-center gap-2 rounded-full border-2 border-magenta px-5 py-2.5 text-sm font-extrabold uppercase tracking-wider text-magenta transition-all hover:bg-magenta-soft"
+              >
+                <Gift className="size-4" />
+                Prizes &amp; auctions
+              </a>
             </div>
           </div>
 

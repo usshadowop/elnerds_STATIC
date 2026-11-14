@@ -3,8 +3,8 @@
 // Sent by link (the Game Day email, texts) and linked from the Command Center
 // and the /gameday countdown, so it stands on its own.
 //
-// The images are 1200px copies in public/parking/, so the Game Day email can
-// show the same files at fixed addresses (elnerds.com/parking/...). The
+// The images are 1200px copies in public/photos/parking/, so the Game Day email can
+// show the same files at fixed addresses (elnerds.com/photos/parking/...). The
 // full-size sources are in 2026_photos/arrival/. The step text describes only
 // what the photos and signs show.
 
@@ -13,7 +13,7 @@ import { ArrowLeft, ArrowRight, MapPin, Navigation } from "lucide-react";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
 
 const BASE = import.meta.env.BASE_URL;
-const IMG = `${BASE}parking/`;
+const IMG = `${BASE}photos/parking/`;
 
 // The venue line is the marathon's RSVP location, so it's written down once.
 // Directions use the dir/ form so the route starts from the visitor.
