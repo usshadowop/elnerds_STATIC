@@ -35,6 +35,10 @@ project.
   notice at the top. `build-bundle.sh` runs it, so one command refreshes
   both generated files.
 
+`branding/print/` (2026-11-14) holds the printable Game Day signs and the
+scripts that make them. It's described in the [prizes](prizes.md) card, not
+here; it's listed here only because `branding/*` covers it.
+
 Campaigns themselves live in `email/` at the repo root (sent ones in
 `email/archive/`, each published under `public/email/archive/`). This directory holds the template and the rules,
 not the sends.

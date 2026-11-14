@@ -73,18 +73,24 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-14 UTC (Game Day morning):*
+*Session of 2026-11-13/14 (printed Game Day signs; ran alongside the
+Warhammer-removal session):*
 
-- The owner asked to remove Warhammer open play from every schedule. Deleted
-  the "10a - 8p / Warhammer 40k Open Play" row from the live `Gameday Run of
-  Show` tab (Sheets connector), which is what `/gameday` and the homepage
-  grid show, and took it out of the shipped fallback (`gamedayContent.ts`)
-  and `RUN_OF_SHOW_2026` in `Code.gs`. Verified gone from `?action=gameday`.
-- Left alone on purpose: the sent "Game Day is this Saturday" email in
-  `email/archive/` still mentions Warhammer, because it's a record of what
-  went out.
-- Still found, not fixed (from the session before): the email template's
-  fixed footer forces emails to ~430px wide on a 375px phone.
+- Made printable PDFs for the room. **Table numbers 1–50**: 7 letter
+  sheets of 8 cards, in `src/assets/Table numbers/`, also uploaded to a
+  "Table numbers" folder in the owner's Drive. **The poker chip sign**:
+  `src/assets/Poker chips/`. The owner rejected pixel hearts and sparkles
+  on the first draft.
+- The sign's chip copy is the Game Day email's "Donation tokens" block
+  word for word (the owner pointed there). The only new line is the
+  owner's own: the envelope container in the hallway for donations.
+- The generators now live in `branding/print/` (Python + Chromium, fonts
+  committed). New card `docs/features/prizes.md` covers `/prizes`,
+  `DonationChips.tsx`, the email chip PNGs and the printables.
+  `/parking` still has no card.
+- Done on branch `claude/funny-johnson-3663zm`, not merged to `main`.
+- Carried over from the Warhammer session: the email template's fixed
+  footer forces emails to ~430px wide on a 375px phone. Still not fixed.
 
 ## Ship-live workflow
 
@@ -224,7 +230,9 @@ already there.
   the donation tokens (poker chips: white $10, blue $25, red $50, won or handed
   out all night, donated to any Extra Life page or used to enter an event),
   drawn as SVG in `src/components/site/DonationChips.tsx`, with PNGs of the
-  same drawing for email in `public/email/assets/chip-{10,25,50}.png`;
+  same drawing for email in `public/email/assets/chip-{10,25,50}.png`
+  (the chip rules, every copy of them and the printed chip sign: the
+  **prizes** card, `docs/features/prizes.md`);
   event prizes read live from the `Gameday Signups` tab (any row with a
   "Prize:" line); and the prize-table photos. The drawing times, auction items
   and prize-table list live in `src/lib/prizes.ts`, shared with the homepage. Both are linked from the Command
@@ -327,7 +335,10 @@ already there.
   `DESIGN_BRIEF.md` — a self-contained brief to point a developer or an
   AI model at ("build me an email, follow
   `branding/email/DESIGN_BRIEF.md`"). New campaigns are written into
-  `email/`, not `branding/`.
+  `email/`, not `branding/`. `branding/print/` makes the printed Game Day
+  signs (table numbers 1–50 and the poker chip sign; PDFs in
+  `src/assets/Table numbers/` and `src/assets/Poker chips/`); see the
+  prizes card.
 - `email/` holds the campaign being written (none right now; the last send, Nov 2026 "Game Day is this Saturday", is archived). As soon as a
   campaign is sent it moves to `email/archive/YYYY-MM-<slug>/` and gets a
   permanent page at `elnerds.com/email/archive/<folder>/`;

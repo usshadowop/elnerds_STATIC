@@ -21,6 +21,7 @@ from the code.
 | [mtg-interest](mtg-interest.md) | `/mtginterest` form → its own `elnerds_mtginterest` sheet | Live |
 | [deploy-pipeline](deploy-pipeline.md) | Push to `main` → GitHub Pages | Live |
 | [branding-docs](branding-docs.md) | The email template, block library and design brief | Live |
+| [prizes](prizes.md) | `/prizes`, the donation tokens (poker chips: rules, drawing, email PNGs), and the printed table numbers and chip sign | Live |
 
 Features without a card yet: Stats, Why We Play, Sponsors, Donors,
 Leadership Team, SiteNav, Footer, Registration, Patient Profiles, the
