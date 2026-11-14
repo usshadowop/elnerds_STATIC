@@ -51,6 +51,8 @@ export function sitePageGroups(): SiteGroup[] {
           note: "Always the Command Center, so you can check it before Game Day starts.",
           source: "src/pages/CommandCenter.tsx",
         },
+        { path: "parking", title: "Parking & getting in", note: "Where to park, with a map and a photo of each step from the lot to Improving.", source: "src/pages/Parking.tsx, images in public/photos/parking/" },
+        { path: "prizes", title: "Prizes & silent auctions", note: "The hourly prize drawings, the silent auctions, event prizes (live from the sheet) and photos of the prize tables.", source: "src/pages/Prizes.tsx, images in public/photos/prizes/" },
         { path: "gameday_events", title: "Game Day event sign-ups", note: "Sign up for individual events during the marathon.", source: "src/pages/GamedayEvents.tsx" },
         { path: "leadership_DandD", title: "Leadership D&D one-shot", note: "The leadership team's D&D game, streamed on Game Day night.", source: "src/pages/LeadershipDnD.tsx" },
       ],

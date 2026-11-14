@@ -20,6 +20,7 @@ const FOLDERS: { path: string; note: string }[] = [
   { path: "src/hooks/", note: "Live data: Extra Life totals and donors, the Game Day sheet, the countdown clock." },
   { path: "src/assets/", note: "Images bundled into the site: team headshots, patient photos, logos." },
   { path: "2026_sponsors/", note: "Every sponsor logo, in one place. Imported only by src/lib/sponsorLogos.ts." },
+  { path: "2026_photos/", note: "Setup-night photos of the venue, the way in and the prize tables (Nov 13, 2026)." },
   { path: "public/", note: "Files served exactly as they are, at the same address (listed below)." },
   { path: "email/", note: "The campaign being written, and email/archive/ for every one sent." },
   { path: "branding/", note: "Email template, block library and design brief." },

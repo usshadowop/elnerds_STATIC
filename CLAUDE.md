@@ -204,6 +204,20 @@ already there.
   ends; the page stays up with a "has wrapped" banner. When an email changes
   the incentives, change them here in the same breath — nothing links
   `/incentives` or `#incentives` from the nav.
+- `src/pages/Parking.tsx` (`/parking`, 2026-11-14): where to park for Game
+  Day (the owner's annotated map) and a photo of each step from the lot to
+  Improving, suite 180. `src/pages/Prizes.tsx` (`/prizes`, 2026-11-14): the
+  hourly prize drawings ($1 tickets, noon to 3 PM, must be present) and the
+  silent auctions (all event, no need to be present), in the owner's words;
+  event prizes read live from the `Gameday Signups` tab (any row with a
+  "Prize:" line); and the prize-table photos. Both are linked from the Command
+  Center's "Come visit" card and the `/gameday` countdown; the free-ticket line
+  above Event Details links to `/prizes`. Their images are 1200px copies in
+  `public/photos/parking/` and `public/photos/prizes/` so emails can use the
+  same files. **Never name a `public/` folder after a route**: GitHub Pages
+  then redirects `/parking` to the folder. The full-size photos are in
+  `2026_photos/` (setup-night photos of the venue, the way in and the prize
+  tables, with a README describing each).
 - `src/pages/Newsletter.tsx` (`/newsletter`): newsletter signup, with
   `?ref=Name` pre-filling "Referred by". It posts to the RSVP endpoint with
   `type: "newsletter"`, and `Code.gs` writes it to a `Newsletter` sheet tab.
