@@ -52,6 +52,9 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-11-10 | Owner | The Game Day email went out (told to a session 2026-11-10, archived from the repo draft). Confirm what Brevo actually sent matches `email/archive/2026-11-gameday-this-saturday/`; its "donation match" line (from the owner's wording) isn't backed by anything in the repo or sheet. |
 | 2026-11-10 | Owner | Type the leadership D&D stream into the `Gameday Streams` tab (name containing "Leadership" or "D&D", plus Embed URL) so `/leadership_DandD` shows the player; until then it says "Goes live at 9:30 PM on Game Day. Game starts at 10 PM." |
 | 2026-11-12 | Owner | Donation flyers (8.5×11, one per leadership-team member, QR code to their Extra Life page; ids in `Team.tsx`, Grant Gray has none): waiting on the owner to say which 2025 photos show whom. Nothing is in the repo yet. |
+| 2026-11-14 | Owner | `/parking` doesn't say whether parking is free, or whether the Lakeside Center doors (card reader beside them) are unlocked on Saturday morning. Add both once known. |
+| 2026-11-14 | Owner | Send a photo of all three donation chips. The graphics (`DonationChips.tsx`, `public/email/assets/chip-*.png`) were drawn from the white "10" only; the blue and red colours are guesses. |
+| 2026-11-14 | Owner | Send the last-minute Game Day email (`email/elnerds-gameday-parking-prizes.html`), then archive it per `email/archive/README.md`. |
 
 Rules that keep this honest:
 
@@ -69,19 +72,28 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-13 (a loading spinner and a live-card ripple, picked from mockups):*
+*Session of 2026-11-14 UTC (Game Day eve, Nov 13 evening in Minneapolis):*
 
-- The owner picked from an animated mockup page: a private artifact built
-  from the real site's captured DOM plus the built CSS, so it looked exactly
-  like the site and the animations played (screenshots can't show motion).
-- **Loading spinner (option A):** `LoadingBox.tsx`, a teal spinning arc over
-  the words. Home page schedule, Command Center and `/gameday_events` all use
-  it. Rejected: a team-colour ring, a rolling d20, a ticking clock.
-- **Live phone cards ripple (option 3):** on Game Day the current cards in the
-  phone timeline ripple a pink ring every 2 seconds (the hero chip's
-  animation); a steady halo with reduced motion. Before Game Day (preview)
-  nothing turns pink, as before. Rejected: the computer grid's breathing glow
-  and a plain steady halo. Rules in the gameday-content card.
+- The owner uploaded 18 setup-night photos and a parking map. They are in
+  `2026_photos/` (`arrival/`, `venue/`, `prizes/`, README per file), 2400px,
+  metadata stripped. The site and emails use 1200px copies in
+  `public/photos/parking/` and `public/photos/prizes/`, **not**
+  `public/parking/`: a `public/` folder named after a route makes Pages
+  redirect the page to the folder.
+- **New pages, live:** `/parking` (map + five photo steps to suite 180) and
+  `/prizes` (9 drawings every 1½ hours 10 AM–10 PM, $1 tickets, must be
+  present; silent auctions all event, no need to be present; every raffle
+  prize comes with a $10 token; donation tokens; prize-table photos; event
+  prizes live from the sheet at the bottom). Linked from the Command Center's
+  "Come visit" card and the `/gameday` countdown.
+- **Donation tokens** (poker chips: white $10, blue $25, red $50) are drawn
+  as SVG in `DonationChips.tsx`, modelled on the white chip in the photos;
+  `public/email/assets/chip-*.png` are screenshots of the same drawing.
+- **Last-minute Game Day email** drafted at
+  `email/elnerds-gameday-parking-prizes.html` (preview at `/email/current/`).
+- Found, not fixed: the template's fixed footer (the Instagram / Facebook /
+  Discord / Newsletter row) forces the email to ~430px wide on a 375px
+  phone. The sent "Game Day is this Saturday" email does the same.
 
 ## Ship-live workflow
 
@@ -207,7 +219,7 @@ already there.
 - `src/pages/Parking.tsx` (`/parking`, 2026-11-14): where to park for Game
   Day (the owner's annotated map) and a photo of each step from the lot to
   Improving, suite 180. `src/pages/Prizes.tsx` (`/prizes`, 2026-11-14): the
-  hourly prize drawings ($1 tickets, noon to 3 PM, must be present) and the
+  prize drawings ($1 tickets, 9 drawings every 1½ hours from 10 AM to 10 PM, must be present) and the
   silent auctions (all event, no need to be present), in the owner's words;
   the donation tokens (poker chips: white $10, blue $25, red $50, won or handed
   out all night, donated to any Extra Life page or used to enter an event),

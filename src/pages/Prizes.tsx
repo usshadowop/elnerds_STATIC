@@ -1,4 +1,4 @@
-// /prizes — Game Day's hourly prize drawings and silent auctions, the donation
+// /prizes — Game Day's prize drawings (9, from 10 AM to 10 PM) and silent auctions, the donation
 // tokens (poker chips, DonationChips.tsx), the prizes you can win in an event,
 // and a look at the prize tables. Sent by link (the
 // Game Day email, texts) and linked from the Command Center and the /gameday
@@ -13,7 +13,7 @@
 // 2026_photos/prizes/), so emails can use the same files.
 
 import type { ReactNode } from "react";
-import { ArrowLeft, ArrowRight, CircleCheck, Clock, Gavel, Gift, MapPin, Repeat, Store, Ticket } from "lucide-react";
+import { ArrowLeft, ArrowRight, CircleCheck, Clock, Coins, Gavel, Gift, MapPin, Repeat, Store, Ticket } from "lucide-react";
 
 import { DonationChipsSection } from "@/components/site/DonationChips";
 import { PrizeBox } from "@/components/site/GamedayEventDetails";
@@ -30,6 +30,10 @@ const GAME_DAY_START = MARATHON?.start ?? "2026-11-14T08:00:00-06:00";
 const GAME_DAY_END = MARATHON?.end ?? "2026-11-15T08:00:00-06:00";
 
 const SOURCE_URL = "https://www.sourcecandg.com";
+
+// Nine drawings, one every 1½ hours from 10 AM to 10 PM on Saturday (the
+// owner, 2026-11-14). The Game Day email lists the same times.
+const DRAWING_TIMES = ["10 AM", "11:30 AM", "1 PM", "2:30 PM", "4 PM", "5:30 PM", "7 PM", "8:30 PM", "10 PM"];
 
 const TABLE_PHOTOS = [1, 2, 3, 4, 5, 6].map((n) => `table-${n}.jpg`);
 
@@ -73,7 +77,7 @@ function EventPrizes() {
   if (settled && withPrizes.length === 0) return null;
 
   return (
-    <section className="mb-16">
+    <section className="mt-16">
       <Eyebrow className="text-orange">Win it in an event</Eyebrow>
       <h2 className="mb-2 font-display text-2xl font-extrabold text-ink sm:text-3xl">Event prizes</h2>
       <p className="mb-6 text-sm text-ink-soft sm:text-base">
@@ -119,7 +123,7 @@ export function Prizes() {
             Prizes &amp; Silent Auctions
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-ink-soft sm:text-lg">
-            Prize drawings every hour from noon to 3 PM, silent auctions running the whole event, and
+            Nine prize drawings from 10 AM to 10 PM, silent auctions running the whole event, and
             donation tokens to win all night.
           </p>
         </div>
@@ -137,17 +141,30 @@ export function Prizes() {
         <div className="mb-16 grid gap-6 md:grid-cols-2 md:items-start">
           <section className="rounded-3xl border border-line bg-paper p-7 shadow-[var(--shadow-soft)] sm:p-8">
             <Eyebrow>Prize drawings</Eyebrow>
-            <h2 className="font-display text-2xl font-extrabold text-ink sm:text-3xl">Every hour, noon to 3 PM</h2>
+            <h2 className="font-display text-2xl font-extrabold text-ink sm:text-3xl">9 drawings, 10 AM to 10 PM</h2>
             <ul className="mt-6 space-y-4">
               <Rule icon={Ticket} tone="bg-magenta-soft text-magenta">
                 <strong>Tickets are $1 each.</strong>
               </Rule>
               <Rule icon={Clock} tone="bg-magenta-soft text-magenta">
-                A drawing every hour from noon to 3 PM on Saturday, with multiple prizes up for grabs
-                each hour.
+                A drawing every 1&frac12; hours on Saturday, with multiple prizes up for grabs in each one:
+                <span className="mt-2 flex flex-wrap gap-1.5">
+                  {DRAWING_TIMES.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-full bg-magenta-soft px-2.5 py-0.5 text-xs font-extrabold whitespace-nowrap text-magenta"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </span>
               </Rule>
               <Rule icon={Repeat} tone="bg-magenta-soft text-magenta">
-                Every ticket you enter can win in any hour&rsquo;s drawing.
+                Every ticket you enter can win in any drawing.
+              </Rule>
+              <Rule icon={Coins} tone="bg-magenta-soft text-magenta">
+                <strong>Every raffle prize comes with a $10 donation token</strong> (a white chip, see
+                below).
               </Rule>
               <Rule icon={MapPin} tone="bg-magenta-soft text-magenta">
                 <strong>You must be present to win.</strong>{" "}
@@ -181,9 +198,6 @@ export function Prizes() {
 
         {/* Donation tokens (the poker chips) --------------------------------- */}
         <DonationChipsSection />
-
-        {/* Event prizes, live from the sheet --------------------------------- */}
-        <EventPrizes />
 
         {/* The prize tables ------------------------------------------------- */}
         <section>
@@ -240,7 +254,7 @@ export function Prizes() {
               </p>
               <p className="font-display text-lg font-extrabold text-ink">Source Comics &amp; Games</p>
               <p className="mt-1 text-sm text-ink-soft">
-                Donated the $25 gift certificates on the prize tables. Find them at 2057 Snelling Ave N,
+                Donated several $25 gift certificates for the prize tables. Find them at 2057 Snelling Ave N,
                 Roseville.
               </p>
               <a
@@ -254,6 +268,9 @@ export function Prizes() {
             </div>
           </div>
         </section>
+
+        {/* Event prizes, live from the sheet (at the bottom, the owner's call) */}
+        <EventPrizes />
 
         <div className="mt-14 flex flex-wrap justify-center gap-3">
           <a
