@@ -101,7 +101,7 @@ export function DonationChipsSection() {
         <div>
           <h3 className="mb-4 font-display text-lg font-extrabold text-ink">How you get them</h3>
           <ul className="space-y-4">
-            <Way icon={Gift}>Given out as prizes.</Way>
+            <Way icon={Gift}>Given out as prizes. Every raffle prize comes with a white $10 chip.</Way>
             <Way icon={Trophy}>Rewards for events and tournaments.</Way>
             <Way icon={HandCoins}>Handed out for all sorts of reasons throughout the night.</Way>
           </ul>
