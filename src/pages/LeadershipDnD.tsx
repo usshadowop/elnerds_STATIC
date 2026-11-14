@@ -4,15 +4,18 @@
 // in Event Details with a "Watch Here" button that lands here. The stream is
 // the Gameday Streams tab row whose name mentions "Leadership" or "D&D"; with
 // no embed URL typed in yet the page points at the Game Day page instead.
+// Until the first sheet read settles the player area shows a loading spinner,
+// so the "Goes live at…" note never flashes up before a real stream.
 
 import { ExternalLink, Video } from "lucide-react";
 
+import { StreamLoading, StreamPlayer } from "@/components/site/StreamPlayer";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 
 const HOME = import.meta.env.BASE_URL;
 
 export function LeadershipDnD() {
-  const { content } = useGamedayContent();
+  const { content, settled } = useGamedayContent();
   const stream = content.streams.find((s) => /leadership|d&d/i.test(s.name));
 
   return (
@@ -37,14 +40,13 @@ export function LeadershipDnD() {
           </div>
 
           <div className="overflow-hidden rounded-2xl border border-line bg-paper shadow-[var(--shadow-soft)]">
-            {stream?.embedUrl ? (
-              <div className="aspect-video border-b border-line">
-                <iframe
-                  src={stream.embedUrl}
-                  title={stream.name}
-                  allowFullScreen
-                  className="size-full"
-                />
+            {!settled ? (
+              <div className="relative aspect-video border-b border-line">
+                <StreamLoading />
+              </div>
+            ) : stream?.embedUrl ? (
+              <div className="relative aspect-video border-b border-line">
+                <StreamPlayer src={stream.embedUrl} title={stream.name} />
               </div>
             ) : (
               <div className="flex aspect-video items-center justify-center border-b border-line bg-ink/[0.03] px-6 text-center">
