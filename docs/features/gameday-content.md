@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-13 (loading spinner; live phone cards ripple)
+- **Last reviewed:** 2026-11-14 (Warhammer 40k Open Play dropped from the sheet and the fallback; mechanism unchanged)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`, `src/components/site/LoadingBox.tsx`
 
 ## Routing (since 2026-11-10)

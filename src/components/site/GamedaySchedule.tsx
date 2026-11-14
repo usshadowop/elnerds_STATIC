@@ -30,8 +30,8 @@ import {
 
 const ROW_PX = 60; // one hour
 const FOLD_PX = 34; // a folded run of quiet hours
-// A short block may sit on top of a long one in the same lane (Smash on top
-// of Warhammer open play), which keeps the grid narrow. Limits: the rider is
+// A short block may sit on top of a long one in the same lane (a two-hour
+// tournament on top of an all-day open play), which keeps the grid narrow. Limits: the rider is
 // at most three hours, the block underneath at least twice as long and not
 // the all-day block, and the block underneath must keep a clear stretch tall
 // enough for its own label (MIN_LABEL_MIN of minutes, roughly two rows).
