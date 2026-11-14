@@ -15,6 +15,8 @@ import papaJohns from "../../2026_sponsors/papa-johns.svg";
 import qsCue from "../../2026_sponsors/qs-cue.jpg";
 import gilletteChildrens from "../../2026_sponsors/gillette-childrens.svg";
 import mirageMakes from "../../2026_sponsors/mirage-makes.png";
+import levelUp from "../../2026_sponsors/level-up.png";
+import sourceComicsAndGames from "../../2026_sponsors/source-comics-and-games.png";
 import barbette from "../../2026_sponsors/placemaker-hospitality/barbette.png";
 import bookClub from "../../2026_sponsors/placemaker-hospitality/book-club.png";
 import breadAndPickle from "../../2026_sponsors/placemaker-hospitality/bread-and-pickle.png";
@@ -27,6 +29,8 @@ export const sponsorLogos = {
   qsCue,
   gilletteChildrens,
   mirageMakes,
+  levelUp,
+  sourceComicsAndGames,
   barbette,
   bookClub,
   breadAndPickle,

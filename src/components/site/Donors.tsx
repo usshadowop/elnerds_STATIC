@@ -42,6 +42,18 @@ const inKindDonors: { name: string; href?: string; note?: string; logo?: string 
     href: "https://miragemakes.com/",
     logo: sponsorLogos.mirageMakes,
   },
+  {
+    name: "Level Up Games",
+    note: "Signed Avengers poster",
+    href: "https://www.levelupshoponline.com/",
+    logo: sponsorLogos.levelUp,
+  },
+  {
+    name: "Source Comics & Games",
+    note: "Gift certificates",
+    href: "https://sourcecomicsandgames.com/",
+    logo: sponsorLogos.sourceComicsAndGames,
+  },
   { name: "Mike Hochscheidt - Miniatures" },
   { name: "Mike Smith - Board Games" },
 ];
