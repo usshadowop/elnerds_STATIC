@@ -16,6 +16,7 @@ import { Prizes } from "@/pages/Prizes";
 import { Registration } from "@/pages/Registration";
 import { Rsvp } from "@/pages/Rsvp";
 import { SiteMap } from "@/pages/SiteMap";
+import { Templates } from "@/pages/Templates";
 import { useGameday } from "@/hooks/use-countdown";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
 import { useHashScroll, usePath } from "@/lib/router";
@@ -49,6 +50,8 @@ export default function App() {
   if (path === "prizes") page = <Prizes />;
   if (path === "registration") page = <Registration />;
   if (path === "rsvp") page = <Rsvp />;
+  if (path === "templates") page = <Templates />;
+  if (path.startsWith("templates/")) page = <Templates slug={path.slice("templates/".length)} />;
   if (path.startsWith("rsvp/")) page = <Rsvp slug={path.slice("rsvp/".length)} />;
 
   return (
