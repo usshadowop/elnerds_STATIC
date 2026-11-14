@@ -1,7 +1,7 @@
 # Game Day hero states
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-07 (headline at two-thirds; team progress under the countdown)
+- **Last reviewed:** 2026-11-14 (a `gameday` variant for the Gameday Week Runup homepage template)
 - **Covers:** `src/hooks/use-countdown.ts`, `src/components/site/Hero.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -25,6 +25,16 @@ on the day.
   dot that links to `/incentives` (the Game Day donation incentives page,
   `src/pages/Incentives.tsx`). It is deliberately not styled like the event
   pills, so it reads as "something to earn" rather than another date.
+- **Two variants** (2026-11-14): `<Hero />` is the standard hero above
+  (Standard Display template). `<Hero variant="gameday" />` is the Gameday Week
+  Runup template's (see the home-templates card): the headline is
+  `GAMEDAY_HEADLINE[phase]` ("Game Day is Saturday, Nov 14" / "Game Day is
+  live!" / "Thank you for Game Day 2026!") instead of "Play Games. Heal Kids.";
+  the pulsing chip links to `/prizes` ("Prizes & silent auctions"), with a teal
+  "Parking & way in" chip and the blue schedule chip beside it; no team photo
+  (the carousel); the countdown card **disappears** once the marathon ends
+  (no `GrandTotalCard`), and the team fundraising card stays in every phase.
+  The event pills, ticker, Command Center button and button row are the same.
 
 ## How it works
 

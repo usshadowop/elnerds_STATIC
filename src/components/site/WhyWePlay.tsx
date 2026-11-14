@@ -129,12 +129,14 @@ export function WhyWePlay() {
   );
 }
 
-function VictoriaStoryReveal() {
+/** The "Learn about Victoria's Story" button and its video pop-up. Also used
+ *  on its own by the Gameday Week Runup homepage (GamedayRunup.tsx). */
+export function VictoriaStoryReveal({ className = "mb-8" }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const videoId = "rHSZ_82wiJg";
 
   return (
-    <div className="mb-8">
+    <div className={className}>
       <button
         type="button"
         onClick={() => setOpen(true)}

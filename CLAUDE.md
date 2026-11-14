@@ -54,6 +54,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-11-12 | Owner | Donation flyers (8.5×11, one per leadership-team member, QR code to their Extra Life page; ids in `Team.tsx`, Grant Gray has none): waiting on the owner to say which 2025 photos show whom. Nothing is in the repo yet. |
 | 2026-11-14 | Owner | `/parking` doesn't say whether parking is free, or whether the Lakeside Center doors (card reader beside them) are unlocked on Saturday morning. Add both once known. |
 | 2026-11-14 | Owner | Send a photo of all three donation chips. The graphics (`DonationChips.tsx`, `public/email/assets/chip-*.png`) were drawn from the white "10" only; the blue and red colours are guesses. |
+| 2026-11-14 | Owner (decision) | When should the homepage go back from Gameday Week Runup to Standard Display (`ACTIVE_HOME_TEMPLATE` in `src/lib/homeTemplates.ts`)? The owner also has a second round of changes to Gameday Week Runup coming. |
 | 2026-11-14 | Owner | Send the last-minute Game Day email (`email/elnerds-gameday-parking-prizes.html`), then archive it per `email/archive/README.md`. |
 
 Rules that keep this honest:
@@ -92,9 +93,12 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   `public/email/assets/chip-*.png` are screenshots of the same drawing.
 - **Last-minute Game Day email** drafted at
   `email/elnerds-gameday-parking-prizes.html` (preview at `/email/current/`).
-- Found, not fixed: the template's fixed footer (the Instagram / Facebook /
-  Discord / Newsletter row) forces the email to ~430px wide on a 375px
-  phone. The sent "Game Day is this Saturday" email does the same.
+- **Homepage templates:** the old homepage is saved as "Standard Display";
+  the live homepage is now "Gameday Week Runup" (the owner's cuts plus the
+  email's details). `/templates` lists both. See the home-templates card.
+- Found, not fixed: the email template's fixed footer (the Instagram /
+  Facebook / Discord / Newsletter row) forces the email to ~430px wide on a
+  375px phone. The sent "Game Day is this Saturday" email does the same.
 
 ## Ship-live workflow
 
@@ -217,6 +221,15 @@ already there.
   ends; the page stays up with a "has wrapped" banner. When an email changes
   the incentives, change them here in the same breath — nothing links
   `/incentives` or `#incentives` from the nav.
+- **The homepage is a template** (2026-11-14). `src/lib/homeTemplates.ts`
+  lists them and `ACTIVE_HOME_TEMPLATE` picks the live one; `Home.tsx` only
+  renders it. **Standard Display** is the year-round homepage as it stood on
+  2026-11-14; **Gameday Week Runup** (live since then) drops the "Play Games.
+  Heal Kids." headline, team photo, incentives, Our Impact, the long Why We Play
+  and the 2025 sponsors, and leads with the Game Day email's details and links
+  to `/prizes` and `/parking`. `/templates` lists and previews them
+  (`/templates/<slug>`). The nav and `sitePages.ts` hide links to homepage
+  sections the live template lacks. See the home-templates card.
 - `src/pages/Parking.tsx` (`/parking`, 2026-11-14): where to park for Game
   Day (the owner's annotated map) and a photo of each step from the lot to
   Improving, suite 180. `src/pages/Prizes.tsx` (`/prizes`, 2026-11-14): the
@@ -227,7 +240,8 @@ already there.
   drawn as SVG in `src/components/site/DonationChips.tsx`, with PNGs of the
   same drawing for email in `public/email/assets/chip-{10,25,50}.png`;
   event prizes read live from the `Gameday Signups` tab (any row with a
-  "Prize:" line); and the prize-table photos. Both are linked from the Command
+  "Prize:" line); and the prize-table photos. The drawing times, auction items
+  and prize-table list live in `src/lib/prizes.ts`, shared with the homepage. Both are linked from the Command
   Center's "Come visit" card and the `/gameday` countdown; the free-ticket line
   above Event Details links to `/prizes`. Their images are 1200px copies in
   `public/photos/parking/` and `public/photos/prizes/` so emails can use the

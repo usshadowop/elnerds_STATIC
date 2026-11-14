@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu, X, Instagram, Facebook, ChevronDown, Mail } from "lucide-react";
 import { DiscordIcon } from "./DiscordIcon";
 import logoUrl from "@/assets/eln-logo.svg";
+import { homeLinkIsLive } from "@/lib/homeTemplates";
 
 const HOME = import.meta.env.BASE_URL;
 
@@ -34,6 +35,17 @@ const NAV_LINKS: NavItem[] = [
   },
 ];
 
+// Links into homepage sections the live template doesn't have (an anchor
+// missing from its `sections` in src/lib/homeTemplates.ts) are left out, so the
+// nav never points at nothing; switching templates brings them back.
+const VISIBLE_NAV: NavItem[] = NAV_LINKS.flatMap((item): NavItem[] => {
+  if ("children" in item) {
+    const children = item.children.filter((c) => homeLinkIsLive(c.href));
+    return children.length ? [{ ...item, children }] : [];
+  }
+  return homeLinkIsLive(item.href) ? [item] : [];
+});
+
 export function SiteNav() {
   const [open, setOpen] = useState(false);
 
@@ -58,7 +70,7 @@ export function SiteNav() {
         </a>
 
         <div className="hidden items-center gap-5 text-sm font-bold whitespace-nowrap lg:flex xl:gap-7">
-          {NAV_LINKS.map((l) =>
+          {VISIBLE_NAV.map((l) =>
             "children" in l ? (
               <div key={l.label} className="group relative">
                 <button
@@ -159,7 +171,7 @@ export function SiteNav() {
       {open && (
         <div className="border-t border-line bg-cream lg:hidden">
           <div className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-4">
-            {NAV_LINKS.map((l) =>
+            {VISIBLE_NAV.map((l) =>
               "children" in l ? (
                 <div key={l.label} className="px-3 py-3">
                   <span className="text-sm font-bold text-ink/80">{l.label}</span>

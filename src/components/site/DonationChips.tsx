@@ -78,9 +78,9 @@ function Way({ icon: Icon, children }: { icon: typeof Gift; children: ReactNode 
 }
 
 /** The donation-token section on /prizes. */
-export function DonationChipsSection() {
+export function DonationChipsSection({ className = "mb-16" }: { className?: string }) {
   return (
-    <section id="donation-tokens" className="mb-16 scroll-mt-28 rounded-3xl border border-line bg-paper p-7 shadow-[var(--shadow-soft)] sm:p-8">
+    <section id="donation-tokens" className={`${className} scroll-mt-28 rounded-3xl border border-line bg-paper p-7 shadow-[var(--shadow-soft)] sm:p-8`}>
       <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] text-gold">Donation tokens</p>
       <h2 className="font-display text-2xl font-extrabold text-ink sm:text-3xl">Poker chips worth real donations</h2>
       <p className="mt-3 max-w-2xl text-sm text-ink-soft sm:text-base">

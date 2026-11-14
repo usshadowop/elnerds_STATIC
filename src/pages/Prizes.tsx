@@ -21,6 +21,7 @@ import { LoadingBox } from "@/components/site/LoadingBox";
 import { useGameday } from "@/hooks/use-countdown";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
 import { getRsvpEvent } from "@/lib/rsvpEvents";
+import { AUCTION_ITEMS, DRAWING_TIMES, LEVEL_UP_URL, SOURCE_URL, SPOTTED } from "@/lib/prizes";
 import { sponsorLogos } from "@/lib/sponsorLogos";
 
 const BASE = import.meta.env.BASE_URL;
@@ -30,52 +31,7 @@ const MARATHON = getRsvpEvent("marathon")?.calendar;
 const GAME_DAY_START = MARATHON?.start ?? "2026-11-14T08:00:00-06:00";
 const GAME_DAY_END = MARATHON?.end ?? "2026-11-15T08:00:00-06:00";
 
-const SOURCE_URL = "https://sourcecomicsandgames.com/";
-const LEVEL_UP_URL = "https://www.levelupshoponline.com/";
-
-// Nine drawings, one every 1½ hours from 10 AM to 10 PM on Saturday (the
-// owner, 2026-11-14). The Game Day email lists the same times.
-const DRAWING_TIMES = ["10 AM", "11:30 AM", "1 PM", "2:30 PM", "4 PM", "5:30 PM", "7 PM", "8:30 PM", "10 PM"];
-
-// Silent-auction items, from the owner's list of 2026-11-14 (no photos except
-// the poster, which is featured on its own below the list). The Game Day email
-// lists the same items.
-const AUCTION_ITEMS: { group: string; items: string[] }[] = [
-  {
-    group: "Squishmallows",
-    items: ["Sussie and Derpy from KPop Demon Hunters", "Grogu from The Mandalorian"],
-  },
-  {
-    group: "Board games",
-    items: [
-      "Hoplomachus: Victorum (Chip Theory Games)",
-      "A Too Many Bones pack (Chip Theory Games)",
-      "Kutná Hora (Czech Games Edition)",
-      "Hexeh, out of print (Hexeh Games)",
-      "Hubworld: Aidalon, signed and unreleased, still crowdfunding (Earthborne Games)",
-    ],
-  },
-  { group: "Jewelry", items: ["Handmade stone jewelry"] },
-];
-
 const TABLE_PHOTOS = [1, 2, 3, 4, 5, 6].map((n) => `table-${n}.jpg`);
-
-// What the setup-night photos show, so people can tell what's up for grabs.
-const SPOTTED = [
-  "Codenames",
-  "Codenames Duet",
-  "Eternal Palace",
-  "Wispwood",
-  "Mystic Paths",
-  "Distant Suns",
-  "Biomos",
-  "Ahoy",
-  "Kingyo",
-  "Fort",
-  "Get 9",
-  "Schitt's Creek: Love That Journey",
-  "Neighborhood Hide & Seek",
-];
 
 function Eyebrow({ children, className = "text-magenta" }: { children: ReactNode; className?: string }) {
   return <p className={`mb-3 text-[10px] font-extrabold uppercase tracking-[0.3em] ${className}`}>{children}</p>;
