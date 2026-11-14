@@ -209,6 +209,10 @@ already there.
   Improving, suite 180. `src/pages/Prizes.tsx` (`/prizes`, 2026-11-14): the
   hourly prize drawings ($1 tickets, noon to 3 PM, must be present) and the
   silent auctions (all event, no need to be present), in the owner's words;
+  the donation tokens (poker chips: white $10, blue $25, red $50, won or handed
+  out all night, donated to any Extra Life page or used to enter an event),
+  drawn as SVG in `src/components/site/DonationChips.tsx`, with PNGs of the
+  same drawing for email in `public/email/assets/chip-{10,25,50}.png`;
   event prizes read live from the `Gameday Signups` tab (any row with a
   "Prize:" line); and the prize-table photos. Both are linked from the Command
   Center's "Come visit" card and the `/gameday` countdown; the free-ticket line

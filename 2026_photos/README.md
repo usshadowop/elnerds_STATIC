@@ -55,7 +55,7 @@ the directory is just inside the doors, before the hallway).
 ## prizes/: the prize tables
 
 `table-1` to `table-6` run left to right along the window. Each group of prizes
-has a $25 Source Comics & Games gift certificate and a 3D-printed "10" token in
+has a $25 Source Comics & Games gift certificate and a white $10 donation token in
 front of it. Games visible include Schitt's Creek *Love That Journey*, *Fort*,
 *Neighborhood Hide & Seek*, *Ahoy*, *Biomos*, *Distant Suns*, *Mystic Paths*,
 *Codenames*, *Codenames Duet*, *Eternal Palace*, *Wispwood*, *Get 9*,
@@ -66,4 +66,4 @@ other plush.
 | --- | --- |
 | `table-1.jpg` … `table-6.jpg` | The prize tables, left to right |
 | `source-gift-certificate.jpg` | One of the gift certificates up close: Source Comics & Games, Roseville, $25, "Extra Life Event Donation" |
-| `donation-token.jpg` | One of the "10" tokens up close |
+| `donation-token.jpg` | One of the white $10 donation tokens (poker chips; blue is $25, red $50) up close. The site draws them as SVG in `src/components/site/DonationChips.tsx` |

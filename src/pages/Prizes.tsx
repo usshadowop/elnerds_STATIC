@@ -1,5 +1,6 @@
-// /prizes — Game Day's hourly prize drawings and silent auctions, the prizes
-// you can win in an event, and a look at the prize tables. Sent by link (the
+// /prizes — Game Day's hourly prize drawings and silent auctions, the donation
+// tokens (poker chips, DonationChips.tsx), the prizes you can win in an event,
+// and a look at the prize tables. Sent by link (the
 // Game Day email, texts) and linked from the Command Center and the /gameday
 // countdown, so it stands on its own.
 //
@@ -14,6 +15,7 @@
 import type { ReactNode } from "react";
 import { ArrowLeft, ArrowRight, CircleCheck, Clock, Gavel, Gift, MapPin, Repeat, Store, Ticket } from "lucide-react";
 
+import { DonationChipsSection } from "@/components/site/DonationChips";
 import { PrizeBox } from "@/components/site/GamedayEventDetails";
 import { LoadingBox } from "@/components/site/LoadingBox";
 import { useGameday } from "@/hooks/use-countdown";
@@ -117,7 +119,8 @@ export function Prizes() {
             Prizes &amp; Silent Auctions
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-ink-soft sm:text-lg">
-            Prize drawings every hour from noon to 3 PM, and silent auctions running the whole event.
+            Prize drawings every hour from noon to 3 PM, silent auctions running the whole event, and
+            donation tokens to win all night.
           </p>
         </div>
 
@@ -175,6 +178,9 @@ export function Prizes() {
             </ul>
           </section>
         </div>
+
+        {/* Donation tokens (the poker chips) --------------------------------- */}
+        <DonationChipsSection />
 
         {/* Event prizes, live from the sheet --------------------------------- */}
         <EventPrizes />
