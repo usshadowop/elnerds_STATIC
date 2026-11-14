@@ -52,7 +52,7 @@ const STEPS = [
   {
     file: "5-vending-and-stairs.jpg",
     title: "Up one level to the first floor",
-    text: "Take the stairs at the Vending & Stairs sign, or the elevators to the left. Improving is suite 180.",
+    text: "Take the stairs at the Vending & Stairs sign, or the elevators around the corner to the left. Improving is suite 180.",
     // A tall photo whose signs sit high up: keep them in the 4:3 crop.
     position: "object-[center_25%]",
   },
