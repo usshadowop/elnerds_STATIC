@@ -6,7 +6,7 @@
 // changed mid-marathon without a deploy. See src/lib/gamedayContent.ts; the
 // copy that ships with the site is the fallback when that read fails.
 
-import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink, Handshake, MapPin, Navigation, Play } from "lucide-react";
+import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink, Handshake, HandHeart, MapPin, Navigation, Play } from "lucide-react";
 
 import { sponsorLogos } from "@/lib/sponsorLogos";
 import stillPc from "@/assets/carousel/event-5.jpg";
@@ -20,6 +20,7 @@ import stillVr from "@/assets/carousel/event-4.jpg";
 const SAMPLE_STILLS = [stillPc, stillCrowd, stillVr];
 
 import { ResponsiveGamedaySchedule } from "@/components/site/GamedayAgenda";
+import { GamedayDonations } from "@/components/site/GamedayDonations";
 import { GamedayEventDetails } from "@/components/site/GamedayEventDetails";
 import { LoadingBox } from "@/components/site/LoadingBox";
 import { StreamLoading, StreamPlayer } from "@/components/site/StreamPlayer";
@@ -263,6 +264,12 @@ export function CommandCenter() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Fundraising: team total and latest donations, live from DonorDrive */}
+          <div className="mb-16">
+            <SectionHeading icon={HandHeart} label="Donations" title="Team total & latest donations" />
+            <GamedayDonations donateUrl={DONATE_URL} />
           </div>
 
           {/* Run of show ---------------------------------------------------- */}

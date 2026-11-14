@@ -2,33 +2,11 @@ import type { MouseEvent } from "react";
 import { ArrowDown, Heart } from "lucide-react";
 import { useNow } from "@/hooks/use-now";
 import { useExtraLifeDonations, type ExtraLifeDonation } from "@/hooks/useExtraLifeDonations";
+import { money, timeAgo } from "@/lib/donationFormat";
 
 /** Roughly how long each donation takes to cross the strip, in seconds. */
 const SECONDS_PER_ITEM = 6;
 const MAX_MESSAGE = 60;
-
-function money(amount: number): string {
-  const fractionDigits = Number.isInteger(amount) ? 0 : 2;
-  return amount.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  });
-}
-
-function timeAgo(iso: string, now: number): string {
-  // DonorDrive sends "+0000"; Safari's Date parser wants "+00:00".
-  const then = Date.parse(iso.replace(/([+-]\d{2})(\d{2})$/, "$1:$2"));
-  if (Number.isNaN(then)) return "";
-  const mins = Math.max(0, Math.floor((now - then) / 60_000));
-  if (mins < 1) return "just now";
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
 
 function Item({ d, now }: { d: ExtraLifeDonation; now: number }) {
   const message = d.message?.trim();

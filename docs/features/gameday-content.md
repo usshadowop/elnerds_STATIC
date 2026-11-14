@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-14 (stream tiles show a loading spinner until the sheet read settles and while a player loads)
+- **Last reviewed:** 2026-11-14 (team total and latest donations added under the streams; stream loading spinner)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`, `src/components/site/LoadingBox.tsx`, `src/components/site/StreamPlayer.tsx`
 
 ## Routing (since 2026-11-10)
@@ -42,6 +42,12 @@ a spreadsheet during the event.
   with a "Prize:" line, shown with this card's `PrizeBox`). The `/gameday`
   countdown links to both under the date line, and the free-ticket sentence
   above Event Details (`GamedayEventDetails.tsx`) links to `/prizes`.
+  **Under the streams** (2026-11-14, the owner's ask on Game Day) is a
+  "Team total & latest donations" section, `GamedayDonations` in
+  `src/components/site/GamedayDonations.tsx`: the team total, goal and
+  progress bar (the home page's `TeamProgress` block) with a Donate Now
+  button, beside the 10 latest donations. Both come from DonorDrive, not the
+  sheet, and refresh every minute; the extra-life-api card has the details.
 - `src/lib/gamedayContent.ts` — types, the shipped fallback copy, `fetch` and
   the response parser.
 - `src/hooks/use-gameday-content.ts` — the polling hook.
