@@ -29,7 +29,8 @@ export type GamedayTotalItem =
 // Game Day 2026 (Nov 14–15), the owner's figures as of 2026-11-15.
 export const GAMEDAY_TOTAL_ITEMS: GamedayTotalItem[] = [
   { label: "Chips", amount: 580 },
-  { label: "Cash bucket", amount: 175 },
+  // $175 in the bucket plus a $400 check that turned up later (owner, 2026-11-15).
+  { label: "Cash bucket", amount: 575 },
   { label: "Donation matching", amount: 1125 },
   { label: "Silent auction remaining payouts", amount: 910 },
   // Pam van Muijen (leadership team) fundraises on another team's page

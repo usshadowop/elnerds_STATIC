@@ -55,7 +55,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-11-14 | Owner | Send a photo of all three donation chips. The graphics (`DonationChips.tsx`, `public/email/assets/chip-*.png`) were drawn from the white "10" only; the blue and red colours are guesses. |
 | 2026-11-14 | Owner (decision) | When should the homepage go back from Gameday Week Runup to Standard Display (`ACTIVE_HOME_TEMPLATE` in `src/lib/homeTemplates.ts`)? The owner said a second round of changes to Gameday Week Runup is coming (not yet sent as of 2026-11-15). |
 | 2026-11-14 | Owner | Send the last-minute Game Day email (`email/elnerds-gameday-parking-prizes.html`), then archive it per `email/archive/README.md`. |
-| 2026-11-15 | Owner | Gameday totals (homepage hero, roster, Command Center) adds four hand-typed amounts to the live Extra Life total: Chips $580, Cash bucket $175, Donation matching $1,125, Silent auction remaining payouts $910 (`src/lib/gamedayTotals.ts`). Send updates as they change (the auction payouts especially). Confirm none is also on the Extra Life page, which would count it twice. Then decide when the site goes back to the plain Extra Life total. (A fifth line, "New leadership additions", is live: Pam's page since Nov 13.) |
+| 2026-11-15 | Owner | Gameday totals (homepage hero, roster, Command Center) adds four hand-typed amounts to the live Extra Life total: Chips $580, Cash bucket $575 ($175 plus a $400 check found later), Donation matching $1,125, Silent auction remaining payouts $910 (`src/lib/gamedayTotals.ts`). Send updates as they change (the auction payouts especially). Confirm none is also on the Extra Life page, which would count it twice. Then decide when the site goes back to the plain Extra Life total. (A fifth line, "New leadership additions", is live: Pam's page since Nov 13.) |
 | 2026-11-15 | Owner (decision) | Two branches hold only unmerged handoff notes (no code): `claude/fervent-bell-6kqzzg` (2026-11-11: the Placemaker print sheet, Drive connector accounts) and `claude/stoic-babbage-l4k1va` (2026-11-12/13: leadership flyers and lanyard passes). Their print facts were checked in Drive and are in the prizes card; merge whatever else is wanted, then delete both branches. |
 
 Rules that keep this honest:
@@ -95,6 +95,8 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   van Muijen's Extra Life page since Nov 13 ($645 when added). Her page is on
   another team (NCC-AL5), so it isn't in our team total. DonorDrive's
   `offset` counts from 1. Details in the site-modules card.
+- Last: Cash bucket raised from $175 to $575 for a $400 check that hadn't
+  been counted. The owner said "I'm done" and had it pushed live.
 
 *Session of 2026-11-13 to 2026-11-15 (printed Game Day signs; squash-merged
 to `main` 2026-11-15):*
