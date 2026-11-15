@@ -1,7 +1,7 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-14 (team total and latest donations added under the streams; stream loading spinner)
+- **Last reviewed:** 2026-11-15 (`LoadingBox` users listed; nothing else changed)
 - **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`, `src/components/site/LoadingBox.tsx`, `src/components/site/StreamPlayer.tsx`
 
 ## Routing (since 2026-11-10)
@@ -180,9 +180,14 @@ every tile if the read fails.
   swapping it a second later (the flash PR #76 was written to stop).
   The placeholder is `LoadingBox.tsx`: the dashed box with a teal spinning
   arc (lucide `LoaderCircle`) over the words, still for reduced motion.
-  `/gameday_events` uses it too for "Loading the events…". The owner picked
-  it from four mockups on 2026-11-13 (also a team-colour ring, a rolling d20
-  and a ticking clock).
+  The owner picked it from four mockups on 2026-11-13 (also a team-colour
+  ring, a rolling d20 and a ticking clock). **It is the site's one loading
+  look; use it for any new loading state.** Users as of 2026-11-15: both
+  schedules (home and Command Center), `/gameday_events` ("Loading the
+  events…"), `/prizes` ("Loading event prizes…") and the Command Center's
+  donations list (`GamedayDonations.tsx`, extra-life-api card). The stream
+  tiles can't use the box (they need the spinner over a 16:9 frame), so
+  `StreamLoading` in `StreamPlayer.tsx` copies its spinner and text.
 
 - **The schedule is laid out like the printed 2025 run of show**, not a
   list: a navy Time / Event header, red hourly pills, lanes of sky-blue

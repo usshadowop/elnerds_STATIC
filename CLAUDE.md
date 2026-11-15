@@ -73,6 +73,18 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
+*Session of 2026-11-15 (wrap-up of the 2026-11-13 spinner/ripple chat,
+PR #203):*
+
+- Nothing was left uncommitted. Since #203, `LoadingBox` picked up two more
+  users (`/prizes`, the Command Center donations list), so its comment and the
+  gameday-content card now say it's the one loading look and list its users.
+- Mockups that move: the owner picked the spinner and the live-card ripple
+  from an animated page built from the real site's captured DOM plus the
+  built CSS. How to do it is in the verify skill.
+- The Game Day morning session's notes below are kept; they're newer than
+  #203 and still the best orientation.
+
 *Session of 2026-11-14 UTC (Game Day morning):*
 
 - The owner asked to remove Warhammer open play from every schedule. Deleted
@@ -288,7 +300,8 @@ already there.
   shown as real content (decided 2026-10-31). The same grid also renders
   on the home page under the marathon card (`MainEventSchedule` in
   `Schedule.tsx`), and both hold a "Loading…" placeholder until the first
-  read settles. The `Gameday Event Details` tab (Title, Details; links
+  read settles (`LoadingBox.tsx`, a teal spinner over the words; it is the
+  one loading look, so use it for any new loading state). The `Gameday Event Details` tab (Title, Details; links
   allowed) renders as an "Event Details" list right under the schedule on
   both pages (`GamedayEventDetails.tsx`). Since 2026-11-08 that section is
   built mainly from `Gameday Signups`, **in four sections** (Dungeons & Dragons,
