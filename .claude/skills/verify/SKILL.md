@@ -85,6 +85,24 @@ half of what it draws depends on the clock, so drive it with both pinned:
   link, and Tab must not land in the outgoing slide. Inactive slides are
   `inert`; without it both went wrong.
 
+## Mockups for the owner (before building)
+
+When the owner asks to see options first, especially anything that moves,
+build the mockups from the real site rather than redrawing it. Screenshots
+can't show animation. This is how the 2026-11-13 spinner and live-card
+options were made:
+
+- Build, serve `dist/`, and drive the page into the state you want with the
+  Game Day recipe above. For a loading state, leave the endpoint route
+  unanswered.
+- Capture the section's `outerHTML` with `page.evaluate`, and tag the
+  elements each option restyles with `data-*` attributes first. Then fetch
+  the built `assets/index-*.css`.
+- Write one HTML page that inlines that CSS and links Nunito from Google
+  Fonts. Put the captured markup in once per option, and give each option
+  its own CSS. Publish it as an Artifact, label the options A/B/C or 1/2/3,
+  and ask the owner to reply with their picks.
+
 ## RSVP form (`/rsvp`)
 
 - Needs `VITE_RSVP_ENDPOINT` (a Google Apps Script Web App URL) at dev-server
