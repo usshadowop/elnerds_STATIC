@@ -1,8 +1,8 @@
 # Modules
 
-- **Status:** Live in the repo; one module saved (Extra Life Page donation totals).
-- **Last reviewed:** 2026-11-15 (created: `/modules`, and the first module saved from the hero's team-fundraising card)
-- **Covers:** `src/lib/siteModules.ts`, `src/pages/Modules.tsx`, `src/components/modules/*`
+- **Status:** Live in the repo; two modules saved (Extra Life Page donation totals, Gameday totals).
+- **Last reviewed:** 2026-11-15 (created: `/modules`, the Extra Life Page donation totals module, then the Gameday totals module)
+- **Covers:** `src/lib/siteModules.ts`, `src/pages/Modules.tsx`, `src/components/modules/*`, `src/lib/gamedayTotals.ts`
 
 ## Purpose
 
@@ -30,6 +30,7 @@ want to be able to see them all simultaneously on a page"). Homepage templates
 | Module | Component | Saved | From |
 | --- | --- | --- | --- |
 | Extra Life Page donation totals | `ExtraLifeDonationTotals` | 2026-11-15 | The "Team fundraising" card under the hero countdown |
+| Gameday totals | `GamedayTotals` | 2026-11-15 | New: the owner's grand total for Game Day 2026 |
 
 **Extra Life Page donation totals.** The Team Total / Goal / Participants block
 and its progress bar in a white card, read live from DonorDrive
@@ -40,6 +41,20 @@ Extra Life" link. It never shows $0. The figures inside are the shared
 `TeamProgress` block (extra-life-api card), so the module changes when the hero,
 roster and Command Center versions do. When it was saved the team stood at
 $45,393.05 of $60,000 with 49 participants.
+
+**Gameday totals.** One big grand total: the Extra Life team total (live, as
+above) plus the money raised that isn't on the Extra Life page, with every part
+listed underneath (the Extra Life row carries a "Live" tag). The extra amounts
+are `GAMEDAY_TOTAL_ITEMS` in `src/lib/gamedayTotals.ts`, typed in by hand. For
+Game Day 2026 they are the owner's figures of 2026-11-15: Chips $580, Cash
+bucket $175, Donation matching $1,125, Silent auction remaining payouts $910
+($2,790 in all; with the Extra Life page at $45,418.05 the card read
+$48,208.05). Props: `label` (default "Gameday totals"), `items` (another list
+in place of the file's) and `refreshMs`. The sum is done in cents, so it never
+shows floating-point dust. The grand total waits for the Extra Life figure: a
+placeholder while it loads, and "the grand total can't be added up" plus a
+link if it fails. It never shows a total that is missing the biggest part. The
+breakdown rows show either way.
 
 ## Decisions and gotchas
 
@@ -60,6 +75,13 @@ $45,393.05 of $60,000 with 49 participants.
   didn't need to change to save the module.
 
 ## Manual steps and open questions
+
+- **Gameday totals amounts are typed in, not read from anywhere.** To change
+  one (the silent auction payouts will come in, for instance), edit
+  `src/lib/gamedayTotals.ts` and push. List only money that is **not** on the
+  Extra Life page; anything also entered there (an offline donation) would be
+  counted twice. Whether any of the four 2026 amounts is also on the Extra Life
+  page is the owner's knowledge, not checked.
 
 - A new module: a component in `src/components/modules/`, a case in
   `ModulePreview.tsx`, an entry in `SITE_MODULES` and its slug in
