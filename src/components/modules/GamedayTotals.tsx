@@ -3,6 +3,10 @@
 // page (src/lib/gamedayTotals.ts), added up into one big figure with the
 // breakdown underneath. Listed on /modules (src/lib/siteModules.ts).
 //
+// Since 2026-11-15 it stands in for the old Team Total / Goal / Participants
+// block everywhere that block was: under the hero countdown (Hero.tsx), atop
+// the roster (ActiveRoster.tsx) and on the Command Center (GamedayDonations.tsx).
+//
 // The grand total only shows once the Extra Life figure is in: while it loads
 // the card shows a placeholder, and if it can't be read the card says so
 // instead of showing a total that's short by the biggest part.
@@ -36,6 +40,7 @@ export function GamedayTotals({
   label = "Gameday totals",
   items = GAMEDAY_TOTAL_ITEMS,
   refreshMs,
+  children,
 }: {
   /** The small heading above the total. */
   label?: string;
@@ -43,18 +48,23 @@ export function GamedayTotals({
   items?: GamedayTotalItem[];
   /** Re-read the Extra Life total on this interval (ms). Omit to read it once. */
   refreshMs?: number;
+  /** Anything to show at the bottom of the card, such as buttons. */
+  children?: ReactNode;
 }) {
   const { team, isLoading } = useExtraLifeTeam(refreshMs);
   const extraLife = team?.sumDonations;
   const total = typeof extraLife === "number" ? sumCents([extraLife, ...items.map((i) => i.amount)]) : undefined;
 
   return (
-    <div className="rounded-2xl border border-line bg-white p-6 text-center shadow-[var(--shadow-soft)]">
+    // A size container, so the big figure scales with the card rather than the
+    // window: the card is a third of the Command Center's width but most of a
+    // phone's.
+    <div className="@container rounded-2xl border border-line bg-white p-6 text-center shadow-[var(--shadow-soft)]">
       <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.25em] text-ink-soft">{label}</p>
 
       {typeof total === "number" ? (
         <>
-          <p className="whitespace-nowrap font-display text-[clamp(2.25rem,11vw,4.5rem)] font-extrabold leading-none tabular-nums text-teal">
+          <p className="whitespace-nowrap font-display text-[clamp(1.75rem,16cqw,4.5rem)] font-extrabold leading-none tabular-nums text-teal">
             {money(total)}
           </p>
           <p className="mt-3 text-xs font-bold uppercase tracking-widest text-ink-soft sm:text-sm">
@@ -96,6 +106,7 @@ export function GamedayTotals({
           </Row>
         ))}
       </ul>
+      {children}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 # Modules
 
-- **Status:** Live in the repo; two modules saved (Extra Life Page donation totals, Gameday totals).
-- **Last reviewed:** 2026-11-15 (created: `/modules`, the Extra Life Page donation totals module, then the Gameday totals module)
+- **Status:** Live. Two modules saved. Gameday totals is on the homepage (hero and roster) and the Command Center; Extra Life Page donation totals is only on `/modules`.
+- **Last reviewed:** 2026-11-15 (created; then Gameday totals put everywhere the old block was)
 - **Covers:** `src/lib/siteModules.ts`, `src/pages/Modules.tsx`, `src/components/modules/*`, `src/lib/gamedayTotals.ts`
 
 ## Purpose
@@ -54,7 +54,27 @@ in place of the file's) and `refreshMs`. The sum is done in cents, so it never
 shows floating-point dust. The grand total waits for the Extra Life figure: a
 placeholder while it loads, and "the grand total can't be added up" plus a
 link if it fails. It never shows a total that is missing the biggest part. The
-breakdown rows show either way.
+breakdown rows show either way. `children` go at the bottom of the card (the
+Command Center puts its Donate Now and Team page links there).
+
+**Where Gameday totals is used (2026-11-15).** The owner asked for it
+"everywhere the old module was, for last minute announcements". So it replaced
+the Team Total / Goal / Participants block in all three places:
+
+- under the hero countdown, in `TeamProgressCard` in `Hero.tsx`, read once;
+- at the top of the roster section, in `ActiveRoster.tsx`, read once;
+- on the Command Center, in `GamedayDonations.tsx`, re-read every minute.
+
+The live homepage (Gameday Week Runup) therefore shows it twice, as it did the
+old block. To go back, put `TeamProgress` (or `<ExtraLifeDonationTotals />`)
+back in those three files.
+
+**The big figure sizes to its card, not the window.** The card is an
+`@container`, and the figure is `clamp(1.75rem, 16cqw, 4.5rem)`. On the
+Command Center the card is two-fifths of the row at `lg`, about 333px inside at
+1024px wide. A window-based size (`11vw`, capped at 72px) would make
+"$48,208.05" about 383px wide there, which overflows. Measured with Nunito: it
+fits its card on the homepage and the Command Center from 320px to 1440px.
 
 ## Decisions and gotchas
 
@@ -76,6 +96,9 @@ breakdown rows show either way.
 
 ## Manual steps and open questions
 
+- **When do the homepage and Command Center go back** to the plain Extra
+  Life total (or something else)? The owner's call; see Open threads in
+  CLAUDE.md.
 - **Gameday totals amounts are typed in, not read from anywhere.** To change
   one (the silent auction payouts will come in, for instance), edit
   `src/lib/gamedayTotals.ts` and push. List only money that is **not** on the

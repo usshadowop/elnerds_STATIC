@@ -1,7 +1,7 @@
 # Game Day hero states
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-14 (a `gameday` variant for the Gameday Week Runup homepage template)
+- **Last reviewed:** 2026-11-15 (the card under the countdown is now the Gameday totals module)
 - **Covers:** `src/hooks/use-countdown.ts`, `src/components/site/Hero.tsx`, `src/hooks/use-now.ts`
 
 ## Purpose
@@ -33,7 +33,7 @@ on the day.
   the pulsing chip links to `/prizes` ("Prizes & silent auctions"), with a teal
   "Parking & way in" chip and the blue schedule chip beside it; no team photo
   (the carousel); the countdown card **disappears** once the marathon ends
-  (no `GrandTotalCard`), and the team fundraising card stays in every phase.
+  (no `GrandTotalCard`), and the totals card under it stays in every phase.
   The event pills, ticker, Command Center button and button row are the same.
 
 ## How it works
@@ -130,3 +130,12 @@ schedule-archival), not to `#schedule`.
   while the team fetch is in flight, nothing on a failed fetch, and is
   skipped in the `after` phase, where the grand-total card already shows
   the total.
+- **Since 2026-11-15 that card is the Gameday totals module**
+  (`src/components/modules/GamedayTotals.tsx`, site-modules card): one grand
+  total (Extra Life page plus the event's other money) with the parts listed.
+  The owner asked for it everywhere the Team Total / Goal / Participants block
+  was, for last-minute announcements. `TeamProgressCard` keeps its name and
+  just places the module. Unlike the old card, it shows a placeholder while
+  loading and a "See it on Extra Life" link on a failed fetch, rather than
+  nothing. The standard hero still skips it in the `after` phase, and its
+  `GrandTotalCard` still shows the Extra Life total alone.

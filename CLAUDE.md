@@ -55,6 +55,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-11-14 | Owner | Send a photo of all three donation chips. The graphics (`DonationChips.tsx`, `public/email/assets/chip-*.png`) were drawn from the white "10" only; the blue and red colours are guesses. |
 | 2026-11-14 | Owner (decision) | When should the homepage go back from Gameday Week Runup to Standard Display (`ACTIVE_HOME_TEMPLATE` in `src/lib/homeTemplates.ts`)? The owner said a second round of changes to Gameday Week Runup is coming (not yet sent as of 2026-11-15). |
 | 2026-11-14 | Owner | Send the last-minute Game Day email (`email/elnerds-gameday-parking-prizes.html`), then archive it per `email/archive/README.md`. |
+| 2026-11-15 | Owner | Gameday totals (homepage hero, roster, Command Center) adds four hand-typed amounts to the live Extra Life total: Chips $580, Cash bucket $175, Donation matching $1,125, Silent auction remaining payouts $910 (`src/lib/gamedayTotals.ts`). Send updates as they change (the auction payouts especially). Confirm none is also on the Extra Life page, which would count it twice. Then decide when the site goes back to the plain Extra Life total. |
 | 2026-11-15 | Owner (decision) | Two branches hold only unmerged handoff notes (no code): `claude/fervent-bell-6kqzzg` (2026-11-11: the Placemaker print sheet, Drive connector accounts) and `claude/stoic-babbage-l4k1va` (2026-11-12/13: leadership flyers and lanyard passes). Their print facts were checked in Drive and are in the prizes card; merge whatever else is wanted, then delete both branches. |
 
 Rules that keep this honest:
@@ -86,9 +87,10 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   the owner's Game Day 2026 figures (Chips $580, Cash bucket $175, Donation
   matching $1,125, Silent auction remaining payouts $910), in
   `src/lib/gamedayTotals.ts`. Read $48,208.05 when built.
-- The hero still has its own `TeamProgressCard`; the homepage didn't change.
-- Built on `claude/gracious-cray-vlq13h`. Check `git log origin/main` to see
-  whether it has been merged and deployed.
+- Then, at the owner's word ("for last minute announcements"), Gameday totals
+  replaced the old block everywhere: hero, roster, Command Center. The
+  Command Center column needed the figure sized by container query (`cqw`).
+  Shipped live (squash-merged to `main`).
 
 *Session of 2026-11-13 to 2026-11-15 (printed Game Day signs; squash-merged
 to `main` 2026-11-15):*
@@ -264,7 +266,7 @@ already there.
 - `src/components/site/DonationTicker.tsx` — the "Latest" donations strip
   under the countdown. The number shown (6) is set where the ticker calls
   `useExtraLifeDonations`. The Command Center's own list of the 10 latest,
-  beside the team total, is `src/components/site/GamedayDonations.tsx`.
+  beside the Gameday totals, is `src/components/site/GamedayDonations.tsx`.
 - `src/pages/Incentives.tsx` (`/incentives`) — the Game Day donation
   incentives ($75 / $25 / $5 from the leadership team, the $50 food
   threshold, the Platinum tip), mirrored from the Sep and Oct 2026 emails
@@ -296,7 +298,10 @@ already there.
   its progress bar, live from DonorDrive; and **Gameday totals**
   (`GamedayTotals`), one grand total of that live figure plus hand-typed
   amounts that aren't on the Extra Life page (`src/lib/gamedayTotals.ts`; never
-  list anything also entered there). See the site-modules card.
+  list anything also entered there). **Since 2026-11-15 Gameday totals is live
+  everywhere the old Team Total / Goal / Participants block was**: under the
+  hero countdown, atop the roster and on the Command Center. See the
+  site-modules card.
 - `src/pages/Parking.tsx` (`/parking`, 2026-11-14): where to park for Game
   Day (the owner's annotated map) and a photo of each step from the lot to
   Improving, suite 180. `src/pages/Prizes.tsx` (`/prizes`, 2026-11-14): the

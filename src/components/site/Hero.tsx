@@ -8,7 +8,7 @@ import { getRsvpEvent } from "@/lib/rsvpEvents";
 import { EVENTS, eventAnchor, splitByDate } from "@/lib/scheduleEvents";
 import { StyledButton } from "@/components/site/StyledButton";
 import { DonationTicker } from "@/components/site/DonationTicker";
-import { TeamProgress, TeamProgressSkeleton } from "@/components/site/TeamProgress";
+import { GamedayTotals } from "@/components/modules/GamedayTotals";
 
 // Game Day's bounds come from the marathon's RSVP entry, so the date is written
 // down once. The fallbacks only matter if that event is ever renamed away.
@@ -120,15 +120,13 @@ function GrandTotalCard() {
   );
 }
 
+/** The Gameday totals module (src/components/modules/GamedayTotals.tsx) in
+ *  the hero's column. Until 2026-11-15 this was the Team Total / Goal /
+ *  Participants block; that one is saved as a module on /modules. */
 function TeamProgressCard() {
-  const { team, isLoading, error } = useExtraLifeTeam();
-  if (error || (!isLoading && !team)) return null;
   return (
-    <div className="mx-auto mb-10 max-w-2xl rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-soft)]">
-      <p className="mb-4 text-[10px] font-extrabold uppercase tracking-[0.25em] text-ink-soft">
-        Team fundraising
-      </p>
-      {team ? <TeamProgress team={team} /> : <TeamProgressSkeleton />}
+    <div className="mx-auto mb-10 max-w-2xl">
+      <GamedayTotals />
     </div>
   );
 }
@@ -323,9 +321,10 @@ export function Hero({ variant = "standard" }: { variant?: HeroVariant }) {
           </div>
         )}
 
-        {/* The team's fundraising progress — the same block as the Team
-            section's summary card — right under the countdown. Skipped after
-            the marathon, when the grand-total card above already says it. */}
+        {/* The Gameday totals (Extra Life page plus the event's other money),
+            the same module as the roster's and the Command Center's, right
+            under the countdown. The standard hero skips it after the marathon,
+            when its grand-total card stands there instead. */}
         {(gameday || c.phase !== "after") && (
           <TeamProgressCard />
         )}

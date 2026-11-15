@@ -1,15 +1,16 @@
-// The Command Center's fundraising section, under the streams: the team total
-// with its goal bar (the same `TeamProgress` block as the home page) beside a
-// list of the latest donations. Both read DonorDrive and refresh every minute,
-// so a page left open on a second monitor keeps counting up.
+// The Command Center's fundraising section, under the streams: the Gameday
+// totals module (the same one as the home page: the Extra Life total plus the
+// event's other money) beside a list of the latest donations. Both read
+// DonorDrive and refresh every minute, so a page left open on a second monitor
+// keeps counting up. Until 2026-11-15 the left card was the team total with
+// its goal bar (`TeamProgress`).
 
 import { ExternalLink, Heart } from "lucide-react";
 
+import { GamedayTotals } from "@/components/modules/GamedayTotals";
 import { LoadingBox } from "@/components/site/LoadingBox";
-import { TeamProgress, TeamProgressSkeleton } from "@/components/site/TeamProgress";
 import { useNow } from "@/hooks/use-now";
 import { useExtraLifeDonations, type ExtraLifeDonation } from "@/hooks/useExtraLifeDonations";
-import { useExtraLifeTeam } from "@/hooks/useExtraLifeTeam";
 import { money, timeAgo } from "@/lib/donationFormat";
 
 const REFRESH_MS = 60_000;
@@ -47,48 +48,33 @@ function DonationRow({ d, now }: { d: ExtraLifeDonation; now: number }) {
 }
 
 export function GamedayDonations({ donateUrl }: { donateUrl: string }) {
-  const { team, isLoading: teamLoading } = useExtraLifeTeam(REFRESH_MS);
   const { donations, isLoading: donationsLoading } = useExtraLifeDonations(LIST_LENGTH, REFRESH_MS);
   const now = useNow(30_000);
 
   return (
     <div className="grid gap-4 lg:grid-cols-5">
-      {/* Team total -------------------------------------------------------- */}
-      <div className="flex flex-col rounded-2xl border border-line bg-paper p-6 shadow-[var(--shadow-soft)] lg:col-span-2 lg:self-start">
-        <p className="mb-5 text-[10px] font-extrabold uppercase tracking-[0.25em] text-ink-soft">
-          Team fundraising
-        </p>
-        {/* A failed refresh keeps the last total; only a first fetch that
-            never landed shows the fallback link. */}
-        {team ? (
-          <TeamProgress team={team} />
-        ) : teamLoading ? (
-          <TeamProgressSkeleton />
-        ) : (
-          <p className="text-sm font-bold text-ink-soft">
-            The team total isn&rsquo;t loading right now.{" "}
-            <a href={TEAM_PAGE_URL} target="_blank" rel="noreferrer" className="text-teal underline">
-              See it on Extra Life
+      {/* Gameday totals ---------------------------------------------------- */}
+      {/* A failed refresh keeps the last total; the module handles loading and
+          a first read that never landed. */}
+      <div className="lg:col-span-2 lg:self-start">
+        <GamedayTotals refreshMs={REFRESH_MS}>
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 pt-6">
+            <a
+              href={donateUrl}
+              className="inline-block rounded-full bg-orange px-7 py-3.5 text-sm font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
+            >
+              Donate Now
             </a>
-            .
-          </p>
-        )}
-        <div className="mt-auto flex flex-wrap items-center justify-center gap-x-5 gap-y-3 pt-6">
-          <a
-            href={donateUrl}
-            className="inline-block rounded-full bg-orange px-7 py-3.5 text-sm font-extrabold uppercase tracking-wider text-white shadow-[var(--shadow-soft)] transition-all hover:brightness-110"
-          >
-            Donate Now
-          </a>
-          <a
-            href={TEAM_PAGE_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-extrabold text-teal transition-colors hover:text-teal-bright"
-          >
-            Team page <ExternalLink className="size-3.5" />
-          </a>
-        </div>
+            <a
+              href={TEAM_PAGE_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-extrabold text-teal transition-colors hover:text-teal-bright"
+            >
+              Team page <ExternalLink className="size-3.5" />
+            </a>
+          </div>
+        </GamedayTotals>
       </div>
 
       {/* Latest donations -------------------------------------------------- */}

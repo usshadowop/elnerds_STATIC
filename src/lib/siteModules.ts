@@ -33,7 +33,7 @@ export const SITE_MODULES: SiteModule[] = [
     savedOn: "2026-11-15",
     source: "src/components/modules/ExtraLifeDonationTotals.tsx",
     usage: "<ExtraLifeDonationTotals /> (optional: label, refreshMs)",
-    usedOn: "The same figures are under the homepage countdown, in the roster section and on the Command Center.",
+    usedOn: "Only here since 2026-11-15, when Gameday totals took its place under the homepage countdown, in the roster section and on the Command Center.",
     width: "card",
   },
   {
@@ -43,8 +43,8 @@ export const SITE_MODULES: SiteModule[] = [
       "One grand total for the event: our Extra Life team page (live) plus the money raised that isn't on that page, with each part listed underneath. The extra amounts are typed into src/lib/gamedayTotals.ts. The total only shows once the Extra Life figure has loaded.",
     savedOn: "2026-11-15",
     source: "src/components/modules/GamedayTotals.tsx, amounts in src/lib/gamedayTotals.ts",
-    usage: "<GamedayTotals /> (optional: label, items, refreshMs)",
-    usedOn: "Only here so far.",
+    usage: "<GamedayTotals /> (optional: label, items, refreshMs, children)",
+    usedOn: "Under the homepage countdown, at the top of the roster section, and on the Command Center (/gameday) beside the latest donations.",
     width: "card",
   },
 ];
