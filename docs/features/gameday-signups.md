@@ -1,7 +1,7 @@
 # Game Day event sign-ups (`/gameday_events`)
 
 - **Status:** Live 2026-11-04 (site and `Code.gs`). The `Gameday Signups` tab exists and is empty, so the page says "Sign-ups open soon" until rows are typed.
-- **Last reviewed:** 2026-11-13 ("Loading the events…" box now has the shared `LoadingBox` spinner; nothing else changed)
+- **Last reviewed:** 2026-11-14 (`/leadership_DandD` shows the stream loading spinner until the sheet read settles; nothing else changed)
 - **Covers:** `src/pages/GamedayEvents.tsx`, `src/pages/LeadershipDnD.tsx`, `src/lib/gamedaySignup.ts`
 
 ## Purpose
@@ -66,7 +66,10 @@ so the page and Event Details always agree.
   `/leadership_DandD` (`LeadershipDnD.tsx`) is the leadership team's D&D
   one-shot: it embeds the `Gameday Streams` row whose name mentions
   "Leadership" or "D&D" (needs an Embed URL; until then it says "Goes live at
-  9:30 PM on Game Day. Game starts at 10 PM.").
+  9:30 PM on Game Day. Game starts at 10 PM."). Until the first sheet read
+  settles, and while the player loads, it shows the same "Loading the
+  stream…" spinner as the Command Center tiles (`StreamPlayer.tsx`, see
+  gameday-content), so that note never flashes up before a real stream.
 - **A prize box** (2026-11-10): a line in the Details cell that starts
   `Prize:` or `Grand prize:` (any `<words> prize:`) is taken out of the
   details and shown as a pink gift-icon box under the event, on

@@ -6,7 +6,7 @@
 // changed mid-marathon without a deploy. See src/lib/gamedayContent.ts; the
 // copy that ships with the site is the fallback when that read fails.
 
-import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink, Handshake, MapPin, Navigation, Play } from "lucide-react";
+import { Radio, Video, CalendarClock, Gift, ArrowRight, ExternalLink, Handshake, HandHeart, MapPin, Navigation, Play } from "lucide-react";
 
 import { sponsorLogos } from "@/lib/sponsorLogos";
 import stillPc from "@/assets/carousel/event-5.jpg";
@@ -15,11 +15,15 @@ import stillVr from "@/assets/carousel/event-4.jpg";
 
 // Stand-in stills for stream slots that have no embed yet, so the page reads
 // as a demo rather than a row of empty boxes. A real Embed URL replaces one.
+// Until the first sheet read settles every tile shows a loading spinner
+// instead, so a real stream never flashes up as a sample first.
 const SAMPLE_STILLS = [stillPc, stillCrowd, stillVr];
 
 import { ResponsiveGamedaySchedule } from "@/components/site/GamedayAgenda";
+import { GamedayDonations } from "@/components/site/GamedayDonations";
 import { GamedayEventDetails } from "@/components/site/GamedayEventDetails";
 import { LoadingBox } from "@/components/site/LoadingBox";
+import { StreamLoading, StreamPlayer } from "@/components/site/StreamPlayer";
 import { PlacemakerCarouselTile } from "@/components/site/PlacemakerCarousel";
 import { useGameday } from "@/hooks/use-countdown";
 import { useGamedayContent } from "@/hooks/use-gameday-content";
@@ -217,13 +221,10 @@ export function CommandCenter() {
                   className="overflow-hidden rounded-2xl border border-line bg-paper shadow-[var(--shadow-soft)]"
                 >
                   <div className="relative flex aspect-video items-center justify-center border-b border-line bg-ink/[0.03]">
-                    {stream.embedUrl ? (
-                      <iframe
-                        src={stream.embedUrl}
-                        title={stream.name}
-                        allowFullScreen
-                        className="size-full"
-                      />
+                    {!settled ? (
+                      <StreamLoading />
+                    ) : stream.embedUrl ? (
+                      <StreamPlayer src={stream.embedUrl} title={stream.name} />
                     ) : (
                       <>
                         <img
@@ -263,6 +264,12 @@ export function CommandCenter() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Fundraising: team total and latest donations, live from DonorDrive */}
+          <div className="mb-16">
+            <SectionHeading icon={HandHeart} label="Donations" title="Team total & latest donations" />
+            <GamedayDonations donateUrl={DONATE_URL} />
           </div>
 
           {/* Run of show ---------------------------------------------------- */}

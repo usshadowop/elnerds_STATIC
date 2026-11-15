@@ -1,7 +1,7 @@
 # Prizes, donation tokens and printed Game Day signs
 
 - **Status:** Live. `/prizes` and the donation tokens since 2026-11-14 (Game Day); the printed table numbers and poker chip sign were made and printed the same day
-- **Last reviewed:** 2026-11-14
+- **Last reviewed:** 2026-11-15
 - **Covers:** `src/pages/Prizes.tsx`, `src/components/site/DonationChips.tsx`, `public/email/assets/chip-*.png`, `branding/print/*`, `src/assets/Table numbers/*`, `src/assets/Poker chips/*`
 
 ## Purpose
@@ -42,6 +42,16 @@ Everything about winning things at Game Day, in one place:
 - `src/assets/Poker chips/poker-chips-sign.pdf`: the printed sign.
 - Nothing in `src/assets/*/` above is imported, so none of it ships in the
   site bundle. They live there because the owner asked for them there.
+- **Printed pieces that exist only in Drive.** Other sessions made these;
+  nothing in this repo generates them. Both were checked in Drive on
+  2026-11-15.
+  - Leadership donation flyers (8.5×11) and lanyard passes (2.5×4), one of
+    each for the seven leaders, with a QR code to each person's Extra Life
+    page. Folder id `166HjV54d-DCIwzavLfotO8v9F1MhT1-D`, with a "Print and
+    cut sheets" subfolder.
+  - "Placemaker Hospitality and restaurants - print (landscape letter)", as a
+    PDF and a PNG (the five restaurants, then Placemaker), plus one PDF per
+    restaurant.
 
 ## How it works
 
@@ -133,6 +143,11 @@ with Nunito embedded, so they stay sharp at any size.
 - **Reprinting needs** Python 3, Node, and Playwright's Chromium
   (`require('playwright')`). In the Claude cloud sandbox they're already
   installed. Elsewhere, `npx playwright install chromium` once.
+- **The blue and red chip colours are guesses.** The drawing copies the
+  white "10" token only. A photo of all three is an open thread in CLAUDE.md.
+  If the colours change, fix `CHIPS` in `DonationChips.tsx`, re-shoot the
+  email PNGs, update `CHIPS` in `make_poker_chips_sign.py` and reprint the
+  sign.
 - **Who handles the hallway envelope container** and what "processing" means
   isn't written down anywhere in the repo. The sign says only what the owner
   said.

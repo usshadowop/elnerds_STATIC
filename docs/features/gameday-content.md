@@ -1,8 +1,8 @@
 # Command Center content pipeline
 
 - **Status:** Live. `Code.gs` was redeployed 2026-09-25, and the four tabs exist
-- **Last reviewed:** 2026-11-14 (Warhammer 40k Open Play dropped from the sheet and the fallback; mechanism unchanged)
-- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`, `src/components/site/LoadingBox.tsx`
+- **Last reviewed:** 2026-11-15 (`LoadingBox` users listed; nothing else changed)
+- **Covers:** `src/lib/gamedayContent.ts`, `src/hooks/use-gameday-content.ts`, `src/pages/CommandCenter.tsx`, `src/pages/GamedayCountdown.tsx`, `src/components/site/GamedaySchedule.tsx`, `src/components/site/GamedayAgenda.tsx`, `src/components/site/GamedayEventDetails.tsx`, `src/components/site/LoadingBox.tsx`, `src/components/site/StreamPlayer.tsx`
 
 ## Routing (since 2026-11-10)
 
@@ -42,6 +42,12 @@ a spreadsheet during the event.
   with a "Prize:" line, shown with this card's `PrizeBox`). The `/gameday`
   countdown links to both under the date line, and the free-ticket sentence
   above Event Details (`GamedayEventDetails.tsx`) links to `/prizes`.
+  **Under the streams** (2026-11-14, the owner's ask on Game Day) is a
+  "Team total & latest donations" section, `GamedayDonations` in
+  `src/components/site/GamedayDonations.tsx`: the team total, goal and
+  progress bar (the home page's `TeamProgress` block) with a Donate Now
+  button, beside the 10 latest donations. Both come from DonorDrive, not the
+  sheet, and refresh every minute; the extra-life-api card has the details.
 - `src/lib/gamedayContent.ts` — types, the shipped fallback copy, `fetch` and
   the response parser.
 - `src/hooks/use-gameday-content.ts` — the polling hook.
@@ -78,6 +84,18 @@ A stream tile with a blank **Embed URL** shows a sample still (an event
 photo from `src/assets/carousel/`) with a "Live" badge, a "Sample" tag and a
 play button, so the demo reads as a stream wall; fill it in and the tile
 becomes a live player.
+
+**Stream tiles never flash a sample before a real stream** (2026-11-14, the
+owner's ask once Main Stage had a Twitch player). Until the first sheet read
+settles, every tile shows a teal spinner and "Loading the stream…"
+(`StreamLoading` in `StreamPlayer.tsx`, styled like `LoadingBox`) instead of
+the sample still; the shipped fallback has no Embed URLs, so without this the
+Twitch tile showed a sample for the few seconds Apps Script takes. Once a tile
+has an Embed URL, `StreamPlayer` keeps the spinner over the iframe until its
+`load` event, and brings it back if the URL changes. That event means the
+platform's player page has loaded, not that video is playing. A tile with no
+Embed URL still gets its sample still after the read settles, and so does
+every tile if the read fails.
 
 - **Drawing-ticket blurb** (2026-11-10): a fixed line under the "Event Details" heading in `GamedayEventDetails.tsx` ("All entrants into any event get 1 free prize drawing ticket, and the winner gets 5 additional tickets."). Hard-coded, not from the sheet.
 
@@ -162,9 +180,14 @@ becomes a live player.
   swapping it a second later (the flash PR #76 was written to stop).
   The placeholder is `LoadingBox.tsx`: the dashed box with a teal spinning
   arc (lucide `LoaderCircle`) over the words, still for reduced motion.
-  `/gameday_events` uses it too for "Loading the events…". The owner picked
-  it from four mockups on 2026-11-13 (also a team-colour ring, a rolling d20
-  and a ticking clock).
+  The owner picked it from four mockups on 2026-11-13 (also a team-colour
+  ring, a rolling d20 and a ticking clock). **It is the site's one loading
+  look; use it for any new loading state.** Users as of 2026-11-15: both
+  schedules (home and Command Center), `/gameday_events` ("Loading the
+  events…"), `/prizes` ("Loading event prizes…") and the Command Center's
+  donations list (`GamedayDonations.tsx`, extra-life-api card). The stream
+  tiles can't use the box (they need the spinner over a 16:9 frame), so
+  `StreamLoading` in `StreamPlayer.tsx` copies its spinner and text.
 
 - **The schedule is laid out like the printed 2025 run of show**, not a
   list: a navy Time / Event header, red hourly pills, lanes of sky-blue

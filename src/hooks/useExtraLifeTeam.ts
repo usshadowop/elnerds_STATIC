@@ -64,7 +64,16 @@ interface UseExtraLifeTeamResult {
   error: string | null;
 }
 
-export function useExtraLifeTeam(): UseExtraLifeTeamResult {
+/**
+ * The team record and its participants. Fetched once by default; pass
+ * `refreshMs` to re-fetch on an interval (the Command Center does, so its total
+ * keeps up through the marathon). A failed refresh keeps the last good data.
+ *
+ * Like `/donations`, these endpoints send `cache-control: max-age=14400`, so
+ * the fetches use `cache: "no-store"` or a returning visitor would see a total
+ * up to four hours old.
+ */
+export function useExtraLifeTeam(refreshMs?: number): UseExtraLifeTeamResult {
   const [team, setTeam] = useState<ExtraLifeTeam | null>(null);
   const [participants, setParticipants] = useState<ExtraLifeParticipant[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -75,12 +84,9 @@ export function useExtraLifeTeam(): UseExtraLifeTeamResult {
 
     async function fetchData() {
       try {
-        setIsLoading(true);
-        setError(null);
-
         const [teamRes, participantsRes] = await Promise.all([
-          fetch(`${BASE_URL}/teams/${TEAM_ID}`, { signal: controller.signal }),
-          fetch(`${BASE_URL}/teams/${TEAM_ID}/participants`, { signal: controller.signal }),
+          fetch(`${BASE_URL}/teams/${TEAM_ID}`, { signal: controller.signal, cache: "no-store" }),
+          fetch(`${BASE_URL}/teams/${TEAM_ID}/participants`, { signal: controller.signal, cache: "no-store" }),
         ]);
 
         if (!teamRes.ok || !participantsRes.ok) {
@@ -99,6 +105,7 @@ export function useExtraLifeTeam(): UseExtraLifeTeamResult {
 
         setTeam(teamData);
         setParticipants(participantsData);
+        setError(null);
       } catch (err) {
         if (err instanceof DOMException && err.name === "AbortError") return;
         setError(err instanceof Error ? err.message : "An unknown error occurred");
@@ -108,9 +115,13 @@ export function useExtraLifeTeam(): UseExtraLifeTeamResult {
     }
 
     fetchData();
+    const id = refreshMs ? window.setInterval(fetchData, refreshMs) : undefined;
 
-    return () => controller.abort();
-  }, []);
+    return () => {
+      window.clearInterval(id);
+      controller.abort();
+    };
+  }, [refreshMs]);
 
   return { team, participants, isLoading, error };
 }
