@@ -1,5 +1,5 @@
 import { useExtraLifeTeam, type ExtraLifeParticipant } from "@/hooks/useExtraLifeTeam";
-import { TeamProgress, TeamProgressSkeleton } from "@/components/site/TeamProgress";
+import { GamedayTotals } from "@/components/modules/GamedayTotals";
 
 /* ───── currency formatter ───── */
 const money = (n: number) =>
@@ -151,19 +151,12 @@ export function ActiveRoster() {
           </p>
         </div>
 
-        {/* team summary stats */}
-        {!isLoading && team && (
-          <div className="mx-auto mb-12 max-w-2xl rounded-3xl border border-line bg-cream p-6 sm:p-8">
-            <TeamProgress team={team} />
-          </div>
-        )}
-
-        {/* loading skeleton */}
-        {isLoading && (
-          <div className="mx-auto mb-12 max-w-2xl rounded-3xl border border-line bg-cream p-6 sm:p-8">
-            <TeamProgressSkeleton />
-          </div>
-        )}
+        {/* The Gameday totals module, which reads the team total itself and
+            has its own loading state. Was the Team Total / Goal / Participants
+            block until 2026-11-15. */}
+        <div className="mx-auto mb-12 max-w-2xl">
+          <GamedayTotals />
+        </div>
 
         {/* participant grid */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">

@@ -7,6 +7,7 @@ import { Home } from "@/pages/Home";
 import { Incentives } from "@/pages/Incentives";
 import { LeadershipDnD } from "@/pages/LeadershipDnD";
 import { Library } from "@/pages/Library";
+import { Modules } from "@/pages/Modules";
 import { MtgInterest } from "@/pages/MtgInterest";
 import { Newsletter } from "@/pages/Newsletter";
 import { Parking } from "@/pages/Parking";
@@ -43,6 +44,7 @@ export default function App() {
   if (path === "incentives") page = <Incentives />;
   if (path === "library") page = <Library />;
   if (path === "leadership_DandD") page = <LeadershipDnD />;
+  if (path === "modules" || path === "module") page = <Modules />;
   if (path === "mtginterest") page = <MtgInterest />;
   if (path === "newsletter") page = <Newsletter />;
   if (path === "parking") page = <Parking />;

@@ -1,7 +1,7 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-14 (Command Center gets a live team total and donation list; team fetches now skip the browser cache)
+- **Last reviewed:** 2026-11-15 (the Gameday totals module replaces the Team Total / Goal / Participants block in the hero, roster and Command Center)
 - **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/components/site/GamedayDonations.tsx`, `src/lib/donationFormat.ts`, `src/hooks/useExtraLifeIncentives.ts`, `src/lib/sponsorLogos.ts`, `src/lib/placemakerRestaurants.ts`, `src/components/site/PlacemakerCarousel.tsx`
 
 ## Purpose
@@ -21,22 +21,28 @@ someone donates.
 - `src/components/site/DonationTicker.tsx` — the scrolling "Latest" strip
   under the hero countdown (keyframes in `src/styles.css`).
 - `src/components/site/GamedayDonations.tsx` (2026-11-14) — the Command
-  Center's "Team total & latest donations" section, under the streams: a card
-  with `TeamProgress`, a Donate Now button and a link to the team page, beside
+  Center's "Team total & latest donations" section, under the streams: the
+  Gameday totals module (since 2026-11-15; `TeamProgress` before that) with a
+  Donate Now button and a link to the team page as its `children`, beside
   a list of the 10 latest donations (name, "for" recipient, amount, time ago,
   message clamped to two lines). Both halves re-fetch every minute. The total
   card sizes to its content at `lg` (`self-start`) rather than stretching
-  beside the list. Loading shows the skeleton and a `LoadingBox`; a first
-  fetch that fails shows a "See it on Extra Life" link or "No donations to
-  show right now", and a failed refresh keeps what's on screen.
+  beside the list. Loading shows the module's placeholder and a `LoadingBox`;
+  a first fetch that fails shows the module's "See it on Extra Life" link or
+  "No donations to show right now", and a failed refresh keeps what's on
+  screen.
 - `src/lib/donationFormat.ts` — `money()` and `timeAgo()`, shared by the
   ticker and that list.
 - `src/components/site/TeamProgress.tsx` — the team-summary block: three
   figures (total, goal, participants) and the progress bar, plus a
-  skeleton. Rendered inside the roster section's cream card and, since
-  2026-11-07, in a white "Team fundraising" card under the hero countdown
-  (`TeamProgressCard` in `Hero.tsx`, hidden after the marathon when the
-  grand-total card says it, and hidden on a failed fetch).
+  skeleton. It was in the roster section's cream card, under the hero
+  countdown (from 2026-11-07) and on the Command Center (from 2026-11-14).
+  **On 2026-11-15, the owner had the Gameday totals module
+  (`src/components/modules/GamedayTotals.tsx`: the Extra Life total plus the
+  event's other money) put in all three places instead**, for last-minute
+  Game Day announcements. `TeamProgress` is now shown only inside the "Extra
+  Life Page donation totals" module on `/modules`, so it can come back. See
+  the site-modules card.
 - `src/components/site/ActiveRoster.tsx` — the roster section, with skeleton
   placeholders while loading. The team-summary figures size with `clamp(1.125rem, 5.5vw, 1.875rem)` and
   `whitespace-nowrap`; a fixed `text-2xl` made "$17,380" and "$60,000" run
@@ -112,13 +118,12 @@ stops moving and becomes a plain horizontal scroll.
   the first fetch fails. A later failed refresh keeps the last good list.
   `useExtraLifeTeam` does the same since it learned to refresh: it no longer
   resets to loading on each fetch, and keeps the last good team on a failed
-  one (with `error` set, which the hero's card still treats as "hide").
-- `useExtraLifeTeam` is called independently by `ActiveRoster` and by the
-  hero's `TeamProgressCard` (all year since 2026-11-07; before that only the
-  `after`-phase grand-total card), so that's two fetches of the same data
-  on one page. Harmless at this size. The Command Center's
-  `GamedayDonations` is a third caller, on its own page, and passes
-  `refreshMs` (60 s) so its total keeps up; the others fetch once.
+  one (with `error` set).
+- `useExtraLifeTeam` is called independently by `ActiveRoster` and by each
+  Gameday totals module (two on the homepage: hero and roster), so that's
+  three fetches of the same data on the homepage. Harmless at this size. The
+  Command Center's module passes `refreshMs` (60 s) so its total keeps up; the
+  others fetch once.
 - **The team endpoints also send `max-age=14400`**, so since 2026-11-14
   `useExtraLifeTeam` fetches with `cache: "no-store"` too. Before that, a
   visitor returning within four hours saw the total from their first visit.
