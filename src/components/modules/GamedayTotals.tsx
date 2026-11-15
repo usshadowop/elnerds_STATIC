@@ -7,12 +7,17 @@
 // block everywhere that block was: under the hero countdown (Hero.tsx), atop
 // the roster (ActiveRoster.tsx) and on the Command Center (GamedayDonations.tsx).
 //
-// The grand total only shows once the Extra Life figure is in: while it loads
-// the card shows a placeholder, and if it can't be read the card says so
-// instead of showing a total that's short by the biggest part.
+// Line items are either typed-in amounts or live ones: a running total of
+// one Extra Life participant's gifts since a date (useExtraLifeGiftsSince).
+// Every live figure re-reads on the same `refreshMs` as the team total.
+//
+// The grand total only shows once every live figure is in: while they load
+// the card shows a placeholder, and if one can't be read the card says so
+// instead of showing a total that's short by part of the money.
 
 import type { ReactNode } from "react";
 
+import { useExtraLifeGiftsSince } from "@/hooks/useExtraLifeGiftsSince";
 import { useExtraLifeTeam } from "@/hooks/useExtraLifeTeam";
 import { money } from "@/lib/donationFormat";
 import { GAMEDAY_TOTAL_ITEMS, type GamedayTotalItem } from "@/lib/gamedayTotals";
@@ -22,6 +27,20 @@ const TEAM_PAGE_URL = "https://www.extra-life.org/team/73600";
 /** Adds dollar amounts without floating-point dust ($0.1 + $0.2). */
 function sumCents(amounts: number[]): number {
   return amounts.reduce((cents, a) => cents + Math.round(a * 100), 0) / 100;
+}
+
+function LiveTag() {
+  return (
+    // Inline, so on a narrow phone it wraps with the words.
+    <span className="ml-1 inline-block rounded-full bg-teal-soft px-2 py-0.5 align-middle text-[10px] font-extrabold uppercase leading-normal tracking-widest text-teal">
+      Live
+    </span>
+  );
+}
+
+/** A live figure: the amount, "…" while the first read is out, "—" if it failed. */
+function liveFigure(amount: number | undefined, isLoading: boolean) {
+  return typeof amount === "number" ? money(amount) : isLoading ? "…" : "—";
 }
 
 function Row({ label, note, children }: { label: ReactNode; note?: string; children: ReactNode }) {
@@ -46,14 +65,28 @@ export function GamedayTotals({
   label?: string;
   /** The money added to the Extra Life total. Defaults to src/lib/gamedayTotals.ts. */
   items?: GamedayTotalItem[];
-  /** Re-read the Extra Life total on this interval (ms). Omit to read it once. */
+  /** Re-read the live figures on this interval (ms). Omit to read them once. */
   refreshMs?: number;
   /** Anything to show at the bottom of the card, such as buttons. */
   children?: ReactNode;
 }) {
-  const { team, isLoading } = useExtraLifeTeam(refreshMs);
+  const { team, isLoading: teamLoading } = useExtraLifeTeam(refreshMs);
+  const liveSpecs = items.flatMap((i) => ("extraLifeGiftsSince" in i ? [i.extraLifeGiftsSince] : []));
+  const gifts = useExtraLifeGiftsSince(liveSpecs, refreshMs);
+
+  // Each line item's amount: typed in, or its live running total (undefined
+  // until read). Live items take their totals in the order they're listed.
+  let nextLive = 0;
+  const rows = items.map((item) => ({
+    item,
+    live: "extraLifeGiftsSince" in item,
+    amount: "amount" in item ? item.amount : gifts.amounts[nextLive++],
+  }));
+
   const extraLife = team?.sumDonations;
-  const total = typeof extraLife === "number" ? sumCents([extraLife, ...items.map((i) => i.amount)]) : undefined;
+  const parts = [extraLife, ...rows.map((r) => r.amount)];
+  const total = parts.every((a) => typeof a === "number") ? sumCents(parts as number[]) : undefined;
+  const isLoading = teamLoading || gifts.isLoading;
 
   return (
     // A size container, so the big figure scales with the card rather than the
@@ -78,7 +111,7 @@ export function GamedayTotals({
         </div>
       ) : (
         <p className="py-2 text-sm font-bold text-ink-soft">
-          The Extra Life total isn&rsquo;t loading right now, so the grand total can&rsquo;t be added up.{" "}
+          The Extra Life figures aren&rsquo;t loading right now, so the grand total can&rsquo;t be added up.{" "}
           <a href={TEAM_PAGE_URL} target="_blank" rel="noreferrer" className="text-teal underline">
             See it on Extra Life
           </a>
@@ -90,19 +123,27 @@ export function GamedayTotals({
         <Row
           label={
             <>
-              Extra Life team page{" "}
-              {/* Inline, so on a narrow phone it wraps with the words. */}
-              <span className="ml-1 inline-block rounded-full bg-teal-soft px-2 py-0.5 align-middle text-[10px] font-extrabold uppercase leading-normal tracking-widest text-teal">
-                Live
-              </span>
+              Extra Life team page <LiveTag />
             </>
           }
         >
-          {typeof extraLife === "number" ? money(extraLife) : isLoading ? "…" : "—"}
+          {liveFigure(extraLife, teamLoading)}
         </Row>
-        {items.map((item) => (
-          <Row key={item.label} label={item.label} note={item.note}>
-            {money(item.amount)}
+        {rows.map(({ item, live, amount }) => (
+          <Row
+            key={item.label}
+            label={
+              live ? (
+                <>
+                  {item.label} <LiveTag />
+                </>
+              ) : (
+                item.label
+              )
+            }
+            note={item.note}
+          >
+            {live ? liveFigure(amount, gifts.isLoading) : money(amount as number)}
           </Row>
         ))}
       </ul>

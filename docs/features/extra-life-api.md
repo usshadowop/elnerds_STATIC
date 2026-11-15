@@ -1,8 +1,8 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-15 (the Gameday totals module replaces the Team Total / Goal / Participants block in the hero, roster and Command Center)
-- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/components/site/GamedayDonations.tsx`, `src/lib/donationFormat.ts`, `src/hooks/useExtraLifeIncentives.ts`, `src/lib/sponsorLogos.ts`, `src/lib/placemakerRestaurants.ts`, `src/components/site/PlacemakerCarousel.tsx`
+- **Last reviewed:** 2026-11-15 (Gameday totals replaces the Team Total / Goal / Participants block; `useExtraLifeGiftsSince` adds live per-participant totals)
+- **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/hooks/useExtraLifeGiftsSince.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/components/site/GamedayDonations.tsx`, `src/lib/donationFormat.ts`, `src/hooks/useExtraLifeIncentives.ts`, `src/lib/sponsorLogos.ts`, `src/lib/placemakerRestaurants.ts`, `src/components/site/PlacemakerCarousel.tsx`
 
 ## Purpose
 
@@ -18,6 +18,11 @@ someone donates.
 - `src/hooks/useExtraLifeDonors.ts` — donor list.
 - `src/hooks/useExtraLifeDonations.ts` — the 6 most recent donations,
   re-fetched on an interval.
+- `src/hooks/useExtraLifeGiftsSince.ts` (2026-11-15) — a running total of one
+  participant's gifts since a date, from `/participants/<id>/donations`, for
+  the Gameday totals module's live lines (Pam's page, on another team). Pages
+  through DonorDrive's list, whose `offset` counts from 1. Details in the
+  site-modules card.
 - `src/components/site/DonationTicker.tsx` — the scrolling "Latest" strip
   under the hero countdown (keyframes in `src/styles.css`).
 - `src/components/site/GamedayDonations.tsx` (2026-11-14) — the Command
@@ -31,8 +36,11 @@ someone donates.
   a first fetch that fails shows the module's "See it on Extra Life" link or
   "No donations to show right now", and a failed refresh keeps what's on
   screen.
-- `src/lib/donationFormat.ts` — `money()` and `timeAgo()`, shared by the
-  ticker and that list.
+- `src/lib/donationFormat.ts` — `money()`, `timeAgo()` and
+  `parseDonorDriveDate()`, shared by the ticker, that list and Gameday totals.
+  `parseDonorDriveDate` turns "+0000" into "+00:00" and pads one- or two-digit
+  fractions of a second (DonorDrive sends `…:33.30+0000`) to three, both for
+  Safari.
 - `src/components/site/TeamProgress.tsx` — the team-summary block: three
   figures (total, goal, participants) and the progress bar, plus a
   skeleton. It was in the roster section's cream card, under the hero

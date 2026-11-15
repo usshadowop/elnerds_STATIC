@@ -1,7 +1,7 @@
 # Modules
 
 - **Status:** Live. Two modules saved. Gameday totals is on the homepage (hero and roster) and the Command Center; Extra Life Page donation totals is only on `/modules`.
-- **Last reviewed:** 2026-11-15 (created; then Gameday totals put everywhere the old block was)
+- **Last reviewed:** 2026-11-15 (created; Gameday totals put everywhere the old block was; then a live "New leadership additions" line from Pam's page)
 - **Covers:** `src/lib/siteModules.ts`, `src/pages/Modules.tsx`, `src/components/modules/*`, `src/lib/gamedayTotals.ts`
 
 ## Purpose
@@ -57,6 +57,39 @@ link if it fails. It never shows a total that is missing the biggest part. The
 breakdown rows show either way. `children` go at the bottom of the card (the
 Command Center puts its Donate Now and Team page links there).
 
+**Live line items (2026-11-15).** A line item can also be live:
+`extraLifeGiftsSince: { participantId, since }` is a running total of
+everything given to one Extra Life participant's page since `since`, read from
+DonorDrive by `useExtraLifeGiftsSince` (`src/hooks/useExtraLifeGiftsSince.ts`)
+and re-read on the module's `refreshMs`. It is shown with a "Live" tag like the
+team row.
+
+The first is **"New leadership additions"**: gifts to Pam van Muijen's page
+(participant 567979) from 2026-11-13 00:00 Central on. Pam is on the
+leadership team, but her page is on **another Extra Life team** (NCC-AL5, team
+74636), so none of it is in our team total and adding it double-counts
+nothing. When added it was $645 from 13 gifts, all on Nov 14–15, and the
+grand total read $49,169.57.
+
+- **Only use a live line for a page on another team.** Anyone on team 73600
+  is already in the team row.
+- DonorDrive lists donations newest first, and **its `offset` counts from 1**:
+  `offset=1` is the first gift, `offset=101` the 101st (checked 2026-11-15).
+  The hook pages by 100, drops repeats by `donationID` and stops at the first
+  gift older than `since`.
+- Gifts whose donor hid the amount have no `amount`, so they can't be added.
+  None of Pam's do: her 24 visible amounts add up to her page's `sumDonations`.
+- `parseDonorDriveDate` (`src/lib/donationFormat.ts`) pads fractional seconds
+  to three digits. DonorDrive sends some with two (`…:33.30+0000`), and
+  Safari's date parser only takes three. A date that still won't parse is left
+  out rather than guessed at.
+- The grand total waits for every live figure, not just the team's. If Pam's
+  page can't be read, her row shows "—" and the card says the grand total
+  can't be added up.
+- Checked with Pam's real gifts ($645), with a made-up 250-gift list (two pages
+  read, then stopped at the cutoff: $149, the hidden-amount gift left out), and
+  with her page failing.
+
 **Where Gameday totals is used (2026-11-15).** The owner asked for it
 "everywhere the old module was, for last minute announcements". So it replaced
 the Team Total / Goal / Participants block in all three places:
@@ -99,8 +132,9 @@ fits its card on the homepage and the Command Center from 320px to 1440px.
 - **When do the homepage and Command Center go back** to the plain Extra
   Life total (or something else)? The owner's call; see Open threads in
   CLAUDE.md.
-- **Gameday totals amounts are typed in, not read from anywhere.** To change
-  one (the silent auction payouts will come in, for instance), edit
+- **The four fixed Gameday totals amounts are typed in.** The live lines
+  ("New leadership additions") keep themselves current. To change a fixed one
+  (the silent auction payouts will come in, for instance), edit
   `src/lib/gamedayTotals.ts` and push. List only money that is **not** on the
   Extra Life page; anything also entered there (an offline donation) would be
   counted twice. Whether any of the four 2026 amounts is also on the Extra Life
