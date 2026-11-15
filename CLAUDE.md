@@ -39,7 +39,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 
 | Since | Waiting on | What |
 | --- | --- | --- |
-| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (all three filled on Game Day: Main Stage is the main event stream, `usshadowop`, since the evening of 2026-11-14; Second Feed is Kenyon Barnette's, `thtrteci`; Third Feed is Josh Oswald's, `joshoswald72`, moved down from Main Stage; names and descriptions are still the starter text), `Gameday Incentives` ("$—" starter rows) and `Gameday Notice` (banner cell empty); all three re-checked at the live endpoint 2026-11-10, still starter. `Gameday Run of Show` is done (15 rows since Warhammer 40k Open Play was deleted 2026-11-14, incl. MTG Cube and Mecha Chameleon). Check with `curl "$ENDPOINT?action=gameday"`. |
+| 2026-08-12 | Owner | Fill the remaining `Gameday *` tabs before Nov 14: `Gameday Streams` (all three filled on Game Day: Main Stage is the main event stream, `usshadowop`, since the evening of 2026-11-14; Second Feed is Kenyon Barnette's, `thtrteci`; Third Feed is Josh Oswald's, `joshoswald72`, moved down from Main Stage; names and descriptions are still the starter text), `Gameday Incentives` ("$—" starter rows) and `Gameday Notice` (banner cell empty); those two re-checked at the live endpoint 2026-11-15, still starter. `Gameday Run of Show` is done (15 rows since Warhammer 40k Open Play was deleted 2026-11-14, incl. MTG Cube and Mecha Chameleon). Check with `curl "$ENDPOINT?action=gameday"`. |
 | 2026-09-18 | Owner (decision) | Should `/gameday` go in the top nav for Game Day? It's link-only today, reachable from the hero button while the marathon runs. |
 | 2026-09-18 | Owner (decision) | Final-total card: keep the "Extra Life 2026 — Final Total" label and exact cents (`$3,179.74`), or drop to a bare rounded figure? |
 | 2026-09-18 | Someone | `/gillette-childrens-hospital` is routed in `App.tsx` but renders an empty `<main>` and nothing links to it. Build it or delete the route. Confirmed still a stub 2026-09-24. |
@@ -54,7 +54,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-11-12 | Owner | Donation flyers (8.5×11, one per leadership-team member, QR code to their Extra Life page; ids in `Team.tsx`, Grant Gray has none): waiting on the owner to say which 2025 photos show whom. Nothing is in the repo yet. |
 | 2026-11-14 | Owner | `/parking` doesn't say whether parking is free, or whether the Lakeside Center doors (card reader beside them) are unlocked on Saturday morning. Add both once known. |
 | 2026-11-14 | Owner | Send a photo of all three donation chips. The graphics (`DonationChips.tsx`, `public/email/assets/chip-*.png`) were drawn from the white "10" only; the blue and red colours are guesses. |
-| 2026-11-14 | Owner (decision) | When should the homepage go back from Gameday Week Runup to Standard Display (`ACTIVE_HOME_TEMPLATE` in `src/lib/homeTemplates.ts`)? The owner also has a second round of changes to Gameday Week Runup coming. |
+| 2026-11-14 | Owner (decision) | When should the homepage go back from Gameday Week Runup to Standard Display (`ACTIVE_HOME_TEMPLATE` in `src/lib/homeTemplates.ts`)? The owner said a second round of changes to Gameday Week Runup is coming (not yet sent as of 2026-11-15). |
 | 2026-11-14 | Owner | Send the last-minute Game Day email (`email/elnerds-gameday-parking-prizes.html`), then archive it per `email/archive/README.md`. |
 
 Rules that keep this honest:
@@ -73,17 +73,24 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-15 (wrap-up of the 2026-11-13 spinner/ripple chat,
-PR #203):*
+*Session of 2026-11-14 to 2026-11-15 (Game Day eve through Game Day; parking,
+prizes, the Game Day email and homepage templates; PRs #204–#216):*
 
-- Nothing was left uncommitted. Since #203, `LoadingBox` picked up two more
-  users (`/prizes`, the Command Center donations list), so its comment and the
-  gameday-content card now say it's the one loading look and list its users.
-- Mockups that move: the owner picked the spinner and the live-card ripple
-  from an animated page built from the real site's captured DOM plus the
-  built CSS. How to do it is in the verify skill.
-- The Game Day morning session's notes below are kept; they're newer than
-  #203 and still the best orientation.
+- **Photos:** the owner's 18 setup-night photos and parking map are in
+  `2026_photos/` (README per file; the Avengers poster and its certificate in
+  `auction/`). Pages and emails use 1200px copies in `public/photos/`, never a
+  `public/` folder named after a route (Pages redirects `/parking` to it).
+- **`/parking` and `/prizes`** are live, linked from the Command Center, the
+  `/gameday` countdown and the homepage. Prize facts (9 drawings 10 AM–10 PM,
+  the silent-auction list) are in `src/lib/prizes.ts`; donation chips are SVG
+  in `DonationChips.tsx`. Level Up Games (the poster) and Source Comics &
+  Games (gift certificates) are in-kind donors with logos.
+- **Game Day email** `email/elnerds-gameday-parking-prizes.html` was handed
+  over as HTML for Brevo; whether it was sent isn't known (open thread).
+- **Homepage templates:** Standard Display saved, Gameday Week Runup live,
+  `/templates` lists both. The owner's second round of changes is pending.
+- Found, not fixed: the email template's fixed footer forces emails to
+  ~430px wide on a 375px phone (the sent Nov emails too).
 
 *Session of 2026-11-14 UTC (Game Day morning):*
 
@@ -112,8 +119,6 @@ PR #203):*
   streams (`GamedayDonations.tsx`, live from DonorDrive, refreshed every
   minute). `useExtraLifeTeam` now skips the browser cache, which also keeps
   the homepage total current. See the extra-life-api card.
-- Still found, not fixed (from the session before): the email template's
-  fixed footer forces emails to ~430px wide on a 375px phone.
 
 ## Ship-live workflow
 
@@ -359,7 +364,7 @@ already there.
   AI model at ("build me an email, follow
   `branding/email/DESIGN_BRIEF.md`"). New campaigns are written into
   `email/`, not `branding/`.
-- `email/` holds the campaign being written (none right now; the last send, Nov 2026 "Game Day is this Saturday", is archived). As soon as a
+- `email/` holds the campaign being written: now `elnerds-gameday-parking-prizes.html`, the last-minute Game Day email (parking, prizes, auctions, tokens, streams), until it is confirmed sent and archived; the last archived send is Nov 2026 "Game Day is this Saturday". As soon as a
   campaign is sent it moves to `email/archive/YYYY-MM-<slug>/` and gets a
   permanent page at `elnerds.com/email/archive/<folder>/`;
   `email/archive/README.md` is the index and has the steps.
@@ -399,6 +404,9 @@ the full send. Notes that cost time to work out:
   inversion and no email HTML can opt out.
 - Design is CSS/tables, not images — only the header logo and CMN badge
   are `<img>` in the template (the Sep 2026 email's icon row was a one-off), both with alt text, so it survives images-off intact.
+  The Nov 2026 Game Day emails add photos (prize table, parking map, the
+  Avengers poster) and the chip PNGs, each from `elnerds.com/photos/` or
+  `/email/assets/` with alt text, and every fact they show is also in the text.
 - Free plan caps at **300 emails/day** across all campaigns.
 - **Ruled out for team editing:** Brevo's simple editor (no bands or
   buttons) and Stripo via MJML (its importer duplicated blocks and dropped
