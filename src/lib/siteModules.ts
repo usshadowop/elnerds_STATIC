@@ -40,7 +40,7 @@ export const SITE_MODULES: SiteModule[] = [
     slug: "gameday-totals",
     name: "Gameday totals",
     description:
-      "One grand total for the event: our Extra Life team page (live) plus the money raised that isn't on that page, with each part listed underneath. The extra amounts are typed into src/lib/gamedayTotals.ts. The total only shows once the Extra Life figure has loaded.",
+      "One grand total for the event: our Extra Life team page (live) plus the money raised that isn't on that page, with each part listed underneath. Each extra line in src/lib/gamedayTotals.ts is either a typed-in amount or a live running total of another Extra Life page's gifts since a date (New leadership additions is Pam's page since Nov 13). The total only shows once every live figure has loaded.",
     savedOn: "2026-11-15",
     source: "src/components/modules/GamedayTotals.tsx, amounts in src/lib/gamedayTotals.ts",
     usage: "<GamedayTotals /> (optional: label, items, refreshMs, children)",
