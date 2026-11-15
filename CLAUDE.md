@@ -73,6 +73,19 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
+*Session of 2026-11-15 (modules):*
+
+- The owner asked to save the Team Total / Goal / Participants block as a
+  module called "Extra Life Page donation totals", on a page that shows every
+  module at once. Built `/modules` (also `/module`), the module list
+  `src/lib/siteModules.ts` and `src/components/modules/`. New card
+  `docs/features/site-modules.md`.
+- The module is live, not a snapshot: it reads DonorDrive itself. It stood at
+  $45,393.05 of $60,000, 49 participants, when saved.
+- The hero still has its own `TeamProgressCard`; the homepage didn't change.
+- Built on `claude/gracious-cray-vlq13h`. Check `git log origin/main` to see
+  whether it has been merged and deployed.
+
 *Session of 2026-11-13 to 2026-11-15 (printed Game Day signs; squash-merged
 to `main` 2026-11-15):*
 
@@ -270,6 +283,13 @@ already there.
   to `/prizes` and `/parking`. `/templates` lists and previews them
   (`/templates/<slug>`). The nav and `sitePages.ts` hide links to homepage
   sections the live template lacks. See the home-templates card.
+- **Modules** (2026-11-15): pieces of a page saved for reuse, the parts to the
+  templates' whole pages. `src/lib/siteModules.ts` lists them, each is a
+  component in `src/components/modules/`, and `/modules` (also `/module`,
+  `src/pages/Modules.tsx`) shows every one live on one page, the way the owner
+  asked for. First and so far only: **Extra Life Page donation totals**
+  (`ExtraLifeDonationTotals`), the Team Total / Goal / Participants card with
+  its progress bar, live from DonorDrive. See the site-modules card.
 - `src/pages/Parking.tsx` (`/parking`, 2026-11-14): where to park for Game
   Day (the owner's annotated map) and a photo of each step from the lot to
   Improving, suite 180. `src/pages/Prizes.tsx` (`/prizes`, 2026-11-14): the

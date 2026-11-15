@@ -36,7 +36,10 @@ someone donates.
   skeleton. Rendered inside the roster section's cream card and, since
   2026-11-07, in a white "Team fundraising" card under the hero countdown
   (`TeamProgressCard` in `Hero.tsx`, hidden after the marathon when the
-  grand-total card says it, and hidden on a failed fetch).
+  grand-total card says it, and hidden on a failed fetch). Since 2026-11-15
+  that card is also saved as the "Extra Life Page donation totals" module
+  (`src/components/modules/ExtraLifeDonationTotals.tsx`, shown on `/modules`;
+  see the site-modules card), which shows a link instead of hiding.
 - `src/components/site/ActiveRoster.tsx` — the roster section, with skeleton
   placeholders while loading. The team-summary figures size with `clamp(1.125rem, 5.5vw, 1.875rem)` and
   `whitespace-nowrap`; a fixed `text-2xl` made "$17,380" and "$60,000" run
