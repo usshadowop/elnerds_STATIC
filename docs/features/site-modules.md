@@ -47,7 +47,8 @@ above) plus the money raised that isn't on the Extra Life page, with every part
 listed underneath (the Extra Life row carries a "Live" tag). The extra amounts
 are `GAMEDAY_TOTAL_ITEMS` in `src/lib/gamedayTotals.ts`, typed in by hand. For
 Game Day 2026 they are the owner's figures of 2026-11-15: Chips $580, Cash
-bucket $175, Donation matching $1,125, Silent auction remaining payouts $910
+bucket $175 (then $575, once a $400 check that hadn't been counted turned up),
+Donation matching $1,125, Silent auction remaining payouts $910
 ($2,790 in all; with the Extra Life page at $45,418.05 the card read
 $48,208.05). Props: `label` (default "Gameday totals"), `items` (another list
 in place of the file's) and `refreshMs`. The sum is done in cents, so it never
