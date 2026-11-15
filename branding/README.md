@@ -6,6 +6,7 @@ people outside the website itself.
 | Directory | What |
 | --- | --- |
 | [`email/`](email/) | The email template, block library and design tokens |
+| [`print/`](print/) | Printable Game Day signs (table numbers, the poker chip sign) and the scripts that make the PDFs |
 
 The website's own styling is not duplicated here — it lives in
 `src/styles.css` as Tailwind v4 theme tokens, and the site is the authority
