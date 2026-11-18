@@ -1,7 +1,7 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-15 (Gameday totals replaces the Team Total / Goal / Participants block; `useExtraLifeGiftsSince` adds live per-participant totals)
+- **Last reviewed:** 2026-11-18 (`useExtraLifeGiftsSince` also reads a whole team's list, filtered by display name, so the chips and RSVP matches come off Gameday totals as they're entered)
 - **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/hooks/useExtraLifeGiftsSince.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/components/site/GamedayDonations.tsx`, `src/lib/donationFormat.ts`, `src/hooks/useExtraLifeIncentives.ts`, `src/lib/sponsorLogos.ts`, `src/lib/placemakerRestaurants.ts`, `src/components/site/PlacemakerCarousel.tsx`
 
 ## Purpose
@@ -20,9 +20,15 @@ someone donates.
   re-fetched on an interval.
 - `src/hooks/useExtraLifeGiftsSince.ts` (2026-11-15) — a running total of one
   participant's gifts since a date, from `/participants/<id>/donations`, for
-  the Gameday totals module's live lines (Pam's page, on another team). Pages
-  through DonorDrive's list, whose `offset` counts from 1. Details in the
-  site-modules card.
+  the Gameday totals module's live lines (Pam's page, on another team). Since
+  2026-11-18 it can read a whole team's list instead (`teamId`, from
+  `/teams/<id>/donations`) and count only the gifts made under one
+  `displayName` (case and spacing ignored); that is how the chips and RSVP
+  matches come off their Gameday totals lines. Pages through DonorDrive's list,
+  whose `offset` counts from 1 for teams as for participants (checked
+  2026-11-18: offsets 1, 101 and 201 gave three pages with no overlap). Every
+  list it reads goes in one `Promise.all`, so if one fails, every live line in
+  the card shows "—". Details in the site-modules card.
 - `src/components/site/DonationTicker.tsx` — the scrolling "Latest" strip
   under the hero countdown (keyframes in `src/styles.css`).
 - `src/components/site/GamedayDonations.tsx` (2026-11-14) — the Command
