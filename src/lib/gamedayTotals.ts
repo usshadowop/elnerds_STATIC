@@ -43,9 +43,11 @@ export const GAMEDAY_TOTAL_ITEMS: GamedayTotalItem[] = [
   // From 2026-11-18 the chip slips are being donated onto each person's Extra
   // Life page, always with the display name "Poker Chip Donations". The owner
   // asked for each one to come off this line by itself once it shows up.
+  // $620 is what the slips add up to (owner, 2026-11-18): the 17 photographed
+  // ($525) plus the two in the first gift ($95). It was $580 before.
   {
     label: "Chips",
-    amount: 580,
+    amount: 620,
     lessExtraLifeGifts: { teamId: TEAM_ID, since: "2026-11-15T00:00:00-06:00", displayName: "Poker Chip Donations" },
   },
   // $175 in the bucket plus a $400 check that turned up later (owner, 2026-11-15).

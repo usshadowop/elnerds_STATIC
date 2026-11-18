@@ -116,8 +116,9 @@ team's pages under that display name since `since`, never below $0, with a
   have read $51,092.57, with that $170 counted twice. The chip slips photographed 2026-11-18 add
   up to $525 on top of that $95, so $620 against the $580 typed in: once
   they're all entered the Chips line reads $0 and the grand total ends up $40
-  higher than the typed figure allowed for. Which count is right is the
-  owner's call.
+  higher than the typed figure allowed for. The owner's answer, the same day:
+  go by the slips. **Chips is $620** since 2026-11-18, so the line reads $525,
+  exactly the photographed slips still to be entered.
 - Checked in a browser against real DonorDrive data, then with the 12
   combined chip gifts added (some with odd capitals and spacing: Chips $0,
   "($620 entered)"), with 150 tagged gifts (a second page, read with
