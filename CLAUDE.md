@@ -55,7 +55,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-11-14 | Owner | Send a photo of all three donation chips. The graphics (`DonationChips.tsx`, `public/email/assets/chip-*.png`) were drawn from the white "10" only; the blue and red colours are guesses. |
 | 2026-11-14 | Owner (decision) | When should the homepage go back from Gameday Week Runup to Standard Display (`ACTIVE_HOME_TEMPLATE` in `src/lib/homeTemplates.ts`)? The owner said a second round of changes to Gameday Week Runup is coming (not yet sent as of 2026-11-15). |
 | 2026-11-14 | Owner | Send the last-minute Game Day email (`email/elnerds-gameday-parking-prizes.html`), then archive it per `email/archive/README.md`. |
-| 2026-11-15 | Owner | Gameday totals (homepage hero, roster, Command Center) adds four hand-typed amounts to the live Extra Life total: Chips $580, Cash bucket $575 ($175 plus a $400 check found later), Donation matching $1,125, Silent auction remaining payouts $910 (`src/lib/gamedayTotals.ts`). Send updates as they change (the auction payouts especially). Confirm none is also on the Extra Life page, which would count it twice. Then decide when the site goes back to the plain Extra Life total. (A fifth line, "New leadership additions", is live: Pam's page since Nov 13.) |
+| 2026-11-15 | Owner | Gameday totals (homepage hero, roster, Command Center) adds four hand-typed amounts to the live Extra Life total: Chips $580, Cash bucket $575 ($175 plus a $400 check found later), Donation matching $1,125, Silent auction remaining payouts $910 (`src/lib/gamedayTotals.ts`). Send updates as they change (the auction payouts especially). Since 2026-11-18 Chips and Donation matching shrink by themselves as gifts named "Poker Chip Donations" / "RSVP Donation Match" land on team pages; any other display name still counts twice. The 17 chip slips photographed 2026-11-18 plus the $95 already entered come to $620 against the $580 typed in: which is right? Confirm Cash bucket and auction payouts aren't also on Extra Life. Then decide when the site goes back to the plain Extra Life total. (A fifth line, "New leadership additions", is live: Pam's page since Nov 13.) |
 | 2026-11-15 | Owner (decision) | Two branches hold only unmerged handoff notes (no code): `claude/fervent-bell-6kqzzg` (2026-11-11: the Placemaker print sheet, Drive connector accounts) and `claude/stoic-babbage-l4k1va` (2026-11-12/13: leadership flyers and lanyard passes). Their print facts were checked in Drive and are in the prizes card; merge whatever else is wanted, then delete both branches. |
 
 Rules that keep this honest:
@@ -73,6 +73,22 @@ Rules that keep this honest:
 
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
+
+*Session of 2026-11-18 (paying out chips and RSVP matches):*
+
+- Found the RSVP donation-match list (15 people, $1,125) in the 2026-11-15
+  chat "$75 matching donations calculation". It was never saved to the repo or
+  sheet. Payouts started 2026-11-18 as gifts named "RSVP Donation Match"
+  (Jared Campbell's $75 first).
+- Read the owner's 18 photos in Drive (folder `1kY62frhyEwWo0geM4EPOFQmC-sq-TrSP`):
+  17 chip slips ($525 to 12 pages, combined per person with a
+  "$amount - note" line each, N/A for no note) and a screenshot of the first
+  chip gift ($95 to Jared Campbell, already entered). Named in chat only.
+- Built what the owner asked for next: Chips and Donation matching in Gameday
+  totals now subtract the gifts entered under those two display names
+  (`lessExtraLifeGifts` in `gamedayTotals.ts`; `useExtraLifeGiftsSince` reads
+  the team list). Checked in a browser against real and edited DonorDrive data.
+  See the site-modules card.
 
 *Session of 2026-11-15 (modules):*
 
@@ -309,7 +325,10 @@ already there.
   leadership additions" is Pam van Muijen's page, which is on another team,
   since Nov 13). **Since 2026-11-15 Gameday totals is live
   everywhere the old Team Total / Goal / Participants block was**: under the
-  hero countdown, atop the roster and on the Command Center. See the
+  hero countdown, atop the roster and on the Command Center. **Since
+  2026-11-18 Chips and Donation matching come off by themselves** as they're
+  entered on team members' Extra Life pages, matched by display name ("Poker
+  Chip Donations", "RSVP Donation Match"; `lessExtraLifeGifts`). See the
   site-modules card.
 - `src/pages/Parking.tsx` (`/parking`, 2026-11-14): where to park for Game
   Day (the owner's annotated map) and a photo of each step from the lot to

@@ -7,8 +7,10 @@
 // block everywhere that block was: under the hero countdown (Hero.tsx), atop
 // the roster (ActiveRoster.tsx) and on the Command Center (GamedayDonations.tsx).
 //
-// Line items are either typed-in amounts or live ones: a running total of
-// one Extra Life participant's gifts since a date (useExtraLifeGiftsSince).
+// Line items are typed-in amounts, live ones (a running total of one Extra
+// Life participant's gifts since a date, useExtraLifeGiftsSince), or typed-in
+// amounts that shrink as their money is entered on our team's Extra Life
+// pages under a display name (the chips and RSVP matches, from 2026-11-18).
 // Every live figure re-reads on the same `refreshMs` as the team total.
 //
 // The grand total only shows once every live figure is in: while they load
@@ -36,6 +38,13 @@ function LiveTag() {
       Live
     </span>
   );
+}
+
+/** The small print under a line whose money is moving onto Extra Life pages. */
+function movedNote(amount: number, moved: number | undefined): string | undefined {
+  if (!moved) return undefined;
+  if (moved < amount) return `${money(moved)} of ${money(amount)} now on Extra Life pages`;
+  return `All ${money(amount)} now on Extra Life pages${moved > amount ? ` (${money(moved)} entered)` : ""}`;
 }
 
 /** A live figure: the amount, "…" while the first read is out, "—" if it failed. */
@@ -71,17 +80,30 @@ export function GamedayTotals({
   children?: ReactNode;
 }) {
   const { team, isLoading: teamLoading } = useExtraLifeTeam(refreshMs);
-  const liveSpecs = items.flatMap((i) => ("extraLifeGiftsSince" in i ? [i.extraLifeGiftsSince] : []));
+  const liveSpecs = items.flatMap((i) =>
+    "extraLifeGiftsSince" in i ? [i.extraLifeGiftsSince] : "lessExtraLifeGifts" in i ? [i.lessExtraLifeGifts] : [],
+  );
   const gifts = useExtraLifeGiftsSince(liveSpecs, refreshMs);
 
-  // Each line item's amount: typed in, or its live running total (undefined
+  // Each line item's amount: typed in, its live running total, or what's left
+  // of it once the gifts already on Extra Life come off (live ones undefined
   // until read). Live items take their totals in the order they're listed.
   let nextLive = 0;
-  const rows = items.map((item) => ({
-    item,
-    live: "extraLifeGiftsSince" in item,
-    amount: "amount" in item ? item.amount : gifts.amounts[nextLive++],
-  }));
+  const rows = items.map((item) => {
+    if ("extraLifeGiftsSince" in item) {
+      return { item, live: true, amount: gifts.amounts[nextLive++], note: item.note };
+    }
+    if ("lessExtraLifeGifts" in item) {
+      const moved = gifts.amounts[nextLive++];
+      return {
+        item,
+        live: true,
+        amount: typeof moved === "number" ? Math.max(0, sumCents([item.amount, -moved])) : undefined,
+        note: [item.note, movedNote(item.amount, moved)].filter(Boolean).join(" · ") || undefined,
+      };
+    }
+    return { item, live: false, amount: item.amount, note: item.note };
+  });
 
   const extraLife = team?.sumDonations;
   const parts = [extraLife, ...rows.map((r) => r.amount)];
@@ -129,7 +151,7 @@ export function GamedayTotals({
         >
           {liveFigure(extraLife, teamLoading)}
         </Row>
-        {rows.map(({ item, live, amount }) => (
+        {rows.map(({ item, live, amount, note }) => (
           <Row
             key={item.label}
             label={
@@ -141,7 +163,7 @@ export function GamedayTotals({
                 item.label
               )
             }
-            note={item.note}
+            note={note}
           >
             {live ? liveFigure(amount, gifts.isLoading) : money(amount as number)}
           </Row>

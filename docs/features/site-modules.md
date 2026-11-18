@@ -1,7 +1,7 @@
 # Modules
 
 - **Status:** Live. Two modules saved. Gameday totals is on the homepage (hero and roster) and the Command Center; Extra Life Page donation totals is only on `/modules`.
-- **Last reviewed:** 2026-11-15 (created; Gameday totals put everywhere the old block was; then a live "New leadership additions" line from Pam's page)
+- **Last reviewed:** 2026-11-18 (Chips and Donation matching now shrink by themselves as their gifts are entered on Extra Life pages)
 - **Covers:** `src/lib/siteModules.ts`, `src/pages/Modules.tsx`, `src/components/modules/*`, `src/lib/gamedayTotals.ts`
 
 ## Purpose
@@ -91,6 +91,39 @@ grand total read $49,169.57.
   read, then stopped at the cutoff: $149, the hidden-amount gift left out), and
   with her page failing.
 
+**Lines that shrink as their money reaches Extra Life (2026-11-18).** After
+Game Day the leadership team started entering the chip slips and the $75 RSVP
+matches as gifts on each person's Extra Life page. Each one then lands in the
+team total, so the typed-in Chips and Donation matching lines counted it
+twice. The owner asked for it to come off the line by itself once it shows up
+on the person's page. So a line can be `amount` plus `lessExtraLifeGifts: {
+teamId, since, displayName }`: it shows `amount` minus everything given to our
+team's pages under that display name since `since`, never below $0, with a
+"Live" tag.
+
+- **The display names are the contract.** Chips are entered as **"Poker Chip
+  Donations"** and RSVP matches as **"RSVP Donation Match"** (the names the
+  owner used for the first of each, 2026-11-18). Case and extra spaces don't
+  matter; any other wording does, and that gift stays counted twice. Anonymous
+  gifts have no name and never match.
+- `since` is 2026-11-15 00:00 Central, the day the typed-in figures were set.
+  Nothing tagged was entered before 2026-11-18 (checked).
+- The small print under the line says how much has moved: "$95 of $580 now
+  on Extra Life pages". When everything has, "All $580 now on Extra Life
+  pages", plus "($620 entered)" if more was entered than the line held.
+- When this was built: Chips $580 − $95 = $485, Donation matching $1,125 − $75
+  = $1,050 (both to Jared Campbell), grand total $50,922.57. Before, it would
+  have read $51,092.57, with that $170 counted twice. The chip slips photographed 2026-11-18 add
+  up to $525 on top of that $95, so $620 against the $580 typed in: once
+  they're all entered the Chips line reads $0 and the grand total ends up $40
+  higher than the typed figure allowed for. Which count is right is the
+  owner's call.
+- Checked in a browser against real DonorDrive data, then with the 12
+  combined chip gifts added (some with odd capitals and spacing: Chips $0,
+  "($620 entered)"), with 150 tagged gifts (a second page, read with
+  `offset=101`), and with the team list failing ("—" on the live lines, no
+  grand total). No overflow at 320px and 390px on the homepage.
+
 **Where Gameday totals is used (2026-11-15).** The owner asked for it
 "everywhere the old module was, for last minute announcements". So it replaced
 the Team Total / Goal / Participants block in all three places:
@@ -133,10 +166,13 @@ fits its card on the homepage and the Command Center from 320px to 1440px.
 - **When do the homepage and Command Center go back** to the plain Extra
   Life total (or something else)? The owner's call; see Open threads in
   CLAUDE.md.
-- **The four fixed Gameday totals amounts are typed in.** The live lines
-  ("New leadership additions") keep themselves current. To change a fixed one
-  (the silent auction payouts will come in, for instance), edit
-  `src/lib/gamedayTotals.ts` and push. List only money that is **not** on the
+- **The four Gameday totals amounts are typed in.** The live line ("New
+  leadership additions") keeps itself current, and Chips and Donation matching
+  shrink by themselves as their gifts are entered (above). To change a typed
+  amount (the silent auction payouts will come in, for instance), edit
+  `src/lib/gamedayTotals.ts` and push. Cash bucket and silent auction payouts
+  don't shrink: if either is ever entered on Extra Life pages, give it a
+  `lessExtraLifeGifts` with its own display name, or lower it by hand. List only money that is **not** on the
   Extra Life page; anything also entered there (an offline donation) would be
   counted twice. Whether any of the four 2026 amounts is also on the Extra Life
   page is the owner's knowledge, not checked.
