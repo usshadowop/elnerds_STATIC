@@ -87,11 +87,11 @@ export const AUCTION_WINS: AuctionWin[] = [
     source: "No sheet photo; the payment to Josh's page names it (Nov 15)",
   },
   {
-    item: "KPop Demon Hunters Squishmallows, Sussie and Derpy",
+    item: "KPop Demon Hunters Squishmallows, Sussie and Derpy (one lot)",
     amount: 110,
     page: DECKENBACH,
     keywords: ["stuffies", "squishmallow", "sussie", "derpy"],
-    source: "Sussie's sheet at 2:15 AM (20261115_021521.jpg) had $40; the final sheet wasn't photographed. The payment, \"Silent Auction Stuffies\", is $110",
+    source: "One lot (owner, Nov 19). The final sheet wasn't photographed; the payment, \"Silent Auction Stuffies\", is $110",
   },
   {
     item: "Root + The Homeland Expansion (Leder Games)",

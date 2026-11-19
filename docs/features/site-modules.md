@@ -1,7 +1,7 @@
 # Modules
 
 - **Status:** Live. Two modules saved. Gameday totals is on the homepage (hero and roster) and the Command Center; Extra Life Page donation totals is only on `/modules`.
-- **Last reviewed:** 2026-11-19 (the silent auction line is worked out from the bid sheets and the payments found on Extra Life; `/silent-auction`; Donation matching $1,050 without Morgan's match)
+- **Last reviewed:** 2026-11-19 (Sussie and Derpy confirmed as one lot; the silent auction line is worked out from the bid sheets and the payments found on Extra Life; `/silent-auction`; Donation matching $1,050 without Morgan's match)
 - **Covers:** `src/lib/siteModules.ts`, `src/pages/Modules.tsx`, `src/components/modules/*`, `src/lib/gamedayTotals.ts`, `src/lib/silentAuction.ts`, `src/hooks/useSilentAuction.ts`, `src/pages/SilentAuction.tsx`
 
 ## Purpose
@@ -239,9 +239,9 @@ fits its card on the homepage and the Command Center from 320px to 1440px.
   bidder's name scribbled out); the stretch bracelet (item B: $10 on the noon
   Saturday photo, then a $25 "Bracelet" gift to the Holts at 7:39 AM Sunday);
   Hoplomachus: Victorum and the Too Many Bones pack (on the auction list, no
-  sheet photo, no payment found); and whether the $110 "Stuffies" was Sussie
-  and Derpy together. Until answered, none of these is on the list except the
-  Stuffies.
+  sheet photo, no payment found). Until answered, none of these is on the
+  list. (The $110 "Stuffies" was Sussie and Derpy as one lot, the owner
+  confirmed the same day.)
 
 - A new module: a component in `src/components/modules/`, a case in
   `ModulePreview.tsx`, an entry in `SITE_MODULES` and its slug in
