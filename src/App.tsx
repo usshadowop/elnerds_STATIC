@@ -16,6 +16,7 @@ import { PatientProfiles } from "@/pages/PatientProfiles";
 import { Prizes } from "@/pages/Prizes";
 import { Registration } from "@/pages/Registration";
 import { Rsvp } from "@/pages/Rsvp";
+import { SilentAuction } from "@/pages/SilentAuction";
 import { SiteMap } from "@/pages/SiteMap";
 import { Templates } from "@/pages/Templates";
 import { useGameday } from "@/hooks/use-countdown";
@@ -51,6 +52,7 @@ export default function App() {
   if (path === "patient-profiles") page = <PatientProfiles />;
   if (path === "prizes") page = <Prizes />;
   if (path === "registration") page = <Registration />;
+  if (path === "silent-auction") page = <SilentAuction />;
   if (path === "rsvp") page = <Rsvp />;
   if (path === "templates") page = <Templates />;
   if (path.startsWith("templates/")) page = <Templates slug={path.slice("templates/".length)} />;

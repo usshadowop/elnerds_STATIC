@@ -10,7 +10,9 @@
 // Line items are typed-in amounts, live ones (a running total of one Extra
 // Life participant's gifts since a date, useExtraLifeGiftsSince), or typed-in
 // amounts that shrink as their money is entered on our team's Extra Life
-// pages under a display name (the chips and RSVP matches, from 2026-11-18).
+// pages under a display name (the chips and RSVP matches, from 2026-11-18),
+// or the silent auction's unpaid winning bids, each coming off as its payment
+// is found on an Extra Life page (useSilentAuction, from 2026-11-19).
 // Every live figure re-reads on the same `refreshMs` as the team total.
 //
 // The grand total only shows once every live figure is in: while they load
@@ -21,8 +23,9 @@ import type { ReactNode } from "react";
 
 import { useExtraLifeGiftsSince } from "@/hooks/useExtraLifeGiftsSince";
 import { useExtraLifeTeam } from "@/hooks/useExtraLifeTeam";
+import { useSilentAuction } from "@/hooks/useSilentAuction";
 import { money } from "@/lib/donationFormat";
-import { GAMEDAY_TOTAL_ITEMS, type GamedayTotalItem } from "@/lib/gamedayTotals";
+import { GAMEDAY_TOTAL_ITEMS, claimedDisplayNames, type GamedayTotalItem } from "@/lib/gamedayTotals";
 
 const TEAM_PAGE_URL = "https://www.extra-life.org/team/73600";
 
@@ -84,6 +87,11 @@ export function GamedayTotals({
     "extraLifeGiftsSince" in i ? [i.extraLifeGiftsSince] : "lessExtraLifeGifts" in i ? [i.lessExtraLifeGifts] : [],
   );
   const gifts = useExtraLifeGiftsSince(liveSpecs, refreshMs);
+  const auction = useSilentAuction({
+    enabled: items.some((i) => "silentAuction" in i),
+    ignoreNames: claimedDisplayNames(items),
+    refreshMs,
+  });
 
   // Each line item's amount: typed in, its live running total, or what's left
   // of it once the gifts already on Extra Life come off (live ones undefined
@@ -102,13 +110,27 @@ export function GamedayTotals({
         note: [item.note, movedNote(item.amount, moved)].filter(Boolean).join(" · ") || undefined,
       };
     }
+    if ("silentAuction" in item) {
+      const t = auction.tally;
+      const paidCount = t?.results.filter((r) => r.status !== "waiting").length ?? 0;
+      return {
+        item,
+        live: true,
+        amount: t?.unpaid,
+        note:
+          [item.note, t && `${paidCount} of ${t.results.length} items paid (${money(t.paid)} of ${money(t.total)})`]
+            .filter(Boolean)
+            .join(" · ") || undefined,
+        isLoading: auction.isLoading,
+      };
+    }
     return { item, live: false, amount: item.amount, note: item.note };
   });
 
   const extraLife = team?.sumDonations;
   const parts = [extraLife, ...rows.map((r) => r.amount)];
   const total = parts.every((a) => typeof a === "number") ? sumCents(parts as number[]) : undefined;
-  const isLoading = teamLoading || gifts.isLoading;
+  const isLoading = teamLoading || gifts.isLoading || auction.isLoading;
 
   return (
     // A size container, so the big figure scales with the card rather than the
@@ -151,7 +173,7 @@ export function GamedayTotals({
         >
           {liveFigure(extraLife, teamLoading)}
         </Row>
-        {rows.map(({ item, live, amount, note }) => (
+        {rows.map(({ item, live, amount, note, isLoading: rowLoading }) => (
           <Row
             key={item.label}
             label={
@@ -165,7 +187,7 @@ export function GamedayTotals({
             }
             note={note}
           >
-            {live ? liveFigure(amount, gifts.isLoading) : money(amount as number)}
+            {live ? liveFigure(amount, rowLoading ?? gifts.isLoading) : money(amount as number)}
           </Row>
         ))}
       </ul>

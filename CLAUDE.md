@@ -55,8 +55,8 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-11-14 | Owner | Send a photo of all three donation chips. The graphics (`DonationChips.tsx`, `public/email/assets/chip-*.png`) were drawn from the white "10" only; the blue and red colours are guesses. |
 | 2026-11-14 | Owner (decision) | When should the homepage go back from Gameday Week Runup to Standard Display (`ACTIVE_HOME_TEMPLATE` in `src/lib/homeTemplates.ts`)? The owner said a second round of changes to Gameday Week Runup is coming (not yet sent as of 2026-11-15). |
 | 2026-11-14 | Owner | Send the last-minute Game Day email (`email/elnerds-gameday-parking-prizes.html`), then archive it per `email/archive/README.md`. |
-| 2026-11-15 | Owner | Gameday totals (homepage hero, roster, Command Center) adds four hand-typed amounts to the live Extra Life total: Chips $620 (was $580; the slips add up to $620, owner 2026-11-18), Cash bucket $575 ($175 plus a $400 check found later), Donation matching $1,125, Silent auction remaining payouts $910 (`src/lib/gamedayTotals.ts`). Send updates as they change (the auction payouts especially). Since 2026-11-18 Chips and Donation matching shrink by themselves as gifts named "Poker Chip Donations" / "RSVP Donation Match" land on team pages; any other display name still counts twice. Confirm Cash bucket and auction payouts aren't also on Extra Life. Then decide when the site goes back to the plain Extra Life total. (A fifth line, "New leadership additions", is live: Pam's page since Nov 13.) |
-| 2026-11-18 | Owner | Pay out the chips and RSVP matches as grants from the owner's Daffy account: 12 chip gifts ($525, display name "Poker Chip Donations") and 14 RSVP matches ($1,050, "RSVP Donation Match"); Jared Campbell's of each are done. The owner is doing it in a **Local** desktop-app session with a browser (a cloud session can't reach Daffy or the owner's Chrome), from a prompt built in the 2026-11-18 chat "Donation match RSVP incentives list". The steps are the owner's 13 photos in Drive folder "Process" (`1nBLqsZW1Hq5kG0j2QsLEtqyDdTr7uibl`). Gameday totals takes each one off its line by itself; check the lines reach $0. |
+| 2026-11-15 | Owner | Gameday totals (homepage hero, roster, Command Center) adds to the live Extra Life total: Chips $620 and Donation matching $1,050 (Morgan's match dropped 2026-11-19), both now $0 because every gift is entered under "Poker Chip Donations" / "RSVP Donation Match"; Cash bucket $575 ($175 plus a $400 check), typed in; the silent auction's unpaid bids, worked out live since 2026-11-19 ($320 then, see the next line). Confirm Cash bucket isn't also on Extra Life, then decide when the site goes back to the plain Extra Life total. (A further line, "New leadership additions", is live: Pam's page since Nov 13.) |
+| 2026-11-19 | Owner | Check the silent auction list in `src/lib/silentAuction.ts` (read from the bid-sheet photos in the captain's Drive folder "Event Photos 2026"; `/silent-auction` shows it with the gift that paid each item). Open: does the owner's $910 agree with the sheets ($945 of bids beyond the "Stuffies" paid before the close)? The agate necklace (item A, bidder's name scribbled out), the stretch bracelet (item B: was the $25 "Bracelet" gift to the Holts its payment?), Hoplomachus: Victorum and the Too Many Bones pack (no sheet photo, no payment found): were they won, and for how much? Was the $110 "Stuffies" Sussie and Derpy together? Until answered, none of these is listed except the Stuffies. |
 | 2026-11-15 | Owner (decision) | Two branches hold only unmerged handoff notes (no code): `claude/fervent-bell-6kqzzg` (2026-11-11: the Placemaker print sheet, Drive connector accounts) and `claude/stoic-babbage-l4k1va` (2026-11-12/13: leadership flyers and lanyard passes). Their print facts were checked in Drive and are in the prizes card; merge whatever else is wanted, then delete both branches. |
 
 Rules that keep this honest:
@@ -75,114 +75,26 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-18 (paying out chips and RSVP matches; PRs #229, #230):*
+*Session of 2026-11-19 (Morgan's RSVP match off; silent auction payments found automatically):*
 
-- Found the RSVP donation-match list (15 people, $1,125) in the 2026-11-15
-  chat "$75 matching donations calculation". It was never saved to the repo or
-  sheet. Payouts started 2026-11-18 as gifts named "RSVP Donation Match"
-  (Jared Campbell's $75 first).
-- Read the owner's chip-slip photos in Drive (folder
-  `1kY62frhyEwWo0geM4EPOFQmC-sq-TrSP`): 17 slips, $525 to 12 pages, plus the
-  first chip gift ($95 to Jared Campbell, already entered). Each person gets
-  one gift whose message has a line per slip, `(Name) $amount - note`, with
-  N/A for a blank or scribbled-out field (the owner's format). The list is in
-  that chat only, not the repo.
-- Shipped (#229): Chips and Donation matching in Gameday totals subtract the
-  gifts entered under those two display names (`lessExtraLifeGifts`,
-  `useExtraLifeGiftsSince` reading the team list). Then (#230) Chips $580 →
-  $620, what the slips add up to (owner's call). Both verified in the live bundle.
-- Entering the gifts moved to a Local session with a browser (see Open
-  threads). This cloud session had no browser tools and no shared computer.
-
-*Session of 2026-11-15 (modules):*
-
-- The owner asked to save the Team Total / Goal / Participants block as a
-  module called "Extra Life Page donation totals", on a page that shows every
-  module at once. Built `/modules` (also `/module`), the module list
-  `src/lib/siteModules.ts` and `src/components/modules/`. New card
-  `docs/features/site-modules.md`.
-- The module is live, not a snapshot: it reads DonorDrive itself. It stood at
-  $45,393.05 of $60,000, 49 participants, when saved.
-- Then a second module, **Gameday totals**: the live Extra Life total plus
-  the owner's Game Day 2026 figures (Chips $580, Cash bucket $175, Donation
-  matching $1,125, Silent auction remaining payouts $910), in
-  `src/lib/gamedayTotals.ts`. Read $48,208.05 when built.
-- Then, at the owner's word ("for last minute announcements"), Gameday totals
-  replaced the old block everywhere: hero, roster, Command Center. The
-  Command Center column needed the figure sized by container query (`cqw`).
-  Shipped live (squash-merged to `main`).
-- Then a live line, **"New leadership additions"**: everything given to Pam
-  van Muijen's Extra Life page since Nov 13 ($645 when added). Her page is on
-  another team (NCC-AL5), so it isn't in our team total. DonorDrive's
-  `offset` counts from 1. Details in the site-modules card.
-- Last: Cash bucket raised from $175 to $575 for a $400 check that hadn't
-  been counted. The owner said "I'm done" and had it pushed live.
-
-*Session of 2026-11-13 to 2026-11-15 (printed Game Day signs; squash-merged
-to `main` 2026-11-15):*
-
-- Printable PDFs for the room. **Table numbers 1–50**: 7 letter sheets of 8
-  cards, in `src/assets/Table numbers/` and the owner's Drive ("Table
-  numbers"). **The poker chip sign**: `src/assets/Poker chips/`, the Game Day
-  email's "Donation tokens" block word for word plus the owner's one new line
-  (the envelope container in the hallway for donations). The owner rejected
-  pixel hearts and sparkles on the first draft.
-- The generators are in `branding/print/`. New card `docs/features/prizes.md`
-  covers `/prizes`, `DonationChips.tsx`, the email chip PNGs and the printed
-  signs, and lists the print pieces that exist only in Drive.
-- Before merging, checked other sessions: 7 new commits on `main` (merged in,
-  only `CLAUDE.md` and the card index overlapped) and two branches holding
-  **unmerged handoff notes only**, no code (see Open threads). Their Drive
-  claims were checked live 2026-11-15: the leadership flyers and lanyard
-  passes exist, so the 2026-11-12 flyer thread is closed; the Placemaker print
-  sheet exists. Both are now in the prizes card.
-
-*Session of 2026-11-14 to 2026-11-15 (Game Day eve through Game Day; parking,
-prizes, the Game Day email and homepage templates; PRs #204–#216):*
-
-- **Photos:** the owner's 18 setup-night photos and parking map are in
-  `2026_photos/` (README per file; the Avengers poster and its certificate in
-  `auction/`). Pages and emails use 1200px copies in `public/photos/`, never a
-  `public/` folder named after a route (Pages redirects `/parking` to it).
-- **`/parking` and `/prizes`** are live, linked from the Command Center, the
-  `/gameday` countdown and the homepage. Prize facts (9 drawings 10 AM–10 PM,
-  the silent-auction list) are in `src/lib/prizes.ts`; donation chips are SVG
-  in `DonationChips.tsx`. Level Up Games (the poster) and Source Comics &
-  Games (gift certificates) are in-kind donors with logos.
-- **Game Day email** `email/elnerds-gameday-parking-prizes.html` was handed
-  over as HTML for Brevo; whether it was sent isn't known (open thread).
-- **Homepage templates:** Standard Display saved, Gameday Week Runup live,
-  `/templates` lists both. The owner's second round of changes is pending.
-- Found, not fixed: the email template's fixed footer forces emails to
-  ~430px wide on a 375px phone (the sent Nov emails too).
-
-*Session of 2026-11-14 UTC (Game Day morning):*
-
-- The owner asked to remove Warhammer open play from every schedule. Deleted
-  the "10a - 8p / Warhammer 40k Open Play" row from the live `Gameday Run of
-  Show` tab (Sheets connector), which is what `/gameday` and the homepage
-  grid show, and took it out of the shipped fallback (`gamedayContent.ts`)
-  and `RUN_OF_SHOW_2026` in `Code.gs`. Verified gone from `?action=gameday`.
-- Left alone on purpose: the sent "Game Day is this Saturday" email in
-  `email/archive/` still mentions Warhammer, because it's a record of what
-  went out.
-- Streams: Main Stage is the main event stream, `twitch.tv/usshadowop`
-  (owner's word, Game Day evening; Embed URL
-  `https://player.twitch.tv/?channel=usshadowop&parent=elnerds.com` in
-  `Gameday Streams` row 2). Josh Oswald's `joshoswald72`, Main Stage until
-  then, moved to Third Feed. For Josh's stream the owner first sent a Discord DM message link
-  (`discord.com/channels/@me/...`), which only that DM's members can open and
-  nothing can embed; ask for the Twitch/YouTube link. Second Feed is Kenyon
-  Barnette's Twitch, `thtrteci`, found from his Extra Life page: a
-  participant's stream is `streamingPlatform`/`streamingChannel` in `GET
-  dd.extra-life.org/api/participants/<id>` (the id is in the page's HTML).
-  Stream tiles and the
-  `/leadership_DandD` player now show a "Loading the stream…" spinner instead
-  of flashing a sample still (`StreamPlayer.tsx`).
-- `/gameday` gained a "Team total & latest donations" section under the
-  streams (`GamedayDonations.tsx`, live from DonorDrive, refreshed every
-  minute). `useExtraLifeTeam` now skips the browser cache, which also keeps
-  the homepage total current. See the extra-life-api card.
+- Owner: take Morgan's RSVP match out of the totals. Donation matching
+  $1,125 → $1,050. The other 14 matches were all on Extra Life pages, so the
+  line reads $0; Chips reads $0 too ($652 entered: four $10 slips went in as
+  $18 gifts). That closed the 2026-11-18 payout thread.
+- Owner: detect silent auction payments by amount and take them off. Found
+  the bid sheets myself: 12 photos in the captain's Drive folder "Event Photos
+  2026" (`1_zrOgjnMRc3900sHP_IO05ZO1cMyYorq`), found by a Drive full-text
+  search for "silent auction". They show bidders' phones and emails, so only
+  the item, bid and page went into the repo.
+- Built `src/lib/silentAuction.ts` (the wins and the matcher),
+  `useSilentAuction`, and `/silent-auction` (the tracker). Winners pay on the
+  page of whoever brought the item, Pam's included (she's on another team).
+  Amount alone wasn't safe: five unrelated $30 gifts and a $20 one would have
+  marked two items paid. The rules are in the site-modules card.
+- Result: $1,055 in bids, $735 paid, **$320 owed** (the line read $910). The
+  owner has questions to answer about the list (Open threads).
+- Not shipped when this was written: the branch was pushed and the owner was
+  asked whether to push it live.
 
 ## Ship-live workflow
 
@@ -332,8 +244,12 @@ already there.
   hero countdown, atop the roster and on the Command Center. **Since
   2026-11-18 Chips and Donation matching come off by themselves** as they're
   entered on team members' Extra Life pages, matched by display name ("Poker
-  Chip Donations", "RSVP Donation Match"; `lessExtraLifeGifts`). See the
-  site-modules card.
+  Chip Donations", "RSVP Donation Match"; `lessExtraLifeGifts`). **Since
+  2026-11-19 the silent auction line is worked out**: the winning bids in
+  `src/lib/silentAuction.ts`, less every one whose payment is found on our
+  team's pages or Pam's (same amount plus a mention of the auction or the item,
+  or given on the item's page). `/silent-auction` (team page, noindex) shows
+  which gift paid which item. See the site-modules card.
 - `src/pages/Parking.tsx` (`/parking`, 2026-11-14): where to park for Game
   Day (the owner's annotated map) and a photo of each step from the lot to
   Improving, suite 180. `src/pages/Prizes.tsx` (`/prizes`, 2026-11-14): the

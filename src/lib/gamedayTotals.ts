@@ -7,7 +7,7 @@
 // to anyone on our team (team 73600): an `extraLifeGiftsSince` line is only
 // for a page on another team.
 //
-// Three kinds of line item:
+// Four kinds of line item:
 // - a fixed amount, typed in: `amount` in dollars (cents are fine, 12.5 shows
 //   as $12.50);
 // - a live one: `extraLifeGiftsSince`, a running total of everything given to
@@ -15,7 +15,11 @@
 // - money on its way onto Extra Life: `amount` plus `lessExtraLifeGifts`. The
 //   line shows `amount` minus what has been entered on our team's pages under
 //   one display name since a date (never below $0), so each gift comes off
-//   here as it lands in the team total and nothing is counted twice.
+//   here as it lands in the team total and nothing is counted twice;
+// - the silent auction: `silentAuction: true`. Its amount is worked out from
+//   the list of winning bids in src/lib/silentAuction.ts: every win whose
+//   payment hasn't been found on an Extra Life page yet (/silent-auction shows
+//   which gift paid which item).
 
 import type { GiftsSince } from "@/hooks/useExtraLifeGiftsSince";
 
@@ -36,6 +40,10 @@ export type GamedayTotalItem =
       amount: number;
       /** The gifts that move it onto Extra Life pages; they come off `amount`. */
       lessExtraLifeGifts: GiftsSince;
+    })
+  | (ItemBase & {
+      /** The winning bids not yet paid on an Extra Life page (src/lib/silentAuction.ts). */
+      silentAuction: true;
     });
 
 // Game Day 2026 (Nov 14–15), the owner's figures as of 2026-11-15.
@@ -52,14 +60,19 @@ export const GAMEDAY_TOTAL_ITEMS: GamedayTotalItem[] = [
   },
   // $175 in the bucket plus a $400 check that turned up later (owner, 2026-11-15).
   { label: "Cash bucket", amount: 575 },
-  // The fifteen $75 RSVP matches, paid from 2026-11-18 as gifts to each page
-  // with the display name "RSVP Donation Match". Same as the chips.
+  // The $75 RSVP matches, paid from 2026-11-18 as gifts to each page with the
+  // display name "RSVP Donation Match". Same as the chips. There were fifteen
+  // ($1,125); Morgan's came off on 2026-11-19 at the owner's word, leaving 14
+  // ($1,050), and all 14 were on Extra Life pages that day.
   {
     label: "Donation matching",
-    amount: 1125,
+    amount: 1050,
     lessExtraLifeGifts: { teamId: TEAM_ID, since: "2026-11-15T00:00:00-06:00", displayName: "RSVP Donation Match" },
   },
-  { label: "Silent auction remaining payouts", amount: 910 },
+  // The owner typed $910 here on 2026-11-15. Since 2026-11-19 it is the unpaid
+  // winning bids from the bid sheets, each coming off as its payment shows up
+  // on an Extra Life page (owner's ask).
+  { label: "Silent auction remaining payouts", silentAuction: true },
   // Pam van Muijen (leadership team) fundraises on another team's page
   // (NCC-AL5, team 74636), so none of it is in our team total. The owner asked
   // for everything given there from Nov 13 on (2026-11-15). Her page:
@@ -69,3 +82,14 @@ export const GAMEDAY_TOTAL_ITEMS: GamedayTotalItem[] = [
     extraLifeGiftsSince: { participantId: 567979, since: "2026-11-13T00:00:00-06:00" },
   },
 ];
+
+/**
+ * The display names that belong to a line of their own (the chips, the RSVP
+ * matches), so the silent auction matcher never takes one of those gifts for
+ * an auction payment: a $75 RSVP match is not a $75 winning bid.
+ */
+export function claimedDisplayNames(items: GamedayTotalItem[] = GAMEDAY_TOTAL_ITEMS): string[] {
+  return items.flatMap((i) =>
+    "lessExtraLifeGifts" in i && i.lessExtraLifeGifts.displayName ? [i.lessExtraLifeGifts.displayName] : [],
+  );
+}

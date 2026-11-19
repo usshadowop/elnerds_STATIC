@@ -1,8 +1,8 @@
 # Modules
 
 - **Status:** Live. Two modules saved. Gameday totals is on the homepage (hero and roster) and the Command Center; Extra Life Page donation totals is only on `/modules`.
-- **Last reviewed:** 2026-11-18 (Chips and Donation matching now shrink by themselves as their gifts are entered on Extra Life pages)
-- **Covers:** `src/lib/siteModules.ts`, `src/pages/Modules.tsx`, `src/components/modules/*`, `src/lib/gamedayTotals.ts`
+- **Last reviewed:** 2026-11-19 (the silent auction line is worked out from the bid sheets and the payments found on Extra Life; `/silent-auction`; Donation matching $1,050 without Morgan's match)
+- **Covers:** `src/lib/siteModules.ts`, `src/pages/Modules.tsx`, `src/components/modules/*`, `src/lib/gamedayTotals.ts`, `src/lib/silentAuction.ts`, `src/hooks/useSilentAuction.ts`, `src/pages/SilentAuction.tsx`
 
 ## Purpose
 
@@ -119,11 +119,68 @@ team's pages under that display name since `since`, never below $0, with a
   higher than the typed figure allowed for. The owner's answer, the same day:
   go by the slips. **Chips is $620** since 2026-11-18, so the line reads $525,
   exactly the photographed slips still to be entered.
+- **Donation matching is $1,050 since 2026-11-19**: the owner took Morgan's
+  match off the list of 15, and the other 14 were all on Extra Life pages that
+  day, so the line reads $0. Chips also reads $0 ("$652 entered"): four of the
+  $10 slips went in as $18 gifts.
 - Checked in a browser against real DonorDrive data, then with the 12
   combined chip gifts added (some with odd capitals and spacing: Chips $0,
   "($620 entered)"), with 150 tagged gifts (a second page, read with
   `offset=101`), and with the team list failing ("—" on the live lines, no
   grand total). No overflow at 320px and 390px on the homepage.
+
+**The silent auction line (2026-11-19).** "Silent auction remaining payouts"
+was the owner's typed $910 (2026-11-15) until the owner asked for each
+auction payment to be found and taken off automatically, by amount. Now it is
+`silentAuction: true` in `gamedayTotals.ts`, and its figure is the winning
+bids in `src/lib/silentAuction.ts` (`AUCTION_WINS`) whose payment hasn't been
+found yet. `/silent-auction` (`src/pages/SilentAuction.tsx`, a team page,
+`useNoIndex()`) lists every item with the gift that paid it, or the
+same-amount gifts that might have.
+
+- **Where the bids come from.** The bid-sheet photos in the captain's Drive
+  folder "Event Photos 2026" (`1_zrOgjnMRc3900sHP_IO05ZO1cMyYorq`, shared with
+  the Drive connector's account), mostly taken 8:16–8:23 AM on Nov 15 as the
+  auctions closed. A Drive full-text search for "silent auction" finds them
+  (Google reads the text in photos). The sheets carry bidders' phone numbers
+  and emails, so the repo holds only the item, the winning bid and the page to
+  pay on, never a winner's name or a photo. Three items have no sheet photo
+  and were added from the payment that names them (Hubworld, the bacon, the
+  KPop Squishmallows); each item's `source` says which.
+- **Winners pay on the page of whoever brought the item**, the name
+  scribbled on the sheet ("PAM", "Jon D", "John H"). Pam's items were paid on
+  her page, which is on another team, so `useSilentAuction` reads our team's
+  list and Pam's (`AUCTION_PAYMENT_PAGES`) from 7 AM Nov 15
+  (`AUCTION_PAYMENTS_SINCE`), an hour before the auctions closed: two winners
+  paid at 7:24 and 7:39 AM. Pam's gifts are also the live "New leadership
+  additions" line, so a payment there is in the grand total once and comes off
+  this line; nothing is counted twice.
+- **The amount alone isn't enough** (`matchAuctionPayments`). A gift counts
+  only if it is exactly the winning bid **and** its name or message mentions
+  the auction or the item (each item's `keywords`), or it was given on the
+  item's page. The best-tied gift wins, then the earliest; a gift pays one
+  item. On 2026-11-19, five unrelated $30 gifts and a $20 one had come in
+  after the close, the same as two unpaid bids: by amount alone, both items
+  would have shown as paid. Those are listed under the item as "same amount,
+  but nothing else ties it", not counted.
+- **Gifts under a display name that has its own line** ("Poker Chip
+  Donations", "RSVP Donation Match", from `claimedDisplayNames()`) are never
+  taken: a $75 RSVP match is not a $75 bid.
+- **By hand, per item:** `paidBy: "<donationID>"` when the matcher can't find
+  the payment (another page, a different amount, two items in one gift; the id
+  is the small code under each gift on `/silent-auction`), or `paidOutside:
+  "<what happened>"` for cash or a check. Gifts that mention the auction but
+  match no item are listed at the bottom of `/silent-auction`, so a win
+  missing from the list shows up.
+- When built: 12 items, $1,055 in winning bids, $735 paid (Avengers poster
+  $350, Hubworld $100 and Kutná Hora $40 on Pam's page; the bacon $100, the
+  "Stuffies" $110, the keyboard and playmat $35), **$320 owed** (Timberwolves
+  tickets $125, Root $90, Grogu $35, Chip Theory Kids $30, Hexeh $20, the pink
+  necklace $20). The line had read $910, so the grand total dropped $590.
+- Checked against the live gifts (the numbers above), with made-up gifts (an
+  RSVP match the size of a bid, two items of one amount, a gift set by
+  `paidBy`, a cash item, a stray "silent auction" gift), and in a browser at
+  320px, 390px and 1280px with no sideways scroll.
 
 **Where Gameday totals is used (2026-11-15).** The owner asked for it
 "everywhere the old module was, for last minute announcements". So it replaced
@@ -167,16 +224,24 @@ fits its card on the homepage and the Command Center from 320px to 1440px.
 - **When do the homepage and Command Center go back** to the plain Extra
   Life total (or something else)? The owner's call; see Open threads in
   CLAUDE.md.
-- **The four Gameday totals amounts are typed in.** The live line ("New
-  leadership additions") keeps itself current, and Chips and Donation matching
-  shrink by themselves as their gifts are entered (above). To change a typed
-  amount (the silent auction payouts will come in, for instance), edit
-  `src/lib/gamedayTotals.ts` and push. Cash bucket and silent auction payouts
-  don't shrink: if either is ever entered on Extra Life pages, give it a
-  `lessExtraLifeGifts` with its own display name, or lower it by hand. List only money that is **not** on the
-  Extra Life page; anything also entered there (an offline donation) would be
-  counted twice. Whether any of the four 2026 amounts is also on the Extra Life
-  page is the owner's knowledge, not checked.
+- **Only Cash bucket is a plain typed amount now.** "New leadership
+  additions" keeps itself current, Chips and Donation matching shrink by
+  themselves as their gifts are entered, and the silent auction line follows
+  the payments (above). To change a typed amount, or add an auction win, edit
+  `src/lib/gamedayTotals.ts` or `src/lib/silentAuction.ts` and push. Cash
+  bucket doesn't shrink: if it is ever entered on Extra Life pages, give it a
+  `lessExtraLifeGifts` with its own display name, or lower it by hand. List
+  only money that is **not** on the Extra Life page; anything also entered
+  there (an offline donation) would be counted twice.
+- **Open on the auction list (2026-11-19):** whether the owner's $910 and the
+  sheets agree (the list holds $1,055 in winning bids; leaving out the $110
+  "Stuffies", paid before the close, that's $945 against $910); the agate necklace (item A,
+  bidder's name scribbled out); the stretch bracelet (item B: $10 on the noon
+  Saturday photo, then a $25 "Bracelet" gift to the Holts at 7:39 AM Sunday);
+  Hoplomachus: Victorum and the Too Many Bones pack (on the auction list, no
+  sheet photo, no payment found); and whether the $110 "Stuffies" was Sussie
+  and Derpy together. Until answered, none of these is on the list except the
+  Stuffies.
 
 - A new module: a component in `src/components/modules/`, a case in
   `ModulePreview.tsx`, an entry in `SITE_MODULES` and its slug in
