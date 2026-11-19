@@ -148,7 +148,8 @@ same-amount gifts that might have.
   and were added from the payment that names them (Hubworld, the bacon, the
   KPop Squishmallows); each item's `source` says which.
 - **Winners pay on the page of whoever brought the item**, the name
-  scribbled on the sheet ("PAM", "Jon D", "John H"). Pam's items were paid on
+  scribbled on the sheet ("PAM", "Jon D", "John H"); the owner confirmed the
+  pages of the six unpaid items on 2026-11-19. Pam's items were paid on
   her page, which is on another team, so `useSilentAuction` reads our team's
   list and Pam's (`AUCTION_PAYMENT_PAGES`) from 7 AM Nov 15
   (`AUCTION_PAYMENTS_SINCE`), an hour before the auctions closed: two winners

@@ -57,6 +57,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-11-14 | Owner | Send the last-minute Game Day email (`email/elnerds-gameday-parking-prizes.html`), then archive it per `email/archive/README.md`. |
 | 2026-11-15 | Owner | Gameday totals (homepage hero, roster, Command Center) adds to the live Extra Life total: Chips $620 and Donation matching $1,050 (Morgan's match dropped 2026-11-19), both now $0 because every gift is entered under "Poker Chip Donations" / "RSVP Donation Match"; Cash bucket $575 ($175 plus a $400 check), typed in; the silent auction's unpaid bids, worked out live since 2026-11-19 ($320 then, see the next line). Confirm Cash bucket isn't also on Extra Life, then decide when the site goes back to the plain Extra Life total. (A further line, "New leadership additions", is live: Pam's page since Nov 13.) |
 | 2026-11-19 | Owner | Check the silent auction list in `src/lib/silentAuction.ts` (read from the bid-sheet photos in the captain's Drive folder "Event Photos 2026"; `/silent-auction` shows it with the gift that paid each item). Open: does the owner's $910 agree with the sheets ($945 of bids beyond the "Stuffies" paid before the close)? The agate necklace (item A, bidder's name scribbled out), the stretch bracelet (item B: was the $25 "Bracelet" gift to the Holts its payment?), Hoplomachus: Victorum and the Too Many Bones pack (no sheet photo, no payment found): were they won, and for how much? Until answered, none of these is listed. (The $110 "Stuffies" was Sussie and Derpy as one lot: owner, 2026-11-19.) |
+| 2026-11-19 | Owner | Send the four drafts in us.shadow.op's Gmail to the unpaid auction winners: Tom Ebert (Timberwolves tickets), Nathan Elliott (Root, Chip Theory Kids, pink necklace), Kenyon Barnette (Grogu), Ruth Deckenbach (Hexeh). Each lists the items and bids, links to the donate page the owner named, asks for the item in the donation message, asks where and when to meet, and shows the winner's bid sheet with other bidders blacked out. Tom's address (`tebert01@gmail.com`) is read from handwriting and may be `tebertol`. |
 | 2026-11-15 | Owner (decision) | Two branches hold only unmerged handoff notes (no code): `claude/fervent-bell-6kqzzg` (2026-11-11: the Placemaker print sheet, Drive connector accounts) and `claude/stoic-babbage-l4k1va` (2026-11-12/13: leadership flyers and lanyard passes). Their print facts were checked in Drive and are in the prizes card; merge whatever else is wanted, then delete both branches. |
 
 Rules that keep this honest:
@@ -97,6 +98,9 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   15th (Morgan's) never was. Then "push it live": squash-merged as PR #232
   and checked in the live bundle. The owner then confirmed the $110
   "Stuffies" was Sussie and Derpy as one lot (#233, text only).
+- Drafted emails to the four unpaid winners in the owner's Gmail (Open
+  threads), with donate links to the pages the owner named, which are the
+  pages `silentAuction.ts` already expects.
 
 ## Ship-live workflow
 
