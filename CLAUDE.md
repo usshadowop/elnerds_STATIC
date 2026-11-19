@@ -58,6 +58,10 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-11-15 | Owner | Gameday totals (homepage hero, roster, Command Center) adds to the live Extra Life total: Chips $620 and Donation matching $1,050 (Morgan's match dropped 2026-11-19), both now $0 because every gift is entered under "Poker Chip Donations" / "RSVP Donation Match"; Cash bucket $575 ($175 plus a $400 check), typed in; the silent auction's unpaid bids, worked out live since 2026-11-19 ($320 then, see the next line). Confirm Cash bucket isn't also on Extra Life, then decide when the site goes back to the plain Extra Life total. (A further line, "New leadership additions", is live: Pam's page since Nov 13.) |
 | 2026-11-19 | Owner | Check the silent auction list in `src/lib/silentAuction.ts` (read from the bid-sheet photos in the captain's Drive folder "Event Photos 2026"; `/silent-auction` shows it with the gift that paid each item). Open: does the owner's $910 agree with the sheets ($945 of bids beyond the "Stuffies" paid before the close)? Hoplomachus: Victorum and the Too Many Bones pack are on the auction list in `src/lib/prizes.ts` but have no bid sheet photo in Drive and no payment: were they won, and for how much? Until answered, neither is listed. (Settled 2026-11-19 by the owner: the $110 "Stuffies" was Sussie and Derpy as one lot; the stretch bracelet sold for $25, paid by the "Bracelet" gift to the Holts; the agate necklace didn't sell.) The four winners still to pay (Tom Ebert, Nathan Elliott, Kenyon Barnette, Ruth Deckenbach) were emailed 2026-11-19 with donate links to the item's page and asked to name the item in the message; their payments should show up on `/silent-auction` by themselves. |
 | 2026-11-15 | Owner (decision) | Two branches hold only unmerged handoff notes (no code): `claude/fervent-bell-6kqzzg` (2026-11-11: the Placemaker print sheet, Drive connector accounts) and `claude/stoic-babbage-l4k1va` (2026-11-12/13: leadership flyers and lanyard passes). Their print facts were checked in Drive and are in the prizes card; merge whatever else is wanted, then delete both branches. |
+| 2026-11-19 | Owner | **Say go to start the module refactor.** The full plan is `docs/plans/module-refactor/PLAN.md` (13 phases, 57 PRs, about 117–192 h; nothing built, only PR 0.1, the lock-in, is done). The owner's 58 locked choices are `docs/plans/module-refactor/decisions.json`; the review page (claude.ai artifact `RSVBvxpZqUHbLbePSWyWmB`) is locked read-only. Start with PR 0.2. |
+| 2026-11-19 | Owner (decision) | Module refactor approach: page lists as JSON page files in Puck's shape with build-checked rules (recommended by 2 of 3 judges) or page lists written in code. Needed at the gate after Phase 5 of the plan; everything before it is the same either way. Not answered on the review page. |
+| 2026-11-19 | Owner (decision) | Module refactor names: confirm **Buttons** (the generic button-row module, also built from the shared link list the menu will use) and **Photos** (generic photo module), and folding the Why We Play photo carousel into Photos as its "stack" layout. Needed by the end of Phase 1. |
+| 2026-11-19 | Owner | Module refactor auction gate: say when the silent-auction payments and the Gameday totals lines are final. Until then the refactor doesn't touch `gamedayTotals.ts`, `GamedayTotals.tsx`, `useExtraLifeGiftsSince.ts`, `silentAuction.ts`, `useSilentAuction.ts`, `SilentAuction.tsx`; default trigger is every item on `/silent-auction` showing paid. Also wanted: the Game Day 2027 date (the plan's done-by for Game Day pieces is 1 Sep 2027). |
 
 Rules that keep this honest:
 
@@ -74,6 +78,28 @@ Rules that keep this honest:
 
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
+
+*Session of 2026-11-15 to 2026-11-19 (modules: the review, the decisions, the plan; also built the first two modules, see git log #226–#228):*
+
+- The owner asked to turn the whole site into modules. Ran an inventory of
+  every section, a design panel, and a re-judging for the owner's real goal:
+  **maintainable by a semi-web-savvy person without AI**. Verdict (2 of 3
+  judges): sections as modules, pages as small JSON page files in Puck's shape
+  with build-checked rules, one Columns module for side-by-side.
+- Built a review page (claude.ai artifact `RSVBvxpZqUHbLbePSWyWmB`: every page
+  screenshotted, every section outlined). The owner decided all 58 items: 47
+  modules, 2 merged, 9 not; 11 overrides of the suggestions and 7 notes (a
+  generic **Buttons** module fed by a shared link list the menu also uses, a
+  generic **Photos** module, the Hero shown by itself, renames Incentives and
+  Stream blurb). Locked 2026-11-19 and saved as
+  `docs/plans/module-refactor/decisions.json`; the page is read-only now.
+- Wrote the execution plan, `docs/plans/module-refactor/PLAN.md` (three
+  planners, two adversarial reviewers, one merge): 13 phases, 57 small PRs,
+  about 117–192 h, safety nets first, year-round work before Game Day work
+  (Game Day pieces done by 1 Sep 2027). **Owner said: plan it, don't start.**
+  Only PR 0.1 (this lock-in) is done. Open decisions are in Open threads.
+- Checked before planning: main at #236, no open PRs, nothing to pick up. The
+  plan protects the live auction and totals work from the session above.
 
 *Session of 2026-11-19 (Morgan's RSVP match off; silent auction payments found automatically):*
 
@@ -258,7 +284,11 @@ already there.
   `src/lib/silentAuction.ts`, less every one whose payment is found on our
   team's pages or Pam's (same amount plus a mention of the auction or the item,
   or given on the item's page). `/silent-auction` (team page, noindex) shows
-  which gift paid which item. See the site-modules card.
+  which gift paid which item. See the site-modules card. **A full conversion of
+  the site to modules is planned, not started** (owner's choices locked
+  2026-11-19): `docs/plans/module-refactor/PLAN.md` and `decisions.json`. Build
+  modules only as that plan says, and never touch the files in its section 6
+  ("What to protect") before the owner opens the auction gate.
 - `src/pages/Parking.tsx` (`/parking`, 2026-11-14): where to park for Game
   Day (the owner's annotated map) and a photo of each step from the lot to
   Improving, suite 180. `src/pages/Prizes.tsx` (`/prizes`, 2026-11-14): the

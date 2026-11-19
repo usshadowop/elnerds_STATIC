@@ -1,0 +1,783 @@
+{
+ "lockedOn": "2026-11-19",
+ "about": "The owner's 58 choices from the module review, copied unchanged from the review page's store (claude.ai artifact RSVBvxpZqUHbLbePSWyWmB, now locked read-only). 'choice' is final: module = becomes a module; merge = stays part of a bigger module or page; no = not a module. 'plan' is how docs/plans/module-refactor/PLAN.md carries it out and 'deliveredIn' the PR(s) that build it.",
+ "approach": null,
+ "approachNote": "Not answered yet: page lists as JSON page files in Puck's shape with build-checked rules (recommended) or page lists in code. Needed after Phase 5; work before that is the same either way.",
+ "decisions": [
+  {
+   "key": "active-roster",
+   "name": "Team roster",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 5.1: the Team roster module with a totals-card choice; ships alone with the live-figure check",
+   "onPages": [
+    "/",
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "columns",
+   "name": "Columns (two modules side by side)",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 3.2: the module, shown on /modules. First live use in 4.6 (2026 Donors)",
+   "onPages": [
+    "/",
+    "/gameday"
+   ]
+  },
+  {
+   "key": "cta-buttons",
+   "name": "Donate / Join / RSVP buttons",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "Lets have this be a generic module called buttons. And have a large list of links i can build the menu from including the ones shown. There will be sections, links off page, links to other parts of the website etc in the modules options. Genericize the name of this module to just buttons or something you suggest.",
+   "plan": "module (renamed Buttons, generic, many copies)",
+   "deliveredIn": "PR 2.2: the Buttons module, built on the shared link list from 2.1. Live in 4.3 (More to earn) and 5.2 (the hero's Donate / Join / RSVP)",
+   "onPages": [
+    "/",
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "donation-ticker",
+   "name": "Latest donations strip",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.8: registered with count and 'See all donations' options. Placed in the Hero's parts in 5.2",
+   "onPages": [
+    "/",
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "donation-tokens",
+   "name": "Donation tokens (poker chips)",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 9.2. Used on the Game Day homepage page file in 11.2",
+   "onPages": [
+    "/",
+    "/prizes"
+   ]
+  },
+  {
+   "key": "donations-panel",
+   "name": "Totals & latest donations row",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 7.1, after the auction gate. Used on the Command Center page file in 10.5",
+   "onPages": [
+    "/gameday"
+   ]
+  },
+  {
+   "key": "donor-wall",
+   "name": "Extra Life donor wall",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.6",
+   "onPages": [
+    "/"
+   ]
+  },
+  {
+   "key": "donors",
+   "name": "2026 Donors",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.6: Section band + Columns 2/3-1/3 of Donor wall and Supporter cards",
+   "onPages": [
+    "/",
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "event-details",
+   "name": "Event details & sign-ups",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 10.4. /gameday_events keeps using its parts",
+   "onPages": [
+    "/gameday"
+   ]
+  },
+  {
+   "key": "event-prizes",
+   "name": "Event prizes",
+   "choice": "module",
+   "suggested": "merge",
+   "override": true,
+   "note": "",
+   "plan": "module (owner override; was part of page)",
+   "deliveredIn": "PR 9.2. Used on the /prizes page file in 9.3",
+   "onPages": [
+    "/prizes"
+   ]
+  },
+  {
+   "key": "events",
+   "name": "Events",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.9. Its Game Day panel switches to the Run of show and Event details modules in 10.3 and 10.4",
+   "onPages": [
+    "/",
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "final-total",
+   "name": "Countdown / final total card",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.7: the Countdown / final total module. Placed in the Hero's parts in 5.2",
+   "onPages": [
+    "/",
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "footer",
+   "name": "Footer",
+   "choice": "no",
+   "suggested": "no",
+   "override": false,
+   "note": "",
+   "plan": "no (stays the frame)",
+   "deliveredIn": "Not a module. PR 2.1 builds it from the shared link list; recipe in MAINTAINING.md (12.1); recorded on /modules in 1.2",
+   "onPages": [
+    "/"
+   ]
+  },
+  {
+   "key": "form-pieces",
+   "name": "Form pieces",
+   "choice": "no",
+   "suggested": "no",
+   "override": false,
+   "note": "",
+   "plan": "no",
+   "deliveredIn": "Not a module; recorded on /modules in 1.2. Optional PR 12.3 shares the pieces between the four forms only if the owner says yes",
+   "onPages": [
+    "/mtginterest"
+   ]
+  },
+  {
+   "key": "game-week-drawing",
+   "name": "Gillette's Game Week drawing",
+   "choice": "module",
+   "suggested": "merge",
+   "override": true,
+   "note": "",
+   "plan": "module (owner override; was part of page)",
+   "deliveredIn": "PR 4.3. Used on the /incentives page file in 6.4",
+   "onPages": [
+    "/incentives"
+   ]
+  },
+  {
+   "key": "gameday-countdown",
+   "name": "Big Game Day countdown",
+   "choice": "merge",
+   "suggested": "merge",
+   "override": false,
+   "note": "",
+   "plan": "merge (into final-total)",
+   "deliveredIn": "PR 4.7. /gameday before kickoff stays a code page (GamedayCountdown.tsx) that shows the Countdown module at its big size",
+   "onPages": [
+    "/gameday"
+   ]
+  },
+  {
+   "key": "gameday-essentials",
+   "name": "Game Day essentials",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 11.1",
+   "onPages": [
+    "/"
+   ]
+  },
+  {
+   "key": "gameday-notice",
+   "name": "Game Day notice banner",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 10.1",
+   "onPages": [
+    "/gameday"
+   ]
+  },
+  {
+   "key": "gameday-signups",
+   "name": "Game Day event sign-ups",
+   "choice": "no",
+   "suggested": "no",
+   "override": false,
+   "note": "",
+   "plan": "no",
+   "deliveredIn": "Not a module: /gameday_events stays a code page. It takes the shared Status banner in 3.1 and Event details' parts in 10.4; recorded on /modules in 1.2",
+   "onPages": [
+    "/gameday_events"
+   ]
+  },
+  {
+   "key": "gameday-totals",
+   "name": "Gameday totals",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "Registered unedited in 1.2 and placed unedited in 5.1/5.2. After the auction gate: its buttons option in 7.1, full registry ownership and its own card in 7.2, and the move into src/modules/ in 7.3",
+   "onPages": [
+    "/",
+    "/gameday"
+   ]
+  },
+  {
+   "key": "getting-here",
+   "name": "Getting here (homepage)",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 8.2: Section band + Columns of Where to park and The way in",
+   "onPages": [
+    "/"
+   ]
+  },
+  {
+   "key": "goals-incentives",
+   "name": "Goals & incentives",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 10.1",
+   "onPages": [
+    "/gameday"
+   ]
+  },
+  {
+   "key": "hero",
+   "name": "Hero (top of the homepage)",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "Give me an example of what this would look like by itself with no additional modules added to it.",
+   "plan": "module",
+   "deliveredIn": "PR 2.3: the Hero by itself on /modules (the owner's example). PR 5.2: live with its parts",
+   "onPages": [
+    "/",
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "hero-photos",
+   "name": "Hero team photo",
+   "choice": "module",
+   "suggested": "merge",
+   "override": true,
+   "note": "Can we abstract this into jus ta generic photo module that has like a photo secdtion / size display for options?",
+   "plan": "module (owner override; folded into the generic Photos module)",
+   "deliveredIn": "PR 3.3: the Photos module. The hero's team photo becomes Photos in 5.2",
+   "onPages": [
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "in-kind-donors",
+   "name": "Supporter cards (venue, food & in-kind)",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.5: Supporter cards, reading the one supporter list",
+   "onPages": [
+    "/"
+   ]
+  },
+  {
+   "key": "incentive-extras",
+   "name": "More to earn",
+   "choice": "module",
+   "suggested": "merge",
+   "override": true,
+   "note": "",
+   "plan": "module (owner override; More to earn)",
+   "deliveredIn": "PR 4.3. Used on the /incentives page file in 6.4",
+   "onPages": [
+    "/incentives"
+   ]
+  },
+  {
+   "key": "kids-links",
+   "name": "“Get to know the kids / Gillette” buttons",
+   "choice": "module",
+   "suggested": "merge",
+   "override": true,
+   "note": "Again can we just loop this into the previous buttons module taht way i can generaet and create multiple modules of buttons and apply them or do i need seperate modules?",
+   "plan": "module (owner override; folded into Buttons as a saved copy)",
+   "deliveredIn": "PR 2.2: the saved 'Get to know' Buttons copy. Live in the Hero in 5.2",
+   "onPages": [
+    "/",
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "latest-donations",
+   "name": "Latest donations (list)",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 7.1, after the auction gate",
+   "onPages": [
+    "/gameday"
+   ]
+  },
+  {
+   "key": "leadership-dnd",
+   "name": "Leadership D&D stream page",
+   "choice": "merge",
+   "suggested": "merge",
+   "override": false,
+   "note": "",
+   "plan": "merge (into live-streams)",
+   "deliveredIn": "PR 10.2. /leadership_DandD stays a page and shows the Live streams module in one-stream mode",
+   "onPages": [
+    "/leadership_DandD"
+   ]
+  },
+  {
+   "key": "leadership-incentives",
+   "name": "Leadership-team incentives ($75 / $25 / $5)",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "Just rename module as incentives",
+   "plan": "module (renamed Incentives)",
+   "deliveredIn": "PR 4.3. Used on the /incentives page file in 6.4",
+   "onPages": [
+    "/incentives"
+   ]
+  },
+  {
+   "key": "leadership-team",
+   "name": "Leadership team",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.2",
+   "onPages": [
+    "/",
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "live-streams",
+   "name": "Live streams",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 10.2",
+   "onPages": [
+    "/gameday"
+   ]
+  },
+  {
+   "key": "meet-the-kids",
+   "name": "Meet the kids",
+   "choice": "no",
+   "suggested": "module",
+   "override": true,
+   "note": "",
+   "plan": "no (owner override; was suggested as a module)",
+   "deliveredIn": "Not a module: /patient-profiles stays an untouched code page, and Buttons links to it. Recorded on /modules in 1.2",
+   "onPages": [
+    "/patient-profiles"
+   ]
+  },
+  {
+   "key": "mtg-interest",
+   "name": "Magic interest form",
+   "choice": "no",
+   "suggested": "no",
+   "override": false,
+   "note": "",
+   "plan": "no",
+   "deliveredIn": "Not a module: /mtginterest stays a code page. Recorded on /modules in 1.2; optional shared form pieces in 12.3",
+   "onPages": [
+    "/mtginterest"
+   ]
+  },
+  {
+   "key": "newsletter-signup",
+   "name": "Newsletter sign-up card",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.10. /newsletter becomes a page file in 6.5",
+   "onPages": [
+    "/newsletter"
+   ]
+  },
+  {
+   "key": "our-impact",
+   "name": "Our Impact",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.1",
+   "onPages": [
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "our-story",
+   "name": "Our story (Why We Play text)",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.4",
+   "onPages": [
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "page-header",
+   "name": "Page title block",
+   "choice": "module",
+   "suggested": "no",
+   "override": true,
+   "note": "",
+   "plan": "module (owner override; was a building block)",
+   "deliveredIn": "PR 3.1",
+   "onPages": [
+    "/gameday",
+    "/incentives",
+    "/parking",
+    "/prizes"
+   ]
+  },
+  {
+   "key": "parking-map",
+   "name": "Where to park",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 8.1",
+   "onPages": [
+    "/parking"
+   ]
+  },
+  {
+   "key": "photo-carousel",
+   "name": "Photo carousel",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module (recommended: folded into Photos as its 'stack' layout; owner confirms at the Phase 3 gate)",
+   "deliveredIn": "PR 3.3. Used by Why We Play in 4.4. Falls back to its own module reading the same photo sets if the code can't be shared",
+   "onPages": [
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "prize-drawings",
+   "name": "Prize drawings card",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 9.1",
+   "onPages": [
+    "/",
+    "/prizes"
+   ]
+  },
+  {
+   "key": "prize-tables",
+   "name": "On the prize tables",
+   "choice": "module",
+   "suggested": "merge",
+   "override": true,
+   "note": "",
+   "plan": "module (owner override; was part of page)",
+   "deliveredIn": "PR 9.2",
+   "onPages": [
+    "/prizes"
+   ]
+  },
+  {
+   "key": "prizes-summary",
+   "name": "Prize drawings & silent auctions",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 9.3",
+   "onPages": [
+    "/"
+   ]
+  },
+  {
+   "key": "registration-steps",
+   "name": "Registration steps",
+   "choice": "no",
+   "suggested": "no",
+   "override": false,
+   "note": "",
+   "plan": "no",
+   "deliveredIn": "Not a module: /registration stays a code page. Recorded on /modules in 1.2; listed in MAINTAINING.md in 12.1",
+   "onPages": [
+    "/registration"
+   ]
+  },
+  {
+   "key": "rsvp-chooser",
+   "name": "RSVP list",
+   "choice": "no",
+   "suggested": "no",
+   "override": false,
+   "note": "",
+   "plan": "no",
+   "deliveredIn": "Not a module: /rsvp stays a code page. Recorded on /modules in 1.2",
+   "onPages": [
+    "/rsvp"
+   ]
+  },
+  {
+   "key": "rsvp-form",
+   "name": "RSVP form for one event",
+   "choice": "no",
+   "suggested": "no",
+   "override": false,
+   "note": "",
+   "plan": "no",
+   "deliveredIn": "Not a module: /rsvp/<slug> stays a code page. Recorded on /modules in 1.2; optional shared form pieces in 12.3",
+   "onPages": [
+    "/rsvp/bingo"
+   ]
+  },
+  {
+   "key": "run-of-show",
+   "name": "Game Day schedule (run of show)",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 10.3",
+   "onPages": [
+    "/gameday"
+   ]
+  },
+  {
+   "key": "section-band",
+   "name": "Section band (heading and background)",
+   "choice": "module",
+   "suggested": "no",
+   "override": true,
+   "note": "",
+   "plan": "module (owner override; was a building block)",
+   "deliveredIn": "PR 3.2",
+   "onPages": [
+    "/"
+   ]
+  },
+  {
+   "key": "silent-auctions",
+   "name": "Silent auctions card",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 9.1. This is the prize card; the /silent-auction team page is outside this work",
+   "onPages": [
+    "/",
+    "/prizes"
+   ]
+  },
+  {
+   "key": "site-nav",
+   "name": "Site menu",
+   "choice": "no",
+   "suggested": "no",
+   "override": false,
+   "note": "",
+   "plan": "no (stays the frame)",
+   "deliveredIn": "Not a module. PR 2.1 builds the menu from content/links.json and content/menu.json; 6.3 makes it follow the live page file",
+   "onPages": [
+    "/"
+   ]
+  },
+  {
+   "key": "sponsor-links",
+   "name": "Sponsor links",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.5: reads the one supporter list",
+   "onPages": [
+    "/gameday"
+   ]
+  },
+  {
+   "key": "sponsors-2025",
+   "name": "2025 sponsors",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module (Past sponsors)",
+   "deliveredIn": "PR 4.1",
+   "onPages": [
+    "/templates/standard-display"
+   ]
+  },
+  {
+   "key": "status-banner",
+   "name": "“Game Day has wrapped” banner",
+   "choice": "module",
+   "suggested": "no",
+   "override": true,
+   "note": "",
+   "plan": "module (owner override; was a building block)",
+   "deliveredIn": "PR 3.1: on /incentives, /prizes, /parking, /gameday_holding and /gameday_events",
+   "onPages": [
+    "/gameday",
+    "/gameday_events",
+    "/incentives",
+    "/prizes"
+   ]
+  },
+  {
+   "key": "venue-card",
+   "name": "Venue & directions card",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 8.1",
+   "onPages": [
+    "/gameday",
+    "/parking"
+   ]
+  },
+  {
+   "key": "victoria-story",
+   "name": "Victoria's story (short)",
+   "choice": "module",
+   "suggested": "merge",
+   "override": true,
+   "note": "Again can this be part of the buttons module?",
+   "plan": "module (owner override; folded into Buttons as a saved video copy)",
+   "deliveredIn": "PR 2.2: the saved copy. Used in Our story in 4.4 and on the Game Day homepage page file in 11.2",
+   "onPages": [
+    "/"
+   ]
+  },
+  {
+   "key": "watch-summary",
+   "name": "Watch all day",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "Call this stream blurb module",
+   "plan": "module (renamed Stream blurb)",
+   "deliveredIn": "PR 11.1",
+   "onPages": [
+    "/"
+   ]
+  },
+  {
+   "key": "way-in",
+   "name": "The way in (photo steps)",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 8.1",
+   "onPages": [
+    "/parking"
+   ]
+  },
+  {
+   "key": "why-we-play",
+   "name": "Why We Play",
+   "choice": "module",
+   "suggested": "module",
+   "override": false,
+   "note": "",
+   "plan": "module",
+   "deliveredIn": "PR 4.4: Section band + Columns of Photos (stack) and Our story",
+   "onPages": [
+    "/templates/standard-display"
+   ]
+  }
+ ]
+}
