@@ -1,7 +1,7 @@
 # Modules
 
 - **Status:** Live. Two modules saved. Gameday totals is on the homepage (hero and roster) and the Command Center; Extra Life Page donation totals is only on `/modules`.
-- **Last reviewed:** 2026-11-19 (Sussie and Derpy confirmed as one lot; the silent auction line is worked out from the bid sheets and the payments found on Extra Life; `/silent-auction`; Donation matching $1,050 without Morgan's match)
+- **Last reviewed:** 2026-11-19 (stretch bracelet added, agate necklace unsold; Sussie and Derpy confirmed as one lot; the silent auction line is worked out from the bid sheets and the payments found on Extra Life; `/silent-auction`; Donation matching $1,050 without Morgan's match)
 - **Covers:** `src/lib/siteModules.ts`, `src/pages/Modules.tsx`, `src/components/modules/*`, `src/lib/gamedayTotals.ts`, `src/lib/silentAuction.ts`, `src/hooks/useSilentAuction.ts`, `src/pages/SilentAuction.tsx`
 
 ## Purpose
@@ -178,6 +178,10 @@ same-amount gifts that might have.
   "Stuffies" $110, the keyboard and playmat $35), **$320 owed** (Timberwolves
   tickets $125, Root $90, Grogu $35, Chip Theory Kids $30, Hexeh $20, the pink
   necklace $20). The line had read $910, so the grand total dropped $590.
+  Later that day the owner confirmed the stretch bracelet (item B) sold for
+  $25, paid by the "Bracelet" gift to the Holts (7:39 AM Nov 15), and the
+  agate necklace (item A) didn't sell: 13 items, $1,080 in bids, $760 paid,
+  still $320 owed.
 - Checked against the live gifts (the numbers above), with made-up gifts (an
   RSVP match the size of a bid, two items of one amount, a gift set by
   `paidBy`, a cash item, a stray "silent auction" gift), and in a browser at
@@ -235,14 +239,14 @@ fits its card on the homepage and the Command Center from 320px to 1440px.
   only money that is **not** on the Extra Life page; anything also entered
   there (an offline donation) would be counted twice.
 - **Open on the auction list (2026-11-19):** whether the owner's $910 and the
-  sheets agree (the list holds $1,055 in winning bids; leaving out the $110
-  "Stuffies", paid before the close, that's $945 against $910); the agate necklace (item A,
-  bidder's name scribbled out); the stretch bracelet (item B: $10 on the noon
-  Saturday photo, then a $25 "Bracelet" gift to the Holts at 7:39 AM Sunday);
-  Hoplomachus: Victorum and the Too Many Bones pack (on the auction list, no
-  sheet photo, no payment found). Until answered, none of these is on the
-  list. (The $110 "Stuffies" was Sussie and Derpy as one lot, the owner
-  confirmed the same day.)
+  sheets agree (the list held $1,055 in winning bids when built; leaving out
+  the $110 "Stuffies", paid before the close, that's $945 against $910); and
+  Hoplomachus: Victorum and the Too Many Bones pack, on the auction list in
+  `src/lib/prizes.ts` (the owner's list of 2026-11-14) but with no bid sheet
+  photo in Drive and no payment found: were they won? Until answered, neither
+  is on the list. Settled the same day: the $110 "Stuffies" was Sussie and
+  Derpy as one lot, the stretch bracelet sold for $25, the agate necklace
+  didn't sell.
 
 - A new module: a component in `src/components/modules/`, a case in
   `ModulePreview.tsx`, an entry in `SITE_MODULES` and its slug in
