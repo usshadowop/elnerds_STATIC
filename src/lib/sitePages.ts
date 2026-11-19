@@ -91,6 +91,7 @@ export function sitePageGroups(): SiteGroup[] {
         { path: "sitemap", title: "Site map", note: "This list of pages, without the file locations.", source: "src/pages/SiteMap.tsx" },
         { path: "templates", title: "Homepage templates", note: "Every homepage layout we've saved (Standard Display, Gameday Week Runup), with previews and which one is live.", source: "src/pages/Templates.tsx, listed in src/lib/homeTemplates.ts" },
         { path: "modules", title: "Modules", note: "Every saved page piece (Extra Life Page donation totals, …), shown live all at once. /module works too.", source: "src/pages/Modules.tsx, listed in src/lib/siteModules.ts" },
+        { path: "silent-auction", title: "Silent auction payments", note: "Every Game Day 2026 winning bid and the Extra Life gift that paid it, found live; what's still owed feeds Gameday totals.", source: "src/pages/SilentAuction.tsx, items in src/lib/silentAuction.ts" },
         { path: "library", title: "Library", note: "Every page and every file the site serves, with where each one lives in the repo.", source: "src/pages/Library.tsx" },
       ],
     },

@@ -8,22 +8,15 @@ import { parseDonorDriveDate } from "@/lib/donationFormat";
 // which is on NCC-AL5) or a whole team's, optionally only the gifts entered
 // under one display name (the chips and RSVP matches typed onto our team's
 // pages, so they come off their typed-in Gameday totals lines).
+// `fetchGiftsSince` (the gifts themselves, not a sum) also feeds the silent
+// auction matcher (src/hooks/useSilentAuction.ts).
 const BASE_URL = "https://dd.extra-life.org/api";
 /** DonorDrive's page size cap. */
 const PAGE = 100;
 /** Stop after this many pages (10,000 gifts) whatever happens. */
 const MAX_PAGES = 100;
 
-export type GiftsSince = (
-  | {
-      /** The number in the participant's API record, also in their page's HTML. */
-      participantId: number;
-    }
-  | {
-      /** Every page on the team (ours is 73600). */
-      teamId: number;
-    }
-) & {
+export type GiftsSince = GiftsFrom & {
   /** ISO time with an offset, e.g. "2026-11-13T00:00:00-06:00" (Central). */
   since: string;
   /**
@@ -34,7 +27,22 @@ export type GiftsSince = (
   displayName?: string;
 };
 
-type Donation = { donationID: string; amount?: number; displayName?: string; createdDateUTC: string };
+/** One gift as DonorDrive lists it (the fields we read). */
+export type ExtraLifeGift = {
+  donationID: string;
+  /** Missing when the donor hid the amount. */
+  amount?: number;
+  /** Missing for anonymous gifts. */
+  displayName?: string;
+  /** Missing when the donor left none. */
+  message?: string;
+  /** Whose page the gift went to. */
+  recipientName?: string;
+  createdDateUTC: string;
+};
+
+/** Where to read gifts from: one participant's page, or every page on a team. */
+export type GiftsFrom = { participantId: number } | { teamId: number };
 
 /** "  Poker  chip donations " and "Poker Chip Donations" are the same name. */
 function sameName(a: string | undefined, b: string): boolean {
@@ -43,20 +51,20 @@ function sameName(a: string | undefined, b: string): boolean {
 }
 
 /**
- * The sum of a participant's (or a team's) gifts at or after `since`, in
- * dollars, only those under `displayName` if one is given.
+ * Every gift to a participant's page (or a team's pages) at or after `since`,
+ * newest first. `participantId` is the number in the participant's API record,
+ * also in their page's HTML; our team is 73600.
  *
  * DonorDrive lists donations newest first, and its `offset` counts from 1
  * (offset=1 is the first gift, offset=101 the 101st), for teams as for
- * participants. Paging stops at the first gift older than `since`. Gifts whose
- * donor hid the amount have no `amount` and can't be added.
+ * participants. Paging stops at the first gift older than `since`. A gift
+ * whose date won't parse is left out rather than guessed at.
  */
-async function sumGiftsSince(spec: GiftsSince, signal: AbortSignal): Promise<number> {
-  const { since, displayName } = spec;
-  const path = "teamId" in spec ? `teams/${spec.teamId}` : `participants/${spec.participantId}`;
+export async function fetchGiftsSince(from: GiftsFrom, since: string, signal: AbortSignal): Promise<ExtraLifeGift[]> {
+  const path = "teamId" in from ? `teams/${from.teamId}` : `participants/${from.participantId}`;
   const cutoff = Date.parse(since);
   const seen = new Set<string>();
-  let cents = 0;
+  const gifts: ExtraLifeGift[] = [];
   for (let page = 0; page < MAX_PAGES; page++) {
     // `no-store`: like every DonorDrive list, this one says max-age=14400.
     const res = await fetch(`${BASE_URL}/${path}/donations?limit=${PAGE}&offset=${page * PAGE + 1}`, {
@@ -64,22 +72,36 @@ async function sumGiftsSince(spec: GiftsSince, signal: AbortSignal): Promise<num
       cache: "no-store",
     });
     if (!res.ok) throw new Error(`Failed to fetch donations for ${path}`);
-    const list: Donation[] = await res.json();
+    const list: ExtraLifeGift[] = await res.json();
     let reachedOlder = false;
     for (const d of list) {
       if (seen.has(d.donationID)) continue;
       seen.add(d.donationID);
       const at = parseDonorDriveDate(d.createdDateUTC);
-      // A date that still won't parse is left out rather than guessed at.
       if (Number.isNaN(at)) continue;
       if (at < cutoff) {
         reachedOlder = true;
         continue;
       }
-      if (displayName !== undefined && !sameName(d.displayName, displayName)) continue;
-      if (typeof d.amount === "number") cents += Math.round(d.amount * 100);
+      gifts.push(d);
     }
     if (reachedOlder || list.length < PAGE) break;
+  }
+  return gifts;
+}
+
+/**
+ * The sum of a participant's (or a team's) gifts at or after `since`, in
+ * dollars, only those under `displayName` if one is given. Gifts whose donor
+ * hid the amount have no `amount` and can't be added.
+ */
+async function sumGiftsSince(spec: GiftsSince, signal: AbortSignal): Promise<number> {
+  const { since, displayName } = spec;
+  const gifts = await fetchGiftsSince(spec, since, signal);
+  let cents = 0;
+  for (const d of gifts) {
+    if (displayName !== undefined && !sameName(d.displayName, displayName)) continue;
+    if (typeof d.amount === "number") cents += Math.round(d.amount * 100);
   }
   return cents / 100;
 }

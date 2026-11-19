@@ -1,7 +1,7 @@
 # Extra Life API integration
 
 - **Status:** Live
-- **Last reviewed:** 2026-11-18 (`useExtraLifeGiftsSince` also reads a whole team's list, filtered by display name, so the chips and RSVP matches come off Gameday totals as they're entered)
+- **Last reviewed:** 2026-11-19 (`useExtraLifeGiftsSince` exports `fetchGiftsSince`, the gifts themselves, which the silent auction matcher reads)
 - **Covers:** `src/hooks/useExtraLifeTeam.ts`, `src/hooks/useExtraLifeDonors.ts`, `src/hooks/useExtraLifeDonations.ts`, `src/hooks/useExtraLifeGiftsSince.ts`, `src/components/site/ActiveRoster.tsx`, `src/components/site/TeamProgress.tsx`, `src/components/site/Donors.tsx`, `src/components/site/DonationTicker.tsx`, `src/components/site/GamedayDonations.tsx`, `src/lib/donationFormat.ts`, `src/hooks/useExtraLifeIncentives.ts`, `src/lib/sponsorLogos.ts`, `src/lib/placemakerRestaurants.ts`, `src/components/site/PlacemakerCarousel.tsx`
 
 ## Purpose
@@ -28,7 +28,10 @@ someone donates.
   whose `offset` counts from 1 for teams as for participants (checked
   2026-11-18: offsets 1, 101 and 201 gave three pages with no overlap). Every
   list it reads goes in one `Promise.all`, so if one fails, every live line in
-  the card shows "—". Details in the site-modules card.
+  the card shows "—". Details in the site-modules card. Since 2026-11-19 the
+  paging is `fetchGiftsSince(from, since, signal)`, exported, which returns the
+  gifts (with `message` and `recipientName`) rather than a sum;
+  `useSilentAuction` reads our team's and Pam's lists with it.
 - `src/components/site/DonationTicker.tsx` — the scrolling "Latest" strip
   under the hero countdown (keyframes in `src/styles.css`).
 - `src/components/site/GamedayDonations.tsx` (2026-11-14) — the Command
