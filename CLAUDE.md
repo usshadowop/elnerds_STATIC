@@ -56,6 +56,7 @@ a feature card's *Manual steps and open questions*, or nowhere.
 | 2026-11-14 | Owner (decision) | When should the homepage go back from Gameday Week Runup to Standard Display (`ACTIVE_HOME_TEMPLATE` in `src/lib/homeTemplates.ts`)? The owner said a second round of changes to Gameday Week Runup is coming (not yet sent as of 2026-11-15). |
 | 2026-11-14 | Owner | Send the last-minute Game Day email (`email/elnerds-gameday-parking-prizes.html`), then archive it per `email/archive/README.md`. |
 | 2026-11-15 | Owner | Gameday totals (homepage hero, roster, Command Center) adds four hand-typed amounts to the live Extra Life total: Chips $620 (was $580; the slips add up to $620, owner 2026-11-18), Cash bucket $575 ($175 plus a $400 check found later), Donation matching $1,125, Silent auction remaining payouts $910 (`src/lib/gamedayTotals.ts`). Send updates as they change (the auction payouts especially). Since 2026-11-18 Chips and Donation matching shrink by themselves as gifts named "Poker Chip Donations" / "RSVP Donation Match" land on team pages; any other display name still counts twice. Confirm Cash bucket and auction payouts aren't also on Extra Life. Then decide when the site goes back to the plain Extra Life total. (A fifth line, "New leadership additions", is live: Pam's page since Nov 13.) |
+| 2026-11-18 | Owner | Pay out the chips and RSVP matches as grants from the owner's Daffy account: 12 chip gifts ($525, display name "Poker Chip Donations") and 14 RSVP matches ($1,050, "RSVP Donation Match"); Jared Campbell's of each are done. The owner is doing it in a **Local** desktop-app session with a browser (a cloud session can't reach Daffy or the owner's Chrome), from a prompt built in the 2026-11-18 chat "Donation match RSVP incentives list". The steps are the owner's 13 photos in Drive folder "Process" (`1nBLqsZW1Hq5kG0j2QsLEtqyDdTr7uibl`). Gameday totals takes each one off its line by itself; check the lines reach $0. |
 | 2026-11-15 | Owner (decision) | Two branches hold only unmerged handoff notes (no code): `claude/fervent-bell-6kqzzg` (2026-11-11: the Placemaker print sheet, Drive connector accounts) and `claude/stoic-babbage-l4k1va` (2026-11-12/13: leadership flyers and lanyard passes). Their print facts were checked in Drive and are in the prizes card; merge whatever else is wanted, then delete both branches. |
 
 Rules that keep this honest:
@@ -74,21 +75,24 @@ Rules that keep this honest:
 Replace this each session — it describes the *previous* one only. `git
 log` is the changelog; this is orientation. Five bullets is plenty.
 
-*Session of 2026-11-18 (paying out chips and RSVP matches):*
+*Session of 2026-11-18 (paying out chips and RSVP matches; PRs #229, #230):*
 
 - Found the RSVP donation-match list (15 people, $1,125) in the 2026-11-15
   chat "$75 matching donations calculation". It was never saved to the repo or
   sheet. Payouts started 2026-11-18 as gifts named "RSVP Donation Match"
   (Jared Campbell's $75 first).
-- Read the owner's 18 photos in Drive (folder `1kY62frhyEwWo0geM4EPOFQmC-sq-TrSP`):
-  17 chip slips ($525 to 12 pages, combined per person with a
-  "$amount - note" line each, N/A for no note) and a screenshot of the first
-  chip gift ($95 to Jared Campbell, already entered). Named in chat only.
-- Built what the owner asked for next: Chips and Donation matching in Gameday
-  totals now subtract the gifts entered under those two display names
-  (`lessExtraLifeGifts` in `gamedayTotals.ts`; `useExtraLifeGiftsSince` reads
-  the team list). Checked in a browser against real and edited DonorDrive data.
-  See the site-modules card.
+- Read the owner's chip-slip photos in Drive (folder
+  `1kY62frhyEwWo0geM4EPOFQmC-sq-TrSP`): 17 slips, $525 to 12 pages, plus the
+  first chip gift ($95 to Jared Campbell, already entered). Each person gets
+  one gift whose message has a line per slip, `(Name) $amount - note`, with
+  N/A for a blank or scribbled-out field (the owner's format). The list is in
+  that chat only, not the repo.
+- Shipped (#229): Chips and Donation matching in Gameday totals subtract the
+  gifts entered under those two display names (`lessExtraLifeGifts`,
+  `useExtraLifeGiftsSince` reading the team list). Then (#230) Chips $580 →
+  $620, what the slips add up to (owner's call). Both verified in the live bundle.
+- Entering the gifts moved to a Local session with a browser (see Open
+  threads). This cloud session had no browser tools and no shared computer.
 
 *Session of 2026-11-15 (modules):*
 
