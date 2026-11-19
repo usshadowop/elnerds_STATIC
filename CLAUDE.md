@@ -93,8 +93,9 @@ log` is the changelog; this is orientation. Five bullets is plenty.
   marked two items paid. The rules are in the site-modules card.
 - Result: $1,055 in bids, $735 paid, **$320 owed** (the line read $910). The
   owner has questions to answer about the list (Open threads).
-- Not shipped when this was written: the branch was pushed and the owner was
-  asked whether to push it live.
+- Owner asked what "$1,050 of $1,125" meant: 14 matches of $75 entered, the
+  15th (Morgan's) never was. Then "push it live": squash-merged as PR #232
+  and checked in the live bundle.
 
 ## Ship-live workflow
 
