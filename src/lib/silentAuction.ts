@@ -129,6 +129,13 @@ export const AUCTION_WINS: AuctionWin[] = [
     source: "Bid sheet photo 20261115_082233.jpg",
   },
   {
+    item: "Stretch bracelet: lava, obsidian and kambaba jasper (Beads by Bri, item B)",
+    amount: 25,
+    page: HOLT,
+    keywords: ["bracelet"],
+    source: "Sheet at 12:37 PM Saturday (20261114_123712.jpg) had $10; the final sheet wasn't photographed. The $25 \"Bracelet\" gift to the Holts is its payment (owner, Nov 19)",
+  },
+  {
     item: "Hexeh, out of print",
     amount: 20,
     page: PAM_PAGE,
